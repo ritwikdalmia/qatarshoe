@@ -738,6 +738,22 @@ footer.site-footer {
 
             <!-- Navigation columns -->
             <div class="site-footer-links-area">
+              {%- assign footer_blocks = section.blocks | where: "type", "footer_column" -%}
+              {%- if footer_blocks.size > 0 -%}
+                {%- for block in footer_blocks -%}
+                  <div class="site-footer-links-column {% if block.settings.title == 'About' %}about-col{% endif %}" {{ block.shopify_attributes }}>
+                    <h4>{{ block.settings.title }}</h4>
+                    <ul>
+                      {%- assign menu = block.settings.menu -%}
+                      {%- if menu != blank and linklists[menu] != blank -%}
+                        {%- for link in linklists[menu].links -%}
+                          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                        {%- endfor -%}
+                      {%- endif -%}
+                    </ul>
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
 
                 <div class="site-footer-links-column">
                     <h4>Customer Care</h4>
@@ -787,7 +803,7 @@ footer.site-footer {
                     </ul>
                 </div>
 
-            </div><!-- /.site-footer-links-area -->
+            {%- endif -%}</div><!-- /.site-footer-links-area -->
 
             <!-- Feature strip -->
             <div class="site-footer-features">
@@ -948,6 +964,25 @@ footer.site-footer {
       "id": "legal_text",
       "label": "Legal Disclaimer Text",
       "default": "Qatar Shoes is not affiliated with the brand we sell. Authentication is performed independently."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "footer_column",
+      "name": "Footer Column (Option B)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Column Title",
+          "default": "Customer Care"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Column Menu"
+        }
+      ]
     }
   ]
 }

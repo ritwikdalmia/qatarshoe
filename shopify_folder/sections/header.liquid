@@ -192,7 +192,55 @@
   <div class="desktop-header-row2">
     <div class="nav-menu-wrapper" id="desktop-nav-menu">
       <!-- Women Navigation -->
+            <!-- Women Navigation -->
       <div class="navigation-menu-wrapper" data-dept="women" id="desktop-nav-women">
+        {%- assign women_menu = section.settings.women_main_menu -%}
+        {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
+        
+        {%- if women_menu != blank and linklists[women_menu] != blank -%}
+          {%- for link in linklists[women_menu].links -%}
+            <div class="nav-item-wrapper">
+              <a class="nav-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale-link{% endif %}" href="{{ link.url }}">
+                <span class="nav-link-text">{{ link.title }}</span>
+              </a>
+              {%- if link.links.size > 0 -%}
+                <div class="hover-box">
+                  <div class="panel-container">
+                    <div class="panel-left">
+                      {%- for child_link in link.links -%}
+                        <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- for block in menu_item_blocks -%}
+          {%- if block.settings.gender == 'women' -%}
+            <div class="nav-item-wrapper" {{ block.shopify_attributes }}>
+              <a class="nav-link {% if block.settings.is_sale %}sale-link{% endif %}" href="{{ block.settings.url | default: '#' }}">
+                <span class="nav-link-text">{{ block.settings.title }}</span>
+              </a>
+              {%- assign sub_menu = block.settings.dropdown_menu -%}
+              {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
+                <div class="hover-box">
+                  <div class="panel-container">
+                    <div class="panel-left">
+                      {%- for child_link in linklists[sub_menu].links -%}
+                        <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if women_menu == blank and menu_item_blocks.size == 0 -%}
         {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in" id="nav-link-new-in"><span class="nav-link-text">New in</span></a></div>{%- endif -%}
         {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock" id="nav-link-restock"><span class="nav-link-text">Restock</span></a></div>{%- endif -%}
         {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale" id="nav-link-on-sale"><span class="nav-link-text">On sale</span></a></div>{%- endif -%}
@@ -395,10 +443,58 @@
           </div>
         </div>
 {%- endif -%}
+      {%- endif -%}
       </div><!-- #desktop-nav-women -->
 
       <!-- Men Navigation (hidden by default) -->
-      <div class="navigation-menu-wrapper" data-dept="men" id="desktop-nav-men" style="display:none;">
+            <div class="navigation-menu-wrapper" data-dept="men" id="desktop-nav-men" style="display:none;">
+        {%- assign men_menu = section.settings.men_main_menu -%}
+        {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
+        
+        {%- if men_menu != blank and linklists[men_menu] != blank -%}
+          {%- for link in linklists[men_menu].links -%}
+            <div class="nav-item-wrapper">
+              <a class="nav-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale-link{% endif %}" href="{{ link.url }}">
+                <span class="nav-link-text">{{ link.title }}</span>
+              </a>
+              {%- if link.links.size > 0 -%}
+                <div class="hover-box">
+                  <div class="panel-container">
+                    <div class="panel-left">
+                      {%- for child_link in link.links -%}
+                        <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- for block in menu_item_blocks -%}
+          {%- if block.settings.gender == 'men' -%}
+            <div class="nav-item-wrapper" {{ block.shopify_attributes }}>
+              <a class="nav-link {% if block.settings.is_sale %}sale-link{% endif %}" href="{{ block.settings.url | default: '#' }}">
+                <span class="nav-link-text">{{ block.settings.title }}</span>
+              </a>
+              {%- assign sub_menu = block.settings.dropdown_menu -%}
+              {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
+                <div class="hover-box">
+                  <div class="panel-container">
+                    <div class="panel-left">
+                      {%- for child_link in linklists[sub_menu].links -%}
+                        <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if men_menu == blank and menu_item_blocks.size == 0 -%}
         {%- if section.settings.menu_m_new_arrivals -%}{%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}{%- endif -%}
         {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale">On Sale</a></div>{%- endif -%}
 {%- if section.settings.menu_m_brands -%}
@@ -467,6 +563,7 @@
 {%- if section.settings.menu_m_watches -%}        {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>{%- endif -%}{%- endif -%}
 {%- if section.settings.menu_m_travel_bags -%}        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/travel-bags-men">Travel Bags</a></div>{%- endif -%}
 {%- if section.settings.menu_m_accessories -%}        {%- if section.settings.menu_m_accessories -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>{%- endif -%}{%- endif -%}
+      {%- endif -%}
       </div><!-- #desktop-nav-men -->
     </div>
   </div><!-- .desktop-header-row2 -->
@@ -677,7 +774,54 @@
   <nav class="desktop-nav">
     <div class="desktop-nav-container">
       <div class="nav-menu-wrapper">
-        <div class="navigation-menu-wrapper" data-dept="women" id="sticky-nav-women">
+                <div class="navigation-menu-wrapper" data-dept="women" id="sticky-nav-women">
+          {%- assign women_menu = section.settings.women_main_menu -%}
+          {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
+          
+          {%- if women_menu != blank and linklists[women_menu] != blank -%}
+            {%- for link in linklists[women_menu].links -%}
+              <div class="nav-item-wrapper">
+                <a class="nav-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale-link{% endif %}" href="{{ link.url }}">
+                  <span class="nav-link-text">{{ link.title }}</span>
+                </a>
+                {%- if link.links.size > 0 -%}
+                  <div class="hover-box">
+                    <div class="panel-container">
+                      <div class="panel-left">
+                        {%- for child_link in link.links -%}
+                          <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+
+          {%- for block in menu_item_blocks -%}
+            {%- if block.settings.gender == 'women' -%}
+              <div class="nav-item-wrapper" {{ block.shopify_attributes }}>
+                <a class="nav-link {% if block.settings.is_sale %}sale-link{% endif %}" href="{{ block.settings.url | default: '#' }}">
+                  <span class="nav-link-text">{{ block.settings.title }}</span>
+                </a>
+                {%- assign sub_menu = block.settings.dropdown_menu -%}
+                {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
+                  <div class="hover-box">
+                    <div class="panel-container">
+                      <div class="panel-left">
+                        {%- for child_link in linklists[sub_menu].links -%}
+                          <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if women_menu == blank and menu_item_blocks.size == 0 -%}
           {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in">New in</a></div>{%- endif -%}
           {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock">Restock</a></div>{%- endif -%}
           {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On sale</a></div>{%- endif -%}
@@ -816,6 +960,7 @@
             </div></div></div>
           </div>
 {%- endif -%}
+        {%- endif -%}
         </div>
         <div class="navigation-menu-wrapper" data-dept="men" id="sticky-nav-men" style="display:none;">
           {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}
@@ -2394,6 +2539,60 @@
       "id": "menu_m_accessories",
       "label": "Show Men: Accessories",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Navigation Menus (Option A)"
+    },
+    {
+      "type": "link_list",
+      "id": "women_main_menu",
+      "label": "Women Main Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "men_main_menu",
+      "label": "Men Main Menu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_item",
+      "name": "Custom Menu Item (Option B)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu Item Title",
+          "default": "New In"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Menu Item Link"
+        },
+        {
+          "type": "select",
+          "id": "gender",
+          "label": "Department",
+          "options": [
+            { "value": "women", "label": "Women" },
+            { "value": "men", "label": "Men" }
+          ],
+          "default": "women"
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_menu",
+          "label": "Dropdown Sub-Menu (Optional)"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_sale",
+          "label": "Highlight as Sale",
+          "default": false
+        }
+      ]
     }
   ]
 }
