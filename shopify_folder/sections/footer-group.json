@@ -4,6 +4,58 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "customer_care": {
+          "type": "footer_column",
+          "settings": {
+            "title": "Customer Care",
+            "menu": "customer-care"
+          }
+        },
+        "shipping_returns": {
+          "type": "footer_column",
+          "settings": {
+            "title": "Shipping & Returns",
+            "menu": "shipping-and-returns"
+          }
+        },
+        "payments": {
+          "type": "footer_column",
+          "settings": {
+            "title": "Payments",
+            "menu": "payments"
+          }
+        },
+        "policies": {
+          "type": "footer_column",
+          "settings": {
+            "title": "Policies",
+            "menu": "policies"
+          }
+        },
+        "services": {
+          "type": "footer_column",
+          "settings": {
+            "title": "Services",
+            "menu": "services"
+          }
+        },
+        "about": {
+          "type": "footer_column",
+          "settings": {
+            "title": "About",
+            "menu": "about"
+          }
+        }
+      },
+      "block_order": [
+        "customer_care",
+        "shipping_returns",
+        "payments",
+        "policies",
+        "services",
+        "about"
+      ],
       "settings": {}
     }
   },
