@@ -7,6 +7,12 @@
     assign is_mock = true
   endif
 
+  # Rates Setup
+  assign usd_rate = 0.2747
+  assign eur_rate = 0.253
+  assign aed_rate = 1.003
+  assign sar_rate = 1.03
+
   if is_mock
     assign p_title = "GCC Diana small tote bag"
     assign p_vendor = "GCC"
@@ -115,16 +121,58 @@
       <div class="vendor">{{ p_vendor }}</div>
       <h1 class="title">{{ p_title }}</h1>
 
+      {%- liquid
+        # Converted prices calculations
+        assign p_usd = p_price_val | times: usd_rate | divided_by: 100.0 | round
+        if product.metafields.pricing.usd_price != blank
+          assign p_usd = product.metafields.pricing.usd_price
+        endif
+        assign p_usd_cmp = p_compare_at_price_val | times: usd_rate | divided_by: 100.0 | round
+        if product.metafields.pricing.usd_compare != blank
+          assign p_usd_cmp = product.metafields.pricing.usd_compare
+        endif
+
+        assign p_eur = p_price_val | times: eur_rate | divided_by: 100.0 | round
+        if product.metafields.pricing.eur_price != blank
+          assign p_eur = product.metafields.pricing.eur_price
+        endif
+        assign p_eur_cmp = p_compare_at_price_val | times: eur_rate | divided_by: 100.0 | round
+        if product.metafields.pricing.eur_compare != blank
+          assign p_eur_cmp = product.metafields.pricing.eur_compare
+        endif
+
+        assign p_aed = p_price_val | times: aed_rate | divided_by: 100.0 | round
+        if product.metafields.pricing.aed_price != blank
+          assign p_aed = product.metafields.pricing.aed_price
+        endif
+        assign p_aed_cmp = p_compare_at_price_val | times: aed_rate | divided_by: 100.0 | round
+        if product.metafields.pricing.aed_compare != blank
+          assign p_aed_cmp = product.metafields.pricing.aed_compare
+        endif
+
+        assign p_sar = p_price_val | times: sar_rate | divided_by: 100.0 | round
+        if product.metafields.pricing.sar_price != blank
+          assign p_sar = product.metafields.pricing.sar_price
+        endif
+        assign p_sar_cmp = p_compare_at_price_val | times: sar_rate | divided_by: 100.0 | round
+        if product.metafields.pricing.sar_compare != blank
+          assign p_sar_cmp = product.metafields.pricing.sar_compare
+        endif
+      -%}
       <!-- Pricing -->
       <div class="price-container"
-           data-price-qar="QAR 2,000"
-           data-compare-qar="QAR 2,500"
-           data-price-usd="$ 549"
-           data-compare-usd="$ 687"
-           data-price-eur="€ 506"
-           data-compare-eur="€ 633"
-           data-price-aed="AED 2,006"
-           data-compare-aed="AED 2,508">
+           data-price-qar="QAR {{ p_price_val | divided_by: 100.0 | round }}"
+           data-price-usd="$ {{ p_usd }}"
+           data-price-eur="€ {{ p_eur }}"
+           data-price-aed="AED {{ p_aed }}"
+           data-price-sar="SAR {{ p_sar }}"
+           {%- if p_compare_at_price_val > p_price_val %}
+           data-compare-qar="QAR {{ p_compare_at_price_val | divided_by: 100.0 | round }}"
+           data-compare-usd="$ {{ p_usd_cmp }}"
+           data-compare-eur="€ {{ p_eur_cmp }}"
+           data-compare-aed="AED {{ p_aed_cmp }}"
+           data-compare-sar="SAR {{ p_sar_cmp }}"
+           {%- endif %}>
         {%- if p_compare_at_price_val > p_price_val -%}
           <span class="compare-price" id="compare-price-display">{{ p_compare_price_money }}</span>
           <span class="price sale" id="current-price-display">{{ p_price_money }}</span>

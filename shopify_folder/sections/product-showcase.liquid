@@ -12,6 +12,12 @@
   if collection_handle != blank
     assign col = collections[collection_handle]
   endif
+
+  # Exchange Rates (Fallbacks match header defaults)
+  assign usd_rate = 0.2747
+  assign eur_rate = 0.253
+  assign aed_rate = 1.003
+  assign sar_rate = 1.03
 -%}
 
 <div class="qtr-section" id="section-{{ section.id }}">
@@ -26,6 +32,44 @@
   <div class="product-grid">
     {%- if col != blank and col.products.size > 0 -%}
       {%- for product in col.products limit: max_products -%}
+        {%- liquid
+          # Calculate converted prices with metafield overrides
+          assign p_usd = product.metafields.pricing.usd_price | default: ''
+          if p_usd == blank
+            assign p_usd = product.price | times: usd_rate | divided_by: 100.0 | round
+          endif
+          assign p_usd_cmp = product.metafields.pricing.usd_compare | default: ''
+          if p_usd_cmp == blank and product.compare_at_price > product.price
+            assign p_usd_cmp = product.compare_at_price | times: usd_rate | divided_by: 100.0 | round
+          endif
+
+          assign p_eur = product.metafields.pricing.eur_price | default: ''
+          if p_eur == blank
+            assign p_eur = product.price | times: eur_rate | divided_by: 100.0 | round
+          endif
+          assign p_eur_cmp = product.metafields.pricing.eur_compare | default: ''
+          if p_eur_cmp == blank and product.compare_at_price > product.price
+            assign p_eur_cmp = product.compare_at_price | times: eur_rate | divided_by: 100.0 | round
+          endif
+
+          assign p_aed = product.metafields.pricing.aed_price | default: ''
+          if p_aed == blank
+            assign p_aed = product.price | times: aed_rate | divided_by: 100.0 | round
+          endif
+          assign p_aed_cmp = product.metafields.pricing.aed_compare | default: ''
+          if p_aed_cmp == blank and product.compare_at_price > product.price
+            assign p_aed_cmp = product.compare_at_price | times: aed_rate | divided_by: 100.0 | round
+          endif
+
+          assign p_sar = product.metafields.pricing.sar_price | default: ''
+          if p_sar == blank
+            assign p_sar = product.price | times: sar_rate | divided_by: 100.0 | round
+          endif
+          assign p_sar_cmp = product.metafields.pricing.sar_compare | default: ''
+          if p_sar_cmp == blank and product.compare_at_price > product.price
+            assign p_sar_cmp = product.compare_at_price | times: sar_rate | divided_by: 100.0 | round
+          endif
+        -%}
         <a href="{{ product.url }}" class="product-card" aria-label="{{ product.title }}">
           <div class="product-card-img">
             {%- if product.featured_image != blank -%}
@@ -70,7 +114,19 @@
               <div class="product-brand">{{ product.vendor }}</div>
               <div class="product-model">{{ product.title }}</div>
             </div>
-            <div class="product-price-row">
+            <div class="product-price-row"
+                 data-price-qar="QAR {{ product.price | money_without_currency | replace: ',', '' }}"
+                 data-price-usd="$ {{ p_usd }}"
+                 data-price-eur="€ {{ p_eur }}"
+                 data-price-aed="AED {{ p_aed }}"
+                 data-price-sar="SAR {{ p_sar }}"
+                 {%- if product.compare_at_price > product.price -%}
+                 data-compare-qar="QAR {{ product.compare_at_price | money_without_currency | replace: ',', '' }}"
+                 data-compare-usd="$ {{ p_usd_cmp }}"
+                 data-compare-eur="€ {{ p_eur_cmp }}"
+                 data-compare-aed="AED {{ p_aed_cmp }}"
+                 data-compare-sar="SAR {{ p_sar_cmp }}"
+                 {%- endif -%}>
               {%- if product.compare_at_price > product.price -%}
                 <span class="product-price-compare">{{ product.compare_at_price | money }}</span>
                 <span class="product-price sale-price">{{ product.price | money }}</span>

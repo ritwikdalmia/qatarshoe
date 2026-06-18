@@ -83,20 +83,25 @@
               <path d="M5 8L10 13L15 8"/>
             </svg>
           </button>
+          {%- assign currencies = section.settings.supported_currencies | default: 'QAR, USD, EUR, AED' | split: ',' -%}
           <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
-            <div class="currency-option is-active" data-currency="QAR">
-              <span>QR QAR</span>
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
-            </div>
-            <div class="currency-option" data-currency="USD">
-              <span>$ USD</span>
-            </div>
-            <div class="currency-option" data-currency="EUR">
-              <span>€ EUR</span>
-            </div>
-            <div class="currency-option" data-currency="AED">
-              <span>د.إ AED</span>
-            </div>
+            {%- for curr_raw in currencies -%}
+              {%- assign curr = curr_raw | strip | upcase -%}
+              {%- if curr != blank -%}
+                {%- assign symbol = curr -%}
+                {%- if curr == 'QAR' %}{% assign symbol = 'QR' %}{% endif -%}
+                {%- if curr == 'USD' %}{% assign symbol = '$' %}{% endif -%}
+                {%- if curr == 'EUR' %}{% assign symbol = '€' %}{% endif -%}
+                {%- if curr == 'AED' %}{% assign symbol = 'د.إ' %}{% endif -%}
+                {%- if curr == 'SAR' %}{% assign symbol = 'SR' %}{% endif -%}
+                <div class="currency-option {% if forloop.first %}is-active{% endif %}" data-currency="{{ curr }}">
+                  <span>{{ symbol }} {{ curr }}</span>
+                  {%- if forloop.first -%}
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
           </div>
         </div>
 
@@ -388,8 +393,36 @@
             </div></div>
           </div>
         </div>
-        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/bags-men">Bags</a></div>
-        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/shoes-men">Shoes</a></div>
+                <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-bags-men"><span class="nav-link-text">Bags</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign m_bags = linklists[section.settings.men_bags_menu] | default: linklists['men-bags'] | default: linklists['bags-men'] -%}
+              {%- if m_bags.links.size > 0 -%}
+                {%- for link in m_bags.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/bags-men">All Bags</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+                <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-shoes-men"><span class="nav-link-text">Shoes</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign m_shoes = linklists[section.settings.men_shoes_menu] | default: linklists['men-shoes'] | default: linklists['shoes-men'] -%}
+              {%- if m_shoes.links.size > 0 -%}
+                {%- for link in m_shoes.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/shoes-men">All Shoes</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
         <div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>
         <div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>
         <div class="nav-item-wrapper"><a class="nav-link" href="/collections/travel-bags-men">Travel Bags</a></div>
@@ -493,20 +526,25 @@
             <span class="currency-code">QAR</span>
             <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
           </button>
-          <div class="currency-dropdown" id="sticky-currency-dropdown" aria-hidden="true">
-            <div class="currency-option is-active" data-currency="QAR">
-              <span>QR QAR</span>
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
-            </div>
-            <div class="currency-option" data-currency="USD">
-              <span>$ USD</span>
-            </div>
-            <div class="currency-option" data-currency="EUR">
-              <span>€ EUR</span>
-            </div>
-            <div class="currency-option" data-currency="AED">
-              <span>د.إ AED</span>
-            </div>
+          {%- assign currencies = section.settings.supported_currencies | default: 'QAR, USD, EUR, AED' | split: ',' -%}
+          <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
+            {%- for curr_raw in currencies -%}
+              {%- assign curr = curr_raw | strip | upcase -%}
+              {%- if curr != blank -%}
+                {%- assign symbol = curr -%}
+                {%- if curr == 'QAR' %}{% assign symbol = 'QR' %}{% endif -%}
+                {%- if curr == 'USD' %}{% assign symbol = '$' %}{% endif -%}
+                {%- if curr == 'EUR' %}{% assign symbol = '€' %}{% endif -%}
+                {%- if curr == 'AED' %}{% assign symbol = 'د.إ' %}{% endif -%}
+                {%- if curr == 'SAR' %}{% assign symbol = 'SR' %}{% endif -%}
+                <div class="currency-option {% if forloop.first %}is-active{% endif %}" data-currency="{{ curr }}">
+                  <span>{{ symbol }} {{ curr }}</span>
+                  {%- if forloop.first -%}
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
           </div>
         </div>
 
@@ -1369,21 +1407,26 @@
     var footerEl = document.getElementById('side-drawer-footer');
     var closeBtn = document.getElementById('side-drawer-close-btn');
 
+    const CURRENCY_RATES = {
+      'QAR': 1.0,
+      'USD': parseFloat('{{ section.settings.usd_rate | default: "0.2747" }}'),
+      'EUR': parseFloat('{{ section.settings.eur_rate | default: "0.253" }}'),
+      'AED': parseFloat('{{ section.settings.aed_rate | default: "1.003" }}'),
+      'SAR': parseFloat('{{ section.settings.sar_rate | default: "1.03" }}')
+    };
+
     function formatStorePrice(cents, currency) {
       var val = cents / 100;
-      var symbol = 'QAR';
-      if (currency === 'USD') {
-        val = Math.round(val * 0.2747);
-        symbol = '$';
-      } else if (currency === 'EUR') {
-        val = Math.round(val * 0.253);
-        symbol = '€';
-      } else if (currency === 'AED') {
-        val = Math.round(val * 1.003);
-        symbol = 'AED';
-      } else {
-        symbol = 'QAR';
-      }
+      var symbol = currency;
+      var rate = CURRENCY_RATES[currency] || 1.0;
+      val = Math.round(val * rate);
+      
+      if (currency === 'QAR') symbol = 'QAR';
+      else if (currency === 'USD') symbol = '$';
+      else if (currency === 'EUR') symbol = '€';
+      else if (currency === 'AED') symbol = 'د.إ';
+      else if (currency === 'SAR') symbol = 'SAR';
+      
       return symbol + ' ' + val.toLocaleString();
     }
 
@@ -2119,6 +2162,50 @@
       "type": "link_list",
       "id": "men_brands_menu",
       "label": "Men Brands Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "men_bags_menu",
+      "label": "Men Bags Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "men_shoes_menu",
+      "label": "Men Shoes Menu"
+    },
+    {
+      "type": "header",
+      "content": "Currency Manager"
+    },
+    {
+      "type": "text",
+      "id": "supported_currencies",
+      "label": "Supported Currencies (comma-separated)",
+      "default": "QAR, USD, EUR, AED"
+    },
+    {
+      "type": "text",
+      "id": "usd_rate",
+      "label": "USD Exchange Rate (relative to QAR)",
+      "default": "0.2747"
+    },
+    {
+      "type": "text",
+      "id": "eur_rate",
+      "label": "EUR Exchange Rate (relative to QAR)",
+      "default": "0.253"
+    },
+    {
+      "type": "text",
+      "id": "aed_rate",
+      "label": "AED Exchange Rate (relative to QAR)",
+      "default": "1.003"
+    },
+    {
+      "type": "text",
+      "id": "sar_rate",
+      "label": "SAR Exchange Rate (relative to QAR)",
+      "default": "1.03"
     }
   ]
 }
