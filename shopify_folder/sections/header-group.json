@@ -4,6 +4,221 @@
   "sections": {
     "header": {
       "type": "header",
+      "blocks": {
+        "w_new_in": {
+          "type": "menu_item",
+          "settings": {
+            "title": "New In",
+            "url": "/collections/new-in",
+            "gender": "women",
+            "is_sale": false
+          }
+        },
+        "w_restock": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Restock",
+            "url": "/collections/restock",
+            "gender": "women",
+            "is_sale": false
+          }
+        },
+        "w_on_sale": {
+          "type": "menu_item",
+          "settings": {
+            "title": "On Sale",
+            "url": "/collections/on-sale",
+            "gender": "women",
+            "is_sale": true
+          }
+        },
+        "w_brands": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Brands",
+            "url": "",
+            "gender": "women",
+            "dropdown_menu": "women-brands",
+            "is_sale": false
+          }
+        },
+        "w_bags": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Bags",
+            "url": "",
+            "gender": "women",
+            "dropdown_menu": "women-bags",
+            "is_sale": false
+          }
+        },
+        "w_slg": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Small Leather Goods",
+            "url": "",
+            "gender": "women",
+            "dropdown_menu": "women-slg",
+            "is_sale": false
+          }
+        },
+        "w_shoes": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Shoes",
+            "url": "",
+            "gender": "women",
+            "dropdown_menu": "women-shoes",
+            "is_sale": false
+          }
+        },
+        "w_jewellery": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Jewellery",
+            "url": "",
+            "gender": "women",
+            "dropdown_menu": "women-jewellery",
+            "is_sale": false
+          }
+        },
+        "w_watches": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Watches",
+            "url": "",
+            "gender": "women",
+            "dropdown_menu": "women-watches",
+            "is_sale": false
+          }
+        },
+        "w_accessories": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Accessories",
+            "url": "",
+            "gender": "women",
+            "dropdown_menu": "women-accessories",
+            "is_sale": false
+          }
+        },
+        "w_clothing": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Clothing",
+            "url": "",
+            "gender": "women",
+            "dropdown_menu": "women-clothing",
+            "is_sale": false
+          }
+        },
+        "m_new_arrivals": {
+          "type": "menu_item",
+          "settings": {
+            "title": "New Arrivals",
+            "url": "/collections/new-arrivals",
+            "gender": "men",
+            "is_sale": false
+          }
+        },
+        "m_on_sale": {
+          "type": "menu_item",
+          "settings": {
+            "title": "On Sale",
+            "url": "/collections/on-sale",
+            "gender": "men",
+            "is_sale": true
+          }
+        },
+        "m_brands": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Brands",
+            "url": "",
+            "gender": "men",
+            "dropdown_menu": "men-brands",
+            "is_sale": false
+          }
+        },
+        "m_bags": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Bags",
+            "url": "",
+            "gender": "men",
+            "dropdown_menu": "men-bags",
+            "is_sale": false
+          }
+        },
+        "m_shoes": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Shoes",
+            "url": "",
+            "gender": "men",
+            "dropdown_menu": "men-shoes",
+            "is_sale": false
+          }
+        },
+        "m_wallets": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Wallets",
+            "url": "/collections/wallets-men",
+            "gender": "men",
+            "is_sale": false
+          }
+        },
+        "m_watches": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Watches",
+            "url": "/collections/watches-men",
+            "gender": "men",
+            "is_sale": false
+          }
+        },
+        "m_travel_bags": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Travel Bags",
+            "url": "/collections/travel-bags-men",
+            "gender": "men",
+            "is_sale": false
+          }
+        },
+        "m_accessories": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Accessories",
+            "url": "/collections/accessories-men",
+            "gender": "men",
+            "is_sale": false
+          }
+        }
+      },
+      "block_order": [
+        "w_new_in",
+        "w_restock",
+        "w_on_sale",
+        "w_brands",
+        "w_bags",
+        "w_slg",
+        "w_shoes",
+        "w_jewellery",
+        "w_watches",
+        "w_accessories",
+        "w_clothing",
+        "m_new_arrivals",
+        "m_on_sale",
+        "m_brands",
+        "m_bags",
+        "m_shoes",
+        "m_wallets",
+        "m_watches",
+        "m_travel_bags",
+        "m_accessories"
+      ],
       "settings": {
         "logo_text": "Qtrshoe"
       }
