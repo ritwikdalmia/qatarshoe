@@ -1,0 +1,161 @@
+{% comment %}
+  Hero Banner Section for QatarShoes Theme
+  Supports department-based background image switching.
+{% endcomment %}
+
+<div class="hero-banner-section" id="heroBanner-{{ section.id }}">
+  <!-- Background Layers -->
+  <div class="hero-bg women-only" style="
+    --bg-desktop: url('{{ section.settings.image_women | image_url: width: 2000 | default: 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Group-2.png' }}');
+    --bg-mobile: url('{{ section.settings.image_women_mobile | image_url: width: 800 | default: 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/qtr-w-mobile.png' }}');
+  "></div>
+  
+  <div class="hero-bg men-only" style="
+    --bg-desktop: url('{{ section.settings.image_men | image_url: width: 2000 | default: 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Qtr-men.jpg' }}');
+    --bg-mobile: url('{{ section.settings.image_men_mobile | image_url: width: 800 | default: 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Qtr-men.jpg' }}');
+  "></div>
+
+  <div class="hero-mask"></div>
+
+  <!-- Centered Content -->
+  <div class="hero-content-container">
+    {%- if section.settings.logo != blank -%}
+      <img class="hero-center-logo" src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name }}" width="220">
+    {%- else -%}
+      <h1 class="hero-center-title">{{ shop.name }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.button_text != blank -%}
+      <a href="{{ section.settings.button_link }}" class="hero-action-btn button">
+        {{ section.settings.button_text }}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  .hero-banner-section {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-top: -100px; /* pull up under transparent header if needed */
+    z-index: 1;
+  }
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--bg-desktop);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -2;
+  }
+  .hero-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 65%, var(--color-bg) 100%);
+    z-index: -1;
+  }
+  .hero-content-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    z-index: 2;
+    padding: 0 20px;
+  }
+  .hero-center-logo {
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+  }
+  .hero-center-title {
+    font-family: var(--font-heading);
+    color: var(--color-white);
+    font-size: 48px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  .hero-action-btn {
+    background-color: var(--color-white);
+    color: var(--color-text);
+    padding: 12px 30px;
+    font-weight: bold;
+    border-radius: 4px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: background 0.3s;
+  }
+  .hero-action-btn:hover {
+    background-color: var(--color-bg);
+  }
+
+  @media (max-width: 1024px) {
+    .hero-banner-section {
+      height: 60vh;
+      margin-top: 0;
+    }
+    .hero-bg {
+      background-image: var(--bg-mobile);
+    }
+    .hero-center-title {
+      font-size: 32px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Centered Hero Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_women",
+      "label": "Women BG (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_women_mobile",
+      "label": "Women BG (Mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_men",
+      "label": "Men BG (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_men_mobile",
+      "label": "Men BG (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

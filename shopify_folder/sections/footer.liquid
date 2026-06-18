@@ -1,0 +1,185 @@
+{% comment %}
+  Footer Section for QatarShoes Theme
+{% endcomment %}
+
+<footer class="site-footer" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+  <div class="container footer-grid">
+    <!-- About / Info -->
+    <div class="footer-col info-col">
+      <h3 class="footer-title">{{ shop.name }}</h3>
+      <p class="footer-desc">{{ section.settings.about_text }}</p>
+    </div>
+
+    <!-- Quick Links -->
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'link_list' -%}
+        <div class="footer-col links-col">
+          <h4 class="footer-col-title">{{ block.settings.title }}</h4>
+          <ul class="footer-links">
+            {%- for link in linklists[block.settings.menu].links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <!-- Newsletter -->
+    <div class="footer-col newsletter-col">
+      <h4 class="footer-col-title">Join Our Newsletter</h4>
+      <p class="font-small">Get updates on new collections and exclusive offers.</p>
+      {%- form 'customer', class: 'footer-newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email" name="contact[email]" placeholder="Your email address" class="newsletter-input" required>
+        <button type="submit" class="newsletter-btn button">Subscribe</button>
+      {%- endform -%}
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-flex">
+      <div class="footer-copyright">
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+      </div>
+      <div class="footer-payment-icons">
+        <span class="payment-method-badge">Cash on Delivery (Qatar Only)</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 60px 0 20px 0;
+    margin-top: 50px;
+    font-size: 14px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(auto-fit, minmax(180px, 1fr)) 2fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .footer-title {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .footer-col-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .footer-links a {
+    color: inherit;
+    opacity: 0.8;
+  }
+  .footer-links a:hover {
+    opacity: 1;
+    color: var(--color-primary);
+  }
+  .footer-newsletter-form {
+    display: flex;
+    gap: 8px;
+  }
+  .newsletter-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: inherit;
+  }
+  .newsletter-btn {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+  .footer-bottom {
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding-top: 20px;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  .footer-bottom-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .payment-method-badge {
+    border: 1px solid var(--color-border);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "about_text",
+      "label": "About Text",
+      "default": "Premium footwear, bags, watches, jewellery, and accessories with same day delivery in Qatar."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#faf9f5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2d1f1f"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_list",
+      "name": "Menu Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Quick Links"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

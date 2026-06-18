@@ -1,0 +1,121 @@
+{% comment %}
+  Navigation Menu Snippet for header menus
+{% endcomment %}
+
+<ul class="nav-links-list">
+  {%- for link in linklists[menu].links -%}
+    <li class="nav-item {% if link.links != blank %}has-dropdown{% endif %}">
+      <a href="{{ link.url }}" class="nav-link-item">
+        {{ link.title }}
+        {%- if link.links != blank -%}
+          <span class="dropdown-arrow">▼</span>
+        {%- endif -%}
+      </a>
+      
+      {%- if link.links != blank -%}
+        <div class="megamenu-dropdown">
+          <div class="container megamenu-grid">
+            {%- for childlink in link.links -%}
+              <div class="megamenu-column">
+                <a href="{{ childlink.url }}" class="column-heading">{{ childlink.title }}</a>
+                {%- if childlink.links != blank -%}
+                  <ul class="column-links">
+                    {%- for grandchildlink in childlink.links -%}
+                      <li>
+                        <a href="{{ grandchildlink.url }}" class="column-link-item">{{ grandchildlink.title }}</a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+</ul>
+
+<style>
+  .nav-links-list {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-item {
+    position: relative;
+  }
+  .nav-link-item {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--color-text);
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+  }
+  .nav-link-item:hover {
+    color: var(--color-primary);
+  }
+  .dropdown-arrow {
+    font-size: 8px;
+    vertical-align: middle;
+  }
+  
+  /* Megamenu dropdown positioning */
+  .megamenu-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    width: max-content;
+    min-width: 400px;
+    max-width: 800px;
+    padding: 20px;
+    z-index: 10;
+    border-radius: 4px;
+  }
+  .nav-item:hover .megamenu-dropdown {
+    display: block;
+  }
+  .megamenu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+  }
+  .column-heading {
+    font-weight: bold;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .column-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .column-link-item {
+    font-size: 13px;
+    color: #666;
+    transition: color 0.2s;
+  }
+  .column-link-item:hover {
+    color: var(--color-primary);
+  }
+</style>

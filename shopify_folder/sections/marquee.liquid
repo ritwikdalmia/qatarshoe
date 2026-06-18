@@ -1,0 +1,109 @@
+{% comment %}
+  Marquee Banner Section for QatarShoes Theme
+{% endcomment %}
+
+<div class="marquee-section" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; padding: {{ section.settings.padding_vertical }}px 0;">
+  <div class="marquee-wrapper">
+    <div class="marquee-content" style="animation-duration: {{ section.settings.speed }}s;">
+      {%- for i in (1..10) -%}
+        <span class="marquee-text">{{ section.settings.text }}</span>
+        <span class="marquee-separator">•</span>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  .marquee-section {
+    overflow: hidden;
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-size: 19px;
+    line-height: 1.1;
+    letter-spacing: 0.05em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  .marquee-wrapper {
+    width: 100%;
+    overflow: hidden;
+  }
+  .marquee-content {
+    display: inline-flex;
+    gap: 30px;
+    animation: marquee-scroll linear infinite;
+  }
+  .marquee-text {
+    white-space: nowrap;
+  }
+  .marquee-separator {
+    opacity: 0.4;
+  }
+
+  @keyframes marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.33%);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .marquee-section {
+      font-size: 14px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Marquee Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Scrolling Text",
+      "default": "FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "label": "Scrolling Speed",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical Padding",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee Banner"
+    }
+  ]
+}
+{% endschema %}

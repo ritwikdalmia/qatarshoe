@@ -1,0 +1,16 @@
+{
+  "name": "Header Group",
+  "type": "header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu_women": "main-menu",
+        "menu_men": "main-menu"
+      }
+    }
+  },
+  "order": [
+    "header"
+  ]
+}
