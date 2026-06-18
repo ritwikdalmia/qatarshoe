@@ -774,7 +774,7 @@
   <nav class="desktop-nav">
     <div class="desktop-nav-container">
       <div class="nav-menu-wrapper">
-                <div class="navigation-menu-wrapper" data-dept="women" id="sticky-nav-women">
+        <div class="navigation-menu-wrapper" data-dept="women" id="sticky-nav-women">
           {%- assign women_menu = section.settings.women_main_menu -%}
           {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
           
@@ -960,17 +960,65 @@
             </div></div></div>
           </div>
 {%- endif -%}
-        {%- endif -%}
+          {%- endif -%}
         </div>
+        
         <div class="navigation-menu-wrapper" data-dept="men" id="sticky-nav-men" style="display:none;">
+          {%- assign men_menu = section.settings.men_main_menu -%}
+          {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
+
+          {%- if men_menu != blank and linklists[men_menu] != blank -%}
+            {%- for link in linklists[men_menu].links -%}
+              <div class="nav-item-wrapper">
+                <a class="nav-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale-link{% endif %}" href="{{ link.url }}">
+                  <span class="nav-link-text">{{ link.title }}</span>
+                </a>
+                {%- if link.links.size > 0 -%}
+                  <div class="hover-box">
+                    <div class="panel-container">
+                      <div class="panel-left">
+                        {%- for child_link in link.links -%}
+                          <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+
+          {%- for block in menu_item_blocks -%}
+            {%- if block.settings.gender == 'men' -%}
+              <div class="nav-item-wrapper" {{ block.shopify_attributes }}>
+                <a class="nav-link {% if block.settings.is_sale %}sale-link{% endif %}" href="{{ block.settings.url | default: '#' }}">
+                  <span class="nav-link-text">{{ block.settings.title }}</span>
+                </a>
+                {%- assign sub_menu = block.settings.dropdown_menu -%}
+                {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
+                  <div class="hover-box">
+                    <div class="panel-container">
+                      <div class="panel-left">
+                        {%- for child_link in linklists[sub_menu].links -%}
+                          <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if men_menu == blank and menu_item_blocks.size == 0 -%}
           {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}
           {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On Sale</a></div>{%- endif -%}
           {%- if section.settings.menu_m_bags -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/bags-men">Bags</a></div>{%- endif -%}
           {%- if section.settings.menu_m_shoes -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/shoes-men">Shoes</a></div>{%- endif -%}
           {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>{%- endif -%}
           {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>{%- endif -%}
+          {%- endif -%}
         </div>
-      </div>
       </div>
     </div>
   </nav>
@@ -1009,164 +1057,200 @@
 
   <!-- Women's Menu -->
   <nav class="drawer-nav" id="drawer-nav-women" data-dept="women">
-    {%- if section.settings.menu_w_new_in -%}<a class="drawer-link" href="/collections/new-in">New in</a>{%- endif -%}
-    {%- if section.settings.menu_w_restock -%}<a class="drawer-link" href="/collections/restock">Restock</a>{%- endif -%}
-    {%- if section.settings.menu_w_on_sale -%}{%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On sale</a>{%- endif -%}{%- endif -%}
-{%- if section.settings.menu_w_brands -%}
-    <div class="drawer-expandable">
-      <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
-      <div class="drawer-submenu">
-        {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
-        {%- if w_brands.links.size > 0 -%}
-          {%- for link in w_brands.links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
+    {%- assign women_menu = section.settings.women_main_menu -%}
+    {%- if women_menu != blank and linklists[women_menu] != blank -%}
+      {%- for link in linklists[women_menu].links -%}
+        {%- if link.links.size > 0 -%}
+          <div class="drawer-expandable">
+            <button class="drawer-expand-btn" type="button"><span>{{ link.title }}</span><span class="drawer-expand-icon">+</span></button>
+            <div class="drawer-submenu">
+              {%- for child_link in link.links -%}
+                <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+              {%- endfor -%}
+            </div>
+          </div>
         {%- else -%}
-          <a href="/collections/hms">HMS</a><a href="/collections/gyd">GYD</a><a href="/collections/coco">COCO</a>
-          <a href="/collections/dr">DR</a><a href="/collections/lvn">LVN</a><a href="/collections/lp">LP</a>
-          <a href="/collections/gcc">GCC</a><a href="/collections/prd">PRD</a><a href="/collections/rlx">RLX</a>
-          <a href="/collections/crt">CRT</a><a href="/collections/nike">Nike</a><a href="/collections/adidas">Adidas</a>
-          <a href="/collections/golden-goose">Golden Goose</a><a href="/collections/loewe">Loewe</a>
-          <a href="/collections/tiffany-co">Tiffany &amp; Co.</a><a href="/collections/chaumet">Chaumet</a>
+          <a class="drawer-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
         {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- if section.settings.menu_w_new_in -%}<a class="drawer-link" href="/collections/new-in">New in</a>{%- endif -%}
+      {%- if section.settings.menu_w_restock -%}<a class="drawer-link" href="/collections/restock">Restock</a>{%- endif -%}
+      {%- if section.settings.menu_w_on_sale -%}{%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On sale</a>{%- endif -%}{%- endif -%}
+      {%- if section.settings.menu_w_brands -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
+          {%- if w_brands.links.size > 0 -%}
+            {%- for link in w_brands.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/collections/hms">HMS</a><a href="/collections/gyd">GYD</a><a href="/collections/coco">COCO</a>
+            <a href="/collections/dr">DR</a><a href="/collections/lvn">LVN</a><a href="/collections/lp">LP</a>
+            <a href="/collections/gcc">GCC</a><a href="/collections/prd">PRD</a><a href="/collections/rlx">RLX</a>
+            <a href="/collections/crt">CRT</a><a href="/collections/nike">Nike</a><a href="/collections/adidas">Adidas</a>
+            <a href="/collections/golden-goose">Golden Goose</a><a href="/collections/loewe">Loewe</a>
+            <a href="/collections/tiffany-co">Tiffany &amp; Co.</a><a href="/collections/chaumet">Chaumet</a>
+          {%- endif -%}
+        </div>
       </div>
-    </div>
-{%- endif -%}
-{%- if section.settings.menu_w_bags -%}
-    <div class="drawer-expandable">
-      <button class="drawer-expand-btn" type="button"><span>Bags</span><span class="drawer-expand-icon">+</span></button>
-      <div class="drawer-submenu">
-        {%- assign w_bags = linklists[section.settings.women_bags_menu] | default: linklists['women-bags'] | default: linklists['bags'] -%}
-        {%- if w_bags.links.size > 0 -%}
-          {%- for link in w_bags.links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
-        {%- else -%}
-          <a href="/collections/bags">All Bags</a><a href="/collections/handbags">Handbags</a>
-          <a href="/collections/mini-bags">Mini Bags</a><a href="/collections/tote-bags">Tote Bags</a>
-          <a href="/collections/backpacks">Backpacks</a><a href="/collections/shoulder-bags">Shoulder Bags</a>
-        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.menu_w_bags -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Bags</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_bags = linklists[section.settings.women_bags_menu] | default: linklists['women-bags'] | default: linklists['bags'] -%}
+          {%- if w_bags.links.size > 0 -%}
+            {%- for link in w_bags.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/collections/bags">All Bags</a><a href="/collections/handbags">Handbags</a>
+            <a href="/collections/mini-bags">Mini Bags</a><a href="/collections/tote-bags">Tote Bags</a>
+            <a href="/collections/backpacks">Backpacks</a><a href="/collections/shoulder-bags">Shoulder Bags</a>
+          {%- endif -%}
+        </div>
       </div>
-    </div>
-{%- endif -%}
-{%- if section.settings.menu_w_slg -%}
-    <div class="drawer-expandable">
-      <button class="drawer-expand-btn" type="button"><span>Small Leather Goods</span><span class="drawer-expand-icon">+</span></button>
-      <div class="drawer-submenu">
-        {%- assign w_slg = linklists[section.settings.women_slg_menu] | default: linklists['women-slg'] | default: linklists['small-leather-goods'] -%}
-        {%- if w_slg.links.size > 0 -%}
-          {%- for link in w_slg.links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
-        {%- else -%}
-          <a href="/collections/wallets">Wallets</a><a href="/collections/pouches">Pouches</a>
-          <a href="/collections/card-holders">Card Holders</a>
-        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.menu_w_slg -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Small Leather Goods</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_slg = linklists[section.settings.women_slg_menu] | default: linklists['women-slg'] | default: linklists['small-leather-goods'] -%}
+          {%- if w_slg.links.size > 0 -%}
+            {%- for link in w_slg.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/collections/wallets">Wallets</a><a href="/collections/pouches">Pouches</a>
+            <a href="/collections/card-holders">Card Holders</a>
+          {%- endif -%}
+        </div>
       </div>
-    </div>
-{%- endif -%}
-{%- if section.settings.menu_w_shoes -%}
-    <div class="drawer-expandable">
-      <button class="drawer-expand-btn" type="button"><span>Shoes</span><span class="drawer-expand-icon">+</span></button>
-      <div class="drawer-submenu">
-        {%- assign w_shoes = linklists[section.settings.women_shoes_menu] | default: linklists['women-shoes'] | default: linklists['shoes'] -%}
-        {%- if w_shoes.links.size > 0 -%}
-          {%- for link in w_shoes.links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
-        {%- else -%}
-          <a href="/collections/shoes">All Shoes</a><a href="/collections/sneakers">Sneakers</a>
-          <a href="/collections/sandals">Sandals</a><a href="/collections/heels">Heels</a>
-          <a href="/collections/flats">Flats</a><a href="/collections/ballet-flats">Ballet Flats</a>
-        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.menu_w_shoes -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Shoes</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_shoes = linklists[section.settings.women_shoes_menu] | default: linklists['women-shoes'] | default: linklists['shoes'] -%}
+          {%- if w_shoes.links.size > 0 -%}
+            {%- for link in w_shoes.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/collections/shoes">All Shoes</a><a href="/collections/sneakers">Sneakers</a>
+            <a href="/collections/sandals">Sandals</a><a href="/collections/heels">Heels</a>
+            <a href="/collections/flats">Flats</a><a href="/collections/ballet-flats">Ballet Flats</a>
+          {%- endif -%}
+        </div>
       </div>
-    </div>
-{%- endif -%}
-{%- if section.settings.menu_w_jewellery -%}
-    <div class="drawer-expandable">
-      <button class="drawer-expand-btn" type="button"><span>Jewellery</span><span class="drawer-expand-icon">+</span></button>
-      <div class="drawer-submenu">
-        {%- assign w_jewellery = linklists[section.settings.women_jewellery_menu] | default: linklists['women-jewellery'] | default: linklists['jewellery'] -%}
-        {%- if w_jewellery.links.size > 0 -%}
-          {%- for link in w_jewellery.links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
-        {%- else -%}
-          <a href="/collections/jewellery">All Jewellery</a><a href="/collections/necklaces">Necklaces</a>
-          <a href="/collections/bracelets">Bracelets</a><a href="/collections/earrings">Earrings</a>
-          <a href="/collections/rings">Rings</a>
-        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.menu_w_jewellery -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Jewellery</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_jewellery = linklists[section.settings.women_jewellery_menu] | default: linklists['women-jewellery'] | default: linklists['jewellery'] -%}
+          {%- if w_jewellery.links.size > 0 -%}
+            {%- for link in w_jewellery.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/collections/jewellery">All Jewellery</a><a href="/collections/necklaces">Necklaces</a>
+            <a href="/collections/bracelets">Bracelets</a><a href="/collections/earrings">Earrings</a>
+            <a href="/collections/rings">Rings</a>
+          {%- endif -%}
+        </div>
       </div>
-    </div>
-{%- endif -%}
-{%- if section.settings.menu_w_watches -%}
-    <div class="drawer-expandable">
-      <button class="drawer-expand-btn" type="button"><span>Watches</span><span class="drawer-expand-icon">+</span></button>
-      <div class="drawer-submenu">
-        {%- assign w_watches = linklists[section.settings.women_watches_menu] | default: linklists['women-watches'] | default: linklists['watches'] -%}
-        {%- if w_watches.links.size > 0 -%}
-          {%- for link in w_watches.links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
-        {%- else -%}
-          <a href="/collections/watches">All</a><a href="/collections/rlx">RLX</a>
-          <a href="/collections/hms">HMS</a><a href="/collections/crt">CRT</a>
-        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.menu_w_watches -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Watches</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_watches = linklists[section.settings.women_watches_menu] | default: linklists['women-watches'] | default: linklists['watches'] -%}
+          {%- if w_watches.links.size > 0 -%}
+            {%- for link in w_watches.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/collections/watches">All</a><a href="/collections/rlx">RLX</a>
+            <a href="/collections/hms">HMS</a><a href="/collections/crt">CRT</a>
+          {%- endif -%}
+        </div>
       </div>
-    </div>
-{%- endif -%}
-{%- if section.settings.menu_w_accessories -%}
-    <div class="drawer-expandable">
-      <button class="drawer-expand-btn" type="button"><span>Accessories</span><span class="drawer-expand-icon">+</span></button>
-      <div class="drawer-submenu">
-        {%- assign w_acc = linklists[section.settings.women_accessories_menu] | default: linklists['women-accessories'] | default: linklists['accessories'] -%}
-        {%- if w_acc.links.size > 0 -%}
-          {%- for link in w_acc.links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
-        {%- else -%}
-          <a href="/collections/accessories">All</a><a href="/collections/caps">Caps</a>
-          <a href="/collections/belts">Belts</a><a href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
-        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.menu_w_accessories -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Accessories</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_acc = linklists[section.settings.women_accessories_menu] | default: linklists['women-accessories'] | default: linklists['accessories'] -%}
+          {%- if w_acc.links.size > 0 -%}
+            {%- for link in w_acc.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/collections/accessories">All</a><a href="/collections/caps">Caps</a>
+            <a href="/collections/belts">Belts</a><a href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+          {%- endif -%}
+        </div>
       </div>
-    </div>
-{%- endif -%}
-{%- if section.settings.menu_w_clothing -%}
-    <div class="drawer-expandable">
-      <button class="drawer-expand-btn" type="button"><span>Clothing</span><span class="drawer-expand-icon">+</span></button>
-      <div class="drawer-submenu">
-        {%- assign w_clothing = linklists[section.settings.women_clothing_menu] | default: linklists['women-clothing'] | default: linklists['clothing'] -%}
-        {%- if w_clothing.links.size > 0 -%}
-          {%- for link in w_clothing.links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
-        {%- else -%}
-          <a href="/collections/clothing">All</a><a href="/collections/tops">Tops</a><a href="/collections/t-shirts">T-shirts</a>
-        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.menu_w_clothing -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Clothing</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_clothing = linklists[section.settings.women_clothing_menu] | default: linklists['women-clothing'] | default: linklists['clothing'] -%}
+          {%- if w_clothing.links.size > 0 -%}
+            {%- for link in w_clothing.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/collections/clothing">All</a><a href="/collections/tops">Tops</a><a href="/collections/t-shirts">T-shirts</a>
+          {%- endif -%}
+        </div>
       </div>
-    </div>
-{%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
   </nav>
 
   <!-- Men's Menu -->
   <nav class="drawer-nav" id="drawer-nav-men" data-dept="men" style="display:none;">
-    {%- if section.settings.menu_m_new_arrivals -%}<a class="drawer-link" href="/collections/new-arrivals">New arrivals</a>{%- endif -%}
-    {%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On Sale</a>{%- endif -%}
-    {%- if section.settings.menu_m_brands -%}
-    <div class="drawer-expandable">
-      <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
-      <div class="drawer-submenu">
-        <a href="/collections/hms-men">HMS</a><a href="/collections/gyd-men">GYD</a>
-        <a href="/collections/lvn-men">LVN</a><a href="/collections/rlx-men">RLX</a>
-        <a href="/collections/nike-men">Nike</a><a href="/collections/adidas-men">Adidas</a>
+    {%- assign men_menu = section.settings.men_main_menu -%}
+    {%- if men_menu != blank and linklists[men_menu] != blank -%}
+      {%- for link in linklists[men_menu].links -%}
+        {%- if link.links.size > 0 -%}
+          <div class="drawer-expandable">
+            <button class="drawer-expand-btn" type="button"><span>{{ link.title }}</span><span class="drawer-expand-icon">+</span></button>
+            <div class="drawer-submenu">
+              {%- for child_link in link.links -%}
+                <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- else -%}
+          <a class="drawer-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- if section.settings.menu_m_new_arrivals -%}<a class="drawer-link" href="/collections/new-arrivals">New arrivals</a>{%- endif -%}
+      {%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On Sale</a>{%- endif -%}
+      {%- if section.settings.menu_m_brands -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          <a href="/collections/hms-men">HMS</a><a href="/collections/gyd-men">GYD</a>
+          <a href="/collections/lvn-men">LVN</a><a href="/collections/rlx-men">RLX</a>
+          <a href="/collections/nike-men">Nike</a><a href="/collections/adidas-men">Adidas</a>
+        </div>
       </div>
-    </div>
+      {%- endif -%}
+      {%- if section.settings.menu_m_bags -%}<a class="drawer-link" href="/collections/bags-men">Bags</a>{%- endif -%}
+      {%- if section.settings.menu_m_shoes -%}<a class="drawer-link" href="/collections/shoes-men">Shoes</a>{%- endif -%}
+      {%- if section.settings.menu_m_wallets -%}<a class="drawer-link" href="/collections/wallets-men">Wallets</a>{%- endif -%}
+      {%- if section.settings.menu_m_watches -%}<a class="drawer-link" href="/collections/watches-men">Watches</a>{%- endif -%}
+      {%- if section.settings.menu_m_accessories -%}<a class="drawer-link" href="/collections/accessories-men">Accessories</a>{%- endif -%}
     {%- endif -%}
-    {%- if section.settings.menu_m_bags -%}<a class="drawer-link" href="/collections/bags-men">Bags</a>{%- endif -%}
-    {%- if section.settings.menu_m_shoes -%}<a class="drawer-link" href="/collections/shoes-men">Shoes</a>{%- endif -%}
-    {%- if section.settings.menu_m_wallets -%}<a class="drawer-link" href="/collections/wallets-men">Wallets</a>{%- endif -%}
-    {%- if section.settings.menu_m_watches -%}<a class="drawer-link" href="/collections/watches-men">Watches</a>{%- endif -%}
-    {%- if section.settings.menu_m_accessories -%}<a class="drawer-link" href="/collections/accessories-men">Accessories</a>{%- endif -%}
   </nav>
 
   <!-- Footer: Currency + Language | Wishlist | Account -->
@@ -2356,6 +2440,16 @@
       "id": "logo_text",
       "label": "Logo Text (fallback)",
       "default": "Qtrshoe"
+    },
+    {
+      "type": "link_list",
+      "id": "women_main_menu",
+      "label": "Women Main Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "men_main_menu",
+      "label": "Men Main Menu"
     }
   ],
   "blocks": [

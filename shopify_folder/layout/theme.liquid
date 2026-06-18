@@ -49,7 +49,7 @@
 
   <body class="template-{{ template | replace: '.', '-' }} dept-women" style="overflow-x:hidden;">
 
-    {%- sections 'header-group' -%}
+    {%- section 'header' -%}
 
     <main id="MainContent" class="content-for-layout" role="main" tabindex="-1">
       {{ content_for_layout }}
