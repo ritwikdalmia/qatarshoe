@@ -178,32 +178,39 @@
           <div class="hover-box two-panel-dropdown">
             <div class="panel-container">
               <div class="panel-left">
-                <a class="panel-item" href="/collections/hms">HMS</a>
-                <a class="panel-item" href="/collections/gyd">GYD</a>
-                <a class="panel-item" href="/collections/coco">COCO</a>
-                <a class="panel-item" href="/collections/dr">DR</a>
-                <a class="panel-item" href="/collections/lvn">LVN</a>
-                <a class="panel-item" href="/collections/lp">LP</a>
-                <a class="panel-item" href="/collections/gcc">GCC</a>
-                <a class="panel-item" href="/collections/prd">PRD</a>
-                <a class="panel-item" href="/collections/fnd">FND</a>
-                <a class="panel-item" href="/collections/cln">CLN</a>
-                <a class="panel-item" href="/collections/mmu">MMU</a>
-                <a class="panel-item" href="/collections/stl">STL</a>
-                <a class="panel-item" href="/collections/bvg">BVG</a>
-                <a class="panel-item" href="/collections/rlx">RLX</a>
-                <a class="panel-item" href="/collections/msk">MSK</a>
-                <a class="panel-item" href="/collections/crt">CRT</a>
-                <a class="panel-item" href="/collections/vcf">VCF</a>
-                <a class="panel-item" href="/collections/adidas">Adidas</a>
-                <a class="panel-item" href="/collections/nike">Nike</a>
-                <a class="panel-item" href="/collections/nb">NB</a>
-                <a class="panel-item" href="/collections/golden-goose">Golden Goose</a>
-                <a class="panel-item" href="/collections/onitsuka-tiger">Onitsuka Tiger</a>
-                <a class="panel-item" href="/collections/loewe">Loewe</a>
-                <a class="panel-item" href="/collections/tiffany-co">Tiffany &amp; Co.</a>
-                <a class="panel-item" href="/collections/rimowa">Rimowa</a>
-                <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+                {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
+                {%- if w_brands.links.size > 0 -%}
+                  {%- for link in w_brands.links -%}
+                    <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                  {%- endfor -%}
+                {%- else -%}
+                  <a class="panel-item" href="/collections/hms">HMS</a>
+                  <a class="panel-item" href="/collections/gyd">GYD</a>
+                  <a class="panel-item" href="/collections/coco">COCO</a>
+                  <a class="panel-item" href="/collections/dr">DR</a>
+                  <a class="panel-item" href="/collections/lvn">LVN</a>
+                  <a class="panel-item" href="/collections/lp">LP</a>
+                  <a class="panel-item" href="/collections/gcc">GCC</a>
+                  <a class="panel-item" href="/collections/prd">PRD</a>
+                  <a class="panel-item" href="/collections/fnd">FND</a>
+                  <a class="panel-item" href="/collections/cln">CLN</a>
+                  <a class="panel-item" href="/collections/mmu">MMU</a>
+                  <a class="panel-item" href="/collections/stl">STL</a>
+                  <a class="panel-item" href="/collections/bvg">BVG</a>
+                  <a class="panel-item" href="/collections/rlx">RLX</a>
+                  <a class="panel-item" href="/collections/msk">MSK</a>
+                  <a class="panel-item" href="/collections/crt">CRT</a>
+                  <a class="panel-item" href="/collections/vcf">VCF</a>
+                  <a class="panel-item" href="/collections/adidas">Adidas</a>
+                  <a class="panel-item" href="/collections/nike">Nike</a>
+                  <a class="panel-item" href="/collections/nb">NB</a>
+                  <a class="panel-item" href="/collections/golden-goose">Golden Goose</a>
+                  <a class="panel-item" href="/collections/onitsuka-tiger">Onitsuka Tiger</a>
+                  <a class="panel-item" href="/collections/loewe">Loewe</a>
+                  <a class="panel-item" href="/collections/tiffany-co">Tiffany &amp; Co.</a>
+                  <a class="panel-item" href="/collections/rimowa">Rimowa</a>
+                  <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+                {%- endif -%}
               </div>
             </div>
           </div>
@@ -212,13 +219,20 @@
           <a class="nav-link" href="#" id="nav-link-bags"><span class="nav-link-text">Bags</span></a>
           <div class="hover-box">
             <div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/bags">All Bags</a>
-              <a class="panel-item" href="/collections/handbags">Handbags</a>
-              <a class="panel-item" href="/collections/mini-bags">Mini Bags</a>
-              <a class="panel-item" href="/collections/tote-bags">Tote Bags</a>
-              <a class="panel-item" href="/collections/backpacks">Backpacks</a>
-              <a class="panel-item" href="/collections/travel-bags">Travel Bags</a>
-              <a class="panel-item" href="/collections/shoulder-bags">Shoulder Bags</a>
+              {%- assign w_bags = linklists[section.settings.women_bags_menu] | default: linklists['women-bags'] | default: linklists['bags'] -%}
+              {%- if w_bags.links.size > 0 -%}
+                {%- for link in w_bags.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/bags">All Bags</a>
+                <a class="panel-item" href="/collections/handbags">Handbags</a>
+                <a class="panel-item" href="/collections/mini-bags">Mini Bags</a>
+                <a class="panel-item" href="/collections/tote-bags">Tote Bags</a>
+                <a class="panel-item" href="/collections/backpacks">Backpacks</a>
+                <a class="panel-item" href="/collections/travel-bags">Travel Bags</a>
+                <a class="panel-item" href="/collections/shoulder-bags">Shoulder Bags</a>
+              {%- endif -%}
             </div></div>
           </div>
         </div>
@@ -226,10 +240,17 @@
           <a class="nav-link" href="#" id="nav-link-slg"><span class="nav-link-text">Small Leather Goods</span></a>
           <div class="hover-box">
             <div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/small-leather-goods">All</a>
-              <a class="panel-item" href="/collections/wallets">Wallets</a>
-              <a class="panel-item" href="/collections/pouches">Pouches</a>
-              <a class="panel-item" href="/collections/card-holders">Card Holders</a>
+              {%- assign w_slg = linklists[section.settings.women_slg_menu] | default: linklists['women-slg'] | default: linklists['small-leather-goods'] -%}
+              {%- if w_slg.links.size > 0 -%}
+                {%- for link in w_slg.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/small-leather-goods">All</a>
+                <a class="panel-item" href="/collections/wallets">Wallets</a>
+                <a class="panel-item" href="/collections/pouches">Pouches</a>
+                <a class="panel-item" href="/collections/card-holders">Card Holders</a>
+              {%- endif -%}
             </div></div>
           </div>
         </div>
@@ -237,15 +258,22 @@
           <a class="nav-link" href="#" id="nav-link-shoes"><span class="nav-link-text">Shoes</span></a>
           <div class="hover-box">
             <div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/shoes">All Shoes</a>
-              <a class="panel-item" href="/collections/sneakers">Sneakers</a>
-              <a class="panel-item" href="/collections/sandals">Sandals</a>
-              <a class="panel-item" href="/collections/boots">Boots</a>
-              <a class="panel-item" href="/collections/heels">Heels</a>
-              <a class="panel-item" href="/collections/flats">Flats</a>
-              <a class="panel-item" href="/collections/mules">Mules</a>
-              <a class="panel-item" href="/collections/loafers">Loafers</a>
-              <a class="panel-item" href="/collections/ballet-flats">Ballet Flats</a>
+              {%- assign w_shoes = linklists[section.settings.women_shoes_menu] | default: linklists['women-shoes'] | default: linklists['shoes'] -%}
+              {%- if w_shoes.links.size > 0 -%}
+                {%- for link in w_shoes.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/shoes">All Shoes</a>
+                <a class="panel-item" href="/collections/sneakers">Sneakers</a>
+                <a class="panel-item" href="/collections/sandals">Sandals</a>
+                <a class="panel-item" href="/collections/boots">Boots</a>
+                <a class="panel-item" href="/collections/heels">Heels</a>
+                <a class="panel-item" href="/collections/flats">Flats</a>
+                <a class="panel-item" href="/collections/mules">Mules</a>
+                <a class="panel-item" href="/collections/loafers">Loafers</a>
+                <a class="panel-item" href="/collections/ballet-flats">Ballet Flats</a>
+              {%- endif -%}
             </div></div>
           </div>
         </div>
@@ -253,12 +281,19 @@
           <a class="nav-link" href="#" id="nav-link-jewellery"><span class="nav-link-text">Jewellery</span></a>
           <div class="hover-box">
             <div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/jewellery">All Jewellery</a>
-              <a class="panel-item" href="/collections/necklaces">Necklaces</a>
-              <a class="panel-item" href="/collections/bracelets">Bracelets</a>
-              <a class="panel-item" href="/collections/earrings">Earrings</a>
-              <a class="panel-item" href="/collections/anklets">Anklets</a>
-              <a class="panel-item" href="/collections/rings">Rings</a>
+              {%- assign w_jewellery = linklists[section.settings.women_jewellery_menu] | default: linklists['women-jewellery'] | default: linklists['jewellery'] -%}
+              {%- if w_jewellery.links.size > 0 -%}
+                {%- for link in w_jewellery.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/jewellery">All Jewellery</a>
+                <a class="panel-item" href="/collections/necklaces">Necklaces</a>
+                <a class="panel-item" href="/collections/bracelets">Bracelets</a>
+                <a class="panel-item" href="/collections/earrings">Earrings</a>
+                <a class="panel-item" href="/collections/anklets">Anklets</a>
+                <a class="panel-item" href="/collections/rings">Rings</a>
+              {%- endif -%}
             </div></div>
           </div>
         </div>
@@ -266,13 +301,20 @@
           <a class="nav-link" href="#" id="nav-link-watches"><span class="nav-link-text">Watches</span></a>
           <div class="hover-box">
             <div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/watches">All</a>
-              <a class="panel-item" href="/collections/rlx">RLX</a>
-              <a class="panel-item" href="/collections/hms">HMS</a>
-              <a class="panel-item" href="/collections/crt">CRT</a>
-              <a class="panel-item" href="/collections/vcf">VCF</a>
-              <a class="panel-item" href="/collections/dr">DR</a>
-              <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+              {%- assign w_watches = linklists[section.settings.women_watches_menu] | default: linklists['women-watches'] | default: linklists['watches'] -%}
+              {%- if w_watches.links.size > 0 -%}
+                {%- for link in w_watches.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/watches">All</a>
+                <a class="panel-item" href="/collections/rlx">RLX</a>
+                <a class="panel-item" href="/collections/hms">HMS</a>
+                <a class="panel-item" href="/collections/crt">CRT</a>
+                <a class="panel-item" href="/collections/vcf">VCF</a>
+                <a class="panel-item" href="/collections/dr">DR</a>
+                <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+              {%- endif -%}
             </div></div>
           </div>
         </div>
@@ -280,13 +322,20 @@
           <a class="nav-link" href="#" id="nav-link-accessories"><span class="nav-link-text">Accessories</span></a>
           <div class="hover-box">
             <div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/accessories">All</a>
-              <a class="panel-item" href="/collections/caps">Caps</a>
-              <a class="panel-item" href="/collections/belts">Belts</a>
-              <a class="panel-item" href="/collections/straps">Straps</a>
-              <a class="panel-item" href="/collections/badge-holders">Badge Holders</a>
-              <a class="panel-item" href="/collections/home-accessories">Home Accessories</a>
-              <a class="panel-item" href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+              {%- assign w_acc = linklists[section.settings.women_accessories_menu] | default: linklists['women-accessories'] | default: linklists['accessories'] -%}
+              {%- if w_acc.links.size > 0 -%}
+                {%- for link in w_acc.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/accessories">All</a>
+                <a class="panel-item" href="/collections/caps">Caps</a>
+                <a class="panel-item" href="/collections/belts">Belts</a>
+                <a class="panel-item" href="/collections/straps">Straps</a>
+                <a class="panel-item" href="/collections/badge-holders">Badge Holders</a>
+                <a class="panel-item" href="/collections/home-accessories">Home Accessories</a>
+                <a class="panel-item" href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+              {%- endif -%}
             </div></div>
           </div>
         </div>
@@ -294,9 +343,16 @@
           <a class="nav-link" href="#" id="nav-link-clothing"><span class="nav-link-text">Clothing</span></a>
           <div class="hover-box">
             <div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/clothing">All</a>
-              <a class="panel-item" href="/collections/tops">Tops</a>
-              <a class="panel-item" href="/collections/t-shirts">T-shirts</a>
+              {%- assign w_clothing = linklists[section.settings.women_clothing_menu] | default: linklists['women-clothing'] | default: linklists['clothing'] -%}
+              {%- if w_clothing.links.size > 0 -%}
+                {%- for link in w_clothing.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/clothing">All</a>
+                <a class="panel-item" href="/collections/tops">Tops</a>
+                <a class="panel-item" href="/collections/t-shirts">T-shirts</a>
+              {%- endif -%}
             </div></div>
           </div>
         </div>
@@ -310,18 +366,25 @@
           <a class="nav-link" href="#">Brands</a>
           <div class="hover-box two-panel-dropdown">
             <div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/hms-men">HMS</a>
-              <a class="panel-item" href="/collections/gyd-men">GYD</a>
-              <a class="panel-item" href="/collections/lp-men">LP</a>
-              <a class="panel-item" href="/collections/lvn-men">LVN</a>
-              <a class="panel-item" href="/collections/rlx-men">RLX</a>
-              <a class="panel-item" href="/collections/crt-men">CRT</a>
-              <a class="panel-item" href="/collections/dr-men">DR</a>
-              <a class="panel-item" href="/collections/prd-men">PRD</a>
-              <a class="panel-item" href="/collections/loewe-men">Loewe</a>
-              <a class="panel-item" href="/collections/nike-men">Nike</a>
-              <a class="panel-item" href="/collections/adidas-men">Adidas</a>
-              <a class="panel-item" href="/collections/onitsuka-tiger-men">Onitsuka Tiger</a>
+              {%- assign m_brands = linklists[section.settings.men_brands_menu] | default: linklists['men-brands'] | default: linklists['brands-men'] -%}
+              {%- if m_brands.links.size > 0 -%}
+                {%- for link in m_brands.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/hms-men">HMS</a>
+                <a class="panel-item" href="/collections/gyd-men">GYD</a>
+                <a class="panel-item" href="/collections/lp-men">LP</a>
+                <a class="panel-item" href="/collections/lvn-men">LVN</a>
+                <a class="panel-item" href="/collections/rlx-men">RLX</a>
+                <a class="panel-item" href="/collections/crt-men">CRT</a>
+                <a class="panel-item" href="/collections/dr-men">DR</a>
+                <a class="panel-item" href="/collections/prd-men">PRD</a>
+                <a class="panel-item" href="/collections/loewe-men">Loewe</a>
+                <a class="panel-item" href="/collections/nike-men">Nike</a>
+                <a class="panel-item" href="/collections/adidas-men">Adidas</a>
+                <a class="panel-item" href="/collections/onitsuka-tiger-men">Onitsuka Tiger</a>
+              {%- endif -%}
             </div></div>
           </div>
         </div>
@@ -526,72 +589,121 @@
             <a class="nav-link" href="#">Brands</a>
             <div class="hover-box two-panel-dropdown">
               <div class="panel-container"><div class="panel-left">
-                <a class="panel-item" href="/collections/hms">HMS</a>
-                <a class="panel-item" href="/collections/gyd">GYD</a>
-                <a class="panel-item" href="/collections/coco">COCO</a>
-                <a class="panel-item" href="/collections/lvn">LVN</a>
-                <a class="panel-item" href="/collections/rlx">RLX</a>
-                <a class="panel-item" href="/collections/crt">CRT</a>
-                <a class="panel-item" href="/collections/nike">Nike</a>
-                <a class="panel-item" href="/collections/adidas">Adidas</a>
-                <a class="panel-item" href="/collections/golden-goose">Golden Goose</a>
-                <a class="panel-item" href="/collections/loewe">Loewe</a>
-                <a class="panel-item" href="/collections/tiffany-co">Tiffany &amp; Co.</a>
-                <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+                {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
+                {%- if w_brands.links.size > 0 -%}
+                  {%- for link in w_brands.links -%}
+                    <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                  {%- endfor -%}
+                {%- else -%}
+                  <a class="panel-item" href="/collections/hms">HMS</a>
+                  <a class="panel-item" href="/collections/gyd">GYD</a>
+                  <a class="panel-item" href="/collections/coco">COCO</a>
+                  <a class="panel-item" href="/collections/lvn">LVN</a>
+                  <a class="panel-item" href="/collections/rlx">RLX</a>
+                  <a class="panel-item" href="/collections/crt">CRT</a>
+                  <a class="panel-item" href="/collections/nike">Nike</a>
+                  <a class="panel-item" href="/collections/adidas">Adidas</a>
+                  <a class="panel-item" href="/collections/golden-goose">Golden Goose</a>
+                  <a class="panel-item" href="/collections/loewe">Loewe</a>
+                  <a class="panel-item" href="/collections/tiffany-co">Tiffany &amp; Co.</a>
+                  <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+                {%- endif -%}
               </div></div>
             </div>
           </div>
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Bags</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/bags">All Bags</a>
-              <a class="panel-item" href="/collections/handbags">Handbags</a>
-              <a class="panel-item" href="/collections/mini-bags">Mini Bags</a>
-              <a class="panel-item" href="/collections/tote-bags">Tote Bags</a>
-              <a class="panel-item" href="/collections/backpacks">Backpacks</a>
+              {%- assign w_bags = linklists[section.settings.women_bags_menu] | default: linklists['women-bags'] | default: linklists['bags'] -%}
+              {%- if w_bags.links.size > 0 -%}
+                {%- for link in w_bags.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/bags">All Bags</a>
+                <a class="panel-item" href="/collections/handbags">Handbags</a>
+                <a class="panel-item" href="/collections/mini-bags">Mini Bags</a>
+                <a class="panel-item" href="/collections/tote-bags">Tote Bags</a>
+                <a class="panel-item" href="/collections/backpacks">Backpacks</a>
+              {%- endif -%}
             </div></div></div>
           </div>
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Shoes</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/shoes">All Shoes</a>
-              <a class="panel-item" href="/collections/sneakers">Sneakers</a>
-              <a class="panel-item" href="/collections/sandals">Sandals</a>
-              <a class="panel-item" href="/collections/heels">Heels</a>
-              <a class="panel-item" href="/collections/ballet-flats">Ballet Flats</a>
+              {%- assign w_shoes = linklists[section.settings.women_shoes_menu] | default: linklists['women-shoes'] | default: linklists['shoes'] -%}
+              {%- if w_shoes.links.size > 0 -%}
+                {%- for link in w_shoes.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/shoes">All Shoes</a>
+                <a class="panel-item" href="/collections/sneakers">Sneakers</a>
+                <a class="panel-item" href="/collections/sandals">Sandals</a>
+                <a class="panel-item" href="/collections/heels">Heels</a>
+                <a class="panel-item" href="/collections/ballet-flats">Ballet Flats</a>
+              {%- endif -%}
             </div></div></div>
           </div>
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Jewellery</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/jewellery">All Jewellery</a>
-              <a class="panel-item" href="/collections/necklaces">Necklaces</a>
-              <a class="panel-item" href="/collections/earrings">Earrings</a>
-              <a class="panel-item" href="/collections/rings">Rings</a>
+              {%- assign w_jewellery = linklists[section.settings.women_jewellery_menu] | default: linklists['women-jewellery'] | default: linklists['jewellery'] -%}
+              {%- if w_jewellery.links.size > 0 -%}
+                {%- for link in w_jewellery.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/jewellery">All Jewellery</a>
+                <a class="panel-item" href="/collections/necklaces">Necklaces</a>
+                <a class="panel-item" href="/collections/earrings">Earrings</a>
+                <a class="panel-item" href="/collections/rings">Rings</a>
+              {%- endif -%}
             </div></div></div>
           </div>
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Watches</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/watches">All Watches</a>
-              <a class="panel-item" href="/collections/rlx">RLX</a>
-              <a class="panel-item" href="/collections/hms">HMS</a>
+              {%- assign w_watches = linklists[section.settings.women_watches_menu] | default: linklists['women-watches'] | default: linklists['watches'] -%}
+              {%- if w_watches.links.size > 0 -%}
+                {%- for link in w_watches.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/watches">All Watches</a>
+                <a class="panel-item" href="/collections/rlx">RLX</a>
+                <a class="panel-item" href="/collections/hms">HMS</a>
+              {%- endif -%}
             </div></div></div>
           </div>
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Accessories</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/accessories">All</a>
-              <a class="panel-item" href="/collections/caps">Caps</a>
-              <a class="panel-item" href="/collections/belts">Belts</a>
+              {%- assign w_acc = linklists[section.settings.women_accessories_menu] | default: linklists['women-accessories'] | default: linklists['accessories'] -%}
+              {%- if w_acc.links.size > 0 -%}
+                {%- for link in w_acc.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/accessories">All</a>
+                <a class="panel-item" href="/collections/caps">Caps</a>
+                <a class="panel-item" href="/collections/belts">Belts</a>
+              {%- endif -%}
             </div></div></div>
           </div>
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Clothing</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
-              <a class="panel-item" href="/collections/clothing">All</a>
-              <a class="panel-item" href="/collections/tops">Tops</a>
-              <a class="panel-item" href="/collections/t-shirts">T-shirts</a>
+              {%- assign w_clothing = linklists[section.settings.women_clothing_menu] | default: linklists['women-clothing'] | default: linklists['clothing'] -%}
+              {%- if w_clothing.links.size > 0 -%}
+                {%- for link in w_clothing.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="/collections/clothing">All</a>
+                <a class="panel-item" href="/collections/tops">Tops</a>
+                <a class="panel-item" href="/collections/t-shirts">T-shirts</a>
+              {%- endif -%}
             </div></div></div>
           </div>
         </div>
@@ -648,63 +760,119 @@
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
-        <a href="/collections/hms">HMS</a><a href="/collections/gyd">GYD</a><a href="/collections/coco">COCO</a>
-        <a href="/collections/dr">DR</a><a href="/collections/lvn">LVN</a><a href="/collections/lp">LP</a>
-        <a href="/collections/gcc">GCC</a><a href="/collections/prd">PRD</a><a href="/collections/rlx">RLX</a>
-        <a href="/collections/crt">CRT</a><a href="/collections/nike">Nike</a><a href="/collections/adidas">Adidas</a>
-        <a href="/collections/golden-goose">Golden Goose</a><a href="/collections/loewe">Loewe</a>
-        <a href="/collections/tiffany-co">Tiffany &amp; Co.</a><a href="/collections/chaumet">Chaumet</a>
+        {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
+        {%- if w_brands.links.size > 0 -%}
+          {%- for link in w_brands.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="/collections/hms">HMS</a><a href="/collections/gyd">GYD</a><a href="/collections/coco">COCO</a>
+          <a href="/collections/dr">DR</a><a href="/collections/lvn">LVN</a><a href="/collections/lp">LP</a>
+          <a href="/collections/gcc">GCC</a><a href="/collections/prd">PRD</a><a href="/collections/rlx">RLX</a>
+          <a href="/collections/crt">CRT</a><a href="/collections/nike">Nike</a><a href="/collections/adidas">Adidas</a>
+          <a href="/collections/golden-goose">Golden Goose</a><a href="/collections/loewe">Loewe</a>
+          <a href="/collections/tiffany-co">Tiffany &amp; Co.</a><a href="/collections/chaumet">Chaumet</a>
+        {%- endif -%}
       </div>
     </div>
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Bags</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
-        <a href="/collections/bags">All Bags</a><a href="/collections/handbags">Handbags</a>
-        <a href="/collections/mini-bags">Mini Bags</a><a href="/collections/tote-bags">Tote Bags</a>
-        <a href="/collections/backpacks">Backpacks</a><a href="/collections/shoulder-bags">Shoulder Bags</a>
+        {%- assign w_bags = linklists[section.settings.women_bags_menu] | default: linklists['women-bags'] | default: linklists['bags'] -%}
+        {%- if w_bags.links.size > 0 -%}
+          {%- for link in w_bags.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="/collections/bags">All Bags</a><a href="/collections/handbags">Handbags</a>
+          <a href="/collections/mini-bags">Mini Bags</a><a href="/collections/tote-bags">Tote Bags</a>
+          <a href="/collections/backpacks">Backpacks</a><a href="/collections/shoulder-bags">Shoulder Bags</a>
+        {%- endif -%}
       </div>
     </div>
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Small Leather Goods</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
-        <a href="/collections/wallets">Wallets</a><a href="/collections/pouches">Pouches</a>
-        <a href="/collections/card-holders">Card Holders</a>
+        {%- assign w_slg = linklists[section.settings.women_slg_menu] | default: linklists['women-slg'] | default: linklists['small-leather-goods'] -%}
+        {%- if w_slg.links.size > 0 -%}
+          {%- for link in w_slg.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="/collections/wallets">Wallets</a><a href="/collections/pouches">Pouches</a>
+          <a href="/collections/card-holders">Card Holders</a>
+        {%- endif -%}
       </div>
     </div>
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Shoes</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
-        <a href="/collections/shoes">All Shoes</a><a href="/collections/sneakers">Sneakers</a>
-        <a href="/collections/sandals">Sandals</a><a href="/collections/heels">Heels</a>
-        <a href="/collections/flats">Flats</a><a href="/collections/ballet-flats">Ballet Flats</a>
+        {%- assign w_shoes = linklists[section.settings.women_shoes_menu] | default: linklists['women-shoes'] | default: linklists['shoes'] -%}
+        {%- if w_shoes.links.size > 0 -%}
+          {%- for link in w_shoes.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="/collections/shoes">All Shoes</a><a href="/collections/sneakers">Sneakers</a>
+          <a href="/collections/sandals">Sandals</a><a href="/collections/heels">Heels</a>
+          <a href="/collections/flats">Flats</a><a href="/collections/ballet-flats">Ballet Flats</a>
+        {%- endif -%}
       </div>
     </div>
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Jewellery</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
-        <a href="/collections/jewellery">All Jewellery</a><a href="/collections/necklaces">Necklaces</a>
-        <a href="/collections/bracelets">Bracelets</a><a href="/collections/earrings">Earrings</a>
-        <a href="/collections/rings">Rings</a>
+        {%- assign w_jewellery = linklists[section.settings.women_jewellery_menu] | default: linklists['women-jewellery'] | default: linklists['jewellery'] -%}
+        {%- if w_jewellery.links.size > 0 -%}
+          {%- for link in w_jewellery.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="/collections/jewellery">All Jewellery</a><a href="/collections/necklaces">Necklaces</a>
+          <a href="/collections/bracelets">Bracelets</a><a href="/collections/earrings">Earrings</a>
+          <a href="/collections/rings">Rings</a>
+        {%- endif -%}
       </div>
     </div>
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Watches</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
-        <a href="/collections/watches">All</a><a href="/collections/rlx">RLX</a>
-        <a href="/collections/hms">HMS</a><a href="/collections/crt">CRT</a>
+        {%- assign w_watches = linklists[section.settings.women_watches_menu] | default: linklists['women-watches'] | default: linklists['watches'] -%}
+        {%- if w_watches.links.size > 0 -%}
+          {%- for link in w_watches.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="/collections/watches">All</a><a href="/collections/rlx">RLX</a>
+          <a href="/collections/hms">HMS</a><a href="/collections/crt">CRT</a>
+        {%- endif -%}
       </div>
     </div>
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Accessories</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
-        <a href="/collections/accessories">All</a><a href="/collections/caps">Caps</a>
-        <a href="/collections/belts">Belts</a><a href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+        {%- assign w_acc = linklists[section.settings.women_accessories_menu] | default: linklists['women-accessories'] | default: linklists['accessories'] -%}
+        {%- if w_acc.links.size > 0 -%}
+          {%- for link in w_acc.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="/collections/accessories">All</a><a href="/collections/caps">Caps</a>
+          <a href="/collections/belts">Belts</a><a href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+        {%- endif -%}
       </div>
     </div>
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Clothing</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
-        <a href="/collections/clothing">All</a><a href="/collections/tops">Tops</a><a href="/collections/t-shirts">T-shirts</a>
+        {%- assign w_clothing = linklists[section.settings.women_clothing_menu] | default: linklists['women-clothing'] | default: linklists['clothing'] -%}
+        {%- if w_clothing.links.size > 0 -%}
+          {%- for link in w_clothing.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="/collections/clothing">All</a><a href="/collections/tops">Tops</a><a href="/collections/t-shirts">T-shirts</a>
+        {%- endif -%}
       </div>
     </div>
   </nav>
@@ -1902,6 +2070,55 @@
       "id": "logo_text",
       "label": "Logo Text (fallback)",
       "default": "Qtrshoe"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Dropdown Menus"
+    },
+    {
+      "type": "link_list",
+      "id": "women_brands_menu",
+      "label": "Women Brands Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "women_bags_menu",
+      "label": "Women Bags Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "women_slg_menu",
+      "label": "Women Small Leather Goods Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "women_shoes_menu",
+      "label": "Women Shoes Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "women_jewellery_menu",
+      "label": "Women Jewellery Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "women_watches_menu",
+      "label": "Women Watches Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "women_accessories_menu",
+      "label": "Women Accessories Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "women_clothing_menu",
+      "label": "Women Clothing Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "men_brands_menu",
+      "label": "Men Brands Menu"
     }
   ]
 }
