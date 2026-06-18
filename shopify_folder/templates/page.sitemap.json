@@ -1,0 +1,15 @@
+{
+  "name": "Sitemap",
+  "sections": {
+    "main": {
+      "type": "sitemap",
+      "settings": {
+        "title": "Sitemap",
+        "description": "Browse the full QTRSHOE website structure. Find direct links to all collections, categories, and pages organized for easy navigation."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
