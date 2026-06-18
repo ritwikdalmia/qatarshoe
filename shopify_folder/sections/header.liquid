@@ -83,7 +83,7 @@
               <path d="M5 8L10 13L15 8"/>
             </svg>
           </button>
-          {%- assign currencies = section.settings.supported_currencies | default: 'QAR, USD, EUR, AED' | split: ',' -%}
+          {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
           <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
             {%- for curr_raw in currencies -%}
               {%- assign curr = curr_raw | strip | upcase -%}
@@ -94,6 +94,10 @@
                 {%- if curr == 'EUR' %}{% assign symbol = '€' %}{% endif -%}
                 {%- if curr == 'AED' %}{% assign symbol = 'د.إ' %}{% endif -%}
                 {%- if curr == 'SAR' %}{% assign symbol = 'SR' %}{% endif -%}
+                {%- if curr == 'BHD' %}{% assign symbol = 'BD' %}{% endif -%}
+                {%- if curr == 'KWD' %}{% assign symbol = 'KD' %}{% endif -%}
+                {%- if curr == 'OMR' %}{% assign symbol = 'RO' %}{% endif -%}
+                {%- if curr == 'GBP' %}{% assign symbol = '£' %}{% endif -%}
                 <div class="currency-option {% if forloop.first %}is-active{% endif %}" data-currency="{{ curr }}">
                   <span>{{ symbol }} {{ curr }}</span>
                   {%- if forloop.first -%}
@@ -175,9 +179,10 @@
     <div class="nav-menu-wrapper" id="desktop-nav-menu">
       <!-- Women Navigation -->
       <div class="navigation-menu-wrapper" data-dept="women" id="desktop-nav-women">
-        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in" id="nav-link-new-in"><span class="nav-link-text">New in</span></a></div>
-        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock" id="nav-link-restock"><span class="nav-link-text">Restock</span></a></div>
-        <div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale" id="nav-link-on-sale"><span class="nav-link-text">On sale</span></a></div>
+        {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in" id="nav-link-new-in"><span class="nav-link-text">New in</span></a></div>{%- endif -%}
+        {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock" id="nav-link-restock"><span class="nav-link-text">Restock</span></a></div>{%- endif -%}
+        {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale" id="nav-link-on-sale"><span class="nav-link-text">On sale</span></a></div>{%- endif -%}
+{%- if section.settings.menu_w_brands -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-brands"><span class="nav-link-text">Brands</span></a>
           <div class="hover-box two-panel-dropdown">
@@ -220,6 +225,8 @@
             </div>
           </div>
         </div>
+{%- endif -%}
+{%- if section.settings.menu_w_bags -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-bags"><span class="nav-link-text">Bags</span></a>
           <div class="hover-box">
@@ -241,6 +248,8 @@
             </div></div>
           </div>
         </div>
+{%- endif -%}
+{%- if section.settings.menu_w_slg -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-slg"><span class="nav-link-text">Small Leather Goods</span></a>
           <div class="hover-box">
@@ -259,6 +268,8 @@
             </div></div>
           </div>
         </div>
+{%- endif -%}
+{%- if section.settings.menu_w_shoes -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-shoes"><span class="nav-link-text">Shoes</span></a>
           <div class="hover-box">
@@ -282,6 +293,8 @@
             </div></div>
           </div>
         </div>
+{%- endif -%}
+{%- if section.settings.menu_w_jewellery -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-jewellery"><span class="nav-link-text">Jewellery</span></a>
           <div class="hover-box">
@@ -302,6 +315,8 @@
             </div></div>
           </div>
         </div>
+{%- endif -%}
+{%- if section.settings.menu_w_watches -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-watches"><span class="nav-link-text">Watches</span></a>
           <div class="hover-box">
@@ -323,6 +338,8 @@
             </div></div>
           </div>
         </div>
+{%- endif -%}
+{%- if section.settings.menu_w_accessories -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-accessories"><span class="nav-link-text">Accessories</span></a>
           <div class="hover-box">
@@ -344,6 +361,8 @@
             </div></div>
           </div>
         </div>
+{%- endif -%}
+{%- if section.settings.menu_w_clothing -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-clothing"><span class="nav-link-text">Clothing</span></a>
           <div class="hover-box">
@@ -361,12 +380,14 @@
             </div></div>
           </div>
         </div>
+{%- endif -%}
       </div><!-- #desktop-nav-women -->
 
       <!-- Men Navigation (hidden by default) -->
       <div class="navigation-menu-wrapper" data-dept="men" id="desktop-nav-men" style="display:none;">
-        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>
-        <div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale">On Sale</a></div>
+        {%- if section.settings.menu_m_new_arrivals -%}{%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}{%- endif -%}
+        {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale">On Sale</a></div>{%- endif -%}
+{%- if section.settings.menu_m_brands -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#">Brands</a>
           <div class="hover-box two-panel-dropdown">
@@ -393,6 +414,8 @@
             </div></div>
           </div>
         </div>
+{%- endif -%}
+{%- if section.settings.menu_m_bags -%}
                 <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-bags-men"><span class="nav-link-text">Bags</span></a>
           <div class="hover-box">
@@ -408,6 +431,8 @@
             </div></div>
           </div>
         </div>
+{%- endif -%}
+{%- if section.settings.menu_m_shoes -%}
                 <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-shoes-men"><span class="nav-link-text">Shoes</span></a>
           <div class="hover-box">
@@ -423,10 +448,11 @@
             </div></div>
           </div>
         </div>
-        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>
-        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>
-        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/travel-bags-men">Travel Bags</a></div>
-        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>
+{%- endif -%}
+{%- if section.settings.menu_m_wallets -%}        {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>{%- endif -%}{%- endif -%}
+{%- if section.settings.menu_m_watches -%}        {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>{%- endif -%}{%- endif -%}
+{%- if section.settings.menu_m_travel_bags -%}        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/travel-bags-men">Travel Bags</a></div>{%- endif -%}
+{%- if section.settings.menu_m_accessories -%}        {%- if section.settings.menu_m_accessories -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>{%- endif -%}{%- endif -%}
       </div><!-- #desktop-nav-men -->
     </div>
   </div><!-- .desktop-header-row2 -->
@@ -526,7 +552,7 @@
             <span class="currency-code">QAR</span>
             <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
           </button>
-          {%- assign currencies = section.settings.supported_currencies | default: 'QAR, USD, EUR, AED' | split: ',' -%}
+          {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
           <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
             {%- for curr_raw in currencies -%}
               {%- assign curr = curr_raw | strip | upcase -%}
@@ -537,6 +563,10 @@
                 {%- if curr == 'EUR' %}{% assign symbol = '€' %}{% endif -%}
                 {%- if curr == 'AED' %}{% assign symbol = 'د.إ' %}{% endif -%}
                 {%- if curr == 'SAR' %}{% assign symbol = 'SR' %}{% endif -%}
+                {%- if curr == 'BHD' %}{% assign symbol = 'BD' %}{% endif -%}
+                {%- if curr == 'KWD' %}{% assign symbol = 'KD' %}{% endif -%}
+                {%- if curr == 'OMR' %}{% assign symbol = 'RO' %}{% endif -%}
+                {%- if curr == 'GBP' %}{% assign symbol = '£' %}{% endif -%}
                 <div class="currency-option {% if forloop.first %}is-active{% endif %}" data-currency="{{ curr }}">
                   <span>{{ symbol }} {{ curr }}</span>
                   {%- if forloop.first -%}
@@ -620,9 +650,10 @@
     <div class="desktop-nav-container">
       <div class="nav-menu-wrapper">
         <div class="navigation-menu-wrapper" data-dept="women" id="sticky-nav-women">
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in">New in</a></div>
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock">Restock</a></div>
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On sale</a></div>
+          {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in">New in</a></div>{%- endif -%}
+          {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock">Restock</a></div>{%- endif -%}
+          {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On sale</a></div>{%- endif -%}
+{%- if section.settings.menu_w_brands -%}
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Brands</a>
             <div class="hover-box two-panel-dropdown">
@@ -649,6 +680,8 @@
               </div></div>
             </div>
           </div>
+{%- endif -%}
+{%- if section.settings.menu_w_bags -%}
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Bags</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
@@ -666,6 +699,8 @@
               {%- endif -%}
             </div></div></div>
           </div>
+{%- endif -%}
+{%- if section.settings.menu_w_shoes -%}
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Shoes</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
@@ -683,6 +718,8 @@
               {%- endif -%}
             </div></div></div>
           </div>
+{%- endif -%}
+{%- if section.settings.menu_w_jewellery -%}
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Jewellery</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
@@ -699,6 +736,8 @@
               {%- endif -%}
             </div></div></div>
           </div>
+{%- endif -%}
+{%- if section.settings.menu_w_watches -%}
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Watches</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
@@ -714,6 +753,8 @@
               {%- endif -%}
             </div></div></div>
           </div>
+{%- endif -%}
+{%- if section.settings.menu_w_accessories -%}
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Accessories</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
@@ -729,6 +770,8 @@
               {%- endif -%}
             </div></div></div>
           </div>
+{%- endif -%}
+{%- if section.settings.menu_w_clothing -%}
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Clothing</a>
             <div class="hover-box"><div class="panel-container"><div class="panel-left">
@@ -744,15 +787,17 @@
               {%- endif -%}
             </div></div></div>
           </div>
+{%- endif -%}
         </div>
         <div class="navigation-menu-wrapper" data-dept="men" id="sticky-nav-men" style="display:none;">
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On Sale</a></div>
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/bags-men">Bags</a></div>
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/shoes-men">Shoes</a></div>
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>
-          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>
+          {%- if section.settings.menu_m_new_arrivals -%}{%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}{%- endif -%}
+          {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On Sale</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_bags -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/bags-men">Bags</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_shoes -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/shoes-men">Shoes</a></div>{%- endif -%}
+  {%- endif -%}
+{%- if section.settings.menu_m_wallets -%}        {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>{%- endif -%}{%- endif -%}
+  {%- if section.settings.menu_m_watches -%}        {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>{%- endif -%}{%- endif -%}
+  {%- if section.settings.menu_m_accessories -%}        {%- if section.settings.menu_m_accessories -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>{%- endif -%}{%- endif -%}
         </div>
       </div>
     </div>
@@ -792,9 +837,10 @@
 
   <!-- Women's Menu -->
   <nav class="drawer-nav" id="drawer-nav-women" data-dept="women">
-    <a class="drawer-link" href="/collections/new-in">New in</a>
-    <a class="drawer-link" href="/collections/restock">Restock</a>
-    <a class="drawer-link sale" href="/collections/on-sale">On sale</a>
+    {%- if section.settings.menu_w_new_in -%}<a class="drawer-link" href="/collections/new-in">New in</a>{%- endif -%}
+    {%- if section.settings.menu_w_restock -%}<a class="drawer-link" href="/collections/restock">Restock</a>{%- endif -%}
+    {%- if section.settings.menu_w_on_sale -%}{%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On sale</a>{%- endif -%}{%- endif -%}
+{%- if section.settings.menu_w_brands -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -813,6 +859,8 @@
         {%- endif -%}
       </div>
     </div>
+{%- endif -%}
+{%- if section.settings.menu_w_bags -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Bags</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -828,6 +876,8 @@
         {%- endif -%}
       </div>
     </div>
+{%- endif -%}
+{%- if section.settings.menu_w_slg -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Small Leather Goods</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -842,6 +892,8 @@
         {%- endif -%}
       </div>
     </div>
+{%- endif -%}
+{%- if section.settings.menu_w_shoes -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Shoes</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -857,6 +909,8 @@
         {%- endif -%}
       </div>
     </div>
+{%- endif -%}
+{%- if section.settings.menu_w_jewellery -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Jewellery</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -872,6 +926,8 @@
         {%- endif -%}
       </div>
     </div>
+{%- endif -%}
+{%- if section.settings.menu_w_watches -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Watches</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -886,6 +942,8 @@
         {%- endif -%}
       </div>
     </div>
+{%- endif -%}
+{%- if section.settings.menu_w_accessories -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Accessories</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -900,6 +958,8 @@
         {%- endif -%}
       </div>
     </div>
+{%- endif -%}
+{%- if section.settings.menu_w_clothing -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Clothing</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -913,12 +973,14 @@
         {%- endif -%}
       </div>
     </div>
+{%- endif -%}
   </nav>
 
   <!-- Men's Menu -->
   <nav class="drawer-nav" id="drawer-nav-men" data-dept="men" style="display:none;">
-    <a class="drawer-link" href="/collections/new-arrivals">New arrivals</a>
+    {%- if section.settings.menu_m_new_arrivals -%}<a class="drawer-link" href="/collections/new-arrivals">New arrivals</a>{%- endif -%}
     <a class="drawer-link sale" href="/collections/on-sale">On Sale</a>
+{%- if section.settings.menu_w_brands -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -927,11 +989,11 @@
         <a href="/collections/nike-men">Nike</a><a href="/collections/adidas-men">Adidas</a>
       </div>
     </div>
-    <a class="drawer-link" href="/collections/bags-men">Bags</a>
-    <a class="drawer-link" href="/collections/shoes-men">Shoes</a>
-    <a class="drawer-link" href="/collections/wallets-men">Wallets</a>
-    <a class="drawer-link" href="/collections/watches-men">Watches</a>
-    <a class="drawer-link" href="/collections/accessories-men">Accessories</a>
+    {%- if section.settings.menu_m_bags -%}<a class="drawer-link" href="/collections/bags-men">Bags</a>{%- endif -%}
+    {%- if section.settings.menu_m_shoes -%}<a class="drawer-link" href="/collections/shoes-men">Shoes</a>{%- endif -%}
+    {%- if section.settings.menu_m_wallets -%}<a class="drawer-link" href="/collections/wallets-men">Wallets</a>{%- endif -%}
+    {%- if section.settings.menu_m_watches -%}<a class="drawer-link" href="/collections/watches-men">Watches</a>{%- endif -%}
+    {%- if section.settings.menu_m_accessories -%}<a class="drawer-link" href="/collections/accessories-men">Accessories</a>{%- endif -%}
   </nav>
 
   <!-- Footer: Currency + Language | Wishlist | Account -->
@@ -1407,18 +1469,21 @@
     var footerEl = document.getElementById('side-drawer-footer');
     var closeBtn = document.getElementById('side-drawer-close-btn');
 
-    const CURRENCY_RATES = {
-      'QAR': 1.0,
-      'USD': parseFloat('{{ section.settings.usd_rate | default: "0.2747" }}'),
-      'EUR': parseFloat('{{ section.settings.eur_rate | default: "0.253" }}'),
-      'AED': parseFloat('{{ section.settings.aed_rate | default: "1.003" }}'),
-      'SAR': parseFloat('{{ section.settings.sar_rate | default: "1.03" }}')
-    };
-
     function formatStorePrice(cents, currency) {
       var val = cents / 100;
       var symbol = currency;
-      var rate = CURRENCY_RATES[currency] || 1.0;
+      const FALLBACK_RATES = {
+        'QAR': 1.0,
+        'USD': 0.2747,
+        'EUR': 0.253,
+        'AED': 1.003,
+        'SAR': 1.03,
+        'BHD': 0.103,
+        'KWD': 0.084,
+        'OMR': 0.105,
+        'GBP': 0.21
+      };
+      var rate = FALLBACK_RATES[currency] || 1.0;
       val = Math.round(val * rate);
       
       if (currency === 'QAR') symbol = 'QAR';
@@ -1426,6 +1491,10 @@
       else if (currency === 'EUR') symbol = '€';
       else if (currency === 'AED') symbol = 'د.إ';
       else if (currency === 'SAR') symbol = 'SAR';
+      else if (currency === 'BHD') symbol = 'BHD';
+      else if (currency === 'KWD') symbol = 'KWD';
+      else if (currency === 'OMR') symbol = 'OMR';
+      else if (currency === 'GBP') symbol = '£';
       
       return symbol + ' ' + val.toLocaleString();
     }
@@ -2175,6 +2244,130 @@
     },
     {
       "type": "header",
+      "content": "Menu Visibility Management"
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_new_in",
+      "label": "Show Women: New In",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_restock",
+      "label": "Show Women: Restock",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_on_sale",
+      "label": "Show Women: On Sale",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_brands",
+      "label": "Show Women: Brands",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_bags",
+      "label": "Show Women: Bags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_slg",
+      "label": "Show Women: Small Leather Goods",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_shoes",
+      "label": "Show Women: Shoes",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_jewellery",
+      "label": "Show Women: Jewellery",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_watches",
+      "label": "Show Women: Watches",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_accessories",
+      "label": "Show Women: Accessories",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_w_clothing",
+      "label": "Show Women: Clothing",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_m_new_arrivals",
+      "label": "Show Men: New Arrivals",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_m_on_sale",
+      "label": "Show Men: On Sale",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_m_brands",
+      "label": "Show Men: Brands",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_m_bags",
+      "label": "Show Men: Bags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_m_shoes",
+      "label": "Show Men: Shoes",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_m_wallets",
+      "label": "Show Men: Wallets",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_m_watches",
+      "label": "Show Men: Watches",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_m_travel_bags",
+      "label": "Show Men: Travel Bags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_m_accessories",
+      "label": "Show Men: Accessories",
+      "default": true
+    },
+    {
+      "type": "header",
       "content": "Currency Manager"
     },
     {
@@ -2182,30 +2375,6 @@
       "id": "supported_currencies",
       "label": "Supported Currencies (comma-separated)",
       "default": "QAR, USD, EUR, AED"
-    },
-    {
-      "type": "text",
-      "id": "usd_rate",
-      "label": "USD Exchange Rate (relative to QAR)",
-      "default": "0.2747"
-    },
-    {
-      "type": "text",
-      "id": "eur_rate",
-      "label": "EUR Exchange Rate (relative to QAR)",
-      "default": "0.253"
-    },
-    {
-      "type": "text",
-      "id": "aed_rate",
-      "label": "AED Exchange Rate (relative to QAR)",
-      "default": "1.003"
-    },
-    {
-      "type": "text",
-      "id": "sar_rate",
-      "label": "SAR Exchange Rate (relative to QAR)",
-      "default": "1.03"
     }
   ]
 }

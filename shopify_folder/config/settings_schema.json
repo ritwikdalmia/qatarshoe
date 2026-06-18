@@ -29,5 +29,16 @@
         "default": "#2d1f1f"
       }
     ]
+  },
+  {
+    "name": "Currency Manager",
+    "settings": [
+      {
+        "type": "text",
+        "id": "supported_currencies",
+        "label": "Supported Currencies (comma-separated)",
+        "default": "QAR, USD, EUR, AED, SAR"
+      }
+    ]
   }
 ]
