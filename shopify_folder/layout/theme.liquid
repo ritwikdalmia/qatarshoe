@@ -1,0 +1,90 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- if id == 'index' or template == 'index' -%}
+        &ndash; {{ shop.name }}
+      {%- endif -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {{ content_for_header }}
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+  </head>
+
+  <body class="template-{{ template | replace: '.', '-' }} dept-women">
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    <!-- State and Theme Helper Scripts -->
+    <script>
+      window.theme = {
+        moneyFormat: {{ shop.money_format | json }}
+      };
+
+      // Handle Department Toggle (Women/Men)
+      function initDepartment() {
+        let gender = localStorage.getItem('qatarshoes_department') || 'women';
+        setDepartment(gender);
+      }
+
+      function setDepartment(gender) {
+        document.body.classList.remove('dept-women', 'dept-men');
+        document.body.classList.add('dept-' + gender);
+        localStorage.setItem('qatarshoes_department', gender);
+
+        // Update active class on toggle links
+        document.querySelectorAll('.dept-link').forEach(link => {
+          if (link.dataset.dept === gender) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+
+        // Dispatch global event for custom components
+        window.dispatchEvent(new CustomEvent('departmentChanged', { detail: { department: gender } }));
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        initDepartment();
+
+        // Bind department toggle triggers
+        document.querySelectorAll('.dept-link').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            setDepartment(link.dataset.dept);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

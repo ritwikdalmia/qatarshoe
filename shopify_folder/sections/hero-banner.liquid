@@ -1,0 +1,91 @@
+{% comment %}
+  QatarShoes Fullscreen Hero Section
+{% endcomment %}
+
+<div class="qtr-hero" style="
+  --bg-desktop: url('{{ section.settings.image_desktop | image_url: width: 2000 | default: 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Group-2.png' }}');
+  --bg-mobile: url('{{ section.settings.image_mobile | image_url: width: 800 | default: 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/qtr-w-mobile.png' }}');
+">
+  <div class="hero-gradient-overlay"></div>
+  
+  <div class="hero-indicator-row">
+    <div class="scroll-prompt">
+      <span class="prompt-text">Scroll Down</span>
+      <span class="prompt-line">|</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .qtr-hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    margin-top: -120px; /* pull under transparent header */
+    background-image: var(--bg-desktop);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+  }
+  .hero-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.4) 100%);
+    z-index: 2;
+  }
+  .hero-indicator-row {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-white);
+    text-align: center;
+    z-index: 3;
+  }
+  .scroll-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .prompt-line {
+    margin-top: 10px;
+    font-weight: 300;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 1024px) {
+    .qtr-hero {
+      background-image: var(--bg-mobile);
+      height: 90vh;
+      margin-top: 0;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero Fullscreen",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Hero Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Fullscreen"
+    }
+  ]
+}
+{% endschema %}

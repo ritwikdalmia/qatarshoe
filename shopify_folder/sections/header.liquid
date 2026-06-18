@@ -1,0 +1,100 @@
+{% comment %}
+  QatarShoes Replica Header Section
+{% endcomment %}
+
+<header class="qtr-header">
+  <div class="header-main-row">
+    <!-- Left column: Gender Switcher -->
+    <div class="header-left-col">
+      <div class="gender-toggle">
+        <a href="#" class="dept-link active" data-dept="women">Women</a>
+        <a href="#" class="dept-link" data-dept="men">Men</a>
+      </div>
+    </div>
+
+    <!-- Center column: Logo -->
+    <div class="header-center-col">
+      <a href="/" class="header-logo-link">
+        {%- if section.settings.logo_text != blank -%}
+          <span class="logo-txt">{{ section.settings.logo_text }}</span>
+        {%- else -%}
+          <span class="logo-txt">Qtrshoe</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <!-- Right column: Country, Search, Currency, Lang, Wishlist, Cart, Account -->
+    <div class="header-right-col">
+      <!-- Country / Flag Selection -->
+      <div class="header-pill country-pill">
+        <span class="flag-icon">🇶🇦</span>
+        <span class="pill-label">Qatar</span>
+        <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+
+      <!-- Search Trigger -->
+      <button class="header-icon-btn" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </button>
+
+      <!-- Currency Selection -->
+      <div class="header-pill currency-pill">
+        <span class="pill-label">QR QAR</span>
+        <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+
+      <!-- Language Selection -->
+      <div class="header-pill lang-pill">
+        <span class="pill-label">EN</span>
+        <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+
+      <!-- Wishlist Trigger -->
+      <a href="/pages/wishlist" class="header-icon-btn" aria-label="Wishlist">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+      </a>
+
+      <!-- Cart Trigger -->
+      <a href="/cart" class="header-icon-btn cart-btn" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <span class="cart-badge">0</span>
+      </a>
+
+      <!-- Account Trigger -->
+      <a href="/account" class="header-icon-btn" aria-label="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Category Navigation Links (Row 2) -->
+  <nav class="header-nav-row">
+    <ul class="nav-links">
+      <li><a href="/collections/new-in">NEW IN</a></li>
+      <li><a href="/collections/restock">RESTOCK</a></li>
+      <li><a href="/collections/on-sale">ON SALE</a></li>
+      <li><a href="/collections/brands">BRANDS</a></li>
+      <li><a href="/collections/bags">BAGS</a></li>
+      <li><a href="/collections/small-leather-goods">SMALL LEATHER GOODS</a></li>
+      <li><a href="/collections/shoes">SHOES</a></li>
+      <li><a href="/collections/jewellery">JEWELLERY</a></li>
+      <li><a href="/collections/watches">WATCHES</a></li>
+      <li><a href="/collections/accessories">ACCESSORIES</a></li>
+      <li><a href="/collections/clothing">CLOTHING</a></li>
+    </ul>
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header Custom",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "Qtrshoe"
+    }
+  ]
+}
+{% endschema %}
