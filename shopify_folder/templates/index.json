@@ -1,75 +1,11 @@
 {
   "sections": {
-    "gateway": {
-      "type": "delivery-gateway",
-      "settings": {
-        "title_ready_to_go": "Ready To Go",
-        "subtitle_ready_to_go": "Same Day Delivery In Qatar",
-        "title_ready_to_ship": "Ready To Ship",
-        "subtitle_ready_to_ship": "Fast Shipping To UAE & GCC"
-      }
-    },
-    "hero": {
-      "type": "hero-banner",
-      "settings": {
-        "button_text": "Shop New Collection",
-        "button_link": "/collections/frontpage"
-      }
-    },
-    "new_arrivals": {
-      "type": "product-grid",
-      "settings": {
-        "title_women": "New Arrivals",
-        "collection_women": "frontpage",
-        "title_men": "New Arrivals",
-        "collection_men": "mens-restock",
-        "limit": 8
-      }
-    },
-    "best_sellers": {
-      "type": "product-grid",
-      "settings": {
-        "title_women": "Best Sellers",
-        "collection_women": "best-sellers",
-        "title_men": "Best Sellers",
-        "collection_men": "",
-        "limit": 4
-      }
-    },
-    "marquee": {
-      "type": "marquee",
-      "settings": {
-        "text": "FAST Same Day Delivery in Qatar • Cash on Delivery • Easy Returns"
-      }
-    },
-    "restock": {
-      "type": "product-grid",
-      "settings": {
-        "title_women": "Restock",
-        "collection_women": "restock",
-        "title_men": "Restock",
-        "collection_men": "trending-now-1",
-        "limit": 4
-      }
-    },
-    "summer_collection": {
-      "type": "product-grid",
-      "settings": {
-        "title_women": "Summer Collection",
-        "collection_women": "summer-collection",
-        "title_men": "Summer Collection",
-        "collection_men": "men-shoes",
-        "limit": 4
-      }
+    "replica": {
+      "type": "homepage-replica",
+      "settings": {}
     }
   },
   "order": [
-    "gateway",
-    "hero",
-    "new_arrivals",
-    "best_sellers",
-    "marquee",
-    "restock",
-    "summer_collection"
+    "replica"
   ]
 }
