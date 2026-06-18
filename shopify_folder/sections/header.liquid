@@ -790,15 +790,14 @@
 {%- endif -%}
         </div>
         <div class="navigation-menu-wrapper" data-dept="men" id="sticky-nav-men" style="display:none;">
-          {%- if section.settings.menu_m_new_arrivals -%}{%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}{%- endif -%}
+          {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}
           {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On Sale</a></div>{%- endif -%}
           {%- if section.settings.menu_m_bags -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/bags-men">Bags</a></div>{%- endif -%}
           {%- if section.settings.menu_m_shoes -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/shoes-men">Shoes</a></div>{%- endif -%}
-  {%- endif -%}
-{%- if section.settings.menu_m_wallets -%}        {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>{%- endif -%}{%- endif -%}
-  {%- if section.settings.menu_m_watches -%}        {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>{%- endif -%}{%- endif -%}
-  {%- if section.settings.menu_m_accessories -%}        {%- if section.settings.menu_m_accessories -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>{%- endif -%}{%- endif -%}
+          {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>{%- endif -%}
         </div>
+      </div>
       </div>
     </div>
   </nav>
@@ -979,8 +978,8 @@
   <!-- Men's Menu -->
   <nav class="drawer-nav" id="drawer-nav-men" data-dept="men" style="display:none;">
     {%- if section.settings.menu_m_new_arrivals -%}<a class="drawer-link" href="/collections/new-arrivals">New arrivals</a>{%- endif -%}
-    <a class="drawer-link sale" href="/collections/on-sale">On Sale</a>
-{%- if section.settings.menu_w_brands -%}
+    {%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On Sale</a>{%- endif -%}
+    {%- if section.settings.menu_m_brands -%}
     <div class="drawer-expandable">
       <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
       <div class="drawer-submenu">
@@ -989,6 +988,7 @@
         <a href="/collections/nike-men">Nike</a><a href="/collections/adidas-men">Adidas</a>
       </div>
     </div>
+    {%- endif -%}
     {%- if section.settings.menu_m_bags -%}<a class="drawer-link" href="/collections/bags-men">Bags</a>{%- endif -%}
     {%- if section.settings.menu_m_shoes -%}<a class="drawer-link" href="/collections/shoes-men">Shoes</a>{%- endif -%}
     {%- if section.settings.menu_m_wallets -%}<a class="drawer-link" href="/collections/wallets-men">Wallets</a>{%- endif -%}
