@@ -1,231 +1,1906 @@
 {% comment %}
-  QatarShoes Replica Header Section
+  QatarShoes — Complete Header Section (Replica)
+  Matches: https://qatarshoe.com/ready-to-go/ header exactly
 {% endcomment %}
 
-<header class="qtr-header">
-  <div class="header-main-row">
-    <!-- Left column: Gender Switcher -->
-    <div class="header-left-col">
-      <div class="gender-toggle">
-        <a href="#" class="dept-link active" data-dept="women">Women</a>
-        <a href="#" class="dept-link" data-dept="men">Men</a>
+{%- if template != 'index' -%}
+  <style>
+    #homepage-desktop-header { display: none !important; }
+    #homepage-sticky-header {
+      position: sticky !important;
+      top: 0 !important;
+      transform: translateY(0) !important;
+      pointer-events: auto !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+    }
+  </style>
+{%- endif -%}
+
+<!-- ===================================================
+     1. TRANSPARENT DESKTOP HEADER (hero overlay)
+     =================================================== -->
+<header class="homepage-desktop-header" id="homepage-desktop-header">
+
+  <!-- Row 1: Gender | Logo | Actions -->
+  <div class="desktop-header-row1">
+
+    <!-- Left: Gender Toggle -->
+    <div class="desktop-header-left">
+      <div class="dept-toggle">
+        <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">Women</a>
+        <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">Men</a>
       </div>
     </div>
 
-    <!-- Center column: Logo -->
-    <div class="header-center-col">
-      <a href="/" class="header-logo-link">
-        {%- if section.settings.logo_text != blank -%}
-          <span class="logo-txt">{{ section.settings.logo_text }}</span>
+    <!-- Center: Logo -->
+    <div class="desktop-header-center">
+      <a href="{{ routes.root_url }}" class="desktop-header-logo" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo_image != blank -%}
+          <img src="{{ section.settings.logo_image | image_url: height: 52 }}" alt="{{ shop.name }}" height="26">
         {%- else -%}
-          <span class="logo-txt">Qtrshoe</span>
+          <span class="logo-text-fallback">{{ section.settings.logo_text | default: shop.name }}</span>
         {%- endif -%}
       </a>
     </div>
 
-    <!-- Right column: Country, Search, Currency, Lang, Wishlist, Cart, Account -->
-    <div class="header-right-col">
-      <!-- Country / Flag Selection -->
-      <div class="header-pill country-pill">
-        <span class="flag-icon">🇶🇦</span>
-        <span class="pill-label">Qatar</span>
-        <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"/></svg>
+    <!-- Right: Delivery | Search/Currency/Lang group | Icons -->
+    <div class="desktop-header-right">
+
+      <!-- Delivery Mode Selector (Static) -->
+      <div class="delivery-mode-wrapper" id="desktop-delivery-wrapper">
+        <button type="button" class="delivery-mode-selector" id="desktop-delivery-btn"
+                aria-label="Delivery location: Qatar" style="cursor: default; pointer-events: none;">
+          <span class="delivery-flag">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar" aria-hidden="true">
+              <rect x="0" width="40" height="28" fill="#fff"/>
+              <path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/>
+            </svg>
+          </span>
+          <span class="delivery-label">Qatar</span>
+        </button>
       </div>
 
-      <!-- Search Trigger -->
-      <button class="header-icon-btn" aria-label="Search">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      </button>
+      <!-- Search + Currency + Language group -->
+      <div class="header-search-lang-group">
+        <!-- Search -->
+        <button class="header-icon-btn header-desktop-search" onclick="openSearch()" aria-label="Search" id="desktop-search-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
 
-      <!-- Currency Selection -->
-      <div class="header-pill currency-pill">
-        <span class="pill-label">QR QAR</span>
-        <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span class="header-v-sep" aria-hidden="true"></span>
+
+        <!-- Currency -->
+        <div class="currency-wrapper" id="desktop-currency-wrapper">
+          <button type="button" class="currency-selector" id="desktop-currency-btn" aria-expanded="false" aria-label="Select currency">
+            <span class="currency-symbol">QR</span>
+            <span class="currency-code">QAR</span>
+            <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+              <path d="M5 8L10 13L15 8"/>
+            </svg>
+          </button>
+          <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
+            <div class="currency-option is-active" data-currency="QAR">
+              <span>QR QAR</span>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+            </div>
+            <div class="currency-option" data-currency="USD">
+              <span>$ USD</span>
+            </div>
+            <div class="currency-option" data-currency="EUR">
+              <span>€ EUR</span>
+            </div>
+            <div class="currency-option" data-currency="AED">
+              <span>د.إ AED</span>
+            </div>
+          </div>
+        </div>
+
+        <span class="header-v-sep" aria-hidden="true"></span>
+
+        <!-- Language -->
+        <div class="lang-selector-wrapper" id="desktop-lang-wrapper">
+          <button type="button" class="lang-selector" id="desktop-lang-btn" aria-expanded="false" aria-label="Language">
+            <span class="lang-label">EN</span>
+            <svg class="lang-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+              <path d="M2.5 4L6 7.5L9.5 4"/>
+            </svg>
+          </button>
+          <div class="lang-dropdown" id="desktop-lang-dropdown" aria-hidden="true">
+            <div class="lang-option is-active" data-lang="en">
+              <span>EN</span>
+              <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+            </div>
+            <div class="lang-option" data-lang="ar">
+              <span>AR</span>
+              <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Language Selection -->
-      <div class="header-pill lang-pill">
-        <span class="pill-label">EN</span>
-        <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span class="header-v-sep" aria-hidden="true" style="background:rgba(255,255,255,0.2);display:block;width:1px;height:20px;"></span>
+
+      <!-- Icon Group: Wishlist + Cart + Account -->
+      <div class="header-icon-group">
+        <!-- Wishlist -->
+        <button type="button" class="header-icon-btn wishlist-trigger" id="homepage-wishlist-btn"
+                aria-label="Wishlist" style="position:relative;">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="wishlist-count" style="display:none;">0</span>
+        </button>
+
+        <!-- Cart -->
+        <a href="{{ routes.cart_url }}" class="header-icon-btn cart-link" id="desktop-header-cart" aria-label="Cart" style="position:relative;">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-count-badge" id="desktop-header-cart-count" style="display:none;">{{ cart.item_count }}</span>
+        </a>
+
+        <!-- Account -->
+        {%- if customer -%}
+          <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="My Account">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+        {%- else -%}
+          <a href="{{ routes.account_login_url }}" class="header-icon-btn" aria-label="Sign In">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+        {%- endif -%}
       </div>
 
-      <!-- Wishlist Trigger -->
-      <a href="/pages/wishlist" class="header-icon-btn" aria-label="Wishlist">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-      </a>
+    </div><!-- .desktop-header-right -->
+  </div><!-- .desktop-header-row1 -->
 
-      <!-- Cart Trigger -->
-      <a href="/cart" class="header-icon-btn cart-btn" aria-label="Cart">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-        <span class="cart-badge">0</span>
-      </a>
+  <!-- Row 2: Navigation -->
+  <div class="desktop-header-row2">
+    <div class="nav-menu-wrapper" id="desktop-nav-menu">
+      <!-- Women Navigation -->
+      <div class="navigation-menu-wrapper" data-dept="women" id="desktop-nav-women">
+        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in" id="nav-link-new-in"><span class="nav-link-text">New in</span></a></div>
+        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock" id="nav-link-restock"><span class="nav-link-text">Restock</span></a></div>
+        <div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale" id="nav-link-on-sale"><span class="nav-link-text">On sale</span></a></div>
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-brands"><span class="nav-link-text">Brands</span></a>
+          <div class="hover-box two-panel-dropdown">
+            <div class="panel-container">
+              <div class="panel-left">
+                <a class="panel-item" href="/collections/hms">HMS</a>
+                <a class="panel-item" href="/collections/gyd">GYD</a>
+                <a class="panel-item" href="/collections/coco">COCO</a>
+                <a class="panel-item" href="/collections/dr">DR</a>
+                <a class="panel-item" href="/collections/lvn">LVN</a>
+                <a class="panel-item" href="/collections/lp">LP</a>
+                <a class="panel-item" href="/collections/gcc">GCC</a>
+                <a class="panel-item" href="/collections/prd">PRD</a>
+                <a class="panel-item" href="/collections/fnd">FND</a>
+                <a class="panel-item" href="/collections/cln">CLN</a>
+                <a class="panel-item" href="/collections/mmu">MMU</a>
+                <a class="panel-item" href="/collections/stl">STL</a>
+                <a class="panel-item" href="/collections/bvg">BVG</a>
+                <a class="panel-item" href="/collections/rlx">RLX</a>
+                <a class="panel-item" href="/collections/msk">MSK</a>
+                <a class="panel-item" href="/collections/crt">CRT</a>
+                <a class="panel-item" href="/collections/vcf">VCF</a>
+                <a class="panel-item" href="/collections/adidas">Adidas</a>
+                <a class="panel-item" href="/collections/nike">Nike</a>
+                <a class="panel-item" href="/collections/nb">NB</a>
+                <a class="panel-item" href="/collections/golden-goose">Golden Goose</a>
+                <a class="panel-item" href="/collections/onitsuka-tiger">Onitsuka Tiger</a>
+                <a class="panel-item" href="/collections/loewe">Loewe</a>
+                <a class="panel-item" href="/collections/tiffany-co">Tiffany &amp; Co.</a>
+                <a class="panel-item" href="/collections/rimowa">Rimowa</a>
+                <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-bags"><span class="nav-link-text">Bags</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/bags">All Bags</a>
+              <a class="panel-item" href="/collections/handbags">Handbags</a>
+              <a class="panel-item" href="/collections/mini-bags">Mini Bags</a>
+              <a class="panel-item" href="/collections/tote-bags">Tote Bags</a>
+              <a class="panel-item" href="/collections/backpacks">Backpacks</a>
+              <a class="panel-item" href="/collections/travel-bags">Travel Bags</a>
+              <a class="panel-item" href="/collections/shoulder-bags">Shoulder Bags</a>
+            </div></div>
+          </div>
+        </div>
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-slg"><span class="nav-link-text">Small Leather Goods</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/small-leather-goods">All</a>
+              <a class="panel-item" href="/collections/wallets">Wallets</a>
+              <a class="panel-item" href="/collections/pouches">Pouches</a>
+              <a class="panel-item" href="/collections/card-holders">Card Holders</a>
+            </div></div>
+          </div>
+        </div>
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-shoes"><span class="nav-link-text">Shoes</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/shoes">All Shoes</a>
+              <a class="panel-item" href="/collections/sneakers">Sneakers</a>
+              <a class="panel-item" href="/collections/sandals">Sandals</a>
+              <a class="panel-item" href="/collections/boots">Boots</a>
+              <a class="panel-item" href="/collections/heels">Heels</a>
+              <a class="panel-item" href="/collections/flats">Flats</a>
+              <a class="panel-item" href="/collections/mules">Mules</a>
+              <a class="panel-item" href="/collections/loafers">Loafers</a>
+              <a class="panel-item" href="/collections/ballet-flats">Ballet Flats</a>
+            </div></div>
+          </div>
+        </div>
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-jewellery"><span class="nav-link-text">Jewellery</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/jewellery">All Jewellery</a>
+              <a class="panel-item" href="/collections/necklaces">Necklaces</a>
+              <a class="panel-item" href="/collections/bracelets">Bracelets</a>
+              <a class="panel-item" href="/collections/earrings">Earrings</a>
+              <a class="panel-item" href="/collections/anklets">Anklets</a>
+              <a class="panel-item" href="/collections/rings">Rings</a>
+            </div></div>
+          </div>
+        </div>
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-watches"><span class="nav-link-text">Watches</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/watches">All</a>
+              <a class="panel-item" href="/collections/rlx">RLX</a>
+              <a class="panel-item" href="/collections/hms">HMS</a>
+              <a class="panel-item" href="/collections/crt">CRT</a>
+              <a class="panel-item" href="/collections/vcf">VCF</a>
+              <a class="panel-item" href="/collections/dr">DR</a>
+              <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+            </div></div>
+          </div>
+        </div>
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-accessories"><span class="nav-link-text">Accessories</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/accessories">All</a>
+              <a class="panel-item" href="/collections/caps">Caps</a>
+              <a class="panel-item" href="/collections/belts">Belts</a>
+              <a class="panel-item" href="/collections/straps">Straps</a>
+              <a class="panel-item" href="/collections/badge-holders">Badge Holders</a>
+              <a class="panel-item" href="/collections/home-accessories">Home Accessories</a>
+              <a class="panel-item" href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+            </div></div>
+          </div>
+        </div>
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-clothing"><span class="nav-link-text">Clothing</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/clothing">All</a>
+              <a class="panel-item" href="/collections/tops">Tops</a>
+              <a class="panel-item" href="/collections/t-shirts">T-shirts</a>
+            </div></div>
+          </div>
+        </div>
+      </div><!-- #desktop-nav-women -->
 
-      <!-- Account Trigger -->
-      <a href="/account" class="header-icon-btn" aria-label="Account">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      </a>
+      <!-- Men Navigation (hidden by default) -->
+      <div class="navigation-menu-wrapper" data-dept="men" id="desktop-nav-men" style="display:none;">
+        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>
+        <div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale">On Sale</a></div>
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#">Brands</a>
+          <div class="hover-box two-panel-dropdown">
+            <div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/hms-men">HMS</a>
+              <a class="panel-item" href="/collections/gyd-men">GYD</a>
+              <a class="panel-item" href="/collections/lp-men">LP</a>
+              <a class="panel-item" href="/collections/lvn-men">LVN</a>
+              <a class="panel-item" href="/collections/rlx-men">RLX</a>
+              <a class="panel-item" href="/collections/crt-men">CRT</a>
+              <a class="panel-item" href="/collections/dr-men">DR</a>
+              <a class="panel-item" href="/collections/prd-men">PRD</a>
+              <a class="panel-item" href="/collections/loewe-men">Loewe</a>
+              <a class="panel-item" href="/collections/nike-men">Nike</a>
+              <a class="panel-item" href="/collections/adidas-men">Adidas</a>
+              <a class="panel-item" href="/collections/onitsuka-tiger-men">Onitsuka Tiger</a>
+            </div></div>
+          </div>
+        </div>
+        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/bags-men">Bags</a></div>
+        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/shoes-men">Shoes</a></div>
+        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>
+        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>
+        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/travel-bags-men">Travel Bags</a></div>
+        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>
+      </div><!-- #desktop-nav-men -->
     </div>
-  </div>
-  <!-- Category Navigation Links (Row 2) with Replica Dropdowns -->
-  <nav class="header-nav-row">
-    <ul class="nav-links">
-      <li class="nav-item-has-dropdown"><a href="/collections/new-in">NEW IN</a></li>
-      <li class="nav-item-has-dropdown"><a href="/collections/restock">RESTOCK</a></li>
-      <li class="nav-item-has-dropdown"><a href="/collections/on-sale">ON SALE</a></li>
-      
-      <!-- Brands Dropdown -->
-      <li class="nav-item-has-dropdown">
-        <a href="#">BRANDS</a>
-        <div class="megamenu-panel brands-panel">
-          <div class="megamenu-column">
-            <a href="/collections/hms">HMS</a>
-            <a href="/collections/coco">COCO</a>
-            <a href="/collections/lvn">LVN</a>
-            <a href="/collections/gcc">GCC</a>
-            <a href="/collections/fnd">FND</a>
-            <a href="/collections/mmu">MMU</a>
-            <a href="/collections/bvg">BVG</a>
-            <a href="/collections/msk">MSK</a>
-            <a href="/collections/vcf">VCF</a>
-            <a href="/collections/nike">Nike</a>
-            <a href="/collections/golden-goose">Golden goose</a>
-            <a href="/collections/loewe">Loewe</a>
-            <a href="/collections/rimowa">Rimowa</a>
-          </div>
-          <div class="megamenu-column">
-            <a href="/collections/gyd">GYD</a>
-            <a href="/collections/dr">DR</a>
-            <a href="/collections/lp">LP</a>
-            <a href="/collections/prd">PRD</a>
-            <a href="/collections/cln">CLN</a>
-            <a href="/collections/stl">STL</a>
-            <a href="/collections/rlx">RLX</a>
-            <a href="/collections/crt">CRT</a>
-            <a href="/collections/adidas">Adidas</a>
-            <a href="/collections/nb">NB</a>
-            <a href="/collections/onitsuka-tiger">Onitsuka Tiger</a>
-            <a href="/collections/tiffany-co">Tiffany & Co.</a>
-            <a href="/collections/chaumet">Chaumet</a>
-          </div>
-        </div>
-      </li>
+  </div><!-- .desktop-header-row2 -->
+</header><!-- .homepage-desktop-header -->
 
-      <!-- Bags Dropdown -->
-      <li class="nav-item-has-dropdown">
-        <a href="#">BAGS</a>
-        <div class="megamenu-panel simple-panel">
-          <div class="megamenu-column">
-            <a href="/collections/bags">All Bags</a>
-            <a href="/collections/handbags">Handbags</a>
-            <a href="/collections/mini-bags">Mini Bags</a>
-            <a href="/collections/tote-bags">Tote Bags</a>
-            <a href="/collections/backpacks">Backpacks</a>
-            <a href="/collections/travel-bags">Travel Bags</a>
-            <a href="/collections/shoulder-bags">Shoulder Bags</a>
-          </div>
-        </div>
-      </li>
 
-      <!-- Small Leather Goods Dropdown -->
-      <li class="nav-item-has-dropdown">
-        <a href="#">SMALL LEATHER GOODS</a>
-        <div class="megamenu-panel simple-panel">
-          <div class="megamenu-column">
-            <a href="/collections/small-leather-goods">All</a>
-            <a href="/collections/wallets">Wallets</a>
-            <a href="/collections/pouches">Pouches</a>
-            <a href="/collections/card-holders">Card Holders</a>
-          </div>
-        </div>
-      </li>
+<!-- ===================================================
+     2. STICKY WHITE HEADER (appears on scroll)
+     =================================================== -->
+<div id="homepage-sticky-header" class="homepage-sticky-wrapper">
 
-      <!-- Shoes Dropdown -->
-      <li class="nav-item-has-dropdown">
-        <a href="#">SHOES</a>
-        <div class="megamenu-panel simple-panel">
-          <div class="megamenu-column">
-            <a href="/collections/shoes">All Shoes</a>
-            <a href="/collections/sneakers">Sneakers</a>
-            <a href="/collections/sandals">Sandals</a>
-            <a href="/collections/boots">Boots</a>
-            <a href="/collections/heels">Heels</a>
-            <a href="/collections/flats">Flats</a>
-            <a href="/collections/mules">Mules</a>
-            <a href="/collections/loafers">Loafers</a>
-            <a href="/collections/ballet-flats">Ballet Flats</a>
-          </div>
-        </div>
-      </li>
+  <!-- Main site header -->
+  <header class="site-header">
+    <div class="header-container">
 
-      <!-- Jewellery Dropdown -->
-      <li class="nav-item-has-dropdown">
-        <a href="#">JEWELLERY</a>
-        <div class="megamenu-panel simple-panel">
-          <div class="megamenu-column">
-            <a href="/collections/jewellery">All Jewellery</a>
-            <a href="/collections/necklaces">Necklaces</a>
-            <a href="/collections/bracelets">Bracelets</a>
-            <a href="/collections/earrings">Earrings</a>
-            <a href="/collections/anklets">Anklets</a>
-            <a href="/collections/rings">Rings</a>
-          </div>
+      <!-- Left -->
+      <div class="header-left">
+        <!-- Mobile: Logo -->
+        <a href="{{ routes.root_url }}" class="header-logo mobile-header-logo" aria-label="{{ shop.name }}">
+          {%- if section.settings.logo_image != blank -%}
+            <img src="{{ section.settings.logo_image | image_url: height: 44 }}" alt="{{ shop.name }}" height="22" class="logo-light">
+          {%- else -%}
+            <span style="font-family:'Canela Text',Georgia,serif;font-size:22px;font-weight:300;color:#fff;">{{ section.settings.logo_text | default: shop.name }}</span>
+          {%- endif -%}
+        </a>
+        <!-- Desktop: Gender Toggle -->
+        <div class="dept-toggle">
+          <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">Women</a>
+          <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">Men</a>
         </div>
-      </li>
+      </div>
 
-      <!-- Watches Dropdown -->
-      <li class="nav-item-has-dropdown">
-        <a href="#">WATCHES</a>
-        <div class="megamenu-panel simple-panel">
-          <div class="megamenu-column">
-            <a href="/collections/watches">All Watches</a>
-            <a href="/collections/rlx">RLX</a>
-            <a href="/collections/hms">HMS</a>
-            <a href="/collections/crt">CRT</a>
-            <a href="/collections/vcf">VCF</a>
-            <a href="/collections/dr">DR</a>
-            <a href="/collections/chaumet">Chaumet</a>
-          </div>
+      <!-- Center: Logo (desktop) -->
+      <div class="header-center">
+        <a href="{{ routes.root_url }}" class="header-logo">
+          {%- if section.settings.logo_image != blank -%}
+            <img src="{{ section.settings.logo_image | image_url: height: 44 }}" alt="{{ shop.name }}" height="22" class="logo-light">
+          {%- else -%}
+            <span style="font-family:'Canela Text',Georgia,serif;font-size:22px;font-weight:300;color:#fff;">{{ section.settings.logo_text | default: shop.name }}</span>
+          {%- endif -%}
+        </a>
+        <!-- Mobile Center Delivery -->
+        <div class="delivery-mode-wrapper site-hdr-mobile" style="display: none;">
+          <button type="button" class="delivery-mode-selector" aria-label="Delivery location: Qatar" style="cursor: default; pointer-events: none;">
+            <span class="delivery-flag">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar" aria-hidden="true" style="width: 16px; height: 11px;">
+                <rect x="0" width="40" height="28" fill="#fff"/>
+                <path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/>
+              </svg>
+            </span>
+            <span class="delivery-label" style="font-size: 11px;">Qatar</span>
+          </button>
         </div>
-      </li>
+      </div>
 
-      <!-- Accessories Dropdown -->
-      <li class="nav-item-has-dropdown">
-        <a href="#">ACCESSORIES</a>
-        <div class="megamenu-panel simple-panel">
-          <div class="megamenu-column">
-            <a href="/collections/accessories">All Accessories</a>
-            <a href="/collections/caps">Caps</a>
-            <a href="/collections/belts">Belts</a>
-            <a href="/collections/straps">Straps</a>
-            <a href="/collections/badge-holders">Badge Holders</a>
-            <a href="/collections/home-accessories">Home Accessories</a>
-            <a href="/collections/key-holders-bag-charms">Key Holders & Bag Charms</a>
-          </div>
-        </div>
-      </li>
+      <!-- Right -->
+      <div class="header-right">
 
-      <!-- Clothing Dropdown -->
-      <li class="nav-item-has-dropdown">
-        <a href="#">CLOTHING</a>
-        <div class="megamenu-panel simple-panel">
-          <div class="megamenu-column">
-            <a href="/collections/clothing">All Clothing</a>
-            <a href="/collections/tops">Tops</a>
-            <a href="/collections/t-shirts">T-shirts</a>
+        <!-- Delivery (desktop + mobile - Static) -->
+        <div class="delivery-mode-wrapper site-hdr-desktop" id="sticky-delivery-wrapper">
+          <button type="button" class="delivery-mode-selector" aria-label="Delivery location: Qatar" style="cursor: default; pointer-events: none;">
+            <span class="delivery-flag">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar" aria-hidden="true">
+                <rect x="0" width="40" height="28" fill="#fff"/>
+                <path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/>
+              </svg>
+            </span>
+            <span class="delivery-label">Qatar</span>
+          </button>
+        </div>
+
+        <!-- Search (mobile) -->
+        <button class="header-icon-btn header-search-icon site-hdr-mobile" onclick="openSearch()" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+
+        <span class="header-mobile-sep" aria-hidden="true"></span>
+
+        <!-- Cart (mobile) -->
+        <a href="{{ routes.cart_url }}" class="header-icon-btn cart-link site-hdr-mobile" id="mobile-header-cart-btn" aria-label="Cart" style="position:relative;">
+          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-count-badge" style="display:none;">{{ cart.item_count }}</span>
+        </a>
+
+        <span class="desktop-header-sep site-hdr-desktop" aria-hidden="true"></span>
+
+        <!-- Currency (desktop) -->
+        <div class="currency-wrapper site-hdr-desktop">
+          <button type="button" class="currency-selector" id="sticky-currency-btn" aria-expanded="false" aria-label="Select currency">
+            <span class="currency-symbol">QR</span>
+            <span class="currency-code">QAR</span>
+            <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
+          </button>
+          <div class="currency-dropdown" id="sticky-currency-dropdown" aria-hidden="true">
+            <div class="currency-option is-active" data-currency="QAR">
+              <span>QR QAR</span>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+            </div>
+            <div class="currency-option" data-currency="USD">
+              <span>$ USD</span>
+            </div>
+            <div class="currency-option" data-currency="EUR">
+              <span>€ EUR</span>
+            </div>
+            <div class="currency-option" data-currency="AED">
+              <span>د.إ AED</span>
+            </div>
           </div>
         </div>
-      </li>
-    </ul>
+
+        <!-- Language (desktop) -->
+        <div class="lang-selector-wrapper site-hdr-desktop">
+          <button type="button" class="lang-selector" id="sticky-lang-btn" aria-expanded="false" aria-label="Language">
+            <span class="lang-label">EN</span>
+            <svg class="lang-chevron" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2.5 4L6 7.5L9.5 4"/></svg>
+          </button>
+          <div class="lang-dropdown" id="sticky-lang-dropdown" aria-hidden="true">
+            <div class="lang-option is-active" data-lang="en">
+              <span>EN</span>
+              <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+            </div>
+            <div class="lang-option" data-lang="ar">
+              <span>AR</span>
+              <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <span class="desktop-header-sep site-hdr-desktop" aria-hidden="true"></span>
+
+        <!-- Wishlist (desktop) -->
+        <button type="button" class="header-icon-btn wishlist-trigger site-hdr-desktop" aria-label="Wishlist" style="position:relative;">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="wishlist-count" style="display:none;">0</span>
+        </button>
+
+        <!-- Cart (desktop) -->
+        <a href="{{ routes.cart_url }}" class="header-icon-btn cart-link site-hdr-desktop" aria-label="Cart" style="position:relative;">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-count-badge" style="display:none;">{{ cart.item_count }}</span>
+        </a>
+
+        <!-- Account (desktop) -->
+        {%- if customer -%}
+          <a href="{{ routes.account_url }}" class="header-icon-btn site-hdr-desktop" aria-label="My Account">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+        {%- else -%}
+          <a href="{{ routes.account_login_url }}" class="header-icon-btn site-hdr-desktop" aria-label="Sign In">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+        {%- endif -%}
+
+        <!-- Mobile: separator then hamburger -->
+        <span class="header-mobile-sep" aria-hidden="true"></span>
+        <button class="header-icon-btn menu-toggle site-hdr-mobile" id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+
+      </div><!-- .header-right -->
+    </div>
+  </header><!-- .site-header -->
+
+  <!-- Desktop sticky nav row -->
+  <nav class="desktop-nav">
+    <div class="desktop-nav-container">
+      <div class="nav-menu-wrapper">
+        <div class="navigation-menu-wrapper" data-dept="women" id="sticky-nav-women">
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in">New in</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock">Restock</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On sale</a></div>
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Brands</a>
+            <div class="hover-box two-panel-dropdown">
+              <div class="panel-container"><div class="panel-left">
+                <a class="panel-item" href="/collections/hms">HMS</a>
+                <a class="panel-item" href="/collections/gyd">GYD</a>
+                <a class="panel-item" href="/collections/coco">COCO</a>
+                <a class="panel-item" href="/collections/lvn">LVN</a>
+                <a class="panel-item" href="/collections/rlx">RLX</a>
+                <a class="panel-item" href="/collections/crt">CRT</a>
+                <a class="panel-item" href="/collections/nike">Nike</a>
+                <a class="panel-item" href="/collections/adidas">Adidas</a>
+                <a class="panel-item" href="/collections/golden-goose">Golden Goose</a>
+                <a class="panel-item" href="/collections/loewe">Loewe</a>
+                <a class="panel-item" href="/collections/tiffany-co">Tiffany &amp; Co.</a>
+                <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+              </div></div>
+            </div>
+          </div>
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Bags</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/bags">All Bags</a>
+              <a class="panel-item" href="/collections/handbags">Handbags</a>
+              <a class="panel-item" href="/collections/mini-bags">Mini Bags</a>
+              <a class="panel-item" href="/collections/tote-bags">Tote Bags</a>
+              <a class="panel-item" href="/collections/backpacks">Backpacks</a>
+            </div></div></div>
+          </div>
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Shoes</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/shoes">All Shoes</a>
+              <a class="panel-item" href="/collections/sneakers">Sneakers</a>
+              <a class="panel-item" href="/collections/sandals">Sandals</a>
+              <a class="panel-item" href="/collections/heels">Heels</a>
+              <a class="panel-item" href="/collections/ballet-flats">Ballet Flats</a>
+            </div></div></div>
+          </div>
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Jewellery</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/jewellery">All Jewellery</a>
+              <a class="panel-item" href="/collections/necklaces">Necklaces</a>
+              <a class="panel-item" href="/collections/earrings">Earrings</a>
+              <a class="panel-item" href="/collections/rings">Rings</a>
+            </div></div></div>
+          </div>
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Watches</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/watches">All Watches</a>
+              <a class="panel-item" href="/collections/rlx">RLX</a>
+              <a class="panel-item" href="/collections/hms">HMS</a>
+            </div></div></div>
+          </div>
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Accessories</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/accessories">All</a>
+              <a class="panel-item" href="/collections/caps">Caps</a>
+              <a class="panel-item" href="/collections/belts">Belts</a>
+            </div></div></div>
+          </div>
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Clothing</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              <a class="panel-item" href="/collections/clothing">All</a>
+              <a class="panel-item" href="/collections/tops">Tops</a>
+              <a class="panel-item" href="/collections/t-shirts">T-shirts</a>
+            </div></div></div>
+          </div>
+        </div>
+        <div class="navigation-menu-wrapper" data-dept="men" id="sticky-nav-men" style="display:none;">
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On Sale</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/bags-men">Bags</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/shoes-men">Shoes</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>
+        </div>
+      </div>
+    </div>
   </nav>
-</header>
+</div><!-- #homepage-sticky-header -->
+
+
+<!-- ===================================================
+     3. SEARCH OVERLAY
+     =================================================== -->
+<div class="home-search-overlay" id="home-search-overlay" onclick="closeSearch()">
+  <div class="home-search-overlay-content" onclick="event.stopPropagation()">
+    <div class="search-overlay-header">
+      <input type="text" class="search-overlay-input" id="home-search-input"
+             placeholder="Search products..." autocomplete="off">
+      <button class="search-overlay-close" onclick="closeSearch()" aria-label="Close search">&times;</button>
+    </div>
+    <div class="search-overlay-results" id="home-search-results"></div>
+  </div>
+</div>
+
+
+<!-- ===================================================
+     4. MOBILE DRAWER
+     =================================================== -->
+<div class="home-drawer-overlay" id="home-drawer-overlay"></div>
+
+<div class="home-mobile-drawer" id="home-mobile-drawer">
+  <!-- Drawer Header: Tabs + Close X (all inside drawer) -->
+  <div class="drawer-header">
+    <div class="drawer-tabs">
+      <button class="drawer-tab active" data-gender="women">Women</button>
+      <button class="drawer-tab" data-gender="men">Men</button>
+    </div>
+    <button type="button" class="drawer-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu">&times;</button>
+  </div>
+
+  <!-- Women's Menu -->
+  <nav class="drawer-nav" id="drawer-nav-women" data-dept="women">
+    <a class="drawer-link" href="/collections/new-in">New in</a>
+    <a class="drawer-link" href="/collections/restock">Restock</a>
+    <a class="drawer-link sale" href="/collections/on-sale">On sale</a>
+    <div class="drawer-expandable">
+      <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
+      <div class="drawer-submenu">
+        <a href="/collections/hms">HMS</a><a href="/collections/gyd">GYD</a><a href="/collections/coco">COCO</a>
+        <a href="/collections/dr">DR</a><a href="/collections/lvn">LVN</a><a href="/collections/lp">LP</a>
+        <a href="/collections/gcc">GCC</a><a href="/collections/prd">PRD</a><a href="/collections/rlx">RLX</a>
+        <a href="/collections/crt">CRT</a><a href="/collections/nike">Nike</a><a href="/collections/adidas">Adidas</a>
+        <a href="/collections/golden-goose">Golden Goose</a><a href="/collections/loewe">Loewe</a>
+        <a href="/collections/tiffany-co">Tiffany &amp; Co.</a><a href="/collections/chaumet">Chaumet</a>
+      </div>
+    </div>
+    <div class="drawer-expandable">
+      <button class="drawer-expand-btn" type="button"><span>Bags</span><span class="drawer-expand-icon">+</span></button>
+      <div class="drawer-submenu">
+        <a href="/collections/bags">All Bags</a><a href="/collections/handbags">Handbags</a>
+        <a href="/collections/mini-bags">Mini Bags</a><a href="/collections/tote-bags">Tote Bags</a>
+        <a href="/collections/backpacks">Backpacks</a><a href="/collections/shoulder-bags">Shoulder Bags</a>
+      </div>
+    </div>
+    <div class="drawer-expandable">
+      <button class="drawer-expand-btn" type="button"><span>Small Leather Goods</span><span class="drawer-expand-icon">+</span></button>
+      <div class="drawer-submenu">
+        <a href="/collections/wallets">Wallets</a><a href="/collections/pouches">Pouches</a>
+        <a href="/collections/card-holders">Card Holders</a>
+      </div>
+    </div>
+    <div class="drawer-expandable">
+      <button class="drawer-expand-btn" type="button"><span>Shoes</span><span class="drawer-expand-icon">+</span></button>
+      <div class="drawer-submenu">
+        <a href="/collections/shoes">All Shoes</a><a href="/collections/sneakers">Sneakers</a>
+        <a href="/collections/sandals">Sandals</a><a href="/collections/heels">Heels</a>
+        <a href="/collections/flats">Flats</a><a href="/collections/ballet-flats">Ballet Flats</a>
+      </div>
+    </div>
+    <div class="drawer-expandable">
+      <button class="drawer-expand-btn" type="button"><span>Jewellery</span><span class="drawer-expand-icon">+</span></button>
+      <div class="drawer-submenu">
+        <a href="/collections/jewellery">All Jewellery</a><a href="/collections/necklaces">Necklaces</a>
+        <a href="/collections/bracelets">Bracelets</a><a href="/collections/earrings">Earrings</a>
+        <a href="/collections/rings">Rings</a>
+      </div>
+    </div>
+    <div class="drawer-expandable">
+      <button class="drawer-expand-btn" type="button"><span>Watches</span><span class="drawer-expand-icon">+</span></button>
+      <div class="drawer-submenu">
+        <a href="/collections/watches">All</a><a href="/collections/rlx">RLX</a>
+        <a href="/collections/hms">HMS</a><a href="/collections/crt">CRT</a>
+      </div>
+    </div>
+    <div class="drawer-expandable">
+      <button class="drawer-expand-btn" type="button"><span>Accessories</span><span class="drawer-expand-icon">+</span></button>
+      <div class="drawer-submenu">
+        <a href="/collections/accessories">All</a><a href="/collections/caps">Caps</a>
+        <a href="/collections/belts">Belts</a><a href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+      </div>
+    </div>
+    <div class="drawer-expandable">
+      <button class="drawer-expand-btn" type="button"><span>Clothing</span><span class="drawer-expand-icon">+</span></button>
+      <div class="drawer-submenu">
+        <a href="/collections/clothing">All</a><a href="/collections/tops">Tops</a><a href="/collections/t-shirts">T-shirts</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Men's Menu -->
+  <nav class="drawer-nav" id="drawer-nav-men" data-dept="men" style="display:none;">
+    <a class="drawer-link" href="/collections/new-arrivals">New arrivals</a>
+    <a class="drawer-link sale" href="/collections/on-sale">On Sale</a>
+    <div class="drawer-expandable">
+      <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
+      <div class="drawer-submenu">
+        <a href="/collections/hms-men">HMS</a><a href="/collections/gyd-men">GYD</a>
+        <a href="/collections/lvn-men">LVN</a><a href="/collections/rlx-men">RLX</a>
+        <a href="/collections/nike-men">Nike</a><a href="/collections/adidas-men">Adidas</a>
+      </div>
+    </div>
+    <a class="drawer-link" href="/collections/bags-men">Bags</a>
+    <a class="drawer-link" href="/collections/shoes-men">Shoes</a>
+    <a class="drawer-link" href="/collections/wallets-men">Wallets</a>
+    <a class="drawer-link" href="/collections/watches-men">Watches</a>
+    <a class="drawer-link" href="/collections/accessories-men">Accessories</a>
+  </nav>
+
+  <!-- Footer: Currency + Language | Wishlist | Account -->
+  <div class="drawer-footer">
+    <div class="drawer-locale-row">
+      <div class="drawer-locale-col drawer-currency-col">
+        <button type="button" class="drawer-locale-trigger" aria-expanded="false">
+          <span class="drawer-locale-text"><span style="color:rgba(26,26,26,0.4)">QR</span> QAR</span>
+          <svg class="drawer-locale-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
+        </button>
+      </div>
+      <div class="drawer-locale-col drawer-lang-wrapper">
+        <button type="button" class="drawer-locale-trigger drawer-lang-selector" aria-expanded="false">
+          <span class="drawer-locale-text">EN</span>
+          <svg class="drawer-locale-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
+        </button>
+      </div>
+    </div>
+    <button type="button" class="drawer-footer-item wishlist-trigger" style="position:relative; width:100%;">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>Wishlist</span>
+      <span class="wishlist-count" style="display:none; position:static !important; margin-left:auto; background:#f25c5e; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:12px; height:20px; min-width:20px; align-items:center; justify-content:center; line-height:1;">0</span>
+    </button>
+    {%- if customer -%}
+      <a href="{{ routes.account_url }}" class="drawer-footer-item">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>My Account</span>
+      </a>
+    {%- else -%}
+      <a href="{{ routes.account_login_url }}" class="drawer-footer-item">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Sign In</span>
+      </a>
+    {%- endif -%}
+  </div>
+</div><!-- .home-mobile-drawer -->
+
+
+<!-- ===================================================
+     5. JAVASCRIPT — Header interactions
+     =================================================== -->
+<script>
+(function() {
+  /* ---- Department (Women/Men) switching ---- */
+  var savedDept = localStorage.getItem('qatarshoes_department') || 'women';
+
+  function applyDept(dept) {
+    savedDept = dept;
+    localStorage.setItem('qatarshoes_department', dept);
+    document.cookie = 'qatarshoes_department=' + dept + '; path=/; max-age=' + (365 * 24 * 60 * 60);
+
+    document.body.classList.remove('dept-women', 'dept-men');
+    document.body.classList.add('dept-' + dept);
+
+    // Update all dept links
+    document.querySelectorAll('.dept-link').forEach(function(l) {
+      l.classList.toggle('active', l.dataset.dept === dept);
+    });
+    document.querySelectorAll('.drawer-tab').forEach(function(t) {
+      t.classList.toggle('active', t.dataset.gender === dept);
+    });
+
+    // Show correct nav
+    var desktopNavs = document.querySelectorAll('#desktop-nav-menu .navigation-menu-wrapper, .desktop-nav .navigation-menu-wrapper');
+    desktopNavs.forEach(function(n) {
+      n.style.display = (n.dataset.dept === dept) ? 'flex' : 'none';
+    });
+
+    // Drawer nav
+    var womenNav = document.getElementById('drawer-nav-women');
+    var menNav   = document.getElementById('drawer-nav-men');
+    if (womenNav) womenNav.style.display = dept === 'women' ? '' : 'none';
+    if (menNav)   menNav.style.display   = dept === 'men'   ? '' : 'none';
+
+    window.dispatchEvent(new CustomEvent('departmentChanged', { detail: { department: dept } }));
+  }
+
+  window.switchDept = function(dept) { applyDept(dept); };
+
+  /* ---- Delivery Mode switching ---- */
+  var savedMode = 'ready-to-go';
+
+  function applyDeliveryMode(mode) {
+    mode = 'ready-to-go';
+    localStorage.setItem('delivery_mode', mode);
+    
+    document.querySelectorAll('.delivery-mode-wrapper').forEach(function(wrapper) {
+      var btn = wrapper.querySelector('.delivery-mode-selector');
+      if (!btn) return;
+      var flagSpan = btn.querySelector('.delivery-flag');
+      var labelSpan = btn.querySelector('.delivery-label');
+      var options = wrapper.querySelectorAll('.delivery-mode-option');
+      
+      var activeOption = wrapper.querySelector('.delivery-mode-option[data-mode="' + mode + '"]');
+      
+      options.forEach(function(opt) {
+        opt.classList.toggle('is-active', opt.dataset.mode === mode);
+        var checkSvg = opt.querySelector('.dm-check');
+        if (opt.dataset.mode === mode) {
+          if (!checkSvg) {
+            opt.insertAdjacentHTML('beforeend', '<svg class="dm-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>');
+          }
+        } else {
+          if (checkSvg) checkSvg.remove();
+        }
+      });
+      
+      if (activeOption) {
+        var flagEl = activeOption.querySelector('.delivery-flag');
+        var labelEl = activeOption.querySelector('.delivery-option-title');
+        if (flagSpan && flagEl) flagSpan.innerHTML = flagEl.innerHTML;
+        if (labelSpan && labelEl) labelSpan.textContent = labelEl.textContent;
+      }
+    });
+    
+    window.dispatchEvent(new CustomEvent('deliveryModeChanged', { detail: { mode: mode } }));
+  }
+
+  window.switchDeliveryMode = function(mode) { applyDeliveryMode(mode); };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    applyDept(savedDept);
+    applyDeliveryMode(savedMode);
+
+    // Option click handling (removed delivery wrapper toggles since it is static Qatar only)
+    document.querySelectorAll('.delivery-mode-option').forEach(function(opt) {
+      opt.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        applyDeliveryMode(opt.dataset.mode);
+      });
+    });
+
+    // Drawer gender tab switching
+    document.querySelectorAll('.drawer-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() { applyDept(tab.dataset.gender); });
+    });
+
+    /* ---- Sticky header scroll logic ---- */
+    var stickyWrapper      = document.getElementById('homepage-sticky-header');
+    var transparentHeader  = document.getElementById('homepage-desktop-header');
+    var ticking = false;
+
+    function updateHeader() {
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      var heroEl  = document.querySelector('.qtr-hero');
+      var threshold = heroEl ? heroEl.offsetHeight * 0.85 : window.innerHeight * 0.85;
+
+      if (scrollY > threshold) {
+        if (transparentHeader) transparentHeader.classList.add('hidden');
+        if (stickyWrapper)     stickyWrapper.classList.add('visible');
+      } else {
+        if (transparentHeader) transparentHeader.classList.remove('hidden');
+        if (stickyWrapper)     stickyWrapper.classList.remove('visible');
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function() {
+      if (!ticking) { window.requestAnimationFrame(updateHeader); ticking = true; }
+    }, { passive: true });
+    updateHeader();
+
+    /* ---- Mobile Drawer ---- */
+    window.toggleMobileMenu = function() {
+      var drawer  = document.getElementById('home-mobile-drawer');
+      var overlay = document.getElementById('home-drawer-overlay');
+      var closeBtn = document.getElementById('drawer-close');
+      var isOpen  = drawer.classList.contains('active');
+
+      if (isOpen) {
+        drawer.classList.remove('active');
+        overlay.classList.remove('active');
+        if (closeBtn) closeBtn.classList.remove('active');
+        document.body.style.overflow = '';
+      } else {
+        drawer.classList.add('active');
+        overlay.classList.add('active');
+        if (closeBtn) closeBtn.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    var drawerClose = document.getElementById('drawer-close');
+    if (drawerClose) drawerClose.addEventListener('click', window.toggleMobileMenu);
+
+    var drawerOverlay = document.getElementById('home-drawer-overlay');
+    if (drawerOverlay) drawerOverlay.addEventListener('click', function(e) {
+      if (e.target === drawerOverlay) window.toggleMobileMenu();
+    });
+
+    /* ---- Drawer expand/collapse ---- */
+    document.querySelectorAll('.drawer-expand-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var submenu = btn.nextElementSibling;
+        var icon    = btn.querySelector('.drawer-expand-icon');
+        var isOpen  = submenu.classList.contains('open');
+        submenu.classList.toggle('open', !isOpen);
+        if (icon) icon.textContent = isOpen ? '+' : '−';
+      });
+    });
+
+    /* ---- Search ---- */
+    window.openSearch = function() {
+      document.getElementById('home-search-overlay').classList.add('active');
+      var inp = document.getElementById('home-search-input');
+      if (inp) { setTimeout(function() { inp.focus(); }, 50); }
+      document.body.style.overflow = 'hidden';
+    };
+    window.closeSearch = function() {
+      document.getElementById('home-search-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    };
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeSearch(); } });
+
+    /* ---- Currency dropdown (desktop & sticky) ---- */
+    var currencyBtn = document.getElementById('desktop-currency-btn');
+    var currencyDd  = document.getElementById('desktop-currency-dropdown');
+    var stickyCurrencyBtn = document.getElementById('sticky-currency-btn');
+    var stickyCurrencyDd  = document.getElementById('sticky-currency-dropdown');
+
+    function toggleCurrencyDropdown(btn, dd, e) {
+      e.stopPropagation();
+      // Close other dropdowns
+      if (langDd) langDd.classList.remove('open');
+      if (stickyLangDd) stickyLangDd.classList.remove('open');
+      if (currencyDd && currencyDd !== dd) currencyDd.classList.remove('is-open');
+      if (stickyCurrencyDd && stickyCurrencyDd !== dd) stickyCurrencyDd.classList.remove('is-open');
+
+      var open = dd.classList.contains('is-open');
+      dd.classList.toggle('is-open', !open);
+      btn.setAttribute('aria-expanded', String(!open));
+    }
+
+    if (currencyBtn && currencyDd) {
+      currencyBtn.addEventListener('click', function(e) { toggleCurrencyDropdown(currencyBtn, currencyDd, e); });
+    }
+    if (stickyCurrencyBtn && stickyCurrencyDd) {
+      stickyCurrencyBtn.addEventListener('click', function(e) { toggleCurrencyDropdown(stickyCurrencyBtn, stickyCurrencyDd, e); });
+    }
+
+    /* ---- Language dropdown (desktop & sticky) ---- */
+    var langBtn = document.getElementById('desktop-lang-btn');
+    var langDd  = document.getElementById('desktop-lang-dropdown');
+    var stickyLangBtn = document.getElementById('sticky-lang-btn');
+    var stickyLangDd  = document.getElementById('sticky-lang-dropdown');
+
+    function toggleLangDropdown(btn, dd, e) {
+      e.stopPropagation();
+      // Close other dropdowns
+      if (currencyDd) currencyDd.classList.remove('is-open');
+      if (stickyCurrencyDd) stickyCurrencyDd.classList.remove('is-open');
+      if (langDd && langDd !== dd) langDd.classList.remove('open');
+      if (stickyLangDd && stickyLangDd !== dd) stickyLangDd.classList.remove('open');
+
+      var open = dd.classList.contains('open');
+      dd.classList.toggle('open', !open);
+      btn.setAttribute('aria-expanded', String(!open));
+    }
+
+    if (langBtn && langDd) {
+      langBtn.addEventListener('click', function(e) { toggleLangDropdown(langBtn, langDd, e); });
+    }
+    if (stickyLangBtn && stickyLangDd) {
+      stickyLangBtn.addEventListener('click', function(e) { toggleLangDropdown(stickyLangBtn, stickyLangDd, e); });
+    }
+
+    /* ---- Close all dropdowns on outside click ---- */
+    document.addEventListener('click', function() {
+      if (currencyDd) { currencyDd.classList.remove('is-open'); if (currencyBtn) currencyBtn.setAttribute('aria-expanded', 'false'); }
+      if (langDd)     { langDd.classList.remove('open');        if (langBtn) langBtn.setAttribute('aria-expanded', 'false'); }
+      if (stickyCurrencyDd) { stickyCurrencyDd.classList.remove('is-open'); if (stickyCurrencyBtn) stickyCurrencyBtn.setAttribute('aria-expanded', 'false'); }
+      if (stickyLangDd)     { stickyLangDd.classList.remove('open');        if (stickyLangBtn) stickyLangBtn.setAttribute('aria-expanded', 'false'); }
+    });
+
+    /* ---- Synchronize Currency Option Selections & Update Prices ---- */
+    function applyCurrencyLabel(selectedCurrency) {
+      document.querySelectorAll('.currency-wrapper').forEach(function(wrapper) {
+        var symbolSpan = wrapper.querySelector('.currency-symbol');
+        var codeSpan   = wrapper.querySelector('.currency-code');
+        if (codeSpan) codeSpan.textContent = selectedCurrency;
+        if (symbolSpan) {
+          if (selectedCurrency === 'QAR')      symbolSpan.textContent = 'QR';
+          else if (selectedCurrency === 'USD') symbolSpan.textContent = '$';
+          else if (selectedCurrency === 'EUR') symbolSpan.textContent = '€';
+          else if (selectedCurrency === 'AED') symbolSpan.textContent = 'د.إ';
+        }
+        wrapper.querySelectorAll('.currency-option').forEach(function(o) {
+          var isCurrent = o.getAttribute('data-currency') === selectedCurrency;
+          o.classList.toggle('is-active', isCurrent);
+          var checkSvg = o.querySelector('svg');
+          if (isCurrent) {
+            if (!checkSvg) {
+              o.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>');
+            }
+          } else {
+            if (checkSvg) checkSvg.remove();
+          }
+        });
+      });
+    }
+
+    /* ---- Update all product prices on the page globally ---- */
+    window.applyStoreCurrency = function(currency) {
+      var key = currency.toLowerCase();
+      localStorage.setItem('qtr_currency', currency);
+
+      // Update header labels and checkmarks
+      applyCurrencyLabel(currency);
+
+      // 1. Update general product price rows (like in collections, showcases, grids)
+      document.querySelectorAll('.product-price-row[data-price-qar], .card-price-row[data-price-qar]').forEach(function(row) {
+        var price   = row.getAttribute('data-price-' + key) || row.getAttribute('data-price-qar');
+        var compare = row.getAttribute('data-compare-' + key) || row.getAttribute('data-compare-qar') || null;
+
+        if (!price) return;
+
+        var priceEl   = row.querySelector('.product-price, .sale-price, .card-price');
+        var compareEl = row.querySelector('.product-price-compare, .card-price-cmp');
+
+        if (compare) {
+          if (compareEl) {
+            compareEl.textContent = compare;
+            compareEl.style.display = '';
+          } else {
+            compareEl = document.createElement('span');
+            compareEl.className = row.classList.contains('card-price-row') ? 'card-price-cmp' : 'product-price-compare';
+            row.insertBefore(compareEl, row.firstChild);
+            compareEl.textContent = compare;
+          }
+          if (priceEl) {
+            priceEl.className = row.classList.contains('card-price-row') ? 'card-price sale' : 'product-price sale-price';
+            priceEl.textContent = price;
+          }
+        } else {
+          if (compareEl) compareEl.style.display = 'none';
+          if (priceEl) {
+            priceEl.className = row.classList.contains('card-price-row') ? 'card-price' : 'product-price';
+            priceEl.textContent = price;
+          }
+        }
+      });
+
+      // 2. Update variant selectors (.size-option, .color-swatch, .sz-btn)
+      document.querySelectorAll('.size-option, .color-swatch, .sz-btn').forEach(function(btn) {
+        var priceAttr = btn.getAttribute('data-price-' + key) || btn.getAttribute('data-price-qar');
+        var compareAttr = btn.getAttribute('data-compare-' + key) || btn.getAttribute('data-compare-qar');
+
+        if (priceAttr) {
+          btn.setAttribute('data-price', priceAttr);
+        }
+        if (compareAttr) {
+          btn.setAttribute('data-compare-price', compareAttr);
+          btn.setAttribute('data-cmp', compareAttr);
+        } else {
+          btn.removeAttribute('data-compare-price');
+          btn.removeAttribute('data-cmp');
+        }
+      });
+
+      // 3. Update main product display price if present
+      var activeSize = document.querySelector('.size-option.selected, .sz-btn.selected');
+      if (activeSize) {
+        if (typeof selectProductSize === 'function') {
+          selectProductSize(activeSize);
+        } else if (typeof pickSize === 'function') {
+          pickSize(activeSize);
+        }
+      } else {
+        var activeColor = document.querySelector('.color-swatch.active, .swatch.active');
+        if (activeColor) {
+          if (typeof selectProductColor === 'function') {
+            selectProductColor(activeColor);
+          } else if (typeof pickColor === 'function') {
+            pickColor(activeColor);
+          }
+        } else {
+          var mainPriceContainer = document.querySelector('.price-container, .price-row');
+          if (mainPriceContainer) {
+            var mainPrice = mainPriceContainer.getAttribute('data-price-' + key) || mainPriceContainer.getAttribute('data-price-qar');
+            var mainCompare = mainPriceContainer.getAttribute('data-compare-' + key) || mainPriceContainer.getAttribute('data-compare-qar');
+            
+            var curDisplay = document.getElementById('current-price-display') || document.getElementById('price-cur');
+            var cmpDisplay = document.getElementById('compare-price-display') || document.getElementById('price-cmp');
+            
+            if (curDisplay && mainPrice) {
+              curDisplay.textContent = mainPrice;
+            }
+            if (cmpDisplay) {
+              if (mainCompare) {
+                cmpDisplay.textContent = mainCompare;
+                cmpDisplay.style.display = '';
+                if (curDisplay) curDisplay.classList.add('sale');
+              } else {
+                cmpDisplay.style.display = 'none';
+                if (curDisplay) curDisplay.classList.remove('sale');
+              }
+            }
+          }
+        }
+      }
+    };
+
+    document.querySelectorAll('.currency-option').forEach(function(opt) {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var selectedCurrency = opt.getAttribute('data-currency');
+
+        /* Update dynamic pricing */
+        window.applyStoreCurrency(selectedCurrency);
+
+        /* Close dropdowns */
+        if (currencyDd)       currencyDd.classList.remove('is-open');
+        if (stickyCurrencyDd) stickyCurrencyDd.classList.remove('is-open');
+      });
+    });
+
+    /* Restore saved currency label + prices on page load */
+    (function() {
+      var saved = localStorage.getItem('qtr_currency') || 'QAR';
+      window.applyStoreCurrency(saved);
+    })();
+
+    document.querySelectorAll('.lang-option').forEach(function(opt) {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var selectedLang = opt.getAttribute('data-lang').toUpperCase();
+        // Update all language labels in page headers
+        document.querySelectorAll('.lang-selector-wrapper').forEach(function(wrapper) {
+          var labelSpan = wrapper.querySelector('.lang-label');
+          if (labelSpan) labelSpan.textContent = selectedLang;
+          wrapper.querySelectorAll('.lang-option').forEach(function(o) {
+            o.classList.toggle('is-active', o.getAttribute('data-lang').toUpperCase() === selectedLang);
+          });
+        });
+        // Close dropdowns
+        if (langDd) langDd.classList.remove('open');
+        if (stickyLangDd) stickyLangDd.classList.remove('open');
+      });
+    });
+
+    /* ---- Update cart badge ---- */
+    function updateCartBadge(count) {
+      var badges = document.querySelectorAll('.cart-count-badge');
+      badges.forEach(function(b) {
+        b.textContent = count;
+        b.style.display = count > 0 ? 'flex' : 'none';
+      });
+    }
+
+    /* ---- Wishlist Badge Update ---- */
+    function updateWishlistBadge() {
+      var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+      var badges = document.querySelectorAll('.wishlist-count');
+      badges.forEach(function(b) {
+        b.textContent = wishlist.length;
+        b.style.display = wishlist.length > 0 ? 'flex' : 'none';
+      });
+    }
+
+    // Shopify cart count polling (basic)
+    fetch('/cart.js').then(function(r) { return r.json(); }).then(function(d) {
+      updateCartBadge(d.item_count);
+    }).catch(function() {});
+
+    updateWishlistBadge();
+
+    /* ---- Drawers System ---- */
+    var drawer = document.getElementById('side-drawer');
+    var overlay = document.getElementById('side-drawer-overlay');
+    var titleEl = document.getElementById('side-drawer-title');
+    var bodyEl = document.getElementById('side-drawer-body');
+    var footerEl = document.getElementById('side-drawer-footer');
+    var closeBtn = document.getElementById('side-drawer-close-btn');
+
+    function formatStorePrice(cents, currency) {
+      var val = cents / 100;
+      var symbol = 'QAR';
+      if (currency === 'USD') {
+        val = Math.round(val * 0.2747);
+        symbol = '$';
+      } else if (currency === 'EUR') {
+        val = Math.round(val * 0.253);
+        symbol = '€';
+      } else if (currency === 'AED') {
+        val = Math.round(val * 1.003);
+        symbol = 'AED';
+      } else {
+        symbol = 'QAR';
+      }
+      return symbol + ' ' + val.toLocaleString();
+    }
+
+    window.openSideDrawer = function(type) {
+      drawer.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      var curCurrency = localStorage.getItem('qtr_currency') || 'QAR';
+
+      if (type === 'wishlist') {
+        titleEl.textContent = 'Your Wishlist';
+        var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+        
+        if (wishlist.length === 0) {
+          bodyEl.innerHTML = `
+            <div class="empty-drawer-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; color:#888; gap:16px; text-align:center;">
+              <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.2" fill="none" style="opacity:0.6;">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+              <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your wishlist is empty.</span>
+            </div>
+          `;
+          footerEl.innerHTML = '';
+        } else {
+          var html = '';
+          wishlist.forEach(function(item) {
+            html += `
+              <div class="drawer-item" data-id="${item.id}">
+                <img src="${item.image}" class="drawer-item-img">
+                <div class="drawer-item-info">
+                  <div>
+                    <div class="drawer-item-title">${item.title}</div>
+                    <div class="drawer-item-price">${formatStorePrice(item.price, curCurrency)}</div>
+                  </div>
+                  <div class="drawer-item-actions">
+                    <button class="remove-btn" onclick="window.removeWishlistItem('${item.id}')">Remove</button>
+                    <button class="wish-to-cart-btn" onclick="window.addWishlistToCart('${item.id}', '${item.variant_id || item.id}')">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+          bodyEl.innerHTML = html;
+          footerEl.innerHTML = `
+            <button class="checkout-btn" onclick="window.closeSideDrawer()">Continue Shopping</button>
+          `;
+        }
+      } else {
+        titleEl.textContent = 'Shopping Cart';
+        bodyEl.innerHTML = '<div class="empty-drawer-msg" style="padding: 20px; text-align: center;">Loading cart...</div>';
+        footerEl.innerHTML = '';
+
+        fetch('/cart.js')
+          .then(function(r) { return r.json(); })
+          .then(function(cart) {
+            updateCartBadge(cart.item_count);
+            if (cart.items.length === 0) {
+              bodyEl.innerHTML = `
+                <div class="empty-drawer-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; color:#888; gap:16px; text-align:center;">
+                  <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.2" fill="none" style="opacity:0.6;">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                  </svg>
+                  <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your cart is empty.</span>
+                </div>
+              `;
+              footerEl.innerHTML = '';
+            } else {
+              var html = '';
+              cart.items.forEach(function(item) {
+                html += `
+                  <div class="drawer-item">
+                    <img src="${item.image}" class="drawer-item-img">
+                    <div class="drawer-item-info">
+                      <div>
+                        <div class="drawer-item-title">${item.product_title}</div>
+                        ${item.variant_title ? `<div style="font-size: 11px; color: #888;">${item.variant_title}</div>` : ''}
+                        <div class="drawer-item-price">${formatStorePrice(item.price, curCurrency)}</div>
+                      </div>
+                      <div class="drawer-item-actions">
+                        <div class="qty-select">
+                          <button onclick="window.changeCartQty('${item.key}', ${item.quantity - 1})">-</button>
+                          <span>${item.quantity}</span>
+                          <button onclick="window.changeCartQty('${item.key}', ${item.quantity + 1})">+</button>
+                        </div>
+                        <button class="remove-btn" onclick="window.changeCartQty('${item.key}', 0)">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              });
+              bodyEl.innerHTML = html;
+              footerEl.innerHTML = `
+                <div class="total-row">
+                  <span>Subtotal</span>
+                  <span>${formatStorePrice(cart.total_price, curCurrency)}</span>
+                </div>
+                <button class="checkout-btn" onclick="window.location.href='/checkout'">Proceed to Checkout</button>
+              `;
+            }
+          });
+      }
+    };
+
+    window.closeSideDrawer = function() {
+      drawer.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    window.changeCartQty = function(itemKey, qty) {
+      fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: itemKey, quantity: qty })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(cart) {
+        window.openSideDrawer('cart');
+      });
+    };
+
+    window.removeWishlistItem = function(id) {
+      var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+      var items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+      
+      wishlist = wishlist.filter(function(i) { return i !== id && i !== parseInt(id); });
+      items = items.filter(function(item) { return item.id !== id && item.id !== parseInt(id); });
+      
+      localStorage.setItem('qtr_wishlist', JSON.stringify(wishlist));
+      localStorage.setItem('qtr_wishlist_items', JSON.stringify(items));
+      
+      updateWishlistBadge();
+      window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
+      window.openSideDrawer('wishlist');
+    };
+
+    window.addWishlistToCart = function(productId, variantId) {
+      var isDummy = String(variantId).indexOf('dummy') > -1;
+      var postData = isDummy ? {} : {
+        items: [{
+          id: Number(variantId) || variantId,
+          quantity: 1
+        }]
+      };
+      
+      var addPromise = isDummy ? Promise.resolve() : fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      }).then(function(r) {
+        if (!r.ok) {
+          return r.text().then(function(err) {
+            throw new Error(err);
+          });
+        }
+        return r.json();
+      });
+
+      addPromise.then(function() {
+        // Remove from wishlist
+        var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+        var items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+        
+        wishlist = wishlist.filter(function(i) { return i !== productId && i !== parseInt(productId) && String(i) !== String(productId); });
+        items = items.filter(function(item) { return item.id !== productId && item.id !== parseInt(productId) && String(item.id) !== String(productId); });
+        
+        localStorage.setItem('qtr_wishlist', JSON.stringify(wishlist));
+        localStorage.setItem('qtr_wishlist_items', JSON.stringify(items));
+        
+        updateWishlistBadge();
+        window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
+        
+        // Refresh cart drawer
+        window.openSideDrawer('cart');
+      }).catch(function(err) {
+        console.error('Error adding to cart from wishlist:', err);
+        alert('Could not add item to cart. Please make sure a valid size/variant is selected.');
+      });
+    };
+
+    overlay.addEventListener('click', window.closeSideDrawer);
+    closeBtn.addEventListener('click', window.closeSideDrawer);
+
+    // Bind triggers to open drawer
+    document.querySelectorAll('.cart-link').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.openSideDrawer('cart');
+      });
+    });
+
+    document.querySelectorAll('.wishlist-trigger').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.openSideDrawer('wishlist');
+      });
+    });
+
+    window.toggleWishlist = function(event, productId) {
+      event.preventDefault();
+      event.stopPropagation();
+      
+      var btn = event.currentTarget;
+      var heartSvg = btn.querySelector('svg');
+      var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+      var items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+      var index = wishlist.indexOf(productId);
+      
+      if (index > -1) {
+        wishlist.splice(index, 1);
+        items = items.filter(function(item) { return item.id !== productId && item.id !== parseInt(productId); });
+        if (heartSvg) {
+          heartSvg.setAttribute('fill', 'none');
+          heartSvg.setAttribute('stroke', 'currentColor');
+        }
+        btn.classList.remove('active');
+      } else {
+        wishlist.push(productId);
+        if (heartSvg) {
+          heartSvg.setAttribute('fill', '#e74c3c');
+          heartSvg.setAttribute('stroke', '#e74c3c');
+        }
+        btn.classList.add('active');
+        
+        // Save metadata
+        var title = btn.getAttribute('data-title') || 'Product';
+        var image = btn.getAttribute('data-image') || '';
+        var price = parseInt(btn.getAttribute('data-price')) || 0;
+        var vendor = btn.getAttribute('data-vendor') || '';
+        var url = btn.getAttribute('data-url') || '';
+        var variantId = btn.getAttribute('data-variant-id') || productId;
+        
+        items.push({
+          id: productId,
+          variant_id: variantId,
+          title: title,
+          vendor: vendor,
+          image: image,
+          price: price,
+          url: url
+        });
+        
+        setTimeout(function() {
+          window.openSideDrawer('wishlist');
+        }, 300);
+      }
+      
+      localStorage.setItem('qtr_wishlist', JSON.stringify(wishlist));
+      localStorage.setItem('qtr_wishlist_items', JSON.stringify(items));
+      
+      window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
+    };
+
+    window.syncWishlistHearts = function() {
+      var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+      document.querySelectorAll('.product-wishlist-btn').forEach(function(btn) {
+        var id = btn.getAttribute('data-id');
+        if (!id) {
+          var match = (btn.getAttribute('onclick') || '').match(/'([^']+)'/);
+          id = match ? match[1] : null;
+        }
+        if (id) {
+          var heartSvg = btn.querySelector('svg');
+          var inList = wishlist.indexOf(id) > -1 || wishlist.indexOf(parseInt(id)) > -1;
+          if (heartSvg) {
+            heartSvg.setAttribute('fill',   inList ? '#e74c3c' : 'none');
+            heartSvg.setAttribute('stroke', inList ? '#e74c3c' : 'currentColor');
+          }
+          btn.classList.toggle('active', inList);
+        }
+      });
+    };
+
+    window.addEventListener('wishlistChanged', function() {
+      updateWishlistBadge();
+      window.syncWishlistHearts();
+    });
+
+    window.syncWishlistHearts();
+
+    /* ---- Mobile Drawer Locale Toggles ---- */
+    var mobCurrBtn = document.querySelector('.drawer-currency-col .drawer-locale-trigger');
+    if (mobCurrBtn) {
+      mobCurrBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var currencies = ['QAR', 'USD', 'EUR', 'AED'];
+        var current = localStorage.getItem('qtr_currency') || 'QAR';
+        var idx = currencies.indexOf(current);
+        var next = currencies[(idx + 1) % currencies.length];
+        
+        window.applyStoreCurrency(next);
+        
+        // Update labels on mobile drawer button
+        var label = mobCurrBtn.querySelector('.drawer-locale-text');
+        if (label) {
+          var symbol = next === 'QAR' ? 'QR' : (next === 'USD' ? '$' : (next === 'EUR' ? '€' : 'د.إ'));
+          label.innerHTML = '<span style="color:rgba(26,26,26,0.4)">' + symbol + '</span> ' + next;
+        }
+      });
+    }
+
+    var mobLangBtn = document.querySelector('.drawer-lang-wrapper .drawer-locale-trigger');
+    if (mobLangBtn) {
+      mobLangBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var label = mobLangBtn.querySelector('.drawer-locale-text');
+        var current = (label ? label.textContent : 'EN').trim().toUpperCase();
+        var next = current === 'EN' ? 'AR' : 'EN';
+        
+        if (label) label.textContent = next;
+        
+        // Find corresponding desktop option to click (triggers language changes)
+        var targetOption = document.querySelector('.lang-option[data-lang="' + next.toLowerCase() + '"]');
+        if (targetOption) targetOption.click();
+      });
+    }
+
+    // Set initial values on mobile locale buttons
+    (function() {
+      var savedCurr = localStorage.getItem('qtr_currency') || 'QAR';
+      if (mobCurrBtn) {
+        var symbol = savedCurr === 'QAR' ? 'QR' : (savedCurr === 'USD' ? '$' : (savedCurr === 'EUR' ? '€' : 'د.إ'));
+        var label = mobCurrBtn.querySelector('.drawer-locale-text');
+        if (label) label.innerHTML = '<span style="color:rgba(26,26,26,0.4)">' + symbol + '</span> ' + savedCurr;
+      }
+      var savedLang = (document.querySelector('.lang-selector-wrapper .lang-label') ? document.querySelector('.lang-selector-wrapper .lang-label').textContent : 'EN').trim().toUpperCase();
+      if (mobLangBtn) {
+        var label = mobLangBtn.querySelector('.drawer-locale-text');
+        if (label) label.textContent = savedLang;
+      }
+    })();
+
+  });
+})();
+</script>
+
+<!-- Side Drawer HTML -->
+<div class="side-drawer-overlay" id="side-drawer-overlay"></div>
+<div class="side-drawer" id="side-drawer">
+  <div class="side-drawer-header">
+    <h2 id="side-drawer-title">Shopping Cart</h2>
+    <button class="side-drawer-close" id="side-drawer-close-btn">&times;</button>
+  </div>
+  <div class="side-drawer-body" id="side-drawer-body"></div>
+  <div class="side-drawer-footer" id="side-drawer-footer"></div>
+</div>
+
+<style>
+  /* Side Drawer Styles */
+  .side-drawer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .side-drawer-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+  .side-drawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 400px;
+    height: 100%;
+    background: #fff;
+    z-index: 100000;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .side-drawer.active {
+    right: 0;
+  }
+  .side-drawer-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-border, #e0dcd3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .side-drawer-header h2 {
+    font-family: var(--font-serif, 'Canela Text Trial', 'Canela Text', Georgia, serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-primary, #2d1f1f);
+    margin: 0;
+  }
+  .side-drawer-close {
+    font-size: 28px;
+    color: var(--color-muted, #888);
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+  }
+  .side-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+  }
+  .drawer-item {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(45,31,31,0.06);
+  }
+  .drawer-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #f9f9f9;
+  }
+  .drawer-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .drawer-item-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-primary, #2d1f1f);
+    line-height: 1.4;
+  }
+  .drawer-item-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-accent, #f25c5e);
+    margin-top: 4px;
+  }
+  .drawer-item-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  .qty-select {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border, #e0dcd3);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .qty-select button {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    background: #f9f9f9;
+    border: none;
+    cursor: pointer;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .qty-select span {
+    width: 32px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .remove-btn {
+    font-size: 11px;
+    color: var(--color-muted, #888);
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .remove-btn:hover {
+    color: var(--color-primary, #2d1f1f);
+  }
+  .side-drawer-footer {
+    padding: 24px;
+    border-top: 1px solid var(--color-border, #e0dcd3);
+    background: #faf9f5;
+  }
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .checkout-btn {
+    width: 100%;
+    height: 46px;
+    background: var(--color-primary, #2d1f1f);
+    color: #fff;
+    border-radius: 24px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .checkout-btn:hover {
+    background: #1a1010;
+  }
+  .wish-to-cart-btn {
+    padding: 6px 12px;
+    background: var(--color-primary, #2d1f1f);
+    color: #fff;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    cursor: pointer;
+  }
+  .wish-to-cart-btn:hover {
+    background: #1a1010;
+  }
+  .empty-drawer-msg {
+    text-align: center;
+    color: var(--color-muted, #888);
+    padding: 40px 0;
+    font-size: 14px;
+  }
+  /* Wishlist & Cart Count badge styling */
+  .wishlist-count, .cart-count-badge {
+    position: absolute !important;
+    top: -5px !important;
+    right: -7px !important;
+    background: #f25c5e !important;
+    color: #fff !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    z-index: 5 !important;
+  }
+
+  /* Mobile Header Layout Overrides */
+  @media (max-width: 1024px) {
+    /* Hide transparent desktop header on mobile homepage */
+    #homepage-desktop-header {
+      display: none !important;
+    }
+    
+    /* Make the white sticky header behave as the main header on mobile */
+    #homepage-sticky-header {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      transform: translateY(0) !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+      background: #1a1a1a !important; /* Premium dark mobile header style */
+    }
+
+    .site-header {
+      background: #1a1a1a !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+      height: 60px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+    .header-container {
+      width: 100% !important;
+      padding: 0 16px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+
+    /* Force mobile logo to display on left */
+    .site-header .header-left .mobile-header-logo {
+      display: flex !important;
+    }
+    .site-header .header-left .mobile-header-logo span {
+      color: #fff !important;
+    }
+    
+    /* Hide desktop gender switch */
+    .site-header .header-left .dept-toggle {
+      display: none !important;
+    }
+
+    /* Hide middle logo on mobile */
+    .site-header .header-center > a {
+      display: none !important;
+    }
+
+    /* Show mobile delivery indicator in center */
+    .site-header .header-center .delivery-mode-wrapper.site-hdr-mobile {
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+    .site-header .header-center .delivery-mode-selector {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      backdrop-filter: blur(10px) !important;
+      color: #fff !important;
+      height: 32px !important;
+      border-radius: 20px !important;
+      padding: 0 12px !important;
+      font-size: 11px !important;
+      text-transform: capitalize !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+    .site-header .header-center .delivery-mode-selector svg {
+      margin-top: 1px !important;
+    }
+
+    /* Hide desktop items in right header row */
+    .site-header .header-right .site-hdr-desktop {
+      display: none !important;
+    }
+    
+    /* Show mobile header items */
+    .site-header .header-right .site-hdr-mobile {
+      display: flex !important;
+    }
+    
+    .site-header .header-right .header-mobile-sep {
+      display: block !important;
+      background: rgba(255,255,255,0.15) !important;
+      height: 16px !important;
+      margin: 0 4px !important;
+    }
+    
+    .site-header .header-right {
+      gap: 10px !important;
+      color: #fff !important;
+    }
+
+    .site-header .header-right button,
+    .site-header .header-right a {
+      color: #fff !important;
+    }
+    
+    .site-header .header-logo img {
+      filter: brightness(0) invert(1) !important;
+    }
+  }
+</style>
+
 {% schema %}
 {
-  "name": "Header Custom",
+  "name": "Header",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo Image"
+    },
     {
       "type": "text",
       "id": "logo_text",
-      "label": "Logo Text",
+      "label": "Logo Text (fallback)",
       "default": "Qtrshoe"
     }
   ]

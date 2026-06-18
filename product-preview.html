@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GCC Diana Small Tote Bag — Qatar Shoes Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Canela Text (same as home page) from CDN -->
+  <link href="https://fonts.cdnfonts.com/css/canela-text-trial" rel="stylesheet" />
+
+  <!-- Global theme stylesheet -->
+  <link rel="stylesheet" href="shopify_folder/assets/theme.css" />
+
+  <style>
+    /* =============================================
+       RESET
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    ul, ol { list-style: none; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+    img { max-width: 100%; display: block; }
+
+    :root {
+      --color-primary:    #2d1f1f;
+      --color-accent:     #f25c5e;   /* secondary / theme accent — used for wishlist fill */
+      --color-bg:         #faf9f5;
+      --color-white:      #ffffff;
+      --color-border:     #e0dcd3;
+      --color-muted:      #888;
+      --color-green:      #1e3524;
+      --font-body:        'Inter', Arial, sans-serif;
+      --font-serif:       'Canela Text Trial', 'Canela Text', Georgia, serif;
+      --header-h:         62px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--color-primary);
+      line-height: 1.6;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* =============================================
+       HEADER OVERRIDES FOR PRODUCT PAGE
+    ============================================= */
+    #homepage-desktop-header { display: none !important; }
+    #homepage-sticky-header {
+      position: sticky !important;
+      top: 0 !important;
+      transform: translateY(0) !important;
+      pointer-events: auto !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+    }
+    .homepage-sticky-wrapper {
+      position: sticky !important;
+      top: 0 !important;
+      transform: translateY(0) !important;
+      pointer-events: auto !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+    }
+
+    /* =============================================
+       BREADCRUMBS
+    ============================================= */
+    .breadcrumbs {
+      padding: 12px 60px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .breadcrumbs a { transition: color 0.18s; }
+    .breadcrumbs a:hover { color: var(--color-primary); }
+    .breadcrumbs .crumb-sep { opacity: 0.4; }
+    .breadcrumbs .crumb-active { color: var(--color-primary); font-weight: 600; }
+
+    /* =============================================
+       PRODUCT SECTION — constrained width
+    ============================================= */
+    .product-section {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* Two-column grid */
+    .product-wrap {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 56px;
+      align-items: start;
+      padding: 32px 0 64px;
+    }
+
+    /* =============================================
+       LEFT — GALLERY (sticky, not full screen tall)
+    ============================================= */
+    .gallery-col {
+      position: sticky;
+      top: calc(var(--header-h) + 16px);
+    }
+
+    /* Gallery inner grid */
+    .gallery-inner {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 0;
+      /* Cap height so image doesn't look oversized */
+      max-height: 580px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(45,31,31,0.07);
+    }
+
+    /* Thumbnails — with left padding so they breathe from edge */
+    .thumbs {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 14px 8px 14px 18px;  /* left padding = 18px breathing room */
+      background: transparent;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .thumbs::-webkit-scrollbar { display: none; }
+    .thumbs img {
+      width: 58px;
+      height: 76px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 8px;          /* curved thumbnails */
+      background: #eee;
+      transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    }
+    .thumbs img:hover { transform: scale(1.04); border-color: #bbb; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .thumbs img.active { border-color: var(--color-primary); }
+
+    /* Main image */
+    .main-img-wrap {
+      position: relative;
+      background: var(--color-bg);
+      overflow: hidden;
+    }
+    .main-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .main-img-wrap:hover img { transform: scale(1.03); }
+
+    /* Sale badge */
+    .img-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 14px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--color-accent);
+      padding: 4px 11px 4px 7px;
+      border-radius: 20px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .badge-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.6);
+      animation: blink 2s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    /* =============================================
+       RIGHT — PRODUCT INFO
+    ============================================= */
+    .info-col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Vendor */
+    .vendor-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    /* Title — Canela Text like home page */
+    h1.prod-title {
+      font-family: var(--font-serif);
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.18;
+      color: var(--color-primary);
+      margin-top: -4px;
+    }
+
+    /* ── Price: strikethrough FIRST, then sale ── */
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .price-compare {
+      font-size: 16px;
+      color: #aaa;
+      text-decoration: line-through;
+      text-decoration-color: var(--color-accent);
+    }
+    .price-current {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+    .price-current.regular { color: var(--color-primary); }
+
+    /* Stock banner */
+    .stock-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 500;
+      width: 100%;
+    }
+    .stock-bar.instock  { background: rgba(30,53,36,0.06); color: var(--color-green); border: 1px solid rgba(30,53,36,0.12); }
+    .stock-bar.outstock { background: rgba(231,76,60,0.06); color: #e74c3c; border: 1px solid rgba(231,76,60,0.12); }
+    .stock-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+      animation: pgreen 2s infinite;
+    }
+    @keyframes pgreen {
+      0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(30,53,36,0.7); }
+      70%  { transform: scale(1);    box-shadow: 0 0 0 6px rgba(30,53,36,0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(30,53,36,0); }
+    }
+
+    /* ── Selectors ── */
+    .selectors { display: flex; flex-direction: column; gap: 18px; }
+    .sel-group  { display: flex; flex-direction: column; gap: 10px; }
+    .sel-label  {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+
+    /* Size pills */
+    .size-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .sz-btn {
+      min-width: 50px; height: 44px;
+      padding: 0 14px;
+      background: #fff;
+      border: 1.5px solid var(--color-border);
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-primary);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.16s;
+    }
+    .sz-btn:hover:not(:disabled) { border-color: var(--color-primary); background: var(--color-bg); }
+    .sz-btn.selected { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+    .sz-btn.unavail  { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
+
+    /* Color swatches */
+    .swatch-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+    .swatch {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.15);
+      cursor: pointer;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+      outline: 3px solid transparent;
+      outline-offset: 2px;
+      transition: transform 0.18s, outline-color 0.18s, box-shadow 0.18s;
+    }
+    .swatch:hover { transform: scale(1.12); }
+    .swatch.active { outline-color: var(--color-primary); box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--color-primary); }
+
+    /* ── Quantity + Wishlist row ── */
+    .qty-wish-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .qty-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .qty-controls {
+      display: inline-flex;
+      align-items: center;
+      border: 1.5px solid var(--color-border);
+      border-radius: 4px;
+      height: 42px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .qty-btn {
+      width: 38px;
+      height: 100%;
+      font-size: 17px;
+      color: var(--color-primary);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+      border: none;
+      background: transparent;
+      line-height: 1;
+    }
+    .qty-btn:hover { background: var(--color-bg); }
+    #qty-val {
+      width: 46px;
+      height: 100%;
+      border: none;
+      border-left: 1.5px solid var(--color-border);
+      border-right: 1.5px solid var(--color-border);
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      outline: none;
+      padding: 0;
+      line-height: 42px;
+      -moz-appearance: textfield;
+    }
+    #qty-val::-webkit-inner-spin-button,
+    #qty-val::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    /* Wishlist button — beside qty, uses accent colour on hover/active */
+    .wish-btn {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-primary);
+      background: #fff;
+      flex-shrink: 0;
+      transition: border-color 0.18s, transform 0.2s, background 0.18s, color 0.18s;
+    }
+    /* HOVER: fill with theme accent colour */
+    .wish-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background: #fff5f5;
+      transform: scale(1.08);
+    }
+    /* ACTIVE (saved to wishlist): filled accent */
+    .wish-btn.active {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background: #fff5f5;
+    }
+    .wish-btn svg { width: 18px; height: 18px; pointer-events: none; }
+
+    /* ── CTA Buttons — rounded pill, side by side ── */
+    .cta-row {
+      display: flex;
+      gap: 10px;
+    }
+    .cta-btn {
+      flex: 1;
+      height: 50px;
+      border-radius: 50px;           /* pill shape */
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.22s;
+      white-space: nowrap;
+    }
+    .btn-atc {
+      background: var(--color-primary);
+      color: #fff;
+      border: 2px solid var(--color-primary);
+    }
+    .btn-atc:hover:not(:disabled) { background: #1a1010; border-color: #1a1010; }
+    .btn-buy {
+      background: transparent;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+    .btn-buy:hover:not(:disabled) { background: var(--color-primary); color: #fff; }
+    .btn-buy:disabled {
+      background: #e2e0d9;
+      color: #888;
+      border-color: #e2e0d9;
+      opacity: 1;
+      cursor: not-allowed;
+    }
+    .cta-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+    .cta-btn#btn-buy:disabled { opacity: 1; } /* override for buy now */
+
+    /* Demo switcher styles */
+    .demo-switcher {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      padding: 10px 14px;
+      border: 1px dashed var(--color-border);
+      border-radius: 8px;
+      background: #faf9f6;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+    .demo-type-btn {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--color-border);
+      background: #fff;
+      color: var(--color-primary);
+      transition: all 0.18s;
+      cursor: pointer;
+    }
+    .demo-type-btn:hover {
+      border-color: var(--color-primary);
+    }
+    .demo-type-btn.active {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+
+    /* ── Delivery Strip ── */
+    .delivery-strip {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--color-bg);
+      border-radius: 6px;
+      border: 1px solid var(--color-border);
+    }
+    .deli-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--color-muted);
+    }
+    .deli-item svg { flex-shrink: 0; color: var(--color-primary); }
+
+    /* ── Estimated Delivery Card ── */
+    .est-delivery {
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+    }
+    .est-hdr {
+      background: var(--color-primary);
+      color: #fff;
+      padding: 10px 16px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-top-left-radius: 7px;
+      border-top-right-radius: 7px;
+    }
+    .est-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+    .est-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .est-info-i {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-muted);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700;
+      color: var(--color-muted);
+      cursor: pointer;
+      font-style: normal;
+    }
+
+    /* Custom dropdown (styled) */
+    .cs-wrap { position: relative; user-select: none; }
+    .cs-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      border: 1.5px solid var(--color-border);
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--color-primary);
+      background: #fff;
+      cursor: pointer;
+      transition: border-color 0.18s;
+    }
+    .cs-trigger:hover, .cs-wrap.open .cs-trigger { border-color: var(--color-primary); }
+    .cs-arrow {
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--color-muted);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .cs-wrap.open .cs-arrow { transform: rotate(180deg); }
+    .cs-options {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0; right: 0;
+      background: #fff;
+      border: 1.5px solid var(--color-primary);
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 50;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .cs-wrap.open .cs-options { display: block; }
+    .cs-opt {
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--color-primary);
+      cursor: pointer;
+      border-bottom: 1px solid var(--color-border);
+      transition: background 0.14s, color 0.14s;
+    }
+    .cs-opt:last-child { border-bottom: none; }
+    .cs-opt:hover { background: var(--color-bg); }
+    .cs-opt.active {
+      background: var(--color-primary);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Delivery result row */
+    .est-result {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .same-day-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #edfbf1;
+      color: #1a6e2e;
+      border: 1px solid #b8e6c0;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+    }
+    .same-day-tag.next { background: #fff8ed; color: #8a5c00; border-color: #f0d48a; }
+    .same-day-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: blink 2s infinite;
+    }
+    .est-to { font-size: 12.5px; color: #555; margin-top: 4px; }
+    .est-to strong { color: var(--color-primary); }
+    .est-fee { font-size: 12px; color: var(--color-muted); white-space: nowrap; }
+    .est-fee b { color: var(--color-primary); font-weight: 700; }
+
+    /* ── Accordions ── */
+    .accordions { display: flex; flex-direction: column; border-top: 1px solid var(--color-border); }
+    .acc-item { border-bottom: 1px solid var(--color-border); }
+    .acc-hdr {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.18s;
+    }
+    .acc-hdr:hover { color: var(--color-muted); }
+    .acc-icon { font-size: 20px; font-weight: 300; color: var(--color-muted); line-height: 1; }
+    .acc-body {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.36s ease, padding-bottom 0.36s ease;
+    }
+    .acc-item.open .acc-body { max-height: 600px; padding-bottom: 18px; }
+    .acc-body p { font-size: 13.5px; line-height: 1.75; color: #555; margin-bottom: 8px; }
+    .acc-body p:last-child { margin-bottom: 0; }
+
+    /* =============================================
+       YOU MAY ALSO LIKE — matching home page style
+    ============================================= */
+    .also-like-section {
+      background: #fff;
+      padding: 0 40px 60px 40px;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Section heading row — exact match of home page style */
+    .section-heading-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border: 1.5px solid rgba(45,31,31,0.12);
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      padding: 12px 20px;
+      margin-top: 0;
+      max-width: 1260px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .section-heading {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+      line-height: 1.2;
+      color: var(--color-primary);
+    }
+    .view-more-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--color-primary);
+      transition: opacity 0.2s;
+    }
+    .view-more-link:hover { opacity: 0.6; }
+    .view-more-link svg { transition: transform 0.25s; }
+    .view-more-link:hover svg { transform: translateX(4px); }
+
+    /* Product grid — 4 columns matching home page */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      border: 1.5px solid rgba(45,31,31,0.12);
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      overflow: hidden;
+      padding: 20px;
+      background: #fff;
+      max-width: 1260px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1.5px solid rgba(45,31,31,0.1);
+      border-radius: 6px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+      position: relative;
+    }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(45,31,31,0.07); border-color: rgba(45,31,31,0.25); }
+    .product-card-img {
+      position: relative;
+      overflow: hidden;
+      background: #f9f9f9;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+    }
+    .product-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .product-card:hover .product-card-img img { transform: scale(1.07); }
+
+    /* Card wishlist btn — theme accent on hover/active */
+    .card-wish {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(45,31,31,0.08);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(45,31,31,0.45);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      z-index: 5;
+      transition: all 0.22s;
+    }
+    .card-wish:hover { color: var(--color-accent); transform: scale(1.1); border-color: rgba(242,92,94,0.25); background: #fff; }
+    .card-wish.active { color: var(--color-accent); border-color: rgba(242,92,94,0.2); }
+    .card-wish svg { width: 14px; height: 14px; pointer-events: none; }
+
+    /* Sale badge on card */
+    .card-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: var(--color-accent);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+      z-index: 5;
+    }
+
+    .product-card-body {
+      padding: 14px 14px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-brand {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      line-height: 1.3;
+      color: var(--color-primary);
+    }
+    .card-model {
+      font-size: 12px;
+      color: var(--color-muted);
+      margin-top: 2px;
+    }
+    .card-price-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .card-price { font-size: 14px; font-weight: 600; color: var(--color-primary); }
+    .card-price.sale { color: var(--color-accent); }
+    .card-price-cmp { font-size: 12px; color: #aaa; text-decoration: line-through; }
+
+    /* Footer overrides */
+    .qtr-footer {
+      background: var(--color-primary);
+      color: rgba(255,255,255,0.75);
+      padding: 60px 40px 40px 40px;
+    }
+    .footer-newsletter button:hover { background: #d94547; }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 1024px) {
+      .product-wrap { grid-template-columns: 1fr; gap: 32px; }
+      .gallery-col  { position: relative; top: auto; }
+      .gallery-inner { max-height: 60vw; min-height: 300px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid  { grid-template-columns: 1fr 1fr; gap: 30px; }
+    }
+    @media (max-width: 768px) {
+      .site-header  { padding: 0 16px; }
+      .breadcrumbs  { padding: 10px 16px; }
+      .product-section { padding: 0 16px; }
+      .also-like-section { padding: 0 16px 40px; }
+      .qtr-footer   { padding: 40px 20px 30px; }
+      h1.prod-title { font-size: 26px; }
+      .cta-row      { flex-direction: column; }
+      .gallery-inner { grid-template-columns: 56px 1fr; }
+      .thumbs img   { width: 44px; height: 58px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+
+      /* Responsive header elements */
+      .header-search-lang-group {
+        gap: 6px;
+        padding: 0 10px;
+        height: 32px;
+        margin-right: 2px;
+      }
+      .currency-code, .currency-chevron, .lang-chevron, .header-v-sep {
+        display: none !important;
+      }
+      .currency-selector, .lang-selector {
+        font-size: 10px;
+      }
+      .site-logo {
+        font-size: 18px;
+      }
+      .hdr-icons {
+        gap: 6px;
+      }
+      .hdr-btn {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    @media (max-width: 380px) {
+      .site-logo {
+        font-size: 16px;
+      }
+      .header-search-lang-group {
+        padding: 0 6px;
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== TRANSPARENT DESKTOP HEADER (hidden on product page) ===== -->
+  <header class="homepage-desktop-header" id="homepage-desktop-header">
+    <div class="desktop-header-row1">
+      <div class="desktop-header-left">
+        <div class="dept-toggle">
+          <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">Women</a>
+          <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">Men</a>
+        </div>
+      </div>
+      <div class="desktop-header-center">
+        <a href="index.html" class="desktop-header-logo" aria-label="Qatar Shoes">
+          <span class="logo-text-fallback">QatarShoes</span>
+        </a>
+      </div>
+      <div class="desktop-header-right">
+        <div class="delivery-mode-wrapper" id="desktop-delivery-wrapper">
+          <button type="button" class="delivery-mode-selector" id="desktop-delivery-btn"
+                  aria-label="Change delivery location" aria-expanded="false">
+            <span class="delivery-flag">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar" aria-hidden="true">
+                <rect x="0" width="40" height="28" fill="#fff"/>
+                <path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/>
+              </svg>
+            </span>
+            <span class="delivery-label">Qatar</span>
+            <svg width="10" height="5" viewBox="0 0 10 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+              <path d="M1 0.5L5 4.5L9 0.5"/>
+            </svg>
+          </button>
+          <div class="delivery-mode-dropdown" id="desktop-delivery-dropdown" aria-hidden="true">
+            <a href="#" class="delivery-mode-option is-active" data-mode="ready-to-go">
+              <span class="delivery-flag dm-opt-flag">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar" aria-hidden="true">
+                  <rect x="0" width="40" height="28" fill="#fff"/>
+                  <path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/>
+                </svg>
+              </span>
+              <div class="delivery-option-text">
+                <span class="delivery-option-title">Qatar</span>
+                <span class="delivery-option-subtitle">Ready to Go</span>
+              </div>
+              <svg class="dm-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+            </a>
+            <a href="#" class="delivery-mode-option" data-mode="ready-to-ship">
+              <span class="delivery-flag dm-opt-flag">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="2 0 28 28" class="flag-svg flag-uae" aria-hidden="true">
+                  <rect y="0" width="40" height="9.333" fill="#00732F"/>
+                  <rect y="9.333" width="40" height="9.333" fill="#fff"/>
+                  <rect y="18.667" width="40" height="9.334" fill="#000"/>
+                  <rect width="10" height="28" fill="#FF0000"/>
+                </svg>
+              </span>
+              <div class="delivery-option-text">
+                <span class="delivery-option-title">Dubai/GCC</span>
+                <span class="delivery-option-subtitle">Ready to Ship</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="header-search-lang-group">
+          <!-- Search -->
+          <button class="hdr-btn" onclick="openSearch()" aria-label="Search" id="desktop-search-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+          <span class="header-v-sep" aria-hidden="true"></span>
+          <!-- Currency -->
+          <div class="currency-wrapper" id="desktop-currency-wrapper">
+            <button type="button" class="currency-selector" id="desktop-currency-btn" aria-expanded="false" aria-label="Select currency">
+              <span class="currency-symbol">QR</span>
+              <span class="currency-code">QAR</span>
+              <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                <path d="M5 8L10 13L15 8"/>
+              </svg>
+            </button>
+            <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
+              <div class="currency-option is-active" data-currency="QAR">
+                <span>QR QAR</span>
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+              </div>
+              <div class="currency-option" data-currency="USD">
+                <span>$ USD</span>
+              </div>
+              <div class="currency-option" data-currency="EUR">
+                <span>€ EUR</span>
+              </div>
+              <div class="currency-option" data-currency="AED">
+                <span>د.إ AED</span>
+              </div>
+            </div>
+          </div>
+          <span class="header-v-sep" aria-hidden="true"></span>
+          <!-- Language -->
+          <div class="lang-selector-wrapper" id="desktop-lang-wrapper">
+            <button type="button" class="lang-selector" id="desktop-lang-btn" aria-expanded="false" aria-label="Language">
+              <span class="lang-label">EN</span>
+              <svg class="lang-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                <path d="M2.5 4L6 7.5L9.5 4"/>
+              </svg>
+            </button>
+            <div class="lang-dropdown" id="desktop-lang-dropdown" aria-hidden="true">
+              <div class="lang-option is-active" data-lang="en">
+                <span>EN</span>
+                <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+              </div>
+              <div class="lang-option" data-lang="ar">
+                <span>AR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span class="header-v-sep" aria-hidden="true" style="background:rgba(255,255,255,0.2);display:block;width:1px;height:20px;"></span>
+
+        <div class="header-icon-group">
+          <!-- Wishlist -->
+          <button type="button" class="header-icon-btn wishlist-trigger" id="homepage-wishlist-btn" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </button>
+          <!-- Cart -->
+          <a href="#" class="header-icon-btn cart-link" id="desktop-header-cart" aria-label="Cart">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </a>
+          <!-- Account -->
+          <button type="button" class="header-icon-btn auth-trigger" aria-label="Sign In">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="desktop-header-row2">
+      <div class="nav-menu-wrapper" id="desktop-nav-menu">
+        <div class="navigation-menu-wrapper" data-dept="women" id="desktop-nav-women">
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">New in</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Restock</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link sale-link" href="#" style="color:#e74c3c;">On sale</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Brands</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Bags</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Shoes</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Jewellery</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Watches</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Accessories</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Clothing</a></div>
+        </div>
+        <div class="navigation-menu-wrapper" data-dept="men" id="desktop-nav-men" style="display:none;">
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">New arrivals</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link sale-link" href="#" style="color:#e74c3c;">On Sale</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Brands</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Bags</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Shoes</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Wallets</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Watches</a></div>
+          <div class="nav-item-wrapper"><a class="nav-link" href="#">Accessories</a></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== STICKY WHITE HEADER (visible on product page) ===== -->
+  <div id="homepage-sticky-header" class="homepage-sticky-wrapper visible">
+    <header class="site-header">
+      <div class="header-container" style="display:flex; justify-content:space-between; align-items:center; width:100%; height:80px; padding:0 48px;">
+        <div class="header-left" style="display:flex; align-items:center; gap:20px;">
+          <a href="#" class="header-logo" style="font-family:'Canela Text Trial',Georgia,serif;font-size:22px;font-weight:300;">QatarShoes</a>
+          <div class="header-dept-toggle" style="display:flex; gap:12px;">
+            <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">Women</a>
+            <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">Men</a>
+          </div>
+        </div>
+        <div class="header-center"></div>
+        <div class="header-right" style="display:flex; align-items:center; gap:14px;">
+          <!-- Search + Currency + Language group -->
+          <div class="header-search-lang-group" style="display:flex; align-items:center; gap:10px;">
+            <button class="hdr-btn" onclick="openSearch()" aria-label="Search" style="display:flex; align-items:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </button>
+            <span class="header-v-sep" style="display:block; width:1px; height:16px; background:#e0dcd3;"></span>
+            <!-- Currency -->
+            <div class="currency-wrapper" id="sticky-currency-wrapper">
+              <button type="button" class="currency-selector" id="sticky-currency-btn" aria-expanded="false" aria-label="Select currency">
+                <span class="currency-symbol">QR</span>
+                <span class="currency-code">QAR</span>
+                <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
+              </button>
+              <div class="currency-dropdown" id="sticky-currency-dropdown" aria-hidden="true">
+                <div class="currency-option is-active" data-currency="QAR">
+                  <span>QR QAR</span>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+                </div>
+                <div class="currency-option" data-currency="USD">
+                  <span>$ USD</span>
+                </div>
+                <div class="currency-option" data-currency="EUR">
+                  <span>€ EUR</span>
+                </div>
+                <div class="currency-option" data-currency="AED">
+                  <span>د.إ AED</span>
+                </div>
+              </div>
+            </div>
+            <span class="header-v-sep" style="display:block; width:1px; height:16px; background:#e0dcd3;"></span>
+            <!-- Language -->
+            <div class="lang-selector-wrapper" id="sticky-lang-wrapper">
+              <button type="button" class="lang-selector" id="sticky-lang-btn" aria-expanded="false" aria-label="Language">
+                <span class="lang-label">EN</span>
+                <svg class="lang-chevron" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2.5 4L6 7.5L9.5 4"/></svg>
+              </button>
+              <div class="lang-dropdown" id="sticky-lang-dropdown" aria-hidden="true">
+                <div class="lang-option is-active" data-lang="en">
+                  <span>EN</span>
+                  <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+                </div>
+                <div class="lang-option" data-lang="ar">
+                  <span>AR</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="desktop-header-sep" style="display:block; width:1px; height:20px; background:#e0dcd3;"></span>
+          <button type="button" class="header-icon-btn wishlist-trigger" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </button>
+          <a href="#" class="header-icon-btn cart-link" aria-label="Cart">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </a>
+          <button class="header-icon-btn menu-toggle site-hdr-mobile" onclick="toggleMobileMenu()" aria-label="Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+    <nav class="desktop-nav">
+      <div class="desktop-nav-container">
+        <div class="nav-menu-wrapper">
+          <div class="navigation-menu-wrapper" data-dept="women" id="sticky-nav-women">
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">New in</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Restock</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#" style="color:#e74c3c;">On sale</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Brands</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Bags</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Shoes</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Jewellery</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Watches</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Accessories</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Clothing</a></div>
+          </div>
+          <div class="navigation-menu-wrapper" data-dept="men" id="sticky-nav-men" style="display:none;">
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">New arrivals</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link sale-link" href="#" style="color:#e74c3c;">On Sale</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Brands</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Bags</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Shoes</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Wallets</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Watches</a></div>
+            <div class="nav-item-wrapper"><a class="nav-link" href="#">Accessories</a></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ===== SEARCH OVERLAY ===== -->
+  <div class="home-search-overlay" id="home-search-overlay" onclick="closeSearch()">
+    <div class="home-search-overlay-content" onclick="event.stopPropagation()">
+      <div class="search-overlay-header">
+        <input type="text" class="search-overlay-input" id="home-search-input" placeholder="Search products..." autocomplete="off">
+        <button class="search-overlay-close" onclick="closeSearch()" aria-label="Close search">&times;</button>
+      </div>
+      <div class="search-overlay-results" id="home-search-results"></div>
+    </div>
+  </div>
+
+  <!-- ===== MOBILE DRAWER ===== -->
+  <div class="home-drawer-overlay" id="home-drawer-overlay" onclick="toggleMobileMenu()"></div>
+  <div class="home-mobile-drawer" id="home-mobile-drawer">
+    <div class="drawer-tabs">
+      <button class="drawer-tab active" data-gender="women">Women</button>
+      <button class="drawer-tab" data-gender="men">Men</button>
+    </div>
+    <nav class="drawer-nav" id="drawer-nav-women" data-dept="women">
+      <a class="drawer-link" href="#">New in</a>
+      <a class="drawer-link" href="#">Restock</a>
+      <a class="drawer-link sale" href="#">On sale</a>
+      <a class="drawer-link" href="#">Brands</a>
+      <a class="drawer-link" href="#">Bags</a>
+      <a class="drawer-link" href="#">Shoes</a>
+      <a class="drawer-link" href="#">Jewellery</a>
+      <a class="drawer-link" href="#">Watches</a>
+      <a class="drawer-link" href="#">Accessories</a>
+      <a class="drawer-link" href="#">Clothing</a>
+    </nav>
+    <nav class="drawer-nav" id="drawer-nav-men" data-dept="men" style="display:none;">
+      <a class="drawer-link" href="#">New arrivals</a>
+      <a class="drawer-link sale" href="#">On Sale</a>
+      <a class="drawer-link" href="#">Brands</a>
+      <a class="drawer-link" href="#">Bags</a>
+      <a class="drawer-link" href="#">Shoes</a>
+      <a class="drawer-link" href="#">Wallets</a>
+      <a class="drawer-link" href="#">Watches</a>
+      <a class="drawer-link" href="#">Accessories</a>
+    </nav>
+  </div>
+
+  <!-- ===== BREADCRUMBS ===== -->
+  <nav class="breadcrumbs">
+    <a href="#">Home</a>
+    <span class="crumb-sep">/</span>
+    <a href="#">Collections</a>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-active">GCC Diana Small Tote Bag</span>
+  </nav>
+
+  <!-- ===== PRODUCT ===== -->
+  <div class="product-section">
+    <div class="product-wrap">
+
+      <!-- LEFT: GALLERY -->
+      <div class="gallery-col">
+        <div class="gallery-inner">
+          <!-- Thumbnails with left padding -->
+          <div class="thumbs">
+            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=160&h=200&fit=crop"
+                 alt="View 1" class="active"
+                 data-src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1200"
+                 onclick="switchImg(this)">
+            <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=160&h=200&fit=crop"
+                 alt="View 2"
+                 data-src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1200"
+                 onclick="switchImg(this)">
+            <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=160&h=200&fit=crop"
+                 alt="View 3"
+                 data-src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=1200"
+                 onclick="switchImg(this)">
+            <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=160&h=200&fit=crop"
+                 alt="View 4"
+                 data-src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1200"
+                 onclick="switchImg(this)">
+          </div>
+          <!-- Main image -->
+          <div class="main-img-wrap">
+            <div class="img-badge"><span class="badge-dot"></span>SALE</div>
+            <img id="main-img"
+                 src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1200"
+                 alt="GCC Diana Small Tote Bag">
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: INFO -->
+      <div class="info-col">
+
+        <div class="vendor-label">GCC</div>
+        <h1 class="prod-title">GCC Diana Small Tote Bag</h1>
+
+        <!-- Strikethrough price FIRST, then sale price -->
+        <div class="price-row"
+             data-price-qar="QAR 2,000"
+             data-compare-qar="QAR 2,500"
+             data-price-usd="$ 549"
+             data-compare-usd="$ 687"
+             data-price-eur="€ 506"
+             data-compare-eur="€ 633"
+             data-price-aed="AED 2,006"
+             data-compare-aed="AED 2,508">
+          <span class="price-compare" id="price-cmp">QAR 2,500</span>
+          <span class="price-current" id="price-cur">QAR 2,000</span>
+        </div>
+
+        <!-- Stock -->
+        <div class="stock-bar instock" id="stock-bar">
+          <span class="stock-dot"></span>
+          <span id="stock-txt">In Stock — Available for Same Day Delivery in Qatar</span>
+        </div>
+
+        <!-- Demo Type Switcher (shows clothes sizes, weights, and 'none' options) -->
+        <div class="demo-switcher">
+          <span style="font-size: 11px; font-weight: 700; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-right: 6px;">Demo Product Type:</span>
+          <button type="button" class="demo-type-btn active" id="btn-demo-shoes" onclick="switchDemoType('shoes')">Shoes (EU)</button>
+          <button type="button" class="demo-type-btn" id="btn-demo-clothes" onclick="switchDemoType('clothes')">Clothes (Alpha)</button>
+          <button type="button" class="demo-type-btn" id="btn-demo-weight" onclick="switchDemoType('weight')">Weight (g)</button>
+          <button type="button" class="demo-type-btn" id="btn-demo-none" onclick="switchDemoType('none')">No Variants</button>
+        </div>
+
+        <!-- Selectors -->
+        <div class="selectors">
+          <div class="sel-group" id="size-selector-group">
+            <label class="sel-label" id="size-label">Select Size (EU)</label>
+            <div class="size-grid" id="size-grid">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+          <div class="sel-group">
+            <label class="sel-label">Select Color</label>
+            <div class="swatch-grid">
+              <div class="swatch active" style="background:#8B4513;" title="Brown" onclick="pickColor(this)"></div>
+              <div class="swatch"        style="background:#111111;" title="Black" onclick="pickColor(this)"></div>
+              <div class="swatch"        style="background:#B22222;" title="Red"   onclick="pickColor(this)"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantity + Wishlist inline -->
+        <div class="qty-wish-row">
+          <span class="qty-label">Quantity</span>
+          <div class="qty-controls">
+            <button type="button" class="qty-btn" onclick="adjQty(-1)">−</button>
+            <input type="number" id="qty-val" value="1" min="1" readonly>
+            <button type="button" class="qty-btn" onclick="adjQty(1)">+</button>
+          </div>
+          <button type="button" class="wish-btn" id="wish-btn" aria-label="Save to wishlist" onclick="toggleWish()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- CTA — rounded pills, side by side -->
+        <div class="cta-row">
+          <button type="button" id="btn-atc" class="cta-btn btn-atc" onclick="doAtc()">Add to Cart</button>
+          <button type="button" id="btn-buy" class="cta-btn btn-buy" onclick="doBuy()">Buy Now</button>
+        </div>
+
+        <!-- Delivery strip -->
+        <div class="delivery-strip">
+          <div class="deli-item">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Same Day Delivery in Qatar (orders before 4 PM)</span>
+          </div>
+          <div class="deli-item">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Secure Cash on Delivery Checkout</span>
+          </div>
+        </div>
+
+        <!-- Estimated Delivery — custom dropdown -->
+        <div class="est-delivery">
+          <div class="est-hdr">Shipping from Qatar Warehouse</div>
+          <div class="est-body">
+            <div class="est-label">
+              Estimated Delivery
+              <i class="est-info-i" title="Delivery times vary by area">i</i>
+            </div>
+
+            <!-- Custom styled dropdown -->
+            <div class="cs-wrap" id="city-dd">
+              <div class="cs-trigger" onclick="toggleDD()">
+                <span id="cs-label">Ash-Shahaniyah</span>
+                <span class="cs-arrow"></span>
+              </div>
+              <div class="cs-options" id="cs-opts">
+                <div class="cs-opt" data-fee="Free"    data-time="same" onclick="pickCity(this)">Doha</div>
+                <div class="cs-opt" data-fee="QAR 70"  data-time="same" onclick="pickCity(this)">Al Rayyan</div>
+                <div class="cs-opt" data-fee="QAR 70"  data-time="same" onclick="pickCity(this)">Al Wakrah</div>
+                <div class="cs-opt" data-fee="QAR 80"  data-time="same" onclick="pickCity(this)">Umm Salal Mohammed</div>
+                <div class="cs-opt" data-fee="QAR 80"  data-time="next" onclick="pickCity(this)">Al Khor</div>
+                <div class="cs-opt active" data-fee="QAR 90" data-time="next" onclick="pickCity(this)">Ash-Shahaniyah</div>
+                <div class="cs-opt" data-fee="QAR 90"  data-time="next" onclick="pickCity(this)">Dukhan</div>
+                <div class="cs-opt" data-fee="QAR 100" data-time="next" onclick="pickCity(this)">Al Shamal</div>
+              </div>
+            </div>
+
+            <div class="est-result">
+              <div>
+                <span class="same-day-tag next" id="delivery-tag">Next-day delivery</span>
+                <div class="est-to">to <strong id="delivery-city">Ash-Shahaniyah</strong></div>
+              </div>
+              <div class="est-fee" id="delivery-fee"><b>QAR 90</b> delivery</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordions -->
+        <div class="accordions">
+          <div class="acc-item open">
+            <button class="acc-hdr" onclick="toggleAcc(this)">
+              <span>Description</span><span class="acc-icon">−</span>
+            </button>
+            <div class="acc-body">
+              <p>The Diana small tote bag features the signature bamboo handles and double G hardware. Crafted from premium leather in a structured silhouette.</p>
+              <p>Details:<br>— Bamboo handles with 3.1" drop<br>— Double G hardware<br>— Interior open pocket and 2 zip compartments<br>— Small size: 10.6"W × 9.4"H × 4.3"D</p>
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-hdr" onclick="toggleAcc(this)">
+              <span>Shipping &amp; Returns</span><span class="acc-icon">+</span>
+            </button>
+            <div class="acc-body">
+              <p>We provide same-day courier delivery within Doha for all orders placed before 4 PM. Delivery is free for purchases above QAR 500. Cash on Delivery (COD) is accepted at checkout.</p>
+              <p>Returns are allowed within 7 days of delivery, provided items are unworn and in original packaging.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.info-col -->
+    </div><!-- /.product-wrap -->
+  </div><!-- /.product-section -->
+
+  <!-- =============================================
+       YOU MAY ALSO LIKE
+  ============================================= -->
+  <div class="also-like-section">
+    <div class="section-heading-row">
+      <h2 class="section-heading">You May Also Like</h2>
+      <a href="/collections/bags" class="view-more-link">
+        View more
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+    <div class="product-grid">
+
+      <!-- Card 1 -->
+      <a href="#" class="product-card">
+        <div class="product-card-img">
+          <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600&fit=crop" alt="GCC Marmont Bag" loading="lazy">
+          <button class="card-wish" onclick="cardWish(event,this)" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+          <span class="card-badge">New</span>
+        </div>
+        <div class="product-card-body">
+          <div>
+            <div class="card-brand">GCC</div>
+            <div class="card-model">Marmont Mini Bag</div>
+          </div>
+          <div class="card-price-row"
+               data-price-qar="QAR 1,800"
+               data-price-usd="$ 495"
+               data-price-eur="€ 456"
+               data-price-aed="AED 1,805">
+            <span class="card-price">QAR 1,800</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="#" class="product-card">
+        <div class="product-card-img">
+          <img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?q=80&w=600&fit=crop" alt="LVN Neverfull" loading="lazy">
+          <button class="card-wish" onclick="cardWish(event,this)" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+          <span class="card-badge">SALE</span>
+        </div>
+        <div class="product-card-body">
+          <div>
+            <div class="card-brand">LVN</div>
+            <div class="card-model">Neverfull MM Tote</div>
+          </div>
+          <div class="card-price-row"
+               data-price-qar="QAR 5,200"
+               data-compare-qar="QAR 6,000"
+               data-price-usd="$ 1,428"
+               data-compare-usd="$ 1,648"
+               data-price-eur="€ 1,316"
+               data-compare-eur="€ 1,519"
+               data-price-aed="AED 5,216"
+               data-compare-aed="AED 6,018">
+            <span class="card-price-cmp">QAR 6,000</span>
+            <span class="card-price sale">QAR 5,200</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3 -->
+      <a href="#" class="product-card">
+        <div class="product-card-img">
+          <img src="https://images.unsplash.com/photo-1601924638867-3a6de6b7a500?q=80&w=600&fit=crop" alt="DR Satchel" loading="lazy">
+          <button class="card-wish" onclick="cardWish(event,this)" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+        </div>
+        <div class="product-card-body">
+          <div>
+            <div class="card-brand">Dior</div>
+            <div class="card-model">Lady Dior Small</div>
+          </div>
+          <div class="card-price-row"
+               data-price-qar="QAR 12,500"
+               data-price-usd="$ 3,434"
+               data-price-eur="€ 3,165"
+               data-price-aed="AED 12,538">
+            <span class="card-price">QAR 12,500</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 4 -->
+      <a href="#" class="product-card">
+        <div class="product-card-img">
+          <img src="https://images.unsplash.com/photo-1614179818511-1e7f69cb9e65?q=80&w=600&fit=crop" alt="Celine Triomphe" loading="lazy">
+          <button class="card-wish" onclick="cardWish(event,this)" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+        </div>
+        <div class="product-card-body">
+          <div>
+            <div class="card-brand">Céline</div>
+            <div class="card-model">Triomphe Canvas Tote</div>
+          </div>
+          <div class="card-price-row"
+               data-price-qar="QAR 3,400"
+               data-price-usd="$ 934"
+               data-price-eur="€ 861"
+               data-price-aed="AED 3,410">
+            <span class="card-price">QAR 3,400</span>
+          </div>
+        </div>
+      </a>
+
+    </div><!-- /.product-grid -->
+  </div><!-- /.also-like-section -->
+
+  <!-- =============================================
+       FOOTER — matching home page style
+  ============================================= -->
+  <footer class="qtr-footer">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div>
+        <div class="footer-logo-name">Qatar Shoes</div>
+        <p class="footer-brand-desc">Premium footwear, bags, watches, jewellery, and accessories with same day delivery in Qatar, fast UAE &amp; GCC shipping, and worldwide access to exclusive collections.</p>
+        <div class="footer-newsletter" style="margin-top:20px;">
+          <input type="email" placeholder="Your email…">
+          <button type="button">Join</button>
+        </div>
+      </div>
+      <!-- Shop -->
+      <div>
+        <p class="footer-col-heading">Shop</p>
+        <div class="footer-col-links">
+          <a href="#">New In</a>
+          <a href="#">On Sale</a>
+          <a href="#">Bags</a>
+          <a href="#">Shoes</a>
+          <a href="#">Jewellery</a>
+          <a href="#">Watches</a>
+          <a href="#">Accessories</a>
+        </div>
+      </div>
+      <!-- Help -->
+      <div>
+        <p class="footer-col-heading">Help</p>
+        <div class="footer-col-links">
+          <a href="#">FAQ</a>
+          <a href="#">Shipping Info</a>
+          <a href="#">Returns &amp; Exchanges</a>
+          <a href="#">Size Guide</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+      <!-- Company -->
+      <div>
+        <p class="footer-col-heading">Company</p>
+        <div class="footer-col-links">
+          <a href="#">About Qatar Shoes</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Careers</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Qatar Shoes. All rights reserved.</span>
+      <div class="footer-social">
+        <!-- Instagram -->
+        <a href="#" aria-label="Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <!-- TikTok -->
+        <a href="#" aria-label="TikTok" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.74a8.18 8.18 0 004.79 1.53V6.84a4.85 4.85 0 01-1.02-.15z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Gallery ── */
+    function switchImg(t) {
+      document.getElementById('main-img').src = t.dataset.src;
+      document.querySelectorAll('.thumbs img').forEach(i => i.classList.remove('active'));
+      t.classList.add('active');
+    }
+
+    /* ── Qty ── */
+    function adjQty(d) {
+      const i = document.getElementById('qty-val');
+      let v = parseInt(i.value) + d;
+      if (v < 1) v = 1;
+      i.value = v;
+    }
+
+    /* ── Accordion ── */
+    function toggleAcc(h) {
+      const item = h.closest('.acc-item');
+      const open = item.classList.contains('open');
+      item.classList.toggle('open', !open);
+      h.querySelector('.acc-icon').textContent = open ? '+' : '−';
+    }
+
+    /* ── Variant Data for Demo Switcher ── */
+    const variantData = {
+      shoes: {
+        label: "Select Size (EU)",
+        options: [
+          { name: "36", avail: true, priceQar: "QAR 2,000", cmpQar: "QAR 2,500", priceUsd: "$ 549", cmpUsd: "$ 687", priceEur: "€ 506", cmpEur: "€ 633", priceAed: "AED 2,006", cmpAed: "AED 2,508" },
+          { name: "37", avail: true, priceQar: "QAR 2,000", cmpQar: "QAR 2,500", priceUsd: "$ 549", cmpUsd: "$ 687", priceEur: "€ 506", cmpEur: "€ 633", priceAed: "AED 2,006", cmpAed: "AED 2,508" },
+          { name: "38", avail: true, priceQar: "QAR 2,000", cmpQar: "QAR 2,500", priceUsd: "$ 549", cmpUsd: "$ 687", priceEur: "€ 506", cmpEur: "€ 633", priceAed: "AED 2,006", cmpAed: "AED 2,508" },
+          { name: "39", avail: false },
+          { name: "40", avail: true, priceQar: "QAR 2,000", cmpQar: "QAR 2,500", priceUsd: "$ 549", cmpUsd: "$ 687", priceEur: "€ 506", cmpEur: "€ 633", priceAed: "AED 2,006", cmpAed: "AED 2,508" }
+        ]
+      },
+      clothes: {
+        label: "Select Size",
+        options: [
+          { name: "XS", avail: true, priceQar: "QAR 1,800", cmpQar: null, priceUsd: "$ 495", cmpUsd: null, priceEur: "€ 456", cmpEur: null, priceAed: "AED 1,805", cmpAed: null },
+          { name: "S", avail: true, priceQar: "QAR 1,850", cmpQar: null, priceUsd: "$ 508", cmpUsd: null, priceEur: "€ 468", cmpEur: null, priceAed: "AED 1,855", cmpAed: null },
+          { name: "M", avail: true, priceQar: "QAR 1,900", cmpQar: "QAR 2,200", priceUsd: "$ 522", cmpUsd: "$ 604", priceEur: "€ 481", cmpEur: "€ 557", priceAed: "AED 1,906", cmpAed: "AED 2,207" },
+          { name: "L", avail: false },
+          { name: "XL", avail: true, priceQar: "QAR 2,000", cmpQar: null, priceUsd: "$ 549", cmpUsd: null, priceEur: "€ 506", cmpEur: null, priceAed: "AED 2,006", cmpAed: null }
+        ]
+      },
+      weight: {
+        label: "Select Weight",
+        options: [
+          { name: "250g", avail: true, priceQar: "QAR 450", cmpQar: "QAR 550", priceUsd: "$ 124", cmpUsd: "$ 151", priceEur: "€ 114", cmpEur: "€ 139", priceAed: "AED 451", cmpAed: "AED 552" },
+          { name: "500g", avail: true, priceQar: "QAR 850", cmpQar: null, priceUsd: "$ 234", cmpUsd: null, priceEur: "€ 215", cmpEur: null, priceAed: "AED 853", cmpAed: null },
+          { name: "1kg", avail: true, priceQar: "QAR 1,600", cmpQar: "QAR 1,800", priceUsd: "$ 440", cmpUsd: "$ 495", priceEur: "€ 405", cmpEur: "€ 456", priceAed: "AED 1,605", cmpAed: "AED 1,806" }
+        ]
+      }
+    };
+
+    let currentDemoType = 'shoes';
+
+    function renderSizes() {
+      const grid = document.getElementById('size-grid');
+      const label = document.getElementById('size-label');
+      const group = document.getElementById('size-selector-group');
+
+      if (currentDemoType === 'none') {
+        group.style.display = 'none';
+        setCTA(true, false);
+        return;
+      }
+
+      group.style.display = 'block';
+      const data = variantData[currentDemoType];
+      label.textContent = data.label;
+
+      grid.innerHTML = '';
+      data.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'sz-btn' + (opt.avail ? '' : ' unavail');
+        if (!opt.avail) btn.disabled = true;
+        btn.textContent = opt.name;
+        btn.setAttribute('data-avail', opt.avail ? 'true' : 'false');
+
+        if (opt.avail) {
+          btn.setAttribute('data-price-qar', opt.priceQar);
+          if (opt.cmpQar) btn.setAttribute('data-compare-qar', opt.cmpQar);
+          btn.setAttribute('data-price-usd', opt.priceUsd);
+          if (opt.cmpUsd) btn.setAttribute('data-compare-usd', opt.cmpUsd);
+          btn.setAttribute('data-price-eur', opt.priceEur);
+          if (opt.cmpEur) btn.setAttribute('data-compare-eur', opt.cmpEur);
+          btn.setAttribute('data-price-aed', opt.priceAed);
+          if (opt.cmpAed) btn.setAttribute('data-compare-aed', opt.cmpAed);
+          btn.onclick = () => pickSize(btn);
+        }
+        grid.appendChild(btn);
+      });
+
+      setCTA(true, true);
+    }
+
+    function switchDemoType(type) {
+      currentDemoType = type;
+      document.querySelectorAll('.demo-type-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-demo-' + type);
+      if (activeBtn) activeBtn.classList.add('active');
+      renderSizes();
+      const saved = localStorage.getItem('qtr_currency') || 'QAR';
+      window.applyStoreCurrency(saved);
+    }
+
+    /* ── Size ── */
+    function pickSize(b) {
+      if (b.classList.contains('unavail')) return;
+      document.querySelectorAll('.sz-btn').forEach(x => x.classList.remove('selected'));
+      b.classList.add('selected');
+      setPrice(b.getAttribute('data-price') || b.dataset.price, b.getAttribute('data-cmp') || b.dataset.cmp);
+      setCTA(b.dataset.avail === 'true', true);
+    }
+
+    /* ── Color ── */
+    function pickColor(s) {
+      document.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
+      s.classList.add('active');
+    }
+
+    /* ── Price display ── */
+    function setPrice(price, cmp) {
+      const pc  = document.getElementById('price-cur');
+      const pcp = document.getElementById('price-cmp');
+      pc.textContent = price;
+      if (cmp) {
+        pcp.textContent = cmp;
+        pcp.style.display = 'inline';
+        pc.style.color = 'var(--color-accent)';
+        pc.classList.remove('regular');
+      } else {
+        pcp.style.display = 'none';
+        pc.style.color = 'var(--color-primary)';
+        pc.classList.add('regular');
+      }
+    }
+
+    /* ── CTA state ── */
+    function setCTA(avail, sizeRequired) {
+      const atc = document.getElementById('btn-atc');
+      const buy = document.getElementById('btn-buy');
+      const bar = document.getElementById('stock-bar');
+      const selectedSize = document.querySelector('.sz-btn.selected');
+
+      if (sizeRequired && !selectedSize) {
+        atc.disabled = false;
+        atc.textContent = 'Add to Cart';
+        buy.disabled = true;
+        buy.textContent = 'SELECT A SIZE';
+        bar.className = 'stock-bar instock';
+        document.getElementById('stock-txt').textContent = 'Please select an option to check availability';
+        return;
+      }
+
+      atc.disabled = buy.disabled = !avail;
+      atc.textContent = avail ? 'Add to Cart' : 'Sold Out';
+      buy.textContent = avail ? 'Buy Now' : 'Sold Out';
+      bar.className = 'stock-bar ' + (avail ? 'instock' : 'outstock');
+      document.getElementById('stock-txt').textContent = avail
+        ? 'In Stock — Available for Same Day Delivery in Qatar'
+        : 'Out of Stock — Pre-orders only';
+    }
+
+    /* ── Add to Cart ── */
+    function doAtc() {
+      if (currentDemoType !== 'none' && !document.querySelector('.sz-btn.selected')) {
+        alert('Please select an option first.');
+        return;
+      }
+      const b = document.getElementById('btn-atc');
+      const orig = b.textContent;
+      b.textContent = 'Added ✓';
+      b.style.cssText = 'background:#1a6e2e;border-color:#1a6e2e;';
+      setTimeout(() => { b.textContent = orig; b.style.cssText = ''; }, 2200);
+    }
+
+    /* ── Buy Now ── */
+    function doBuy() { alert('Buy Now — connects to Shopify checkout in the live theme.'); }
+
+    /* ── Wishlist (main product) — accent fill on active ── */
+    function toggleWish() {
+      const btn = document.getElementById('wish-btn');
+      const svg = btn.querySelector('svg');
+      btn.classList.toggle('active');
+      if (btn.classList.contains('active')) {
+        svg.setAttribute('fill', 'var(--color-accent)');
+        svg.setAttribute('stroke', 'var(--color-accent)');
+      } else {
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', 'currentColor');
+      }
+    }
+
+    /* ── Wishlist on product cards ── */
+    function cardWish(e, btn) {
+      e.preventDefault();
+      btn.classList.toggle('active');
+      const svg = btn.querySelector('svg');
+      if (btn.classList.contains('active')) {
+        svg.setAttribute('fill', 'var(--color-accent)');
+        svg.setAttribute('stroke', 'var(--color-accent)');
+      } else {
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', 'currentColor');
+      }
+    }
+
+    /* ── Custom City Dropdown ── */
+    function toggleDD() {
+      document.getElementById('city-dd').classList.toggle('open');
+    }
+    function pickCity(opt) {
+      const city = opt.textContent.trim();
+      const fee  = opt.dataset.fee;
+      const time = opt.dataset.time;
+
+      document.querySelectorAll('.cs-opt').forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+      document.getElementById('cs-label').textContent = city;
+      document.getElementById('delivery-city').textContent = city;
+
+      const tag = document.getElementById('delivery-tag');
+      if (time === 'same') {
+        tag.textContent = 'Same-day delivery';
+        tag.className = 'same-day-tag';
+      } else {
+        tag.textContent = 'Next-day delivery';
+        tag.className = 'same-day-tag next';
+      }
+
+      const feeEl = document.getElementById('delivery-fee');
+      feeEl.innerHTML = fee === 'Free'
+        ? '<b style="color:#1a6e2e">Free</b> delivery'
+        : '<b>' + fee + '</b> delivery';
+
+      document.getElementById('city-dd').classList.remove('open');
+    }
+
+    /* Close dropdown when clicking outside */
+    document.addEventListener('click', e => {
+      const dd = document.getElementById('city-dd');
+      if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+    });
+
+    /* ---- Currency dropdown toggle ---- */
+    const currencyBtn = document.getElementById('desktop-currency-btn');
+    const currencyDd  = document.getElementById('desktop-currency-dropdown');
+    const langBtn = document.getElementById('desktop-lang-btn');
+    const langDd  = document.getElementById('desktop-lang-dropdown');
+
+    if (currencyBtn && currencyDd) {
+      currencyBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (langDd) langDd.classList.remove('open');
+        currencyDd.classList.toggle('is-open');
+      });
+    }
+
+    if (langBtn && langDd) {
+      langBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (currencyDd) currencyDd.classList.remove('is-open');
+        langDd.classList.toggle('open');
+      });
+    }
+
+    document.addEventListener('click', () => {
+      if (currencyDd) currencyDd.classList.remove('is-open');
+      if (langDd) langDd.classList.remove('open');
+    });
+
+    function applyCurrencyLabel(selectedCurrency) {
+      const wrapper = document.querySelector('.currency-wrapper');
+      if (!wrapper) return;
+      const symbolSpan = wrapper.querySelector('.currency-symbol');
+      const codeSpan   = wrapper.querySelector('.currency-code');
+      if (codeSpan) codeSpan.textContent = selectedCurrency;
+      if (symbolSpan) {
+        if (selectedCurrency === 'QAR')      symbolSpan.textContent = 'QR';
+        else if (selectedCurrency === 'USD') symbolSpan.textContent = '$';
+        else if (selectedCurrency === 'EUR') symbolSpan.textContent = '€';
+        else if (selectedCurrency === 'AED') symbolSpan.textContent = 'د.إ';
+      }
+      wrapper.querySelectorAll('.currency-option').forEach(o => {
+        const isCurrent = o.getAttribute('data-currency') === selectedCurrency;
+        o.classList.toggle('is-active', isCurrent);
+        let checkSvg = o.querySelector('svg');
+        if (isCurrent) {
+          if (!checkSvg) {
+            o.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>');
+          }
+        } else {
+          if (checkSvg) checkSvg.remove();
+        }
+      });
+    }
+
+    // Define window.applyStoreCurrency globally
+    window.applyStoreCurrency = function(currency) {
+      var key = currency.toLowerCase();
+      localStorage.setItem('qtr_currency', currency);
+      applyCurrencyLabel(currency);
+
+      // 1. Update product cards in "You May Also Like"
+      document.querySelectorAll('.card-price-row[data-price-qar]').forEach(function(row) {
+        var price   = row.getAttribute('data-price-' + key) || row.getAttribute('data-price-qar');
+        var compare = row.getAttribute('data-compare-' + key) || row.getAttribute('data-compare-qar') || null;
+
+        if (!price) return;
+
+        var priceEl   = row.querySelector('.card-price');
+        var compareEl = row.querySelector('.card-price-cmp');
+
+        if (compare) {
+          if (compareEl) {
+            compareEl.textContent = compare;
+            compareEl.style.display = '';
+          } else {
+            compareEl = document.createElement('span');
+            compareEl.className = 'card-price-cmp';
+            row.insertBefore(compareEl, row.firstChild);
+            compareEl.textContent = compare;
+          }
+          if (priceEl) {
+            priceEl.classList.add('sale');
+            priceEl.textContent = price;
+          }
+        } else {
+          if (compareEl) compareEl.style.display = 'none';
+          if (priceEl) {
+            priceEl.classList.remove('sale');
+            priceEl.textContent = price;
+          }
+        }
+      });
+
+      // 2. Update size button price data attributes
+      document.querySelectorAll('.sz-btn[data-price-qar]').forEach(function(btn) {
+        var price = btn.getAttribute('data-price-' + key) || btn.getAttribute('data-price-qar');
+        var cmp   = btn.getAttribute('data-compare-' + key) || btn.getAttribute('data-compare-qar') || null;
+        if (price) {
+          btn.setAttribute('data-price', price);
+        }
+        if (cmp) {
+          btn.setAttribute('data-cmp', cmp);
+        } else {
+          btn.removeAttribute('data-cmp');
+        }
+      });
+
+      // 3. Update active size selection main price
+      var activeSize = document.querySelector('.sz-btn.selected');
+      if (activeSize) {
+        pickSize(activeSize);
+      } else {
+        // Fallback: update main price row
+        var priceRow = document.querySelector('.price-row');
+        if (priceRow) {
+          var price = priceRow.getAttribute('data-price-' + key) || priceRow.getAttribute('data-price-qar');
+          var compare = priceRow.getAttribute('data-compare-' + key) || priceRow.getAttribute('data-compare-qar') || null;
+          setPrice(price, compare);
+        }
+      }
+    };
+
+    // Add event listeners to currency option clicks
+    document.querySelectorAll('.currency-option').forEach(opt => {
+      opt.addEventListener('click', e => {
+        e.stopPropagation();
+        const cur = opt.getAttribute('data-currency');
+        window.applyStoreCurrency(cur);
+        if (currencyDd) currencyDd.classList.remove('is-open');
+      });
+    });
+
+    /* ── Department (Women/Men) switching ── */
+    var savedDept = localStorage.getItem('qatarshoes_department') || 'women';
+    function applyDept(dept) {
+      savedDept = dept;
+      localStorage.setItem('qatarshoes_department', dept);
+      document.body.classList.remove('dept-women', 'dept-men');
+      document.body.classList.add('dept-' + dept);
+      document.querySelectorAll('.dept-link').forEach(l => l.classList.toggle('active', l.dataset.dept === dept));
+      document.querySelectorAll('.drawer-tab').forEach(t => t.classList.toggle('active', t.dataset.gender === dept));
+      document.querySelectorAll('#desktop-nav-menu .navigation-menu-wrapper, .desktop-nav .navigation-menu-wrapper').forEach(n => {
+        n.style.display = (n.dataset.dept === dept) ? 'flex' : 'none';
+      });
+      const wNav = document.getElementById('drawer-nav-women');
+      const mNav = document.getElementById('drawer-nav-men');
+      if (wNav) wNav.style.display = dept === 'women' ? 'flex' : 'none';
+      if (mNav) mNav.style.display = dept === 'men' ? 'flex' : 'none';
+    }
+    window.switchDept = function(dept) { applyDept(dept); };
+
+    /* ── Search overlay ── */
+    window.openSearch = function() {
+      document.getElementById('home-search-overlay').classList.add('active');
+      const inp = document.getElementById('home-search-input');
+      if (inp) setTimeout(() => inp.focus(), 50);
+      document.body.style.overflow = 'hidden';
+    };
+    window.closeSearch = function() {
+      document.getElementById('home-search-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
+
+    /* ── Mobile menu drawer ── */
+    window.toggleMobileMenu = function() {
+      const drawer = document.getElementById('home-mobile-drawer');
+      const overlay = document.getElementById('home-drawer-overlay');
+      const isOpen = drawer.classList.contains('active');
+      drawer.classList.toggle('active', !isOpen);
+      overlay.classList.toggle('active', !isOpen);
+      document.body.style.overflow = isOpen ? '' : 'hidden';
+    };
+
+    /* ---- Currency / Language dropdowns ---- */
+    currencyBtn = document.getElementById('desktop-currency-btn');
+    currencyDd  = document.getElementById('desktop-currency-dropdown');
+    const stickyCurrencyBtn = document.getElementById('sticky-currency-btn');
+    const stickyCurrencyDd  = document.getElementById('sticky-currency-dropdown');
+    langBtn = document.getElementById('desktop-lang-btn');
+    langDd  = document.getElementById('desktop-lang-dropdown');
+    const stickyLangBtn = document.getElementById('sticky-lang-btn');
+    const stickyLangDd  = document.getElementById('sticky-lang-dropdown');
+
+    function toggleCurrencyDropdown(btn, dd, e) {
+      e.stopPropagation();
+      if (langDd) langDd.classList.remove('open');
+      if (stickyLangDd) stickyLangDd.classList.remove('open');
+      if (currencyDd && currencyDd !== dd) currencyDd.classList.remove('is-open');
+      if (stickyCurrencyDd && stickyCurrencyDd !== dd) stickyCurrencyDd.classList.remove('is-open');
+      dd.classList.toggle('is-open');
+    }
+
+    function toggleLangDropdown(btn, dd, e) {
+      e.stopPropagation();
+      if (currencyDd) currencyDd.classList.remove('is-open');
+      if (stickyCurrencyDd) stickyCurrencyDd.classList.remove('is-open');
+      if (langDd && langDd !== dd) langDd.classList.remove('open');
+      if (stickyLangDd && stickyLangDd !== dd) stickyLangDd.classList.remove('open');
+      dd.classList.toggle('open');
+    }
+
+    if (currencyBtn && currencyDd) currencyBtn.addEventListener('click', e => toggleCurrencyDropdown(currencyBtn, currencyDd, e));
+    if (stickyCurrencyBtn && stickyCurrencyDd) stickyCurrencyBtn.addEventListener('click', e => toggleCurrencyDropdown(stickyCurrencyBtn, stickyCurrencyDd, e));
+    if (langBtn && langDd) langBtn.addEventListener('click', e => toggleLangDropdown(langBtn, langDd, e));
+    if (stickyLangBtn && stickyLangDd) stickyLangBtn.addEventListener('click', e => toggleLangDropdown(stickyLangBtn, stickyLangDd, e));
+
+    document.addEventListener('click', () => {
+      if (currencyDd) currencyDd.classList.remove('is-open');
+      if (stickyCurrencyDd) stickyCurrencyDd.classList.remove('is-open');
+      if (langDd) langDd.classList.remove('open');
+      if (stickyLangDd) stickyLangDd.classList.remove('open');
+    });
+
+    function applyCurrencyLabel(selectedCurrency) {
+      document.querySelectorAll('.currency-wrapper').forEach(wrapper => {
+        const symbolSpan = wrapper.querySelector('.currency-symbol');
+        const codeSpan   = wrapper.querySelector('.currency-code');
+        if (codeSpan) codeSpan.textContent = selectedCurrency;
+        if (symbolSpan) {
+          if (selectedCurrency === 'QAR')      symbolSpan.textContent = 'QR';
+          else if (selectedCurrency === 'USD') symbolSpan.textContent = '$';
+          else if (selectedCurrency === 'EUR') symbolSpan.textContent = '€';
+          else if (selectedCurrency === 'AED') symbolSpan.textContent = 'د.إ';
+        }
+        wrapper.querySelectorAll('.currency-option').forEach(o => {
+          const isCurrent = o.getAttribute('data-currency') === selectedCurrency;
+          o.classList.toggle('is-active', isCurrent);
+          let checkSvg = o.querySelector('svg');
+          if (isCurrent) {
+            if (!checkSvg) o.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>');
+          } else {
+            if (checkSvg) checkSvg.remove();
+          }
+        });
+      });
+    }
+
+    // Define window.applyStoreCurrency globally
+    window.applyStoreCurrency = function(currency) {
+      var key = currency.toLowerCase();
+      localStorage.setItem('qtr_currency', currency);
+      applyCurrencyLabel(currency);
+
+      // 1. Update product cards in "You May Also Like"
+      document.querySelectorAll('.card-price-row[data-price-qar]').forEach(function(row) {
+        var price   = row.getAttribute('data-price-' + key) || row.getAttribute('data-price-qar');
+        var compare = row.getAttribute('data-compare-' + key) || row.getAttribute('data-compare-qar') || null;
+
+        if (!price) return;
+
+        var priceEl   = row.querySelector('.card-price');
+        var compareEl = row.querySelector('.card-price-cmp');
+
+        if (compare) {
+          if (compareEl) {
+            compareEl.textContent = compare;
+            compareEl.style.display = '';
+          } else {
+            compareEl = document.createElement('span');
+            compareEl.className = 'card-price-cmp';
+            row.insertBefore(compareEl, row.firstChild);
+            compareEl.textContent = compare;
+          }
+          if (priceEl) {
+            priceEl.classList.add('sale');
+            priceEl.textContent = price;
+          }
+        } else {
+          if (compareEl) compareEl.style.display = 'none';
+          if (priceEl) {
+            priceEl.classList.remove('sale');
+            priceEl.textContent = price;
+          }
+        }
+      });
+
+      // 2. Update size button price data attributes
+      document.querySelectorAll('.sz-btn[data-price-qar]').forEach(function(btn) {
+        var price = btn.getAttribute('data-price-' + key) || btn.getAttribute('data-price-qar');
+        var cmp   = btn.getAttribute('data-compare-' + key) || btn.getAttribute('data-compare-qar') || null;
+        if (price) btn.setAttribute('data-price', price);
+        if (cmp) btn.setAttribute('data-cmp', cmp);
+        else btn.removeAttribute('data-cmp');
+      });
+
+      // 3. Update active size selection main price
+      var activeSize = document.querySelector('.sz-btn.selected');
+      if (activeSize) {
+        pickSize(activeSize);
+      } else {
+        // Fallback: update main price row
+        var priceRow = document.querySelector('.price-row');
+        if (priceRow) {
+          var price = priceRow.getAttribute('data-price-' + key) || priceRow.getAttribute('data-price-qar');
+          var compare = priceRow.getAttribute('data-compare-' + key) || priceRow.getAttribute('data-compare-qar') || null;
+          setPrice(price, compare);
+        }
+      }
+    };
+
+    // Add event listeners to currency option clicks
+    document.querySelectorAll('.currency-option').forEach(opt => {
+      opt.addEventListener('click', e => {
+        e.stopPropagation();
+        const cur = opt.getAttribute('data-currency');
+        window.applyStoreCurrency(cur);
+      });
+    });
+
+    /* ── Init ── */
+    document.addEventListener('DOMContentLoaded', () => {
+      applyDept(savedDept);
+      switchDemoType('shoes');
+      const savedCur = localStorage.getItem('qtr_currency') || 'QAR';
+      window.applyStoreCurrency(savedCur);
+    });
+  </script>
+</body>
+</html>

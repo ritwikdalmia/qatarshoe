@@ -1,0 +1,98 @@
+{% comment %}
+  QatarShoes — Marquee / Ticker Section
+  Dark band with scrolling text that dynamically swaps based on delivery mode
+{% endcomment %}
+
+{%- assign items_rtg = section.settings.items_rtg | default: "FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING • FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING" -%}
+{%- assign items_rts = section.settings.items_rts | default: "Shipping to all GCC • Delivered Within 2-3 Days" -%}
+
+<style>
+  #marquee-{{ section.id }} {
+    background: {{ section.settings.bg_color | default: '#1a1a1a' }};
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+  }
+  #marquee-{{ section.id }} .marquee-sep {
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+    opacity: 0.4;
+  }
+</style>
+
+<div class="qtr-marquee" id="marquee-{{ section.id }}" role="marquee" aria-label="Marquee">
+  <div class="marquee-track" id="marquee-track-{{ section.id }}"
+       data-items-rtg="{{ items_rtg | escape }}"
+       data-items-rts="{{ items_rts | escape }}">
+    {%- comment %} Will be updated by JavaScript below for real-time mode swapping {%- endcomment %}
+  </div>
+</div>
+
+<script>
+(function() {
+  var track = document.getElementById('marquee-track-{{ section.id }}');
+  if (!track) return;
+
+  var rtgText = track.getAttribute('data-items-rtg');
+  var rtsText = track.getAttribute('data-items-rts');
+
+  function updateMarquee() {
+    var mode = localStorage.getItem('delivery_mode') || 'ready-to-go';
+    var text = (mode === 'ready-to-go') ? rtgText : rtsText;
+    
+    // Split items by bullet separator
+    var items = text.split('•');
+    var html = '';
+    
+    // Duplicate the sequence for a seamless looping scroll animation
+    for (var loop = 0; loop < 2; loop++) {
+      items.forEach(function(item) {
+        var trimmed = item.trim();
+        if (trimmed) {
+          html += '<span class="marquee-item">' + trimmed + '</span>';
+          html += '<span class="marquee-sep">•</span>';
+        }
+      });
+    }
+    track.innerHTML = html;
+  }
+
+  // Initial render
+  updateMarquee();
+
+  // Listen to delivery mode changes
+  window.addEventListener('deliveryModeChanged', updateMarquee);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Marquee Ticker",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "items_rtg",
+      "label": "Ready to Go (Qatar) Items (separate with •)",
+      "default": "FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING • FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING"
+    },
+    {
+      "type": "textarea",
+      "id": "items_rts",
+      "label": "Ready to Ship (Dubai) Items (separate with •)",
+      "default": "Shipping to all GCC • Delivered Within 2-3 Days"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    { "name": "Marquee Ticker" }
+  ]
+}
+{% endschema %}

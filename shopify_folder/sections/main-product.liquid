@@ -1,0 +1,734 @@
+{% comment %}
+  QatarShoes — Main Product Details Section (Updated)
+  Matches: https://qatarshoe.com/ready-to-go/product/... look and feel
+{% endcomment %}{%- liquid
+  assign is_mock = false
+  if product == blank
+    assign is_mock = true
+  endif
+
+  if is_mock
+    assign p_title = "GCC Diana small tote bag"
+    assign p_vendor = "GCC"
+    assign p_description = '<p>The Diana small tote bag features the signature bamboo handles and double G hardware. Crafted from premium leather in a structured silhouette.</p><p>Details:<br>- Bamboo handles with 3.1" drop<br>- Double G hardware<br>- Interior open pocket and 2 zip compartments<br>- Small size: 10.6"W x 9.4"H x 4.3"D</p>'
+    assign p_price_money = "QAR 2,000"
+    assign p_compare_price_money = "QAR 2,500"
+    assign p_compare_at_price_val = 250000
+    assign p_price_val = 200000
+    assign p_available = true
+    assign p_id = "dummy-0"
+  else
+    assign p_title = product.title
+    assign p_vendor = product.vendor
+    assign p_description = product.description
+    assign p_price_money = product.price | money_without_trailing_zeros
+    assign p_compare_price_money = product.compare_at_price | money_without_trailing_zeros
+    assign p_compare_at_price_val = product.compare_at_price
+    assign p_price_val = product.price
+    assign p_available = product.available
+    assign p_id = product.id
+  endif
+-%}
+
+<div class="product-detail-page">
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span>/</span>
+    <a href="/collections/all">Collections</a>
+    <span>/</span>
+    <span class="current-crumb">{{ p_title }}</span>
+  </div>
+
+  <div class="product-container">
+    <!-- Left: Image Gallery -->
+    <div class="product-gallery-container">
+      <div id="product-gallery">
+        <!-- Thumbnails -->
+        <div class="product-thumbnails">
+          {%- if is_mock -%}
+            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=120&h=180&fit=crop"
+                 alt="Diana 1"
+                 class="active"
+                 data-main-src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800"
+                 onclick="switchMainImage(this)">
+            <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=120&h=180&fit=crop"
+                 alt="Diana 2"
+                 data-main-src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=800"
+                 onclick="switchMainImage(this)">
+            <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=120&h=180&fit=crop"
+                 alt="Diana 3"
+                 data-main-src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=800"
+                 onclick="switchMainImage(this)">
+          {%- else -%}
+            {%- if product.images.size > 0 -%}
+              {%- for image in product.images -%}
+                <img src="{{ image | image_url: width: 120, height: 180, crop: 'center' }}"
+                     alt="{{ image.alt | escape }}"
+                     class="{% if forloop.first %}active{% endif %}"
+                     data-main-src="{{ image | image_url: width: 1000 }}"
+                     onclick="switchMainImage(this)">
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+
+        <!-- Main Product Image -->
+        <div class="product-main-image">
+          <!-- Wishlist Button -->
+          <button type="button" class="product-wishlist-btn" aria-label="Add to wishlist" onclick="toggleProductWishlist(event, '{{ p_id }}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </button>
+          
+          <!-- Badges -->
+          {%- if p_compare_at_price_val > p_price_val -%}
+            <div class="product-badge-sale-new">
+              <span class="badge-indicator sale-color"></span>
+              <span class="badge-text">SALE</span>
+            </div>
+          {%- else -%}
+            <div class="product-badge-new">
+              <span class="badge-indicator"></span>
+              <span class="badge-text">NEW</span>
+            </div>
+          {%- endif -%}
+
+          {%- if is_mock -%}
+            <img id="main-image-view" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800" alt="{{ p_title | escape }}">
+          {%- else -%}
+            {%- if product.featured_image != blank -%}
+              <img id="main-image-view" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}">
+            {%- else -%}
+              <div class="product-card-placeholder" style="background:#f5f5f5;display:flex;align-items:center;justify-content:center;aspect-ratio:2/3;width:100%;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Product Details -->
+    <div id="product-info">
+      <div class="vendor">{{ p_vendor }}</div>
+      <h1 class="title">{{ p_title }}</h1>
+
+      <!-- Pricing -->
+      <div class="price-container"
+           data-price-qar="QAR 2,000"
+           data-compare-qar="QAR 2,500"
+           data-price-usd="$ 549"
+           data-compare-usd="$ 687"
+           data-price-eur="€ 506"
+           data-compare-eur="€ 633"
+           data-price-aed="AED 2,006"
+           data-compare-aed="AED 2,508">
+        {%- if p_compare_at_price_val > p_price_val -%}
+          <span class="compare-price" id="compare-price-display">{{ p_compare_price_money }}</span>
+          <span class="price sale" id="current-price-display">{{ p_price_money }}</span>
+        {%- else -%}
+          <span class="compare-price" id="compare-price-display" style="display:none;"></span>
+          <span class="price" id="current-price-display">{{ p_price_money }}</span>
+        {%- endif -%}
+      </div>
+
+      <!-- Qatar Stock Status Banner -->
+      <div class="stock-banner in-stock" id="qtr-stock-banner">
+        <span class="status-dot"></span>
+        <span class="status-text">In Stock — Available for Same Day Delivery in Qatar</span>
+      </div>
+
+      <!-- Variant Selectors -->
+      {%- if is_mock -%}
+        <div class="product-variant-selectors">
+          <div id="size-selector" class="selector-group">
+            <label class="option-label">Select Size (EU)</label>
+            <div class="size-options">
+              <button type="button" 
+                      class="size-option" 
+                      data-variant-id="dummy-variant-36"
+                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
+                      data-price-usd="$ 549" data-compare-usd="$ 687"
+                      data-price-eur="€ 506" data-compare-eur="€ 633"
+                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
+                      data-price="QAR 2,000"
+                      data-compare-price="QAR 2,500"
+                      data-available="true"
+                      onclick="selectProductSize(this)">
+                36
+              </button>
+              <button type="button" 
+                      class="size-option" 
+                      data-variant-id="dummy-variant-37"
+                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
+                      data-price-usd="$ 549" data-compare-usd="$ 687"
+                      data-price-eur="€ 506" data-compare-eur="€ 633"
+                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
+                      data-price="QAR 2,000"
+                      data-compare-price="QAR 2,500"
+                      data-available="true"
+                      onclick="selectProductSize(this)">
+                37
+              </button>
+              <button type="button" 
+                      class="size-option" 
+                      data-variant-id="dummy-variant-38"
+                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
+                      data-price-usd="$ 549" data-compare-usd="$ 687"
+                      data-price-eur="€ 506" data-compare-eur="€ 633"
+                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
+                      data-price="QAR 2,000"
+                      data-compare-price="QAR 2,500"
+                      data-available="true"
+                      onclick="selectProductSize(this)">
+                38
+              </button>
+              <button type="button" 
+                      class="size-option unavailable" 
+                      data-variant-id="dummy-variant-39"
+                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
+                      data-price-usd="$ 549" data-compare-usd="$ 687"
+                      data-price-eur="€ 506" data-compare-eur="€ 633"
+                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
+                      data-price="QAR 2,000"
+                      data-compare-price="QAR 2,500"
+                      data-available="false"
+                      disabled
+                      onclick="selectProductSize(this)">
+                39
+              </button>
+              <button type="button" 
+                      class="size-option" 
+                      data-variant-id="dummy-variant-40"
+                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
+                      data-price-usd="$ 549" data-compare-usd="$ 687"
+                      data-price-eur="€ 506" data-compare-eur="€ 633"
+                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
+                      data-price="QAR 2,000"
+                      data-compare-price="QAR 2,500"
+                      data-available="true"
+                      onclick="selectProductSize(this)">
+                40
+              </button>
+            </div>
+          </div>
+
+          <div id="color-selector" class="selector-group">
+            <label class="option-label">Select Color</label>
+            <div class="color-swatches">
+              <div class="color-swatch active" 
+                   data-color="Brown"
+                   data-variant-id="dummy-variant-brown"
+                   data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
+                   data-price-usd="$ 549" data-compare-usd="$ 687"
+                   data-price-eur="€ 506" data-compare-eur="€ 633"
+                   data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
+                   data-price="QAR 2,000"
+                   data-compare-price="QAR 2,500"
+                   data-available="true"
+                   title="Brown"
+                   onclick="selectProductColor(this)">
+              </div>
+              <div class="color-swatch" 
+                   data-color="Black"
+                   data-variant-id="dummy-variant-black"
+                   data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
+                   data-price-usd="$ 549" data-compare-usd="$ 687"
+                   data-price-eur="€ 506" data-compare-eur="€ 633"
+                   data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
+                   data-price="QAR 2,000"
+                   data-compare-price="QAR 2,500"
+                   data-available="true"
+                   title="Black"
+                   onclick="selectProductColor(this)">
+              </div>
+              <div class="color-swatch" 
+                   data-color="Red"
+                   data-variant-id="dummy-variant-red"
+                   data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
+                   data-price-usd="$ 549" data-compare-usd="$ 687"
+                   data-price-eur="€ 506" data-compare-eur="€ 633"
+                   data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
+                   data-price="QAR 2,000"
+                   data-compare-price="QAR 2,500"
+                   data-available="true"
+                   title="Red"
+                   onclick="selectProductColor(this)">
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- else -%}
+        {%- if product.variants.size > 1 -%}
+          <div class="product-variant-selectors">
+            {%- for option in product.options_with_values -%}
+              {%- assign downcase_name = option.name | downcase -%}
+              {%- if downcase_name == 'size' or downcase_name == 'مقاس' or downcase_name == 'المقاس' -%}
+                <div id="size-selector" class="selector-group">
+                  <label class="option-label">Select Size (EU)</label>
+                  <div class="size-options">
+                    {%- for value in option.values -%}
+                      {%- assign variant_available = false -%}
+                      {%- assign matched_variant_id = '' -%}
+                      {%- assign matched_variant_price = '' -%}
+                      {%- assign matched_variant_compare_price = '' -%}
+
+                      {%- for variant in product.variants -%}
+                        {%- if variant.options contains value -%}
+                          {%- if variant.available -%}
+                            {%- assign variant_available = true -%}
+                          {%- endif -%}
+                          {%- assign matched_variant_id = variant.id -%}
+                          {%- assign matched_variant_price = variant.price | money_without_trailing_zeros -%}
+                          {%- if variant.compare_at_price > variant.price -%}
+                            {%- assign matched_variant_compare_price = variant.compare_at_price | money_without_trailing_zeros -%}
+                          {%- endif -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+
+                      <button type="button" 
+                              class="size-option{% unless variant_available %} unavailable{% endunless %}" 
+                              data-variant-id="{{ matched_variant_id }}"
+                              data-price="{{ matched_variant_price }}"
+                              data-compare-price="{{ matched_variant_compare_price }}"
+                              data-available="{{ variant_available }}"
+                              {% unless variant_available %}disabled{% endunless %}
+                              onclick="selectProductSize(this)">
+                        {{ value }}
+                      </button>
+                    {%- endfor -%}
+                  </div>
+                </div>
+
+              {%- elsif downcase_name == 'color' or downcase_name == 'اللون' or downcase_name == 'لون' -%}
+                <div id="color-selector" class="selector-group">
+                  <label class="option-label">Select Color</label>
+                  <div class="color-swatches">
+                    {%- for value in option.values -%}
+                      {%- assign variant_available = false -%}
+                      {%- assign matched_variant_id = '' -%}
+                      {%- assign matched_variant_price = '' -%}
+                      {%- assign matched_variant_compare_price = '' -%}
+
+                      {%- for variant in product.variants -%}
+                        {%- if variant.options contains value -%}
+                          {%- if variant.available -%}
+                            {%- assign variant_available = true -%}
+                          {%- endif -%}
+                          {%- assign matched_variant_id = variant.id -%}
+                          {%- assign matched_variant_price = variant.price | money_without_trailing_zeros -%}
+                          {%- if variant.compare_at_price > variant.price -%}
+                            {%- assign matched_variant_compare_price = variant.compare_at_price | money_without_trailing_zeros -%}
+                          {%- endif -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+
+                      <div class="color-swatch{% if option.selected_value == value %} active{% endif %}{% unless variant_available %} unavailable{% endunless %}" 
+                           data-color="{{ value }}"
+                           data-variant-id="{{ matched_variant_id }}"
+                           data-price="{{ matched_variant_price }}"
+                           data-compare-price="{{ matched_variant_compare_price }}"
+                           data-available="{{ variant_available }}"
+                           title="{{ value }}"
+                           onclick="selectProductColor(this)">
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      <!-- Selected Variant Tracking -->
+      {%- if is_mock -%}
+        <input type="hidden" id="selected-variant-id" name="id" value="dummy-variant-36">
+      {%- else -%}
+        <input type="hidden" id="selected-variant-id" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      {%- endif -%}
+
+      <!-- Quantity controls -->
+      <div class="quantity-wrapper">
+        <span class="quantity-label">Quantity</span>
+        <div class="quantity-controls">
+          <button type="button" class="qty-btn" onclick="adjustProductQty(-1)">−</button>
+          <input type="number" id="product-qty-input" value="1" min="1" readonly>
+          <button type="button" class="qty-btn" onclick="adjustProductQty(1)">+</button>
+        </div>
+      </div>
+
+      <!-- Add to Cart / Buy Now buttons -->
+      <div class="cta-wrapper">
+        <button type="button" id="add-to-cart" class="checkout-btn atc-btn" 
+                {% unless p_available %}disabled{% endunless %}
+                onclick="addToCartClick()">
+          {%- if p_available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+        </button>
+        <button type="button" id="buy-now" class="checkout-btn buy-now-btn" 
+                {% unless p_available %}disabled{% endunless %}
+                onclick="buyNowClick()">
+          Buy Now
+        </button>
+      </div>
+
+      <!-- Delivery info strip -->
+      <div class="delivery-info-strip">
+        <div class="info-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>Same Day Delivery in Qatar (orders before 4 PM)</span>
+        </div>
+        <div class="info-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Secure Cash on Delivery Checkout</span>
+        </div>
+      </div>
+
+      <!-- Product Description accordions -->
+      <div class="product-accordions">
+        <div class="accordion-item active">
+          <button type="button" class="accordion-header" onclick="toggleProductAccordion(this)">
+            <span>Description</span>
+            <span class="accordion-icon">−</span>
+          </button>
+          <div class="accordion-content">
+            <div class="rte">
+              {{ p_description }}
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" onclick="toggleProductAccordion(this)">
+            <span>Shipping & Returns</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-content">
+            <p>We provide same-day courier delivery within Doha for all orders placed before 4 PM. Delivery is free for purchases above QAR 500. Cash on Delivery (COD) is accepted at checkout. Returns are allowed within 7 days of delivery, provided items are unworn and in original packaging.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Color hex codes mapping matching qatarshoes original system
+  const COLOR_HEX_MAP = {
+    'brown': '#8B4513', 'black': '#000000', 'red': '#B22222', 'green': '#228B22', 'navy blue': '#000080',
+    'navy': '#000080', 'blue': '#0066CC', 'burgundy': '#800020', 'grey': '#808080', 'gray': '#808080',
+    'white': '#FFFFFF', 'beige': '#F5F5DC', 'pink': '#FFC0CB', 'orange': '#FF8C00', 'yellow': '#FFD700',
+    'purple': '#800080', 'tan': '#D2B48C', 'cognac': '#9A463D', 'camel': '#C19A6B', 'cream': '#FFFDD0',
+    'gold': '#FFD700', 'silver': '#C0C0C0', 'nude': '#E3BC9A', 'taupe': '#483C32', 'olive': '#808000',
+    'coral': '#FF7F50', 'turquoise': '#40E0D0', 'mint': '#98FF98', 'lavender': '#E6E6FA', 'maroon': '#800000',
+    'teal': '#008080', 'natural': '#F5F5DC', 'khaki': '#C3B091', 'rose': '#FF007F', 'ivory': '#FFFFF0',
+    'charcoal': '#36454F', 'chocolate': '#7B3F00', 'bordeaux': '#6B0F1A', 'light brown': '#A0522D',
+    'dark brown': '#654321', 'light grey': '#D3D3D3', 'dark grey': '#696969', 'light gray': '#D3D3D3',
+    'dark gray': '#696969', 'sky blue': '#87CEEB', 'light blue': '#ADD8E6', 'dark blue': '#00008B',
+    'royal blue': '#4169E1', 'light pink': '#FFB6C1', 'hot pink': '#FF69B4', 'dark green': '#006400',
+    'forest green': '#228B22', 'bright red': '#FF0000', 'dark red': '#8B0000', 'off white': '#FAF9F6',
+    'ecru': '#C2B280', 'sand': '#C2B280', 'bone': '#E3DAC9', 'pearl': '#F0EAD6', 'slate': '#708090',
+    'gunmetal': '#2C3539', 'platinum': '#E5E4E2', 'champagne': '#F7E7CE', 'rust': '#B7410E',
+    'copper': '#B87333', 'bronze': '#CD7F32', 'coffee': '#6F4E37', 'mocha': '#967969', 'espresso': '#3C1414',
+    'honey': '#EB9605', 'mustard': '#FFDB58', 'amber': '#FFBF00', 'terracotta': '#E2725B', 'peach': '#FFCBA4',
+    'apricot': '#FBCEB1', 'salmon': '#FA8072', 'fuchsia': '#FF00FF', 'magenta': '#FF0090', 'plum': '#DDA0DD',
+    'lilac': '#C8A2C8', 'mauve': '#E0B0FF', 'violet': '#EE82EE', 'indigo': '#4B0082', 'cobalt': '#0047AB',
+    'sapphire': '#0F52BA', 'azure': '#007FFF', 'aqua': '#00FFFF', 'cyan': '#00FFFF', 'seafoam': '#71EEB8',
+    'emerald': '#50C878', 'jade': '#00A86B', 'sage': '#9DC183', 'moss': '#8A9A5B', 'army green': '#4B5320',
+    'hunter green': '#355E3B', 'pine': '#01796F', 'mahogany': '#C04000', 'walnut': '#773F1A', 'oak': '#806517',
+    'maple': '#C08040', 'cedar': '#A04000', 'ebony': '#555D50', 'jet black': '#0A0A0A', 'onyx': '#353839',
+    'midnight': '#191970'
+  };
+
+  // Switch product images in gallery
+  function switchMainImage(thumbnail) {
+    const mainSrc = thumbnail.getAttribute('data-main-src');
+    if (!mainSrc) return;
+    
+    document.getElementById('main-image-view').src = mainSrc;
+    
+    // Update active thumbnail class
+    document.querySelectorAll('.product-thumbnails img').forEach(img => {
+      img.classList.remove('active');
+    });
+    thumbnail.classList.add('active');
+  }
+
+  // Adjust product quantity input
+  function adjustProductQty(amount) {
+    const input = document.getElementById('product-qty-input');
+    let currentVal = parseInt(input.value) || 1;
+    currentVal += amount;
+    if (currentVal < 1) currentVal = 1;
+    input.value = currentVal;
+  }
+
+  // Accordion toggle functionality
+  function toggleProductAccordion(header) {
+    const item = header.closest('.accordion-item');
+    const isActive = item.classList.contains('active');
+    const icon = header.querySelector('.accordion-icon');
+    
+    // Toggle active class
+    item.classList.toggle('active', !isActive);
+    if (icon) icon.textContent = isActive ? '+' : '−';
+  }
+
+  // Select variant size option
+  function selectProductSize(btn) {
+    if (btn.classList.contains('unavailable')) return;
+
+    // Toggle active state in sizes row
+    document.querySelectorAll('.size-option').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+
+    // Update variant ID
+    const variantId = btn.getAttribute('data-variant-id');
+    document.getElementById('selected-variant-id').value = variantId;
+
+    // Update pricing
+    updateProductPrice(btn.getAttribute('data-price'), btn.getAttribute('data-compare-price'));
+    updateCTAState(btn.getAttribute('data-available') === 'true');
+  }
+
+  // Select color option (swatches)
+  function selectProductColor(swatch) {
+    if (swatch.classList.contains('unavailable')) return;
+
+    // Toggle active state in color row
+    document.querySelectorAll('.color-swatch').forEach(b => b.classList.remove('active'));
+    swatch.classList.add('active');
+
+    // Update variant ID
+    const variantId = swatch.getAttribute('data-variant-id');
+    document.getElementById('selected-variant-id').value = variantId;
+
+    // Update pricing
+    updateProductPrice(swatch.getAttribute('data-price'), swatch.getAttribute('data-compare-price'));
+    updateCTAState(swatch.getAttribute('data-available') === 'true');
+  }
+
+  // Update displayed prices
+  function updateProductPrice(price, comparePrice) {
+    const priceDisplay = document.getElementById('current-price-display');
+    const compareDisplay = document.getElementById('compare-price-display');
+
+    if (priceDisplay && price) {
+      priceDisplay.textContent = price;
+    }
+
+    if (compareDisplay) {
+      if (comparePrice) {
+        priceDisplay.classList.add('sale');
+        compareDisplay.textContent = comparePrice;
+        compareDisplay.style.display = 'inline';
+      } else {
+        priceDisplay.classList.remove('sale');
+        compareDisplay.style.display = 'none';
+      }
+    }
+  }
+
+  // Enable/Disable buttons based on variant stock availability
+  function updateCTAState(isAvailable) {
+    const atcBtn = document.getElementById('add-to-cart');
+    const buyBtn = document.getElementById('buy-now');
+    const banner = document.getElementById('qtr-stock-banner');
+
+    if (atcBtn) {
+      atcBtn.disabled = !isAvailable;
+      atcBtn.textContent = isAvailable ? 'Add to Cart' : 'Sold Out';
+    }
+
+    if (buyBtn) {
+      buyBtn.disabled = !isAvailable;
+    }
+
+    if (banner) {
+      if (isAvailable) {
+        banner.className = 'stock-banner in-stock';
+        banner.querySelector('.status-text').textContent = 'In Stock — Available for Same Day Delivery in Qatar';
+      } else {
+        banner.className = 'stock-banner out-of-stock';
+        banner.querySelector('.status-text').textContent = 'Out of Stock — Pre-orders only';
+      }
+    }
+  }
+
+  // Add item to cart and redirect to Cart page
+  function addToCartClick() {
+    const variantId = document.getElementById('selected-variant-id').value;
+    const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
+    const atcBtn = document.getElementById('add-to-cart');
+
+    if (!variantId) {
+      alert('Please select a size first.');
+      return;
+    }
+
+    atcBtn.disabled = true;
+    atcBtn.textContent = 'Adding...';
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: qty
+      })
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Network error adding variant');
+      return response.json();
+    })
+    .then(data => {
+      atcBtn.disabled = false;
+      atcBtn.textContent = 'Add to Cart';
+      if (typeof window.openSideDrawer === 'function') {
+        window.openSideDrawer('cart');
+      } else {
+        window.location.href = '/cart';
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      atcBtn.disabled = false;
+      atcBtn.textContent = 'Add to Cart';
+    });
+  }
+
+  // Fast checkout redirection
+  function buyNowClick() {
+    const variantId = document.getElementById('selected-variant-id').value;
+    const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
+    const buyBtn = document.getElementById('buy-now');
+
+    if (!variantId) {
+      alert('Please select a size first.');
+      return;
+    }
+
+    buyBtn.disabled = true;
+    buyBtn.textContent = 'Processing...';
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: qty
+      })
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Network error redirecting');
+      return response.json();
+    })
+    .then(data => {
+      window.location.href = '/checkout';
+    })
+    .catch(error => {
+      console.error(error);
+      buyBtn.disabled = false;
+      buyBtn.textContent = 'Buy Now';
+    });
+  }
+
+  // Wishlist toggle integration
+  function toggleProductWishlist(event, productId) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const btn = event.currentTarget;
+    const heartSvg = btn.querySelector('svg');
+    let wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+    let items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+    const index = wishlist.indexOf(productId);
+    
+    if (index > -1) {
+      wishlist.splice(index, 1);
+      items = items.filter(item => item.id !== productId && item.id !== parseInt(productId));
+      heartSvg.setAttribute('fill', 'none');
+      heartSvg.setAttribute('stroke', 'currentColor');
+      btn.classList.remove('active');
+    } else {
+      wishlist.push(productId);
+      heartSvg.setAttribute('fill', '#e74c3c');
+      heartSvg.setAttribute('stroke', '#e74c3c');
+      btn.classList.add('active');
+      
+      const variantId = document.getElementById('selected-variant-id').value;
+      let price = {% if p_price_val %}{{ p_price_val }}{% else %}200000{% endif %};
+      let title = "{{ p_title | escape }}";
+      let image = "";
+      const imgEl = document.getElementById('main-image-view');
+      if (imgEl) image = imgEl.src;
+      
+      items.push({
+        id: productId,
+        variant_id: variantId,
+        title: title,
+        vendor: "{{ p_vendor | escape }}",
+        image: image,
+        price: price,
+        url: window.location.pathname
+      });
+      
+      setTimeout(() => {
+        if (typeof window.openSideDrawer === 'function') {
+          window.openSideDrawer('wishlist');
+        }
+      }, 300);
+    }
+    
+    localStorage.setItem('qtr_wishlist', JSON.stringify(wishlist));
+    localStorage.setItem('qtr_wishlist_items', JSON.stringify(items));
+    
+    // Dispatch global event
+    window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
+  }
+
+  // Initialize page components
+  document.addEventListener('DOMContentLoaded', function() {
+    // 1. Swatches background color loader
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+      const color = swatch.getAttribute('data-color').toLowerCase().trim();
+      const hex = COLOR_HEX_MAP[color] || '#dcdcdc';
+      swatch.style.backgroundColor = hex;
+    });
+
+    // 2. Select first in-stock variant size pill automatically
+    const firstAvailableSize = document.querySelector('.size-option[data-available="true"]');
+    if (firstAvailableSize) {
+      selectProductSize(firstAvailableSize);
+    } else {
+      // If no options, check if single variant is available
+      const singleOpt = document.querySelector('.size-option');
+      if (singleOpt) selectProductSize(singleOpt);
+    }
+
+    // 3. Wishlist state sync
+    const wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+    const heartBtn = document.querySelector('.product-wishlist-btn');
+    if (heartBtn && wishlist.indexOf('{{ product.id }}') > -1) {
+      heartBtn.classList.add('active');
+      const heartSvg = heartBtn.querySelector('svg');
+      if (heartSvg) {
+        heartSvg.setAttribute('fill', '#e74c3c');
+        heartSvg.setAttribute('stroke', '#e74c3c');
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Details",
+  "settings": []
+}
+{% endschema %}
+{% comment %} Trigger Sync {% endcomment %}

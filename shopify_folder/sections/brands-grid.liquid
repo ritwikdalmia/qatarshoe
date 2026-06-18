@@ -1,0 +1,266 @@
+{% comment %}
+  QatarShoes — House Of Brands Grid Section
+{% endcomment %}
+
+<section class="brands-on-qatarshoes homepage-section" data-section="featured-brands" data-has-women="true" data-has-men="true">
+  <style>
+    .brands-on-qatarshoes {
+      padding: 128px 40px;
+      background: #fff;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .brands-on-qatarshoes .brands-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    .brands-on-qatarshoes .brands-header h2 {
+      font-size: 32px;
+      font-weight: 600;
+      margin: 0;
+      color: #2D1F1F;
+      font-family: 'Inter', sans-serif;
+      text-transform: capitalize;
+      line-height: 28px;
+      text-align: center;
+    }
+    .brands-on-qatarshoes .brands-grid {
+      align-self: stretch;
+      padding: 1px;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .brands-on-qatarshoes .brand-item {
+      flex: 1 1 0;
+      aspect-ratio: 1 / 1;
+      background: white;
+      overflow: hidden;
+      border-radius: 16px;
+      outline: 1px solid #E0DCD3;
+      outline-offset: -1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+      min-width: 110px;
+      max-width: 160px;
+    }
+    .brands-on-qatarshoes .brand-item:hover {
+      background: #f9f9f9;
+    }
+    .brands-on-qatarshoes .brand-image-container {
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+    .brands-on-qatarshoes .brand-image-container img {
+      max-width: 120%;
+      max-height: 120%;
+      object-fit: contain;
+    }
+    .brands-on-qatarshoes .brand-name-text {
+      color: #2D1F1F;
+      text-align: center;
+    }
+    
+    /* Brand-specific styling fallbacks for exact replication */
+    .brand-font-hms {
+      font-family: 'Canela Text', Georgia, serif;
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+    .brand-font-coco {
+      font-family: 'Inter', sans-serif;
+      text-transform: lowercase;
+      font-weight: 800;
+      font-size: 25px;
+      letter-spacing: -1px;
+    }
+    .brand-font-gyd {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.5px;
+    }
+    .brand-font-lp {
+      font-family: 'Canela Text', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 32px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .brand-font-dr {
+      font-family: 'Canela Text', Georgia, serif;
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+    }
+    .brand-font-lvn {
+      font-family: 'Canela Text', Georgia, serif;
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+    }
+    .brand-font-crt {
+      font-family: 'Canela Text', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 30px;
+      text-transform: capitalize;
+    }
+    .brand-font-msk {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 1023px) {
+      .brands-on-qatarshoes {
+        padding: 40px 15px;
+        gap: 20px;
+      }
+      .brands-on-qatarshoes .brands-header h2 {
+        font-size: 22px;
+      }
+      .brands-on-qatarshoes .brands-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .brands-on-qatarshoes .brand-item {
+        flex: unset;
+        width: auto;
+        height: auto;
+        aspect-ratio: 1/1;
+        border-radius: 7.48px;
+        outline: none;
+        border: 1px solid #e5e5e5;
+        min-width: 0;
+        max-width: none;
+      }
+      .brand-font-lp { font-size: 26px; }
+      .brand-font-crt { font-size: 24px; }
+      .brand-font-hms, .brand-font-coco, .brand-font-dr, .brand-font-lvn, .brand-font-msk { font-size: 20px; }
+      .brand-font-gyd { font-size: 18px; }
+    }
+    
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .brands-on-qatarshoes {
+        padding: 80px 24px;
+      }
+      .brands-on-qatarshoes .brands-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+      .brands-on-qatarshoes .brand-item {
+        flex: unset;
+        height: auto;
+        aspect-ratio: 1/1;
+        max-width: none;
+      }
+    }
+  </style>
+
+  <div class="brands-header">
+    <h2>{{ section.settings.title | default: "House Of Brands" }}</h2>
+  </div>
+  
+  <div class="brands-grid">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign col = collections[block.settings.collection_handle]
+          assign brand_name = block.settings.custom_name | default: col.title
+          assign brand_url = block.settings.custom_url | default: col.url | default: "#"
+          assign brand_class = brand_name | downcase | replace: ' ', '-' | prepend: 'brand-font-'
+        -%}
+        <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
+          <div class="brand-image-container">
+            {%- if col.image != blank -%}
+              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" loading="lazy">
+            {%- else -%}
+              <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- else -%}
+      {%- comment %} Fallback default brands to replicate Figma/WordPress homepage {% endcomment %}
+      {%- assign fallback_names = "HMS,coco,GYD,L P,DR,LVN,Crt,MSK" | split: "," -%}
+      {%- assign fallback_handles = "hms,coco,gyd,lp,dr,lvn,crt,msk" | split: "," -%}
+      {%- assign fallback_font_classes = "brand-font-hms,brand-font-coco,brand-font-gyd,brand-font-lp,brand-font-dr,brand-font-lvn,brand-font-crt,brand-font-msk" | split: "," -%}
+      
+      {%- for i in (0..7) -%}
+        <a href="/collections/{{ fallback_handles[i] }}" class="brand-item">
+          <div class="brand-image-container">
+            <span class="brand-name-text {{ fallback_font_classes[i] }}">{{ fallback_names[i] }}</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "House Of Brands",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "House Of Brands"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand Link",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection_handle",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "custom_name",
+          "label": "Custom Name (Fallback)"
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom URL (Fallback)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "House Of Brands"
+    }
+  ]
+}
+{% endschema %}

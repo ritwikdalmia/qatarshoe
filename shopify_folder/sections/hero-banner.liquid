@@ -1,5 +1,6 @@
 {% comment %}
-  QatarShoes Fullscreen Hero Section
+  QatarShoes — Hero Fullscreen Section
+  Full-bleed hero image matching https://qatarshoe.com/ready-to-go/
 {% endcomment %}
 
 {%- liquid
@@ -16,68 +17,32 @@
   endif
 -%}
 
-<div class="qtr-hero" style="
+<div class="qtr-hero home-hero-content" style="
   --bg-desktop: url('{{ hero_desktop }}');
   --bg-mobile: url('{{ hero_mobile }}');
+  background-image: var(--bg-desktop);
 ">
-  <div class="hero-gradient-overlay"></div>
-  
-  <div class="hero-indicator-row">
-    <div class="scroll-prompt">
-      <span class="prompt-text">Scroll Down</span>
-      <span class="prompt-line">|</span>
+  <div class="hero-image-mask"></div>
+
+  {%- if section.settings.fomo_text != blank -%}
+    <div class="hero-fomo">
+      <span>🔥</span>
+      <span class="fomo-message">{{ section.settings.fomo_text }}</span>
     </div>
-  </div>
+  {%- endif -%}
 </div>
 
 <style>
-  .qtr-hero {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    margin-top: -120px; /* pull under transparent header */
-    background-image: var(--bg-desktop);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 1;
+  @media (max-width: 1023px) {
+    .qtr-hero { background-image: var(--bg-mobile) !important; }
   }
-  .hero-gradient-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.4) 100%);
-    z-index: 2;
+  /* Push hero under transparent header on desktop */
+  @media (min-width: 1024px) {
+    .qtr-hero { margin-top: 0; }
   }
-  .hero-indicator-row {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--color-white);
-    text-align: center;
-    z-index: 3;
-  }
-  .scroll-prompt {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-  .prompt-line {
-    margin-top: 10px;
-    font-weight: 300;
-    opacity: 0.8;
-  }
-
-  @media (max-width: 1024px) {
-    .qtr-hero {
-      background-image: var(--bg-mobile);
-      height: 90vh;
-      margin-top: 0;
-    }
+  /* On mobile, push below fixed sticky header */
+  @media (max-width: 1023px) {
+    .qtr-hero { margin-top: 60px; }
   }
 </style>
 
@@ -94,12 +59,16 @@
       "type": "image_picker",
       "id": "image_mobile",
       "label": "Mobile Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "fomo_text",
+      "label": "FOMO Badge Text",
+      "default": "🔥 Most loved today"
     }
   ],
   "presets": [
-    {
-      "name": "Hero Fullscreen"
-    }
+    { "name": "Hero Fullscreen" }
   ]
 }
 {% endschema %}

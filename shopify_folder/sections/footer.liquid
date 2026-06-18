@@ -1,0 +1,955 @@
+{% comment %}
+  QatarShoes — Figma Spec Footer Section
+{% endcomment %}
+
+<style>
+/* ============================================================
+   FOOTER — isolated and pixel-perfect Figma spec
+   ============================================================ */
+
+.site-footer {
+    background: #fff;
+    padding-top: 48px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ── Row: left panel + right panel ── */
+.site-footer-panels {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+
+/* ── LEFT PANEL ── */
+.site-footer-panel-left {
+    width: 581px;          /* Figma: 581.33px */
+    flex-shrink: 0;
+    padding: 40px;
+    outline: 1px solid rgba(0, 0, 0, 0.20);
+    outline-offset: -1px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;             /* Figma: 64px between logo and subscribe block */
+    box-sizing: border-box;
+}
+
+.site-footer-logo-link {
+    display: block;
+    line-height: 0;
+    text-decoration: none;
+}
+
+.site-footer-logo-link img {
+    width: 110px;          /* Figma: 110.02px */
+    height: 32px;
+    object-fit: contain;
+    display: block;
+}
+
+/* Subscribe block */
+.site-footer-subscribe-block {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;             /* Figma: 24px between heading / form / disclaimer */
+}
+
+.site-footer-subscribe-heading {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 24px;       
+    color: #111111;    
+    text-transform: none;
+    line-height: 125%;    
+    letter-spacing: 0;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+/* CF7 form — reset to match original subscribe design */
+.site-footer-subscribe-form .wpcf7 {
+    margin: 0;
+    padding: 0;
+}
+
+.site-footer-subscribe-form .wpcf7-form {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* CF7 wraps fields in <p> — make them inline-flex so they sit side by side */
+.site-footer-subscribe-form .wpcf7-form p {
+    margin: 0;
+    padding: 0;
+    display: contents;
+}
+
+/* Hide <br> tags CF7 auto-inserts between fields */
+.site-footer-subscribe-form .wpcf7-form br {
+    display: none;
+}
+
+.site-footer-subscribe-form .wpcf7-form-control-wrap {
+    flex: 1 1 0;
+    height: 48px;
+    padding: 8px 8px 8px 16px;
+    border-radius: 900px;
+    outline: 1px solid rgba(0, 0, 0, 0.20);
+    outline-offset: -1px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.site-footer-subscribe-form .wpcf7-form-control-wrap input[type="email"] {
+    flex: 1 1 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 11.5px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #2D1F1F;
+    width: 100%;
+}
+
+.site-footer-subscribe-form .wpcf7-form-control-wrap input[type="email"]::placeholder {
+    color: #666666;
+}
+
+.site-footer-subscribe-form .wpcf7-submit {
+    height: 48px;
+    padding: 0 24px;
+    background: #ffffff;
+    border: 1px solid #2D1F1F;
+    border-radius: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    text-transform: none;
+    letter-spacing: 0;
+    color: #2D1F1F;
+    transition: background 0.2s ease, color 0.2s ease;
+    box-sizing: border-box;
+    position: relative;
+    min-width: 130px;
+}
+
+.site-footer-subscribe-form .wpcf7-submit:hover {
+    background: #2D1F1F;
+    color: #ffffff;
+}
+
+/* Loading spinner overlay — input elements can't use ::after */
+.site-footer-subscribe-form .wpcf7-submit-wrap {
+    position: relative;
+    display: flex;
+}
+
+.site-footer-subscribe-form .wpcf7-submit-wrap .footer-btn-spinner {
+    display: none;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.site-footer-subscribe-form .wpcf7-submit-wrap .footer-btn-spinner::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2.5px solid rgba(45, 31, 31, 0.3);
+    border-top-color: #2D1F1F;
+    border-radius: 50%;
+    animation: footerBtnSpin 0.6s linear infinite;
+}
+
+.site-footer-subscribe-form .wpcf7-submit-wrap.is-loading .wpcf7-submit {
+    color: transparent;
+    pointer-events: none;
+}
+
+.site-footer-subscribe-form .wpcf7-submit-wrap.is-loading .footer-btn-spinner {
+    display: flex;
+}
+
+@keyframes footerBtnSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Hide CF7 inline feedback — modal handles all responses */
+.site-footer-subscribe-form .wpcf7-response-output,
+.site-footer-subscribe-form .wpcf7-not-valid-tip,
+.site-footer-subscribe-form .wpcf7 .wpcf7-spinner {
+    display: none !important;
+}
+
+/* Disclaimer */
+.site-footer-subscribe-disclaimer {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;       
+    color: #666666;
+    line-height: 125%;     
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.site-footer-subscribe-disclaimer a {
+    color: #2D1F1F;        /* Figma: #2D1F1F */
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.site-footer-subscribe-disclaimer a:hover {
+    text-decoration: underline;
+}
+
+/* ── RIGHT PANEL ── */
+.site-footer-panel-right {
+    flex: 1 1 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.20);
+    border-right: 1px solid rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.20);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Figma: space-between (links top, features bottom) */
+    box-sizing: border-box;
+}
+
+/* Links grid */
+.site-footer-links-area {
+    padding: 40px;          /* Figma: padding 40px */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;              /* Figma: 40px between columns */
+}
+
+.site-footer-links-column {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;               /* Figma: 7px between heading wrapper and links list */
+}
+
+.site-footer-links-column h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 16.6px;      /* Figma: 16.60px */
+    font-weight: 400;
+    line-height: 23px;      /* Figma: 23px */
+    text-transform: capitalize;
+    color: #000000;
+    margin: 0;
+}
+
+.site-footer-links-column ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.site-footer-links-column li {
+    margin: 0;
+}
+
+.site-footer-links-column a {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 13.5px;        /* Figma: 14px */
+    line-height: 43px;      /* Figma: 43px */
+    text-transform: capitalize;
+    color: #666666;         /* Figma: #666666 */
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.site-footer-links-column a:hover {
+    color: #000000;
+}
+
+/* ── Feature strip ── */
+.site-footer-features {
+    border-top: 1px solid rgba(0, 0, 0, 0.20); /* Figma */
+    display: flex;
+    align-self: stretch;
+}
+
+.site-footer-feature-item {
+    flex: 1 1 0;
+    padding: 24px;          /* Figma: 24px */
+    border-right: 1px solid rgba(0, 0, 0, 0.20); /* Figma: ALL items have right border */
+    display: flex;
+    align-items: center;
+    gap: 12px;              /* Figma: 12px */
+    box-sizing: border-box;
+}
+
+.site-footer-feature-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.site-footer-feature-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.site-footer-feature-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;       /* Figma: 500 */
+    font-size: 14px;        /* Figma: 14px */
+    color: #2D1F1F;         /* Figma: #2D1F1F */
+    word-wrap: break-word;
+}
+
+/* ── Footer Bottom ── */
+.site-footer-bottom {
+    padding: 31px 40px 30px; /* Figma: top 31 bottom 30 left 40 right 40 */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.site-footer-bottom-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Social */
+.site-footer-social {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.site-footer-social-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 23px;
+    text-transform: capitalize;
+    color: rgba(102, 102, 102, 0.51); /* Figma: 51% opacity */
+}
+
+.site-footer-social-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.social-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(45, 31, 31, 0.15);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #666666;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+}
+
+.social-icon-btn:hover {
+    background: #2D1F1F;
+    color: #ffffff;
+    border-color: #2D1F1F;
+    transform: translateY(-2px);
+}
+
+.social-icon-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Payment icons */
+.site-footer-payments {
+    display: flex;
+    align-items: center;
+    gap: 12px;              /* Figma: 12px */
+    flex-wrap: wrap;
+}
+
+.site-footer-payments svg {
+    width: 38px;            /* Figma: 38px */
+    height: 24px;           /* Figma: 24px */
+    opacity: 0.70;          /* Figma: 0.70 */
+    flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1550px) {
+    .site-footer-panel-left {
+        width: 420px;
+    }
+
+    .site-footer-subscribe-heading {
+        font-size: 26px;
+    }
+
+    .site-footer-links-area {
+        padding: 30px;
+        gap: 24px;
+    }
+
+    .site-footer-feature-label {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .site-footer-panel-left {
+        width: 360px;
+    }
+
+    .site-footer-links-area {
+        padding: 24px;
+        gap: 16px;
+    }
+
+    .site-footer-links-column a {
+        font-size: 13px;
+    }
+
+    .site-footer-feature-item {
+        padding: 20px 16px;
+        gap: 8px;
+    }
+
+    .site-footer-feature-label {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .site-footer-panel-left {
+        width: 340px;
+        gap: 40px;
+    }
+
+    .site-footer-subscribe-heading {
+        font-size: 22px;
+    }
+
+    .site-footer-links-area {
+        padding: 28px;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .site-footer-links-column {
+        flex: 1 1 calc(33% - 16px);
+        min-width: 100px;
+    }
+
+    .site-footer-feature-label {
+        font-size: 11px;
+    }
+
+    .site-footer-feature-item {
+        padding: 16px 12px;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 767px) {
+    .site-footer {
+        padding-top: 28px;
+    }
+
+    .site-footer-panels {
+        flex-direction: column;
+    }
+
+    .site-footer-panel-left {
+        width: 100%;
+        padding: 24px;
+        gap: 28px;
+        outline: none;
+        border: 1px solid rgba(0,0,0,0.20);
+        border-top: none;
+        border-bottom: none;
+    }
+
+    .site-footer-subscribe-heading {
+        font-size: 24px;
+    }
+
+    .site-footer-subscribe-block {
+        gap: 20px;
+    }
+
+    /* Stack form vertically on mobile */
+    .site-footer-subscribe-form .wpcf7-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .site-footer-subscribe-form .wpcf7-form-control-wrap {
+        flex: none;
+        width: 100%;
+        height: 48px;
+        padding: 0 16px;
+    }
+
+    .site-footer-subscribe-form .wpcf7-form-control-wrap input[type="email"] {
+        font-size: 14px;
+    }
+
+    .site-footer-subscribe-form .wpcf7-submit {
+        flex: none;
+        width: 100%;
+        height: 48px;
+    }
+
+    .site-footer-disclaimer-br {
+        display: none;
+    }
+
+    .site-footer-panel-right {
+        border-left: 1px solid rgba(0,0,0,0.20);
+        border-top: none;
+        border-bottom: none;
+    }
+
+    /* Features above links on mobile */
+    .site-footer-features {
+        order: -1;
+        flex-direction: column;
+        border-top: none;
+    }
+
+    .site-footer-feature-item {
+        flex: none;
+        width: 100%;
+        padding: 16px 20px;
+        border-right: none;
+        border-bottom: 1px solid rgba(0,0,0,0.10);
+        gap: 12px;
+    }
+
+    .site-footer-feature-label {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .site-footer-links-area {
+        order: 1;
+        padding: 24px;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+
+    .site-footer-links-column {
+        flex: 1 1 calc(50% - 16px);
+        min-width: 120px;
+        gap: 0;
+    }
+
+    .site-footer-links-column h4 {
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        margin-bottom: 16px;
+    }
+
+    .site-footer-links-column ul {
+        gap: 16px;
+    }
+
+    .site-footer-links-column a {
+        font-size: 12px;
+        line-height: 1;
+        color: #666666;
+    }
+
+    .site-footer-bottom {
+        padding: 20px 24px;
+        color: #2D1F1F;
+    }
+
+    .site-footer-bottom-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        border-top: 1px solid rgba(0, 0, 0, 0.20);
+        padding-top: 20px;
+    }
+
+    .site-footer-social {
+        gap: 8px;
+        width: 100%;
+    }
+
+    .site-footer-social-label {
+        font-size: 12px;
+        color: #999999;
+        margin-right: auto;
+        line-height: 23px;
+        font-weight: 400;
+    }
+
+    .site-footer-social-icons {
+        margin-right: auto;
+        gap: 10px;
+    }
+}
+
+/* ── Footer Legal Strip ── */
+.site-footer-legal {
+    background: #2D1F1F;
+    padding: 20px 40px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.site-footer-legal-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.site-footer-legal-text {
+    font-family: Georgia, 'Canela Text', serif;
+    font-weight: 400;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+    letter-spacing: 0.2px;
+}
+
+.site-footer-legal-text .site-footer-legal-year {
+    color: rgba(255, 255, 255, 0.70);
+}
+
+.site-footer-legal-text .site-footer-legal-brand {
+    color: rgba(255, 255, 255, 0.80);
+    font-style: italic;
+}
+
+@media (max-width: 767px) {
+    .site-footer-legal {
+        padding: 18px 24px;
+    }
+
+    .site-footer-legal-text {
+        font-size: 11.5px;
+        line-height: 1.65;
+    }
+}
+
+/* Hide any old footer markup still in DOM */
+.main-footer[class*="jsx-"],
+div.main-footer[class*="jsx-"] {
+    display: none !important;
+}
+
+footer.site-footer {
+    display: block !important;
+}
+</style>
+
+<footer class="site-footer">
+
+    <!-- ── Two-panel row ── -->
+    <div class="site-footer-panels">
+
+        <!-- LEFT: Newsletter / Subscribe -->
+        <div class="site-footer-panel-left">
+
+            <a href="/" class="site-footer-logo-link">
+                {%- if section.settings.logo_image != blank -%}
+                    <img
+                        src="{{ section.settings.logo_image | image_url: width: 330 }}"
+                        alt="{{ shop.name }}"
+                        width="110"
+                        height="32"
+                        loading="lazy"
+                    >
+                {%- else -%}
+                    <img
+                        src="https://qatarshoe.com/wp-content/uploads/2026/01/Primary-black-scaled-e1768378119336.webp"
+                        alt="Qtrshoe"
+                        width="110"
+                        height="32"
+                        loading="lazy"
+                    >
+                {%- endif -%}
+            </a>
+
+            <div class="site-footer-subscribe-block">
+                <h2 class="site-footer-subscribe-heading">{{ section.settings.subscribe_heading | default: "Subscribe Now<br>And Don't Miss Out On New Products!" }}</h2>
+
+                <div class="site-footer-subscribe-form">
+                    <div class="wpcf7 no-js" id="wpcf7-f653-o1" lang="en-US" dir="ltr">
+                        {%- form 'customer', class: 'wpcf7-form init' -%}
+                            <input type="hidden" name="contact[tags]" value="newsletter">
+                            <p>
+                                <span class="wpcf7-form-control-wrap" data-name="your-email">
+                                    <input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email" aria-required="true" aria-invalid="false" placeholder="Email Address" value="{{ form.email }}" type="email" name="contact[email]" required />
+                                </span>
+                                <input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Subscribe" />
+                            </p>
+                            {%- if form.posted_successfully? -%}
+                                <div style="color: #1e3524; font-family: 'Inter', sans-serif; font-size: 12.5px; margin-top: 12px; font-weight: 500;">
+                                    Thanks for subscribing! Check your email to confirm.
+                                </div>
+                            {%- elsif form.errors -%}
+                                <div style="color: #f25c5e; font-family: 'Inter', sans-serif; font-size: 12.5px; margin-top: 12px;">
+                                    {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}.
+                                </div>
+                            {%- endif -%}
+                        {%- endform -%}
+                    </div>
+                </div>
+
+                <p class="site-footer-subscribe-disclaimer">Opt out at anytime by clicking unsubscribe at the bottom of any email.<br class="site-footer-disclaimer-br">By signing up you agree with our <a href="/policies/terms-of-service">Terms and Conditions</a> and <a href="/policies/privacy-policy">Privacy Policy</a>.</p>
+            </div>
+
+        </div><!-- /.site-footer-panel-left -->
+
+        <!-- RIGHT: Links + Feature strip -->
+        <div class="site-footer-panel-right">
+
+            <!-- Navigation columns -->
+            <div class="site-footer-links-area">
+
+                <div class="site-footer-links-column">
+                    <h4>Customer Care</h4>
+                    <ul>
+                        <li><a href="/pages/contact">Contact Us</a></li>
+                        <li><a href="/pages/customer-care">Customer Care</a></li>
+                        <li><a href="/pages/faqs">FAQs</a></li>
+                    </ul>
+                </div>
+
+                <div class="site-footer-links-column">
+                    <h4>Shipping & Returns</h4>
+                    <ul>
+                        <li><a href="/pages/shipping-delivery">Shipping & Delivery</a></li>
+                        <li><a href="/pages/returns-and-refunds">Returns & Refunds</a></li>
+                    </ul>
+                </div>
+
+                <div class="site-footer-links-column">
+                    <h4>Payments</h4>
+                    <ul>
+                        <li><a href="/pages/payments-pricing">Payments & Pricing</a></li>
+                    </ul>
+                </div>
+
+                <div class="site-footer-links-column">
+                    <h4>Policies</h4>
+                    <ul>
+                        <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+                        <li><a href="/policies/terms-of-service">Terms Of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="site-footer-links-column">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="/collections/qatar-collection">Qatar</a></li>
+                        <li><a href="/collections/international-collection">Dubai / GCC</a></li>
+                        <li><a href="/pages/pre-orders">Personal Shopping</a></li>
+                    </ul>
+                </div>
+
+                <div class="site-footer-links-column about-col">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="/pages/about-us">About Us</a></li>
+                        <li><a href="/pages/sitemap">Sitemap</a></li>
+                    </ul>
+                </div>
+
+            </div><!-- /.site-footer-links-area -->
+
+            <!-- Feature strip -->
+            <div class="site-footer-features">
+
+                <div class="site-footer-feature-item">
+                    <div class="site-footer-feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.6 7H18.4M1.6 13H18.4M9.5 1C7.81534 3.69961 6.9222 6.81787 6.9222 10C6.9222 13.1821 7.81534 16.3004 9.5 19M10.5 1C12.1847 3.69961 13.0778 6.81787 13.0778 10C13.0778 13.1821 12.1847 16.3004 10.5 19M1 10C1 11.1819 1.23279 12.3522 1.68508 13.4442C2.13738 14.5361 2.80031 15.5282 3.63604 16.364C4.47177 17.1997 5.46392 17.8626 6.55585 18.3149C7.64778 18.7672 8.8181 19 10 19C11.1819 19 12.3522 18.7672 13.4442 18.3149C14.5361 17.8626 15.5282 17.1997 16.364 16.364C17.1997 15.5282 17.8626 14.5361 18.3149 13.4442C18.7672 12.3522 19 11.1819 19 10C19 7.61305 18.0518 5.32387 16.364 3.63604C14.6761 1.94821 12.3869 1 10 1C7.61305 1 5.32387 1.94821 3.63604 3.63604C1.94821 5.32387 1 7.61305 1 10Z" stroke="#2D1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="site-footer-feature-label">Worldwide Shipping</span>
+                </div>
+
+                <div class="site-footer-feature-item">
+                    <div class="site-footer-feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 17C5 17.5304 5.21071 18.0391 5.58579 18.4142C5.96086 18.7893 6.46957 19 7 19C7.53043 19 8.03914 18.7893 8.41421 18.4142C8.78929 18.0391 9 17.5304 9 17M5 17C5 16.4696 5.21071 15.9609 5.58579 15.5858C5.96086 15.2107 6.46957 15 7 15C7.53043 15 8.03914 15.2107 8.41421 15.5858C8.78929 15.9609 9 16.4696 9 17M5 17H3V13M9 17H15M15 17C15 17.5304 15.2107 18.0391 15.5858 18.4142C15.9609 18.7893 16.4696 19 17 19C17.5304 19 18.0391 18.7893 18.4142 18.4142C18.7893 18.0391 19 17.5304 19 17M13 6H18L21 11V17H19M2 5H13V17M21 11H13M3 9H7" stroke="#2D1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="site-footer-feature-label">Fast Delivery</span>
+                </div>
+
+                <div class="site-footer-feature-item">
+                    <div class="site-footer-feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.44706 18.846C6.43635 17.9127 3.91372 15.8324 2.42427 13.0545C0.934827 10.2765 0.598174 7.02411 1.48706 4C4.60259 4.14257 7.65123 3.06658 9.98706 1C12.3229 3.06658 15.3715 4.14257 18.4871 4C19.1657 6.30911 19.1344 8.76894 18.3971 11.06M12.9871 17L14.9871 19L18.9871 15" stroke="#2D1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="site-footer-feature-label">Secure Checkout</span>
+                </div>
+
+                <div class="site-footer-feature-item">
+                    <div class="site-footer-feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 13V15C12 15.2652 11.8946 15.5196 11.7071 15.7071C11.5196 15.8946 11.2652 16 11 16H4L1 19V9C1 8.73478 1.10536 8.48043 1.29289 8.29289C1.48043 8.10536 1.73478 8 2 8H4M19 12L16 9H9C8.73478 9 8.48043 8.89464 8.29289 8.70711C8.10536 8.51957 8 8.26522 8 8V2C8 1.73478 8.10536 1.48043 8.29289 1.29289C8.48043 1.10536 8.73478 1 9 1H18C18.2652 1 18.5196 1.10536 18.7071 1.29289C18.8946 1.48043 19 1.73478 19 2V12Z" stroke="#2D1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="site-footer-feature-label">Customer Support</span>
+                </div>
+
+            </div><!-- /.site-footer-features -->
+
+        </div><!-- /.site-footer-panel-right -->
+
+    </div><!-- /.site-footer-panels -->
+
+    <!-- ── Footer Bottom ── -->
+    <div class="site-footer-bottom">
+        <div class="site-footer-bottom-inner">
+
+            <div class="site-footer-social">
+                <span class="site-footer-social-label">Follow Us:</span>
+                <div class="site-footer-social-icons">
+                    {%- if section.settings.tiktok_url != blank -%}
+                        <a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener" class="social-icon-btn" aria-label="TikTok">
+                            <svg viewBox="0 0 448 512" fill="currentColor"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.17h0A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14Z"/></svg>
+                        </a>
+                    {%- endif -%}
+                    {%- if section.settings.instagram_url != blank -%}
+                        <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Instagram">
+                            <svg viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.9 1.7-67.7 9.9-93.9 36.2C13.4 94 5.2 125.8 3.5 161.7c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9 26.2 26.2 58 34.4 93.9 36.2 37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zm-42.6 248.4c-7.7 19.3-22.5 34.1-41.9 41.9-30 11.9-101.2 9.2-135.7 9.2s-105.7 2.6-135.7-9.2c-19.4-7.7-34.1-22.5-41.9-41.9-11.9-30-9.2-101.2-9.2-135.7s-2.6-105.7 9.2-135.7c7.7-19.3 22.5-34.1 41.9-41.9 30-11.9 101.2-9.2 135.7-9.2s105.7-2.6 135.7 9.2c19.4 7.7 34.1 22.5 41.9 41.9 11.9 30 9.2 101.2 9.2 135.7s2.7 105.7-9.2 135.7z"/></svg>
+                        </a>
+                    {%- endif -%}
+                    {%- if section.settings.pinterest_url != blank -%}
+                        <a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Pinterest">
+                            <svg viewBox="0 0 384 512" fill="currentColor"><path d="M204 6.5C101.4 6.5 0 74.9 0 185.6 0 256 39.6 296 57.6 296c25.1 0 15.6-61.2 23.2-80 5.4-13.3-21-41.2-21-69.3 0-77.7 55.6-141 138.8-141 72.8 0 131 49.9 131 122.9 0 92.7-44.5 169.1-115.3 169.1-39.1 0-68.3-32.3-58.9-71.9 11.2-47.2 33-98.1 33-132.2 0-30.4-16.3-55.8-50.1-55.8-39.7 0-71.6 41.1-71.6 96.2 0 35.1 11.9 58.8 11.9 58.8S96 409.7 90.1 435c-10.4 44.6-5.3 99-2.9 103.3 1 1.7 2.5 1.5 3.4-.3 3.6-7.3 50.4-62.5 66.4-122.3 4.5-16.8 26-101.8 26-101.8 12.9 24.6 50.7 46.3 90.6 46.3 119.3 0 205.8-109.1 205.8-245.4C384.8 83 298.2 6.5 204 6.5z"/></svg>
+                        </a>
+                    {%- endif -%}
+                    {%- if section.settings.snapchat_url != blank -%}
+                        <a href="{{ section.settings.snapchat_url }}" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Snapchat">
+                            <svg viewBox="0 0 512 512" fill="currentColor"><path d="M411.3 358.4c-6.8-6.1-11.8-13.8-15.3-22.1-4.8-11.3-7.2-23.4-7.2-35.6 0-3.3.4-6.6 1.1-9.9 2-8.9 5.6-17.5 10.7-25.2 7.7-11.7 13.9-24.9 18.5-38.9 4.3-13.3 5.4-27.4 3.2-41.2-3-19-12.7-36.4-27.1-49-18.7-16.3-43.1-26-68.5-27.1-8.5-.4-17.1-1.5-25.5-3.3-12.7-2.7-25.6-4.1-38.5-4.1s-25.8 1.4-38.5 4.1c-8.4 1.8-16.9 2.9-25.5 3.3-25.4 1.1-49.8 10.8-68.5 27.1-14.4 12.6-24.1 30-27.1 49-2.2 13.8-1.1 27.9 3.2 41.2 4.6 14 10.8 27.2 18.5 38.9 5.1 7.7 8.7 16.3 10.7 25.2.7 3.3 1.1 6.6 1.1 9.9 0 12.2-2.4 24.3-7.2 35.6-3.5 8.3-8.5 16-15.3 22.1-12.6 11.3-28.7 17.6-45.3 17.6-3.8 0-7.6-.3-11.3-1-12.8-2.3-23.1 7.5-23.1 19.5 0 9.1 6 17 14.8 19.2 11.1 2.8 22.5 4.2 34 4.1 7.4.1 14.8-.4 22.2-1.5 10.4-1.6 20.8-1.9 31.3-.9 11.5 1.1 22.8 3.8 33.9 8.1 26.6 10.2 55 15.6 83.6 15.7 28.6-.1 57-5.5 83.6-15.7 11.1-4.3 22.4-7 33.9-8.1 10.5-1 20.9-.7 31.3.9 7.4 1.1 14.8 1.6 22.2 1.5 11.5.1 22.9-1.3 34-4.1 8.8-2.2 14.8-10.1 14.8-19.2 0-12-10.3-21.8-23.1-19.5-3.7.7-7.5 1-11.3 1-16.6 0-32.7-6.3-45.3-17.6z"/></svg>
+                        </a>
+                    {%- endif -%}
+                </div>
+            </div>
+
+            <div class="site-footer-payments">
+                <!-- Bank Deposit — 38×24px #2D1F1F, opacity 0.70 -->
+                <svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="38" height="24" rx="3" fill="#2D1F1F"/>
+                    <path d="M19 5L8 10V11H30V10L19 5Z" fill="white"/>
+                    <rect x="10" y="12" width="3" height="6" fill="white"/>
+                    <rect x="14.5" y="12" width="3" height="6" fill="white"/>
+                    <rect x="20.5" y="12" width="3" height="6" fill="white"/>
+                    <rect x="25" y="12" width="3" height="6" fill="white"/>
+                    <rect x="8" y="18" width="22" height="2" fill="white"/>
+                </svg>
+                <!-- Cash on Delivery — 38×24px #2D1F1F, opacity 0.70 -->
+                <svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="38" height="24" rx="3" fill="#2D1F1F"/>
+                    <rect x="6" y="7" width="16" height="10" rx="1" fill="white"/>
+                    <circle cx="14" cy="12" r="3" fill="#2D1F1F"/>
+                    <path d="M13 11.5C13 11.2 13.2 11 13.5 11H14.5C14.8 11 15 11.2 15 11.5V12.5C15 12.8 14.8 13 14.5 13H13.5C13.2 13 13 12.8 13 12.5V11.5Z" fill="white"/>
+                    <rect x="24" y="9" width="8" height="10" rx="1" fill="white"/>
+                    <rect x="25" y="15" width="6" height="3" rx="0.5" fill="#2D1F1F"/>
+                    <circle cx="28" cy="12" r="1.5" fill="#2D1F1F"/>
+                </svg>
+            </div>
+
+        </div>
+    </div><!-- /.site-footer-bottom -->
+
+    <!-- ── Legal / Copyright Strip ── -->
+    <div class="site-footer-legal">
+        <div class="site-footer-legal-inner">
+            <p class="site-footer-legal-text">
+                {{ section.settings.legal_text | default: "Qatar Shoes is not affiliated with the brand we sell. Authentication is performed independently." }}
+                <span class="site-footer-legal-year">&copy; {{ 'now' | date: '%Y' }}</span>
+                <span class="site-footer-legal-brand">{{ shop.name }}</span>
+                &ndash; All Rights Reserved.
+            </p>
+        </div>
+    </div>
+
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Footer Logo"
+    },
+    {
+      "type": "textarea",
+      "id": "subscribe_heading",
+      "label": "Subscribe Heading",
+      "default": "Subscribe Now<br>And Don't Miss Out On New Products!"
+    },
+    {
+      "type": "text",
+      "id": "tiktok_url",
+      "label": "TikTok URL",
+      "default": "https://www.tiktok.com/@qtrshoes"
+    },
+    {
+      "type": "text",
+      "id": "instagram_url",
+      "label": "Instagram URL",
+      "default": "https://www.instagram.com/qtrshoe"
+    },
+    {
+      "type": "text",
+      "id": "pinterest_url",
+      "label": "Pinterest URL",
+      "default": "https://www.pinterest.com/qatarshoes/"
+    },
+    {
+      "type": "text",
+      "id": "snapchat_url",
+      "label": "Snapchat URL",
+      "default": "http://snapchat.com/@qtr_shoes"
+    },
+    {
+      "type": "textarea",
+      "id": "legal_text",
+      "label": "Legal Disclaimer Text",
+      "default": "Qatar Shoes is not affiliated with the brand we sell. Authentication is performed independently."
+    }
+  ]
+}
+{% endschema %}

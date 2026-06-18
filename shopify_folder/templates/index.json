@@ -2,10 +2,63 @@
   "sections": {
     "hero": {
       "type": "hero-banner",
+      "settings": {
+        "fomo_text": ""
+      }
+    },
+    "featured": {
+      "type": "product-showcase",
+      "settings": {
+        "heading": "Featured",
+        "view_all_url": "/collections/all",
+        "max_products": 5
+      }
+    },
+    "marquee": {
+      "type": "marquee-ticker",
+      "settings": {}
+    },
+    "trending": {
+      "type": "product-showcase",
+      "settings": {
+        "heading": "Trending Now",
+        "view_all_url": "/collections/all",
+        "max_products": 5
+      }
+    },
+    "new-in": {
+      "type": "product-showcase",
+      "settings": {
+        "heading": "New In",
+        "view_all_url": "/collections/new-in",
+        "max_products": 5
+      }
+    },
+    "best-sellers": {
+      "type": "product-showcase",
+      "settings": {
+        "heading": "Best Sellers",
+        "view_all_url": "/collections/all",
+        "max_products": 5
+      }
+    },
+    "brands": {
+      "type": "brands-grid",
+      "settings": {}
+    },
+    "above-footer": {
+      "type": "above-footer-banner",
       "settings": {}
     }
   },
   "order": [
-    "hero"
+    "hero",
+    "featured",
+    "marquee",
+    "trending",
+    "new-in",
+    "best-sellers",
+    "brands",
+    "above-footer"
   ]
 }
