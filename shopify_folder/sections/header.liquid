@@ -76,28 +76,42 @@
 
         <!-- Currency -->
         <div class="currency-wrapper" id="desktop-currency-wrapper">
+          {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
+          {%- assign default_curr = currencies | first | strip | upcase -%}
+          {%- liquid
+            assign default_symbol = default_curr
+            assign custom_symbols = settings.currency_symbols | default: 'QAR:QR,USD:$,EUR:€,AED:د.إ,SAR:SR' | split: ','
+            for sym_pair_raw in custom_symbols
+              assign sym_pair = sym_pair_raw | split: ':'
+              assign sym_code = sym_pair[0] | strip | upcase
+              if sym_code == default_curr
+                assign default_symbol = sym_pair[1] | strip
+                break
+              endif
+            endfor
+          -%}
           <button type="button" class="currency-selector" id="desktop-currency-btn" aria-expanded="false" aria-label="Select currency">
-            <span class="currency-symbol">QR</span>
-            <span class="currency-code">QAR</span>
+            <span class="currency-symbol">{{ default_symbol }}</span>
+            <span class="currency-code">{{ default_curr }}</span>
             <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
               <path d="M5 8L10 13L15 8"/>
             </svg>
           </button>
-          {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
           <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
             {%- for curr_raw in currencies -%}
               {%- assign curr = curr_raw | strip | upcase -%}
               {%- if curr != blank -%}
-                {%- assign symbol = curr -%}
-                {%- if curr == 'QAR' %}{% assign symbol = 'QR' %}{% endif -%}
-                {%- if curr == 'USD' %}{% assign symbol = '$' %}{% endif -%}
-                {%- if curr == 'EUR' %}{% assign symbol = '€' %}{% endif -%}
-                {%- if curr == 'AED' %}{% assign symbol = 'د.إ' %}{% endif -%}
-                {%- if curr == 'SAR' %}{% assign symbol = 'SR' %}{% endif -%}
-                {%- if curr == 'BHD' %}{% assign symbol = 'BD' %}{% endif -%}
-                {%- if curr == 'KWD' %}{% assign symbol = 'KD' %}{% endif -%}
-                {%- if curr == 'OMR' %}{% assign symbol = 'RO' %}{% endif -%}
-                {%- if curr == 'GBP' %}{% assign symbol = '£' %}{% endif -%}
+                {%- liquid
+                  assign symbol = curr
+                  for sym_pair_raw in custom_symbols
+                    assign sym_pair = sym_pair_raw | split: ':'
+                    assign sym_code = sym_pair[0] | strip | upcase
+                    if sym_code == curr
+                      assign symbol = sym_pair[1] | strip
+                      break
+                    endif
+                  endfor
+                -%}
                 <div class="currency-option {% if forloop.first %}is-active{% endif %}" data-currency="{{ curr }}">
                   <span>{{ symbol }} {{ curr }}</span>
                   {%- if forloop.first -%}
@@ -547,26 +561,40 @@
 
         <!-- Currency (desktop) -->
         <div class="currency-wrapper site-hdr-desktop">
+          {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
+          {%- assign default_curr = currencies | first | strip | upcase -%}
+          {%- liquid
+            assign default_symbol = default_curr
+            assign custom_symbols = settings.currency_symbols | default: 'QAR:QR,USD:$,EUR:€,AED:د.إ,SAR:SR' | split: ','
+            for sym_pair_raw in custom_symbols
+              assign sym_pair = sym_pair_raw | split: ':'
+              assign sym_code = sym_pair[0] | strip | upcase
+              if sym_code == default_curr
+                assign default_symbol = sym_pair[1] | strip
+                break
+              endif
+            endfor
+          -%}
           <button type="button" class="currency-selector" id="sticky-currency-btn" aria-expanded="false" aria-label="Select currency">
-            <span class="currency-symbol">QR</span>
-            <span class="currency-code">QAR</span>
+            <span class="currency-symbol">{{ default_symbol }}</span>
+            <span class="currency-code">{{ default_curr }}</span>
             <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
           </button>
-          {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
           <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
             {%- for curr_raw in currencies -%}
               {%- assign curr = curr_raw | strip | upcase -%}
               {%- if curr != blank -%}
-                {%- assign symbol = curr -%}
-                {%- if curr == 'QAR' %}{% assign symbol = 'QR' %}{% endif -%}
-                {%- if curr == 'USD' %}{% assign symbol = '$' %}{% endif -%}
-                {%- if curr == 'EUR' %}{% assign symbol = '€' %}{% endif -%}
-                {%- if curr == 'AED' %}{% assign symbol = 'د.إ' %}{% endif -%}
-                {%- if curr == 'SAR' %}{% assign symbol = 'SR' %}{% endif -%}
-                {%- if curr == 'BHD' %}{% assign symbol = 'BD' %}{% endif -%}
-                {%- if curr == 'KWD' %}{% assign symbol = 'KD' %}{% endif -%}
-                {%- if curr == 'OMR' %}{% assign symbol = 'RO' %}{% endif -%}
-                {%- if curr == 'GBP' %}{% assign symbol = '£' %}{% endif -%}
+                {%- liquid
+                  assign symbol = curr
+                  for sym_pair_raw in custom_symbols
+                    assign sym_pair = sym_pair_raw | split: ':'
+                    assign sym_code = sym_pair[0] | strip | upcase
+                    if sym_code == curr
+                      assign symbol = sym_pair[1] | strip
+                      break
+                    endif
+                  endfor
+                -%}
                 <div class="currency-option {% if forloop.first %}is-active{% endif %}" data-currency="{{ curr }}">
                   <span>{{ symbol }} {{ curr }}</span>
                   {%- if forloop.first -%}
@@ -1036,6 +1064,18 @@
      5. JAVASCRIPT — Header interactions
      =================================================== -->
 <script>
+  window.CURRENCY_SYMBOLS = {
+    {%- assign custom_symbols = settings.currency_symbols | default: 'QAR:QR,USD:$,EUR:€,AED:د.إ,SAR:SR' | split: ',' -%}
+    {%- for sym_pair_raw in custom_symbols -%}
+      {%- assign sym_pair = sym_pair_raw | split: ':' -%}
+      {%- assign sym_code = sym_pair[0] | strip | upcase -%}
+      {%- assign sym_val = sym_pair[1] | strip -%}
+      {%- if sym_code != blank -%}
+        "{{ sym_code }}": "{{ sym_val }}"{%- unless forloop.last -%},{%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  };
+
 (function() {
   /* ---- Department (Women/Men) switching ---- */
   var savedDept = localStorage.getItem('qatarshoes_department') || 'women';
@@ -1276,10 +1316,7 @@
         var codeSpan   = wrapper.querySelector('.currency-code');
         if (codeSpan) codeSpan.textContent = selectedCurrency;
         if (symbolSpan) {
-          if (selectedCurrency === 'QAR')      symbolSpan.textContent = 'QR';
-          else if (selectedCurrency === 'USD') symbolSpan.textContent = '$';
-          else if (selectedCurrency === 'EUR') symbolSpan.textContent = '€';
-          else if (selectedCurrency === 'AED') symbolSpan.textContent = 'د.إ';
+          symbolSpan.textContent = window.CURRENCY_SYMBOLS[selectedCurrency] || selectedCurrency;
         }
         wrapper.querySelectorAll('.currency-option').forEach(function(o) {
           var isCurrent = o.getAttribute('data-currency') === selectedCurrency;
@@ -1486,15 +1523,7 @@
       var rate = FALLBACK_RATES[currency] || 1.0;
       val = Math.round(val * rate);
       
-      if (currency === 'QAR') symbol = 'QAR';
-      else if (currency === 'USD') symbol = '$';
-      else if (currency === 'EUR') symbol = '€';
-      else if (currency === 'AED') symbol = 'د.إ';
-      else if (currency === 'SAR') symbol = 'SAR';
-      else if (currency === 'BHD') symbol = 'BHD';
-      else if (currency === 'KWD') symbol = 'KWD';
-      else if (currency === 'OMR') symbol = 'OMR';
-      else if (currency === 'GBP') symbol = '£';
+      symbol = window.CURRENCY_SYMBOLS[currency] || currency;
       
       return symbol + ' ' + val.toLocaleString();
     }
@@ -1797,7 +1826,7 @@
         // Update labels on mobile drawer button
         var label = mobCurrBtn.querySelector('.drawer-locale-text');
         if (label) {
-          var symbol = next === 'QAR' ? 'QR' : (next === 'USD' ? '$' : (next === 'EUR' ? '€' : 'د.إ'));
+          var symbol = window.CURRENCY_SYMBOLS[next] || next;
           label.innerHTML = '<span style="color:rgba(26,26,26,0.4)">' + symbol + '</span> ' + next;
         }
       });
@@ -1824,7 +1853,7 @@
     (function() {
       var savedCurr = localStorage.getItem('qtr_currency') || 'QAR';
       if (mobCurrBtn) {
-        var symbol = savedCurr === 'QAR' ? 'QR' : (savedCurr === 'USD' ? '$' : (savedCurr === 'EUR' ? '€' : 'د.إ'));
+        var symbol = window.CURRENCY_SYMBOLS[savedCurr] || savedCurr;
         var label = mobCurrBtn.querySelector('.drawer-locale-text');
         if (label) label.innerHTML = '<span style="color:rgba(26,26,26,0.4)">' + symbol + '</span> ' + savedCurr;
       }
@@ -2365,16 +2394,6 @@
       "id": "menu_m_accessories",
       "label": "Show Men: Accessories",
       "default": true
-    },
-    {
-      "type": "header",
-      "content": "Currency Manager"
-    },
-    {
-      "type": "text",
-      "id": "supported_currencies",
-      "label": "Supported Currencies (comma-separated)",
-      "default": "QAR, USD, EUR, AED"
     }
   ]
 }
