@@ -2,9 +2,23 @@
   QatarShoes Fullscreen Hero Section
 {% endcomment %}
 
+{%- liquid
+  if section.settings.image_desktop != blank
+    assign hero_desktop = section.settings.image_desktop | image_url: width: 2000
+  else
+    assign hero_desktop = 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Group-2.png'
+  endif
+
+  if section.settings.image_mobile != blank
+    assign hero_mobile = section.settings.image_mobile | image_url: width: 800
+  else
+    assign hero_mobile = 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/qtr-w-mobile.png'
+  endif
+-%}
+
 <div class="qtr-hero" style="
-  --bg-desktop: url('{{ section.settings.image_desktop | image_url: width: 2000 | default: 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Group-2.png' }}');
-  --bg-mobile: url('{{ section.settings.image_mobile | image_url: width: 800 | default: 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/qtr-w-mobile.png' }}');
+  --bg-desktop: url('{{ hero_desktop }}');
+  --bg-mobile: url('{{ hero_mobile }}');
 ">
   <div class="hero-gradient-overlay"></div>
   
