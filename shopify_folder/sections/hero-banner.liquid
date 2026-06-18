@@ -15,13 +15,37 @@
   else
     assign hero_mobile = 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/qtr-w-mobile.png'
   endif
+
+  if section.settings.image_desktop_men != blank
+    assign hero_desktop_men = section.settings.image_desktop_men | image_url: width: 2000
+  else
+    assign hero_desktop_men = 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Qtr-men.jpg'
+  endif
+
+  if section.settings.image_mobile_men != blank
+    assign hero_mobile_men = section.settings.image_mobile_men | image_url: width: 800
+  else
+    assign hero_mobile_men = 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Qtr-men.jpg'
+  endif
 -%}
 
-<div class="qtr-hero home-hero-content" style="
+<div class="qtr-hero home-hero-content" id="hero-{{ section.id }}" style="
   --bg-desktop: url('{{ hero_desktop }}');
   --bg-mobile: url('{{ hero_mobile }}');
   background-image: var(--bg-desktop);
 ">
+  <script>
+    (function() {
+      var heroEl = document.getElementById('hero-{{ section.id }}');
+      if (heroEl) {
+        var dept = localStorage.getItem('qatarshoes_department') || 'women';
+        if (dept === 'men') {
+          heroEl.style.setProperty('--bg-desktop', "url('{{ hero_desktop_men }}')");
+          heroEl.style.setProperty('--bg-mobile', "url('{{ hero_mobile_men }}')");
+        }
+      }
+    })();
+  </script>
   <div class="hero-image-mask"></div>
 
   {%- if section.settings.fomo_text != blank -%}
@@ -46,6 +70,37 @@
   }
 </style>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var heroEl = document.getElementById('hero-{{ section.id }}');
+    if (!heroEl) return;
+
+    var bgWomenDesktop = 'url({{ hero_desktop }})';
+    var bgWomenMobile  = 'url({{ hero_mobile }})';
+    var bgMenDesktop   = 'url({{ hero_desktop_men }})';
+    var bgMenMobile    = 'url({{ hero_mobile_men }})';
+
+    function updateHeroBG(dept) {
+      if (dept === 'men') {
+        heroEl.style.setProperty('--bg-desktop', bgMenDesktop);
+        heroEl.style.setProperty('--bg-mobile', bgMenMobile);
+      } else {
+        heroEl.style.setProperty('--bg-desktop', bgWomenDesktop);
+        heroEl.style.setProperty('--bg-mobile', bgWomenMobile);
+      }
+    }
+
+    // Listen to department changes from header
+    window.addEventListener('departmentChanged', function(e) {
+      updateHeroBG(e.detail.department);
+    });
+
+    // Check initial department
+    var initial = localStorage.getItem('qatarshoes_department') || 'women';
+    updateHeroBG(initial);
+  });
+</script>
+
 {% schema %}
 {
   "name": "Hero Fullscreen",
@@ -53,12 +108,22 @@
     {
       "type": "image_picker",
       "id": "image_desktop",
-      "label": "Desktop Hero Image"
+      "label": "Women Desktop Hero Image"
     },
     {
       "type": "image_picker",
       "id": "image_mobile",
-      "label": "Mobile Hero Image"
+      "label": "Women Mobile Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop_men",
+      "label": "Men Desktop Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile_men",
+      "label": "Men Mobile Hero Image"
     },
     {
       "type": "text",
