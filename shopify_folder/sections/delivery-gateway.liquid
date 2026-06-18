@@ -1,0 +1,250 @@
+{% comment %}
+  Delivery Gateway Split Section
+  Displays vertical split choices: Qatar (Ready to Go) vs Dubai/GCC (Ready to Ship)
+{% endcomment %}
+
+<div class="delivery-gateway-wrapper">
+  <!-- Option 1: Ready to Go (Qatar) -->
+  <a href="{{ section.settings.link_ready_to_go }}" class="gateway-card option-ready-to-go">
+    <div class="gateway-bg-image" style="background-image: url('{{ section.settings.image_ready_to_go | image_url: width: 1600 | default: 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Group-2.png' }}');"></div>
+    <div class="gateway-overlay dark-overlay"></div>
+    
+    <div class="gateway-content-box text-white">
+      <h2 class="gateway-title">{{ section.settings.title_ready_to_go }}</h2>
+      <p class="gateway-subtitle">{{ section.settings.subtitle_ready_to_go }}</p>
+      
+      <div class="gateway-action">
+        <span class="shop-btn-pill btn-white">Shop Now</span>
+      </div>
+    </div>
+
+    <!-- Quick Badges -->
+    <div class="gateway-badges-row text-white-op">
+      <span class="badge-item">🇶🇦 Same Day Delivery</span>
+      <span class="badge-item">Cash On Delivery</span>
+    </div>
+  </a>
+
+  <!-- Option 2: Ready to Ship (Dubai/GCC) -->
+  <a href="{{ section.settings.link_ready_to_ship }}" class="gateway-card option-ready-to-ship">
+    <div class="gateway-bg-image" style="background-image: url('{{ section.settings.image_ready_to_ship | image_url: width: 1600 }}'); background-color: #faf9f5;"></div>
+    <div class="gateway-overlay light-overlay"></div>
+
+    <div class="gateway-content-box text-dark">
+      <h2 class="gateway-title">{{ section.settings.title_ready_to_ship }}</h2>
+      <p class="gateway-subtitle">{{ section.settings.subtitle_ready_to_ship }}</p>
+      
+      <div class="gateway-action">
+        <span class="shop-btn-pill btn-dark">Shop Now</span>
+      </div>
+    </div>
+
+    <!-- Quick Badges -->
+    <div class="gateway-badges-row text-dark-op">
+      <span class="badge-item">🇦🇪 Fast GCC Shipping</span>
+      <span class="badge-item">Ready to Dispatch</span>
+    </div>
+  </a>
+</div>
+
+<style>
+  .delivery-gateway-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 800px;
+    width: 100%;
+  }
+  .gateway-card {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+  }
+  .gateway-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: -2;
+  }
+  .gateway-card:hover .gateway-bg-image {
+    transform: scale(1.03);
+  }
+  .gateway-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .dark-overlay {
+    background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 100%);
+  }
+  .light-overlay {
+    background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 100%);
+  }
+  .gateway-content-box {
+    text-align: center;
+    z-index: 2;
+    padding: 20px;
+  }
+  .gateway-title {
+    font-family: var(--font-heading);
+    font-size: clamp(36px, 6vw, 72px);
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .gateway-subtitle {
+    font-size: clamp(16px, 2.5vw, 24px);
+    opacity: 0.9;
+  }
+  .text-white {
+    color: var(--color-white);
+  }
+  .text-dark {
+    color: var(--color-text);
+  }
+  .shop-btn-pill {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 36px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    text-transform: uppercase;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  }
+  .btn-white {
+    background-color: var(--color-white);
+    color: var(--color-text);
+  }
+  .btn-dark {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+  .gateway-card:hover .shop-btn-pill {
+    transform: scale(1.05);
+  }
+  
+  .gateway-badges-row {
+    position: absolute;
+    bottom: 24px;
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .option-ready-to-go .gateway-badges-row {
+    right: 40px;
+  }
+  .option-ready-to-ship .gateway-badges-row {
+    left: 40px;
+  }
+  .text-white-op {
+    color: rgba(255,255,255,0.8);
+  }
+  .text-dark-op {
+    color: rgba(45,31,31,0.8);
+  }
+  .badge-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  @media (max-width: 768px) {
+    .delivery-gateway-wrapper {
+      height: auto;
+      min-height: auto;
+    }
+    .gateway-card {
+      height: 50vh;
+      min-height: 400px;
+    }
+    .gateway-badges-row {
+      position: relative;
+      bottom: auto;
+      left: auto !important;
+      right: auto !important;
+      margin-top: 15px;
+      justify-content: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Delivery Gateway Split",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Ready To Go (Qatar)"
+    },
+    {
+      "type": "text",
+      "id": "title_ready_to_go",
+      "label": "Title",
+      "default": "Ready To Go"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_ready_to_go",
+      "label": "Subtitle",
+      "default": "Same Day Delivery In Qatar"
+    },
+    {
+      "type": "url",
+      "id": "link_ready_to_go",
+      "label": "Link Page",
+      "default": "/pages/ready-to-go"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_ready_to_go",
+      "label": "Background Image"
+    },
+    {
+      "type": "header",
+      "content": "Ready To Ship (Dubai)"
+    },
+    {
+      "type": "text",
+      "id": "title_ready_to_ship",
+      "label": "Title",
+      "default": "Ready To Ship"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_ready_to_ship",
+      "label": "Subtitle",
+      "default": "Fast Shipping To UAE & GCC"
+    },
+    {
+      "type": "url",
+      "id": "link_ready_to_ship",
+      "label": "Link Page",
+      "default": "/pages/ready-to-ship"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_ready_to_ship",
+      "label": "Background Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Delivery Gateway Split"
+    }
+  ]
+}
+{% endschema %}

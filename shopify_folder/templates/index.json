@@ -1,5 +1,14 @@
 {
   "sections": {
+    "gateway": {
+      "type": "delivery-gateway",
+      "settings": {
+        "title_ready_to_go": "Ready To Go",
+        "subtitle_ready_to_go": "Same Day Delivery In Qatar",
+        "title_ready_to_ship": "Ready To Ship",
+        "subtitle_ready_to_ship": "Fast Shipping To UAE & GCC"
+      }
+    },
     "hero": {
       "type": "hero-banner",
       "settings": {
@@ -55,6 +64,7 @@
     }
   },
   "order": [
+    "gateway",
     "hero",
     "new_arrivals",
     "best_sellers",
