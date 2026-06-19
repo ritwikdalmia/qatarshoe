@@ -5,11 +5,19 @@
     assign is_mock = true
   endif
   if is_mock
-    assign p_title = "GCC Diana small tote bag"
-    assign p_vendor = "GCC"
-    assign p_description = '<p>The Diana small tote bag features the signature bamboo handles and double G hardware. Crafted from premium leather in a structured silhouette.</p><p>Details:<br>- Bamboo handles with 3.1" drop<br>- Double G hardware<br>- Interior open pocket and 2 zip compartments<br>- Small size: 10.6"W x 9.4"H x 4.3"D</p>'
-    assign p_price_money = "QAR 2,000"
-    assign p_compare_price_money = "QAR 2,500"
+    if request.locale.iso_code == 'ar'
+      assign p_title = "حقيبة توت ديانا الصغيرة من جي سي سي"
+      assign p_vendor = "جي سي سي"
+      assign p_description = '<p>تتميز حقيبة توت ديانا الصغيرة بمقابض الخيزران المميزة وإكسسوارات شعار الحرفين G. مصنوعة من جلد فاخر بتصميم منظم.</p><p>التفاصيل:<br>- مقابض خيزران بارتفاع 3.1 بوصة<br>- إكسسوارات شعار الحرفين G<br>- جيب داخلي مفتوح وقسمين بسحاب<br>- المقاس الصغير: 10.6 بوصة عرض × 9.4 بوصة ارتفاع × 4.3 بوصة عمق</p>'
+      assign p_price_money = "2,000 ر.ق"
+      assign p_compare_price_money = "2,500 ر.ق"
+    else
+      assign p_title = "GCC Diana small tote bag"
+      assign p_vendor = "GCC"
+      assign p_description = '<p>The Diana small tote bag features the signature bamboo handles and double G hardware. Crafted from premium leather in a structured silhouette.</p><p>Details:<br>- Bamboo handles with 3.1" drop<br>- Double G hardware<br>- Interior open pocket and 2 zip compartments<br>- Small size: 10.6"W x 9.4"H x 4.3"D</p>'
+      assign p_price_money = "QAR 2,000"
+      assign p_compare_price_money = "QAR 2,500"
+    endif
     assign p_compare_at_price_val = 250000
     assign p_price_val = 200000
     assign p_available = true
@@ -161,14 +169,26 @@
       
       <div class="stock-banner in-stock" id="qtr-stock-banner">
         <span class="status-dot"></span>
-        <span class="status-text">In Stock — Available for Same Day Delivery in Qatar</span>
+        <span class="status-text">
+          {%- if request.locale.iso_code == 'ar' -%}
+            متوفر في المخزون — متاح للتوصيل في نفس اليوم في قطر
+          {%- else -%}
+            In Stock — Available for Same Day Delivery in Qatar
+          {%- endif -%}
+        </span>
       </div>
 
       
       {%- if is_mock -%}
         <div class="product-variant-selectors">
           <div id="size-selector" class="selector-group">
-            <label class="option-label">Select Size (EU)</label>
+            <label class="option-label">
+              {%- if request.locale.iso_code == 'ar' -%}
+                اختر المقاس (الأوروبي)
+              {%- else -%}
+                Select Size (EU)
+              {%- endif -%}
+            </label>
             <div class="size-options">
               <button type="button" 
                       class="size-option" 
@@ -240,7 +260,13 @@
           </div>
 
           <div id="color-selector" class="selector-group">
-            <label class="option-label">Select Color</label>
+            <label class="option-label">
+              {%- if request.locale.iso_code == 'ar' -%}
+                اختر اللون
+              {%- else -%}
+                Select Color
+              {%- endif -%}
+            </label>
             <div class="color-swatches">
               <div class="color-swatch active" 
                    data-color="Brown"
@@ -291,7 +317,13 @@
               {%- assign downcase_name = option.name | downcase -%}
               {%- if downcase_name == 'size' or downcase_name == 'مقاس' or downcase_name == 'المقاس' -%}
                 <div id="size-selector" class="selector-group">
-                  <label class="option-label">Select Size (EU)</label>
+                  <label class="option-label">
+                    {%- if request.locale.iso_code == 'ar' -%}
+                      اختر المقاس (الأوروبي)
+                    {%- else -%}
+                      Select Size (EU)
+                    {%- endif -%}
+                  </label>
                   <div class="size-options">
                     {%- for value in option.values -%}
                       {%- assign variant_available = false -%}
@@ -328,7 +360,13 @@
 
               {%- elsif downcase_name == 'color' or downcase_name == 'اللون' or downcase_name == 'لون' -%}
                 <div id="color-selector" class="selector-group">
-                  <label class="option-label">Select Color</label>
+                  <label class="option-label">
+                    {%- if request.locale.iso_code == 'ar' -%}
+                      اختر اللون
+                    {%- else -%}
+                      Select Color
+                    {%- endif -%}
+                  </label>
                   <div class="color-swatches">
                     {%- for value in option.values -%}
                       {%- assign variant_available = false -%}
@@ -376,7 +414,9 @@
 
       
       <div class="quantity-wrapper">
-        <span class="quantity-label">Quantity</span>
+        <span class="quantity-label">
+          {%- if request.locale.iso_code == 'ar' -%}الكمية{%- else -%}Quantity{%- endif -%}
+        </span>
         <div class="quantity-controls">
           <button type="button" class="qty-btn" onclick="adjustProductQty(-1)">−</button>
           <input type="number" id="product-qty-input" value="1" min="1" readonly>
@@ -389,12 +429,16 @@
         <button type="button" id="add-to-cart" class="checkout-btn atc-btn" 
                 {% unless p_available %}disabled{% endunless %}
                 onclick="addToCartClick()">
-          {%- if p_available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+          {%- if p_available -%}
+            {%- if request.locale.iso_code == 'ar' -%}أضف إلى السلة{%- else -%}Add to Cart{%- endif -%}
+          {%- else -%}
+            {%- if request.locale.iso_code == 'ar' -%}نفذت الكمية{%- else -%}Sold Out{%- endif -%}
+          {%- endif -%}
         </button>
         <button type="button" id="buy-now" class="checkout-btn buy-now-btn" 
                 {% unless p_available %}disabled{% endunless %}
                 onclick="buyNowClick()">
-          Buy Now
+          {%- if request.locale.iso_code == 'ar' -%}اشتري الآن{%- else -%}Buy Now{%- endif -%}
         </button>
       </div>
 
@@ -402,11 +446,15 @@
       <div class="delivery-info-strip">
         <div class="info-item">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          <span>Same Day Delivery in Qatar (orders before 4 PM)</span>
+          <span>
+            {%- if request.locale.iso_code == 'ar' -%}التوصيل في نفس اليوم في قطر (للطلبات قبل 4 مساءً){- else -%}Same Day Delivery in Qatar (orders before 4 PM){%- endif -%}
+          </span>
         </div>
         <div class="info-item">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          <span>Secure Cash on Delivery Checkout</span>
+          <span>
+            {%- if request.locale.iso_code == 'ar' -%}الدفع عند الاستلام بشكل آمن{%- else -%}Secure Cash on Delivery Checkout{%- endif -%}
+          </span>
         </div>
       </div>
 
@@ -414,7 +462,9 @@
       <div class="product-accordions">
         <div class="accordion-item active">
           <button type="button" class="accordion-header" onclick="toggleProductAccordion(this)">
-            <span>Description</span>
+            <span>
+              {%- if request.locale.iso_code == 'ar' -%}الوصف{%- else -%}Description{%- endif -%}
+            </span>
             <span class="accordion-icon">−</span>
           </button>
           <div class="accordion-content">
@@ -425,11 +475,19 @@
         </div>
         <div class="accordion-item">
           <button type="button" class="accordion-header" onclick="toggleProductAccordion(this)">
-            <span>Shipping & Returns</span>
+            <span>
+              {%- if request.locale.iso_code == 'ar' -%}الشحن والإرجاع{%- else -%}Shipping & Returns{%- endif -%}
+            </span>
             <span class="accordion-icon">+</span>
           </button>
           <div class="accordion-content">
-            <p>We provide same-day courier delivery within Doha for all orders placed before 4 PM. Delivery is free for purchases above QAR 500. Cash on Delivery (COD) is accepted at checkout. Returns are allowed within 7 days of delivery, provided items are unworn and in original packaging.</p>
+            <p>
+              {%- if request.locale.iso_code == 'ar' -%}
+                نحن نوفر خدمة التوصيل في نفس اليوم داخل الدوحة لجميع الطلبات المقدمة قبل الساعة 4 مساءً. التوصيل مجاني للمشتريات التي تزيد عن 500 ريال قطري. الدفع عند الاستلام (COD) مقبول عند الدفع. يُسمح بالإرجاع في غضون 7 أيام من التوصيل، بشرط أن تكون السلع غير مستخدمة وفي تغليفها الأصلي.
+              {%- else -%}
+                We provide same-day courier delivery within Doha for all orders placed before 4 PM. Delivery is free for purchases above QAR 500. Cash on Delivery (COD) is accepted at checkout. Returns are allowed within 7 days of delivery, provided items are unworn and in original packaging.
+              {%- endif -%}
+            </p>
           </div>
         </div>
       </div>

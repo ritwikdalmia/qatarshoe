@@ -51,10 +51,32 @@
     
     <script>
       (function() {
+        // Department sync
         var dept = localStorage.getItem('qatarshoes_department') || 'women';
         if (dept !== 'women' && dept !== 'men') dept = 'women';
         document.documentElement.classList.add('dept-' + dept);
         document.cookie = 'qatarshoes_department=' + dept + '; path=/; max-age=' + (365 * 24 * 60 * 60);
+
+        // Language preference persistence
+        var currentLang = "{{ request.locale.iso_code }}".toLowerCase();
+        var savedLang = localStorage.getItem('shopify_locale_preference');
+        
+        if (savedLang && savedLang !== currentLang) {
+          var newPath = window.location.pathname;
+          if (savedLang === 'ar') {
+            if (!newPath.startsWith('/ar')) {
+              newPath = '/ar' + (newPath === '/' ? '' : newPath);
+              window.location.href = window.location.origin + newPath + window.location.search + window.location.hash;
+            }
+          } else if (savedLang === 'en') {
+            if (newPath.startsWith('/ar/')) {
+              newPath = newPath.replace('/ar/', '/');
+            } else if (newPath === '/ar') {
+              newPath = '/';
+            }
+            window.location.href = window.location.origin + newPath + window.location.search + window.location.hash;
+          }
+        }
       })();
     </script>
   </head>

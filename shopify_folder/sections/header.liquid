@@ -57,8 +57,12 @@
     
     <div class="desktop-header-left">
       <div class="dept-toggle">
-        <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">Women</a>
-        <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">Men</a>
+        <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">
+          {%- if request.locale.iso_code == 'ar' -%}نساء{%- else -%}Women{%- endif -%}
+        </a>
+        <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">
+          {%- if request.locale.iso_code == 'ar' -%}رجال{%- else -%}Men{%- endif -%}
+        </a>
       </div>
     </div>
 
@@ -619,8 +623,12 @@
         </a>
         
         <div class="dept-toggle">
-          <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">Women</a>
-          <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">Men</a>
+          <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">
+            {%- if request.locale.iso_code == 'ar' -%}نساء{%- else -%}Women{%- endif -%}
+          </a>
+          <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">
+            {%- if request.locale.iso_code == 'ar' -%}رجال{%- else -%}Men{%- endif -%}
+          </a>
         </div>
       </div>
 
@@ -1075,8 +1083,12 @@
   
   <div class="drawer-header">
     <div class="drawer-tabs">
-      <button class="drawer-tab active" data-gender="women">Women</button>
-      <button class="drawer-tab" data-gender="men">Men</button>
+      <button class="drawer-tab active" data-gender="women">
+        {%- if request.locale.iso_code == 'ar' -%}نساء{%- else -%}Women{%- endif -%}
+      </button>
+      <button class="drawer-tab" data-gender="men">
+        {%- if request.locale.iso_code == 'ar' -%}رجال{%- else -%}Men{%- endif -%}
+      </button>
     </div>
     <button type="button" class="drawer-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu">&times;</button>
   </div>
@@ -1714,6 +1726,9 @@
         e.stopPropagation();
         var selectedLang = opt.getAttribute('data-lang').toLowerCase();
         var currentLang = "{{ request.locale.iso_code }}".toLowerCase();
+        
+        // Save explicit preference
+        localStorage.setItem('shopify_locale_preference', selectedLang);
         
         if (selectedLang !== currentLang) {
           var newPath = window.location.pathname;
