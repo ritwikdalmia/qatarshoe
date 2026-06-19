@@ -1817,8 +1817,19 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: itemKey, quantity: qty })
       })
-      .then(function(r) { return r.json(); })
+      .then(function(r) {
+        return r.json().then(function(data) {
+          if (!r.ok) {
+            throw new Error(data.description || data.message || 'Not enough stock or invalid quantity.');
+          }
+          return data;
+        });
+      })
       .then(function(cart) {
+        window.openSideDrawer('cart');
+      })
+      .catch(function(err) {
+        alert(err.message);
         window.openSideDrawer('cart');
       });
     };
@@ -1852,12 +1863,12 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData)
       }).then(function(r) {
-        if (!r.ok) {
-          return r.text().then(function(err) {
-            throw new Error(err);
-          });
-        }
-        return r.json();
+        return r.json().then(function(data) {
+          if (!r.ok) {
+            throw new Error(data.description || data.message || 'Could not add item to cart.');
+          }
+          return data;
+        });
       });
 
       addPromise.then(function() {
@@ -1878,7 +1889,7 @@
         window.openSideDrawer('cart');
       }).catch(function(err) {
         console.error('Error adding to cart from wishlist:', err);
-        alert('Could not add item to cart. Please make sure a valid size/variant is selected.');
+        alert(err.message || 'Could not add item to cart. Please make sure a valid size/variant is selected.');
       });
     };
 
