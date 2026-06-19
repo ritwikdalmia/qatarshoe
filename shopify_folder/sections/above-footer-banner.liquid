@@ -11,7 +11,7 @@
     z-index: 1;
     overflow: visible;
     clip-path: inset(-9999px -9999px 0 -9999px);
-    background-color: #2d1f1f;
+    background-color: {{ section.settings.bg_color | default: '#2d1f1f' }};
 }
 
 .above-footer-banner .afb-img {
@@ -458,22 +458,28 @@
 
 <section class="above-footer-banner" id="above-footer-banner-{{ section.id }}">
     <img class="afb-img afb-img--go_women"
-         src="https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/women-hand-qatar.png" alt=""
+         src="{% if section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/women-hand-qatar.png{% endif %}" alt=""
          data-base-url="https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/"
-         data-src-go_men="FooterHand.png"
-         data-src-mobile-go_men="https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Qtr-m-h.png"
-         data-src-go_women="Qtr-w-h.png"
-         data-src-mobile-go_women="https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Qtr-w-h.png"
-         data-src-ship_women="women-hand-dubai.png"
-         data-src-mobile-ship_women="https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Dub-w-h.png"
-         data-src-ship_men="men-hand-dubai.png"
-         data-src-mobile-ship_men="https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Dub-m-h.png">
+         data-src-go_men="{% if section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}FooterHand.png{% endif %}"
+         data-src-mobile-go_men="{% if section.settings.image_mobile_go_men != blank %}{{ section.settings.image_mobile_go_men | image_url }}{% elsif section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Qtr-m-h.png{% endif %}"
+         data-src-go_women="{% if section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}Qtr-w-h.png{% endif %}"
+         data-src-mobile-go_women="{% if section.settings.image_mobile_go_women != blank %}{{ section.settings.image_mobile_go_women | image_url }}{% elsif section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Qtr-w-h.png{% endif %}"
+         data-src-ship_women="{% if section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}women-hand-dubai.png{% endif %}"
+         data-src-mobile-ship_women="{% if section.settings.image_mobile_ship_women != blank %}{{ section.settings.image_mobile_ship_women | image_url }}{% elsif section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Dub-w-h.png{% endif %}"
+         data-src-ship_men="{% if section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}men-hand-dubai.png{% endif %}"
+         data-src-mobile-ship_men="{% if section.settings.image_mobile_ship_men != blank %}{{ section.settings.image_mobile_ship_men | image_url }}{% elsif section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Dub-m-h.png{% endif %}">
     <div class="above-footer-content">
-        <div class="above-footer-heading">A selection of designer pieces,<span class='afb-newline'> chosen with purpose</span></div>
+        <div class="above-footer-heading">{{ section.settings.heading_text }}</div>
         <div class="above-footer-bullets-wrap">
-            <div><ul><li>Selected For Quality, Rarity, And Design.</li></ul></div>
-            <div><ul><li>Exclusive Styles In Limited Quantities.</li></ul></div>
-            <div><ul><li>Delivered Through A Seamless Experience.</li></ul></div>
+            {% if section.settings.bullet_1 != blank %}
+                <div><ul><li>{{ section.settings.bullet_1 }}</li></ul></div>
+            {% endif %}
+            {% if section.settings.bullet_2 != blank %}
+                <div><ul><li>{{ section.settings.bullet_2 }}</li></ul></div>
+            {% endif %}
+            {% if section.settings.bullet_3 != blank %}
+                <div><ul><li>{{ section.settings.bullet_3 }}</li></ul></div>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -500,7 +506,7 @@
             var mobileSrc = img.getAttribute('data-src-mobile-' + key);
             if (desktopSrc) {
                 var p = new Image();
-                p.src = base + desktopSrc;
+                p.src = (desktopSrc.indexOf('http') === 0 || desktopSrc.indexOf('//') === 0 || desktopSrc.indexOf('/cdn') === 0) ? desktopSrc : (base + desktopSrc);
                 cache[key] = p;
             }
             if (mobileSrc) {
@@ -519,7 +525,7 @@
         var mobileSrc = isMobile ? img.getAttribute('data-src-mobile-' + key) : null;
         var newSrc = img.getAttribute('data-src-' + key);
         if (!newSrc) return;
-        var fullSrc = mobileSrc || (base + newSrc);
+        var fullSrc = mobileSrc || ((newSrc.indexOf('http') === 0 || newSrc.indexOf('//') === 0 || newSrc.indexOf('/cdn') === 0) ? newSrc : (base + newSrc));
         if (img.src === fullSrc) return;
 
         img.style.visibility = 'hidden';
@@ -543,7 +549,86 @@
 {% schema %}
 {
   "name": "Above Footer Banner",
-  "settings": [],
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#2d1f1f"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_text",
+      "label": "Heading Text",
+      "default": "A selection of designer pieces,<span class='afb-newline'> chosen with purpose</span>"
+    },
+    {
+      "type": "text",
+      "id": "bullet_1",
+      "label": "Bullet 1",
+      "default": "Selected For Quality, Rarity, And Design."
+    },
+    {
+      "type": "text",
+      "id": "bullet_2",
+      "label": "Bullet 2",
+      "default": "Exclusive Styles In Limited Quantities."
+    },
+    {
+      "type": "text",
+      "id": "bullet_3",
+      "label": "Bullet 3",
+      "default": "Delivered Through A Seamless Experience."
+    },
+    {
+      "type": "header",
+      "content": "Images (Women)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_go_women",
+      "label": "Ready to Go (Qatar) - Women"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile_go_women",
+      "label": "Ready to Go (Qatar) - Women Mobile"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_ship_women",
+      "label": "Ready to Ship (Dubai) - Women"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile_ship_women",
+      "label": "Ready to Ship (Dubai) - Women Mobile"
+    },
+    {
+      "type": "header",
+      "content": "Images (Men)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_go_men",
+      "label": "Ready to Go (Qatar) - Men"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile_go_men",
+      "label": "Ready to Go (Qatar) - Men Mobile"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_ship_men",
+      "label": "Ready to Ship (Dubai) - Men"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile_ship_men",
+      "label": "Ready to Ship (Dubai) - Men Mobile"
+    }
+  ],
   "presets": [
     {
       "name": "Above Footer Banner"

@@ -104,11 +104,13 @@
 
         
         <div class="currency-wrapper" id="desktop-currency-wrapper">
-          {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
+          {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
+          {%- assign currency_data_parts = currency_data | split: '|||' -%}
+          {%- assign currencies = currency_data_parts[0] | split: ',' -%}
+          {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
           {%- assign default_curr = currencies | first | strip | upcase -%}
           {%- liquid
             assign default_symbol = default_curr
-            assign custom_symbols = settings.currency_symbols | default: 'QAR:QR,USD:$,EUR:€,AED:د.إ,SAR:SR' | split: ','
             for sym_pair_raw in custom_symbols
               assign sym_pair = sym_pair_raw | split: ':'
               assign sym_code = sym_pair[0] | strip | upcase
@@ -684,11 +686,13 @@
 
         
         <div class="currency-wrapper site-hdr-desktop">
-          {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
+          {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
+          {%- assign currency_data_parts = currency_data | split: '|||' -%}
+          {%- assign currencies = currency_data_parts[0] | split: ',' -%}
+          {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
           {%- assign default_curr = currencies | first | strip | upcase -%}
           {%- liquid
             assign default_symbol = default_curr
-            assign custom_symbols = settings.currency_symbols | default: 'QAR:QR,USD:$,EUR:€,AED:د.إ,SAR:SR' | split: ','
             for sym_pair_raw in custom_symbols
               assign sym_pair = sym_pair_raw | split: ':'
               assign sym_code = sym_pair[0] | strip | upcase
@@ -1314,7 +1318,9 @@
 
 <script>
   window.CURRENCY_SYMBOLS = {
-    {%- assign custom_symbols = settings.currency_symbols | default: 'QAR:QR,USD:$,EUR:€,AED:د.إ,SAR:SR' | split: ',' -%}
+    {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
+    {%- assign currency_data_parts = currency_data | split: '|||' -%}
+    {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
     {%- for sym_pair_raw in custom_symbols -%}
       {%- assign sym_pair = sym_pair_raw | split: ':' -%}
       {%- assign sym_code = sym_pair[0] | strip | upcase -%}

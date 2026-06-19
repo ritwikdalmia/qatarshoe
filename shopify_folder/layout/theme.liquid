@@ -36,6 +36,18 @@
       {{ 'accounts.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
 
+    <style>
+      :root {
+        --color-bg: {{ settings.color_bg | default: '#faf9f5' }};
+        --color-primary: {{ settings.color_primary | default: '#2d1f1f' }};
+        --color-accent: {{ settings.color_accent | default: '#f25c5e' }};
+        --color-border: {{ settings.color_border | default: '#e0dcd3' }};
+        --color-muted: {{ settings.color_muted | default: '#666666' }};
+        --color-dark-teal: {{ settings.color_dark_teal | default: '#304854' }};
+        --color-green: {{ settings.color_green | default: '#1e3524' }};
+      }
+    </style>
+
     
     <script>
       (function() {

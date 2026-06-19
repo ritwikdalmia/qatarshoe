@@ -112,7 +112,10 @@
       <div class="vendor">{{ p_vendor }}</div>
       <h1 class="title">{{ p_title }}</h1>
 
-      {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
+      {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
+      {%- assign currency_data_parts = currency_data | split: '|||' -%}
+      {%- assign currencies = currency_data_parts[0] | split: ',' -%}
+      {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
       
       <div class="price-container"
            data-price-qar="QAR {{ p_price_val | divided_by: 100.0 | round }}"
@@ -129,14 +132,14 @@
                {%- assign custom_compare = product.metafields.pricing[compare_key] -%}
                
                {%- assign symbol = curr -%}
-               {%- if curr == 'USD' %}{% assign symbol = '$' %}{% endif -%}
-               {%- if curr == 'EUR' %}{% assign symbol = '€' %}{% endif -%}
-               {%- if curr == 'AED' %}{% assign symbol = 'د.إ' %}{% endif -%}
-               {%- if curr == 'SAR' %}{% assign symbol = 'SR' %}{% endif -%}
-               {%- if curr == 'BHD' %}{% assign symbol = 'BD' %}{% endif -%}
-               {%- if curr == 'KWD' %}{% assign symbol = 'KD' %}{% endif -%}
-               {%- if curr == 'OMR' %}{% assign symbol = 'RO' %}{% endif -%}
-               {%- if curr == 'GBP' %}{% assign symbol = '£' %}{% endif -%}
+               {%- for sym_pair_raw in custom_symbols -%}
+                 {%- assign sym_pair = sym_pair_raw | split: ':' -%}
+                 {%- assign sym_code = sym_pair[0] | strip | upcase -%}
+                 {%- if sym_code == curr -%}
+                   {%- assign symbol = sym_pair[1] | strip -%}
+                   {%- break -%}
+                 {%- endif -%}
+               {%- endfor -%}
                
                {%- if custom_price != blank -%}
                  data-price-{{ curr_down }}="{{ symbol }} {{ custom_price }}"

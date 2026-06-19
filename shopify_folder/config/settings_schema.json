@@ -27,6 +27,36 @@
         "id": "color_primary",
         "label": "Primary Accent",
         "default": "#2d1f1f"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent / Sale Color",
+        "default": "#f25c5e"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border Color",
+        "default": "#e0dcd3"
+      },
+      {
+        "type": "color",
+        "id": "color_muted",
+        "label": "Muted Text Color",
+        "default": "#666666"
+      },
+      {
+        "type": "color",
+        "id": "color_dark_teal",
+        "label": "Dark Teal Accent",
+        "default": "#304854"
+      },
+      {
+        "type": "color",
+        "id": "color_green",
+        "label": "Green Accent",
+        "default": "#1e3524"
       }
     ]
   },
@@ -34,18 +64,168 @@
     "name": "Currency Manager",
     "settings": [
       {
-        "type": "text",
-        "id": "supported_currencies",
-        "label": "Supported Currencies",
-        "info": "Enter the currency codes separated by commas (e.g. QAR, USD, EUR, AED, SAR)",
-        "default": "QAR, USD, EUR, AED, SAR"
+        "type": "paragraph",
+        "content": "Toggle the currencies you want to support and customize their symbols."
+      },
+      {
+        "type": "header",
+        "content": "QAR (Qatari Riyal)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_qar_enable",
+        "label": "Enable QAR",
+        "default": true
       },
       {
         "type": "text",
-        "id": "currency_symbols",
-        "label": "Custom Currency Symbols",
-        "info": "Optional: Override standard symbols using a comma-separated list (e.g. QAR:QR,USD:$). Leave default if unsure.",
-        "default": "QAR:QR,USD:$,EUR:€,AED:د.إ,SAR:SR,BHD:BD,KWD:KD,OMR:RO,GBP:£,INR:₹"
+        "id": "currency_qar_symbol",
+        "label": "QAR Custom Symbol",
+        "default": "QR"
+      },
+      {
+        "type": "header",
+        "content": "USD (US Dollar)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_usd_enable",
+        "label": "Enable USD",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "currency_usd_symbol",
+        "label": "USD Custom Symbol",
+        "default": "$"
+      },
+      {
+        "type": "header",
+        "content": "EUR (Euro)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_eur_enable",
+        "label": "Enable EUR",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "currency_eur_symbol",
+        "label": "EUR Custom Symbol",
+        "default": "€"
+      },
+      {
+        "type": "header",
+        "content": "AED (UAE Dirham)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_aed_enable",
+        "label": "Enable AED",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "currency_aed_symbol",
+        "label": "AED Custom Symbol",
+        "default": "د.إ"
+      },
+      {
+        "type": "header",
+        "content": "SAR (Saudi Riyal)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_sar_enable",
+        "label": "Enable SAR",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "currency_sar_symbol",
+        "label": "SAR Custom Symbol",
+        "default": "SR"
+      },
+      {
+        "type": "header",
+        "content": "BHD (Bahraini Dinar)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_bhd_enable",
+        "label": "Enable BHD",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "currency_bhd_symbol",
+        "label": "BHD Custom Symbol",
+        "default": "BD"
+      },
+      {
+        "type": "header",
+        "content": "KWD (Kuwaiti Dinar)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_kwd_enable",
+        "label": "Enable KWD",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "currency_kwd_symbol",
+        "label": "KWD Custom Symbol",
+        "default": "KD"
+      },
+      {
+        "type": "header",
+        "content": "OMR (Omani Rial)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_omr_enable",
+        "label": "Enable OMR",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "currency_omr_symbol",
+        "label": "OMR Custom Symbol",
+        "default": "RO"
+      },
+      {
+        "type": "header",
+        "content": "GBP (British Pound)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_gbp_enable",
+        "label": "Enable GBP",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "currency_gbp_symbol",
+        "label": "GBP Custom Symbol",
+        "default": "£"
+      },
+      {
+        "type": "header",
+        "content": "INR (Indian Rupee)"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_inr_enable",
+        "label": "Enable INR",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "currency_inr_symbol",
+        "label": "INR Custom Symbol",
+        "default": "₹"
       }
     ]
   }
