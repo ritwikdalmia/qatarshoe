@@ -877,66 +877,94 @@
           </div>
         </div>
 
-        {%- comment -%} Collections filter section — show on all category pages (not brand pages) {%- endcomment -%}
+        {%- comment -%} Collections filter section — context-aware, mirrors the filter pills logic {%- endcomment -%}
         {%- if is_brand_menu == false -%}
           {%- liquid
-            assign col_nav_links = ''
-            for handle in menu_handles
-              if linklists[handle] != blank
-                for link in linklists[handle].links
-                  assign lt = link.title | downcase
-                  if lt contains 'explore' or lt contains 'home' or lt contains 'new' or lt contains 'sale' or lt contains 'brand' or lt contains 'vendor'
-                    continue
-                  endif
-                  if link.url contains '/collections/'
-                    assign lh = link.url | split: '/' | last
-                    assign entry = '::' | append: lh | append: '||'
-                    unless col_nav_links contains entry
-                      assign col_nav_links = col_nav_links | append: link.title | append: '::' | append: lh | append: '||'
-                    endunless
-                  endif
-                  for cl in link.links
-                    assign clt = cl.title | downcase
-                    if clt contains 'explore' or clt contains 'home' or clt contains 'new' or clt contains 'sale' or clt contains 'brand' or clt contains 'vendor'
+            assign drawer_col_all_url = blank
+            assign drawer_col_all_label = 'All'
+            assign drawer_col_links_str = ''
+
+            if parent_link != blank and parent_link.links.size > 0
+              comment
+                We are on a page that has a parent with children (e.g. on Bags or Mini Bags).
+                Show the children of parent_link as the collection options.
+                "All" → parent_link.url (e.g. /collections/bags)
+              endcomment
+              assign drawer_col_all_url = parent_link.url
+              assign drawer_col_all_label = 'All ' | append: parent_link.title
+              for cl in parent_link.links
+                assign clt = cl.title | downcase
+                if clt contains 'explore' or clt contains 'view all'
+                  continue
+                endif
+                if cl.url contains '/collections/'
+                  assign clh = cl.url | split: '/' | last
+                  assign centry = '::' | append: clh | append: '||'
+                  unless drawer_col_links_str contains centry
+                    assign drawer_col_links_str = drawer_col_links_str | append: cl.title | append: '::' | append: clh | append: '||'
+                  endunless
+                endif
+              endfor
+            else
+              comment
+                We are on /collections/all or a top-level standalone page.
+                Show top-level category links from the menu.
+              endcomment
+              assign drawer_col_all_url = '/collections/all'
+              assign drawer_col_all_label = 'All'
+              for handle in menu_handles
+                if linklists[handle] != blank
+                  for link in linklists[handle].links
+                    assign lt = link.title | downcase
+                    if lt contains 'explore' or lt contains 'home' or lt contains 'new' or lt contains 'sale' or lt contains 'brand' or lt contains 'vendor' or lt contains 'restock'
                       continue
                     endif
-                    if cl.url contains '/collections/'
-                      assign clh = cl.url | split: '/' | last
-                      assign centry = '::' | append: clh | append: '||'
-                      unless col_nav_links contains centry
-                        assign col_nav_links = col_nav_links | append: cl.title | append: '::' | append: clh | append: '||'
+                    if link.url contains '/collections/'
+                      assign lh = link.url | split: '/' | last
+                      assign entry = '::' | append: lh | append: '||'
+                      unless drawer_col_links_str contains entry
+                        assign drawer_col_links_str = drawer_col_links_str | append: link.title | append: '::' | append: lh | append: '||'
                       endunless
                     endif
                   endfor
-                endfor
-              endif
-              if col_nav_links != ''
-                break
-              endif
-            endfor
-            assign col_nav_pairs = col_nav_links | split: '||'
+                endif
+                if drawer_col_links_str != ''
+                  break
+                endif
+              endfor
+            endif
+            assign drawer_col_pairs = drawer_col_links_str | split: '||'
           -%}
 
-          {%- if col_nav_pairs.size > 1 -%}
+          {%- if drawer_col_pairs.size > 0 -%}
+            {%- assign drawer_all_active = false -%}
+            {%- if drawer_col_all_url == '/collections/all' and collection.handle == 'all' -%}
+              {%- assign drawer_all_active = true -%}
+            {%- elsif drawer_col_all_url == collection.url -%}
+              {%- assign drawer_all_active = true -%}
+            {%- endif -%}
+
             <div class="filter-drawer-section active" data-filter-type="collections">
               <div class="filter-section-header" onclick="toggleFilterSection(this)">
                 <h3>Collections</h3>
                 <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
               </div>
               <div class="filter-section-content">
-                <div class="filter-collection-links" style="display: flex; flex-direction: column; gap: 2px; padding: 4px 0;">
-                  <a href="/collections/all" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); text-decoration: none; border-bottom: 1px solid var(--color-border); font-weight: {% if collection.handle == 'all' %}700{% else %}400{% endif %};">
-                    All
-                    {%- if collection.handle == 'all' -%}<span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); display: inline-block;"></span>{%- endif -%}
+                <div class="filter-collection-links" style="display: flex; flex-direction: column; gap: 0; padding: 4px 0;">
+                  <a href="{{ drawer_col_all_url }}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); text-decoration: none; border-bottom: 1px solid var(--color-border); font-weight: {% if drawer_all_active %}700{% else %}400{% endif %};">
+                    {{ drawer_col_all_label }}
+                    {%- if drawer_all_active -%}<span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); display: inline-block; flex-shrink: 0;"></span>{%- endif -%}
                   </a>
-                  {%- for pair in col_nav_pairs -%}
+                  {%- for pair in drawer_col_pairs -%}
                     {%- assign parts = pair | split: '::' -%}
                     {%- assign ctitle = parts[0] -%}
                     {%- assign chandle = parts[1] -%}
-                    {%- if ctitle != blank and chandle != blank and chandle != 'all' -%}
-                      <a href="/collections/{{ chandle }}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); text-decoration: none; border-bottom: 1px solid var(--color-border); font-weight: {% if collection.handle == chandle %}700{% else %}400{% endif %};">
+                    {%- if ctitle != blank and chandle != blank -%}
+                      {%- assign is_active_link = false -%}
+                      {%- if collection.handle == chandle -%}{%- assign is_active_link = true -%}{%- endif -%}
+                      <a href="/collections/{{ chandle }}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); text-decoration: none; border-bottom: 1px solid var(--color-border); font-weight: {% if is_active_link %}700{% else %}400{% endif %};">
                         {{ ctitle }}
-                        {%- if collection.handle == chandle -%}<span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); display: inline-block;"></span>{%- endif -%}
+                        {%- if is_active_link -%}<span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); display: inline-block; flex-shrink: 0;"></span>{%- endif -%}
                       </a>
                     {%- endif -%}
                   {%- endfor -%}
@@ -945,6 +973,7 @@
             </div>
           {%- endif -%}
         {%- endif -%}
+
 
         {%- for filter in collection.filters -%}
 
