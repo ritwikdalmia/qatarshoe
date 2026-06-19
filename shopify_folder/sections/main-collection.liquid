@@ -605,8 +605,7 @@
             
             <div class="product-card-body">
               <div class="text-wrapper">
-                {%- assign vendor_handle = product.vendor | handleize -%}
-                <div class="product-brand"><a href="/collections/{{ vendor_handle }}">{{ product.vendor }}</a></div>
+                <div class="product-brand">{{ product.vendor }}</div>
                 <div class="product-model">{{ product.title }}</div>
               </div>
               

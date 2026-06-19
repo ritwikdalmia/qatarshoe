@@ -14,108 +14,219 @@
   
   <section class="sitemap-content">
 
-    
-    {%- assign qatar_blocks = section.blocks | where: "type", "card" | where: "settings.group", "qatar" -%}
-    {%- if qatar_blocks.size > 0 -%}
+    {%- assign qatar_blocks_count = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'card' and block.settings.group == 'qatar' -%}
+        {%- assign qatar_blocks_count = qatar_blocks_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if qatar_blocks_count > 0 -%}
       <div class="sitemap-group">
         <h2 class="sitemap-group-title">{{ section.settings.qatar_title | default: "Qatar Collection" }}</h2>
         <div class="sitemap-cards-row">
-          {%- for block in qatar_blocks -%}
-            <div class="sitemap-card" {{ block.shopify_attributes }}>
-              <div class="sitemap-card-inner">
-                <h3>{{ block.settings.title }}</h3>
-                <div class="sitemap-card-links">
-                  {%- assign menu = block.settings.menu -%}
-                  {%- if menu != blank and linklists[menu] != blank -%}
-                    {%- for link in linklists[menu].links -%}
-                      <a href="{{ link.url }}" class="sitemap-link">
-                        <span>{{ link.title }}</span>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      </a>
-                    {%- endfor -%}
-                  {%- else -%}
-                    {%- assign title_handle = block.settings.title | handle -%}
-                    {%- if title_handle == 'women' -%}
-                      <a href="/collections/new-in" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/restock" class="sitemap-link"><span>Restock</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/on-sale" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/all-bags" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/all-small-leather-goods" class="sitemap-link"><span>Small Leather Goods</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/all-shoes" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/all-jewellery" class="sitemap-link"><span>Jewellery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/all-watches" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/all-accessories" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                    {%- elsif title_handle == 'men' -%}
-                      <a href="/collections/new-in-men" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/on-sale-men" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/bags-men" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/shoes-men" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/wallets-men" class="sitemap-link"><span>Wallets</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/watches-men" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/accessories-men" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/travel-bags-men" class="sitemap-link"><span>Travel Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          {%- assign qatar_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'card' and block.settings.group == 'qatar' -%}
+              {%- assign qatar_index = qatar_index | plus: 1 -%}
+              <div class="sitemap-card" {{ block.shopify_attributes }}>
+                <div class="sitemap-card-inner">
+                  <h3>{{ block.settings.title }}</h3>
+                  <div class="sitemap-card-links">
+                    {%- assign menu_handle = block.settings.menu -%}
+                    {%- if menu_handle == blank -%}
+                      {%- assign menu_handle = block.settings.title | handle -%}
                     {%- endif -%}
-                  {%- endif -%}
+
+                    {%- if linklists[menu_handle] != blank and linklists[menu_handle].links.size > 0 -%}
+                      {%- assign has_nested = false -%}
+                      {%- for link in linklists[menu_handle].links -%}
+                        {%- if link.links != blank -%}
+                          {%- assign has_nested = true -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+
+                      {%- if has_nested -%}
+                        <div class="sitemap-nested-menu">
+                          {%- for link in linklists[menu_handle].links -%}
+                            <div class="sitemap-menu-item-level-1{% if link.links != blank %} sitemap-collapsible{% endif %}">
+                              {%- if link.links != blank -%}
+                                <button class="sitemap-toggle-btn" aria-expanded="false" type="button">
+                                  <span class="sitemap-link-level-1">{{ link.title }}</span>
+                                  <span class="sitemap-toggle-icon">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                  </span>
+                                </button>
+                                <div class="sitemap-level-2-wrapper">
+                                  <div class="sitemap-level-2-grid">
+                                    {%- for child_link in link.links -%}
+                                      <div class="sitemap-menu-item-level-2">
+                                        <a href="{{ child_link.url }}" class="sitemap-link-level-2">{{ child_link.title }}</a>
+                                        {%- if child_link.links != blank -%}
+                                          <div class="sitemap-level-3-list">
+                                            {%- for grandchild_link in child_link.links -%}
+                                              <a href="{{ grandchild_link.url }}" class="sitemap-link-level-3">{{ grandchild_link.title }}</a>
+                                            {%- endfor -%}
+                                          </div>
+                                        {%- endif -%}
+                                      </div>
+                                    {%- endfor -%}
+                                  </div>
+                                </div>
+                              {%- else -%}
+                                <a href="{{ link.url }}" class="sitemap-link-level-1">{{ link.title }}</a>
+                              {%- endif -%}
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      {%- else -%}
+                        {%- for link in linklists[menu_handle].links -%}
+                          <a href="{{ link.url }}" class="sitemap-link">
+                            <span>{{ link.title }}</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </a>
+                        {%- endfor -%}
+                      {%- endif -%}
+                    {%- else -%}
+                      {%- assign title_handle = block.settings.title | handle -%}
+                      {%- if title_handle == 'women' -%}
+                        <a href="/collections/new-in" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/restock" class="sitemap-link"><span>Restock</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/on-sale" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/all-bags" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/all-small-leather-goods" class="sitemap-link"><span>Small Leather Goods</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/all-shoes" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/all-jewellery" class="sitemap-link"><span>Jewellery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/all-watches" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/all-accessories" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- elsif title_handle == 'men' -%}
+                        <a href="/collections/new-in-men" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/on-sale-men" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/bags-men" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/shoes-men" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/wallets-men" class="sitemap-link"><span>Wallets</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/watches-men" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/accessories-men" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/travel-bags-men" class="sitemap-link"><span>Travel Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- endif -%}
+                    {%- endif -%}
+                  </div>
                 </div>
               </div>
-            </div>
+              {%- assign modulo = qatar_index | modulo: 2 -%}
+              {%- if modulo == 0 and qatar_index < qatar_blocks_count -%}
+                </div><div class="sitemap-cards-row">
+              {%- endif -%}
+            {%- endif -%}
           {%- endfor -%}
         </div>
       </div>
     {%- endif -%}
 
-    
+    {%- assign support_blocks_count = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'card' and block.settings.group == 'support' -%}
+        {%- assign support_blocks_count = support_blocks_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
 
-
-    
-    {%- assign support_blocks = section.blocks | where: "type", "card" | where: "settings.group", "support" -%}
-    {%- if support_blocks.size > 0 -%}
+    {%- if support_blocks_count > 0 -%}
       <div class="sitemap-group">
         <h2 class="sitemap-group-title">{{ section.settings.support_title | default: "Support Pages" }}</h2>
         
         <div class="sitemap-cards-row">
-          {%- for block in support_blocks -%}
-            <div class="sitemap-card" {{ block.shopify_attributes }}>
-              <div class="sitemap-card-inner">
-                <h3>{{ block.settings.title }}</h3>
-                <div class="sitemap-card-links">
-                  {%- assign menu = block.settings.menu -%}
-                  {%- if menu != blank and linklists[menu] != blank -%}
-                    {%- for link in linklists[menu].links -%}
-                      <a href="{{ link.url }}" class="sitemap-link">
-                        <span>{{ link.title }}</span>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      </a>
-                    {%- endfor -%}
-                  {%- else -%}
-                    {%- assign title_handle = block.settings.title | handle -%}
-                    {%- if title_handle == 'customer-care' -%}
-                      <a href="/pages/customer-care" class="sitemap-link"><span>Contact Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/pages/customer-care" class="sitemap-link"><span>Customer Care</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/pages/faq" class="sitemap-link"><span>FAQs</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                    {%- elsif title_handle == 'shipping-returns' -%}
-                      <a href="/pages/shipping-delivery" class="sitemap-link"><span>Shipping & Delivery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/pages/returns-refunds" class="sitemap-link"><span>Returns & Refunds</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                    {%- elsif title_handle == 'payments' -%}
-                      <a href="/pages/payments-pricing" class="sitemap-link"><span>Payments & Pricing</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                    {%- elsif title_handle == 'policies' -%}
-                      <a href="/policies/privacy-policy" class="sitemap-link"><span>Privacy Policy</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/policies/terms-of-service" class="sitemap-link"><span>Terms Of Service</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                    {%- elsif title_handle == 'services' -%}
-                      <a href="/collections/all" class="sitemap-link"><span>Qatar Collection</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/all" class="sitemap-link"><span>International Collection</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/collections/pre-orders" class="sitemap-link"><span>Pre-Orders</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                    {%- elsif title_handle == 'about' -%}
-                      <a href="/pages/about-us" class="sitemap-link"><span>About Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      <a href="/pages/sitemap" class="sitemap-link"><span>Sitemap</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          {%- assign support_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'card' and block.settings.group == 'support' -%}
+              {%- assign support_index = support_index | plus: 1 -%}
+              <div class="sitemap-card" {{ block.shopify_attributes }}>
+                <div class="sitemap-card-inner">
+                  <h3>{{ block.settings.title }}</h3>
+                  <div class="sitemap-card-links">
+                    {%- assign menu_handle = block.settings.menu -%}
+                    {%- if menu_handle == blank -%}
+                      {%- assign menu_handle = block.settings.title | handle -%}
                     {%- endif -%}
-                  {%- endif -%}
+
+                    {%- if linklists[menu_handle] != blank and linklists[menu_handle].links.size > 0 -%}
+                      {%- assign has_nested = false -%}
+                      {%- for link in linklists[menu_handle].links -%}
+                        {%- if link.links != blank -%}
+                          {%- assign has_nested = true -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+
+                      {%- if has_nested -%}
+                        <div class="sitemap-nested-menu">
+                          {%- for link in linklists[menu_handle].links -%}
+                            <div class="sitemap-menu-item-level-1{% if link.links != blank %} sitemap-collapsible{% endif %}">
+                              {%- if link.links != blank -%}
+                                <button class="sitemap-toggle-btn" aria-expanded="false" type="button">
+                                  <span class="sitemap-link-level-1">{{ link.title }}</span>
+                                  <span class="sitemap-toggle-icon">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                  </span>
+                                </button>
+                                <div class="sitemap-level-2-wrapper">
+                                  <div class="sitemap-level-2-grid">
+                                    {%- for child_link in link.links -%}
+                                      <div class="sitemap-menu-item-level-2">
+                                        <a href="{{ child_link.url }}" class="sitemap-link-level-2">{{ child_link.title }}</a>
+                                        {%- if child_link.links != blank -%}
+                                          <div class="sitemap-level-3-list">
+                                            {%- for grandchild_link in child_link.links -%}
+                                              <a href="{{ grandchild_link.url }}" class="sitemap-link-level-3">{{ grandchild_link.title }}</a>
+                                            {%- endfor -%}
+                                          </div>
+                                        {%- endif -%}
+                                      </div>
+                                    {%- endfor -%}
+                                  </div>
+                                </div>
+                              {%- else -%}
+                                <a href="{{ link.url }}" class="sitemap-link-level-1">{{ link.title }}</a>
+                              {%- endif -%}
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      {%- else -%}
+                        {%- for link in linklists[menu_handle].links -%}
+                          <a href="{{ link.url }}" class="sitemap-link">
+                            <span>{{ link.title }}</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </a>
+                        {%- endfor -%}
+                      {%- endif -%}
+                    {%- else -%}
+                      {%- assign title_handle = block.settings.title | handle -%}
+                      {%- if title_handle == 'customer-care' -%}
+                        <a href="/pages/customer-care" class="sitemap-link"><span>Contact Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/pages/customer-care" class="sitemap-link"><span>Customer Care</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/pages/faqs" class="sitemap-link"><span>FAQs</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- elsif title_handle == 'shipping-returns' -%}
+                        <a href="/pages/shipping-delivery" class="sitemap-link"><span>Shipping & Delivery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/pages/returns-and-refunds" class="sitemap-link"><span>Returns & Refunds</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- elsif title_handle == 'payments' -%}
+                        <a href="/pages/payments-pricing" class="sitemap-link"><span>Payments & Pricing</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- elsif title_handle == 'policies' -%}
+                        <a href="/policies/privacy-policy" class="sitemap-link"><span>Privacy Policy</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/policies/terms-of-service" class="sitemap-link"><span>Terms Of Service</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- elsif title_handle == 'services' -%}
+                        <a href="/collections/all" class="sitemap-link"><span>Qatar Collection</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/all" class="sitemap-link"><span>International Collection</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/collections/pre-orders" class="sitemap-link"><span>Pre-Orders</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- elsif title_handle == 'about' -%}
+                        <a href="/pages/about-us" class="sitemap-link"><span>About Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        <a href="/pages/sitemap" class="sitemap-link"><span>Sitemap</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- endif -%}
+                    {%- endif -%}
+                  </div>
                 </div>
               </div>
-            </div>
-            {%- assign modulo = forloop.index | modulo: 2 -%}
-            {%- if modulo == 0 and forloop.last == false -%}
-              </div><div class="sitemap-cards-row">
+              {%- assign modulo = support_index | modulo: 2 -%}
+              {%- if modulo == 0 and support_index < support_blocks_count -%}
+                </div><div class="sitemap-cards-row">
+              {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
         </div>
@@ -246,6 +357,133 @@
     height: 20px;
   }
 
+  .sitemap-nested-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+  }
+
+  .sitemap-menu-item-level-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sitemap-link-level-1 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2D1F1F;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #2D1F1F;
+    display: block;
+    transition: opacity 0.2s;
+  }
+
+  .sitemap-link-level-1:hover {
+    opacity: 0.6;
+  }
+
+  .sitemap-level-2-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding-top: 4px;
+  }
+
+  .sitemap-menu-item-level-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sitemap-link-level-2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2D1F1F;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
+  }
+
+  .sitemap-link-level-2:hover {
+    opacity: 0.6;
+  }
+
+  .sitemap-level-3-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sitemap-link-level-3 {
+    font-size: 13px;
+    font-weight: 400;
+    color: #666;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .sitemap-link-level-3:hover {
+    color: #2D1F1F;
+  }
+
+  /* Collapsible Accordion Styles */
+  .sitemap-toggle-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #2D1F1F;
+    outline: none;
+    transition: opacity 0.2s;
+  }
+
+  .sitemap-toggle-btn:hover {
+    opacity: 0.7;
+  }
+
+  .sitemap-toggle-btn .sitemap-link-level-1 {
+    border-bottom: none;
+    padding-bottom: 0;
+    flex-grow: 1;
+  }
+
+  .sitemap-toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+    width: 24px;
+    height: 24px;
+  }
+
+  .sitemap-collapsible.active .sitemap-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .sitemap-level-2-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+    opacity: 0;
+  }
+
+  .sitemap-collapsible.active .sitemap-level-2-wrapper {
+    opacity: 1;
+    margin-top: 12px;
+  }
+
   
   @media (max-width: 767px) {
     .sitemap-hero {
@@ -302,6 +540,10 @@
       width: 16px;
       height: 16px;
     }
+    .sitemap-level-2-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
   }
 
   
@@ -331,6 +573,44 @@
     }
   }
 </style>
+
+<script>
+  function initSitemapAccordions() {
+    document.querySelectorAll('.sitemap-toggle-btn').forEach(button => {
+      const newButton = button.cloneNode(true);
+      button.parentNode.replaceChild(newButton, button);
+    });
+
+    document.querySelectorAll('.sitemap-toggle-btn').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parent = button.closest('.sitemap-collapsible');
+        const wrapper = parent.querySelector('.sitemap-level-2-wrapper');
+        const isActive = parent.classList.contains('active');
+        
+        if (isActive) {
+          parent.classList.remove('active');
+          wrapper.style.maxHeight = '0px';
+        } else {
+          parent.classList.add('active');
+          wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+        }
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSitemapAccordions);
+  } else {
+    initSitemapAccordions();
+  }
+
+  document.addEventListener('shopify:section:load', (e) => {
+    if (e.target.querySelector('.sitemap-page')) {
+      initSitemapAccordions();
+    }
+  });
+</script>
 
 {% schema %}
 {
