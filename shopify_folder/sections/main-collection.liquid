@@ -481,19 +481,50 @@
               </a>
             {%- endfor -%}
           {%- else -%}
-            <a href="/collections/all" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">All</a>
-            <a href="/collections/on-sale" class="filter-pill{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
-            <a href="/collections/new-in" class="filter-pill{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'filter_link' -%}
-                {%- assign target_col = collections[block.settings.collection_handle] -%}
-                {%- if target_col != blank -%}
-                  <a href="{{ target_col.url }}" class="filter-pill{% if collection.handle == target_col.handle %} active{% endif %}">
-                    {{ block.settings.label | default: target_col.title }}
-                  </a>
+            {%- if collection.handle != 'all' -%}
+              {%- assign brand_filter = blank -%}
+              {%- for filter in collection.filters -%}
+                {%- assign label_down = filter.label | downcase -%}
+                {%- if label_down contains 'brand' or label_down contains 'vendor' or label_down contains 'البراند' or label_down contains 'ماركة' -%}
+                  {%- assign brand_filter = filter -%}
+                  {%- break -%}
                 {%- endif -%}
+              {%- endfor -%}
+              
+              {%- if brand_filter != blank and brand_filter.values.size > 0 -%}
+                {%- assign active_count = brand_filter.active_values.size -%}
+                <a href="{{ collection.url }}" class="filter-pill {% if active_count == 0 %}active{% endif %}">All</a>
+                {%- for value in brand_filter.values limit: 8 -%}
+                  {%- if value.active -%}
+                    <a href="{{ value.url_to_remove }}" class="filter-pill active">
+                      {{ value.label }}
+                    </a>
+                  {%- else -%}
+                    <a href="{{ value.url_to_add }}" class="filter-pill">
+                      {{ value.label }}
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- else -%}
+                <a href="/collections/all" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">All</a>
+                <a href="/collections/on-sale" class="filter-pill{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
+                <a href="/collections/new-in" class="filter-pill{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
               {%- endif -%}
-            {%- endfor -%}
+            {%- else -%}
+              <a href="/collections/all" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">All</a>
+              <a href="/collections/on-sale" class="filter-pill{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
+              <a href="/collections/new-in" class="filter-pill{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'filter_link' -%}
+                  {%- assign target_col = collections[block.settings.collection_handle] -%}
+                  {%- if target_col != blank -%}
+                    <a href="{{ target_col.url }}" class="filter-pill{% if collection.handle == target_col.handle %} active{% endif %}">
+                      {{ block.settings.label | default: target_col.title }}
+                    </a>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -707,6 +738,43 @@
 
       
       <div class="filters-drawer-content">
+        <!-- Mobile Sort Section -->
+        <div class="filter-drawer-section mobile-only-sort" style="display: none;">
+          <div class="filter-section-header" onclick="toggleFilterSection(this)">
+            <h3>Sort By</h3>
+            <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
+          </div>
+          <div class="filter-section-content">
+            <div class="filter-sort-options" style="display: flex; flex-direction: column; gap: 12px; padding: 5px 0;">
+              {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+              <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
+                <input type="radio" name="sort_by_mobile" value="manual" {% if sort_by == 'manual' or sort_by == 'default' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
+                <span>Featured</span>
+              </label>
+              <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
+                <input type="radio" name="sort_by_mobile" value="best-selling" {% if sort_by == 'best-selling' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
+                <span>Best selling</span>
+              </label>
+              <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
+                <input type="radio" name="sort_by_mobile" value="price-ascending" {% if sort_by == 'price-ascending' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
+                <span>Price, low to high</span>
+              </label>
+              <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
+                <input type="radio" name="sort_by_mobile" value="price-descending" {% if sort_by == 'price-descending' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
+                <span>Price, high to low</span>
+              </label>
+              <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
+                <input type="radio" name="sort_by_mobile" value="title-ascending" {% if sort_by == 'title-ascending' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
+                <span>Alphabetically, A-Z</span>
+              </label>
+              <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
+                <input type="radio" name="sort_by_mobile" value="title-descending" {% if sort_by == 'title-descending' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
+                <span>Alphabetically, Z-A</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
         {%- for filter in collection.filters -%}
           <div class="filter-drawer-section" data-filter-type="{{ filter.label | downcase }}">
             <div class="filter-section-header" onclick="toggleFilterSection(this)">
@@ -863,7 +931,7 @@
     const newParams = new URLSearchParams();
     
     for (const [key, value] of currentParams.entries()) {
-      if (!key.startsWith('filter.p.') && !key.startsWith('filter.v.')) {
+      if (!key.startsWith('filter.p.') && !key.startsWith('filter.v.') && key !== 'sort_by') {
         newParams.append(key, value);
       }
     }
@@ -884,6 +952,17 @@
         newParams.append(input.name, input.value);
       }
     });
+    
+    // Sort logic for mobile viewports
+    const mobileSortSelected = document.querySelector('input[name="sort_by_mobile"]:checked');
+    if (mobileSortSelected && window.innerWidth <= 768) {
+      newParams.append('sort_by', mobileSortSelected.value);
+    } else {
+      const desktopSort = currentParams.get('sort_by');
+      if (desktopSort) {
+        newParams.append('sort_by', desktopSort);
+      }
+    }
     
     newParams.delete('page');
     window.location.search = newParams.toString();

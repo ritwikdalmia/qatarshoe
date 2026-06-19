@@ -2083,3 +2083,118 @@ body.template-index .page-content {
   }
 }
 
+@media (max-width: 768px) {
+  /* Stack collection page toolbar elements on mobile */
+  .collection-toolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 16px 20px !important;
+    gap: 12px !important;
+  }
+  
+  .toolbar-left {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+  
+  /* Make Results count fit on mobile */
+  .results-count {
+    font-size: 13px !important;
+    color: var(--color-muted) !important;
+    margin-bottom: 2px !important;
+  }
+
+  /* Make Filter Trigger Button full-width with #f0ede6 background */
+  .filter-trigger-btn {
+    width: 100% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 12px !important;
+    background: #f0ede6 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--color-primary) !important;
+  }
+
+  .filter-pills-scroll {
+    width: 100% !important;
+    margin-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+
+  /* Hide desktop sorting selector in mobile toolbar */
+  .toolbar-right {
+    display: none !important;
+  }
+
+  /* Show mobile sorting section inside filter drawer */
+  .mobile-only-sort {
+    display: block !important;
+  }
+
+  /* Collection edge-to-edge product grid with thin borders */
+  .collection-grid-container {
+    padding: 0 !important;
+  }
+
+  .collection-grid-container .product-grid {
+    gap: 1px !important;
+    background: #e5e2da !important;
+    border-top: 1px solid #e5e2da !important;
+    border-bottom: 1px solid #e5e2da !important;
+    padding: 0 !important;
+  }
+
+  .collection-grid-container .product-card {
+    border: none !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  .collection-grid-container .product-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .collection-grid-container .product-card-body {
+    padding: 12px 8px 16px 8px !important;
+  }
+
+  .collection-grid-container .product-brand {
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+  }
+
+  .collection-grid-container .product-model {
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+  }
+
+  .collection-grid-container .product-price-row {
+    margin-top: 4px !important;
+    font-size: 12px !important;
+  }
+
+  /* Reduce Wishlist Button Size on mobile product cards */
+  .product-card .product-wishlist-btn {
+    width: 28px !important;
+    height: 28px !important;
+    top: 12px !important;
+    right: 12px !important;
+  }
+
+  .product-card .product-wishlist-btn svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+}
+
