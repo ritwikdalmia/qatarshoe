@@ -805,7 +805,7 @@
       if (management && management !== '') {
         const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
         if (currentVal > maxQty) {
-          alert('Only ' + maxQty + ' items available in stock.');
+          window.showErrorAlert('Only ' + maxQty + ' items available in stock.');
           return;
         }
       }
@@ -920,7 +920,7 @@
     const atcBtn = document.getElementById('add-to-cart');
 
     if (!variantId) {
-      alert('Please select a size first.');
+      window.showErrorAlert('Please select a size first.');
       return;
     }
 
@@ -940,7 +940,7 @@
             const inCartItem = cart.items.find(item => String(item.variant_id) === String(variantId));
             const inCartQty = inCartItem ? inCartItem.quantity : 0;
             if (inCartQty + qty > maxQty) {
-              alert('You cannot add ' + qty + ' more. You already have ' + inCartQty + ' in your cart, and only ' + maxQty + ' are available in stock.');
+              window.showErrorAlert('You cannot add ' + qty + ' more. You already have ' + inCartQty + ' in your cart, and only ' + maxQty + ' are available in stock.');
               atcBtn.disabled = false;
               atcBtn.textContent = 'Add to Cart';
               return;
@@ -1002,7 +1002,7 @@
     })
     .catch(error => {
       console.error(error);
-      alert(error.message);
+      window.showErrorAlert(error.message);
       atcBtn.disabled = false;
       atcBtn.textContent = 'Add to Cart';
     });
@@ -1015,7 +1015,7 @@
     const buyBtn = document.getElementById('buy-now');
 
     if (!variantId) {
-      alert('Please select a size first.');
+      window.showErrorAlert('Please select a size first.');
       return;
     }
 
@@ -1035,7 +1035,7 @@
             const inCartItem = cart.items.find(item => String(item.variant_id) === String(variantId));
             const inCartQty = inCartItem ? inCartItem.quantity : 0;
             if (inCartQty + qty > maxQty) {
-              alert('Only ' + maxQty + ' items are available in stock. You already have ' + inCartQty + ' in your cart.');
+              window.showErrorAlert('Only ' + maxQty + ' items are available in stock. You already have ' + inCartQty + ' in your cart.');
               buyBtn.disabled = false;
               buyBtn.textContent = 'Buy Now';
               return;
@@ -1079,7 +1079,7 @@
     })
     .catch(error => {
       console.error(error);
-      alert(error.message);
+      window.showErrorAlert(error.message);
       buyBtn.disabled = false;
       buyBtn.textContent = 'Buy Now';
     });
