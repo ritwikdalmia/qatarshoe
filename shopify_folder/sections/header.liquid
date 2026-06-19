@@ -677,7 +677,7 @@
             <span class="currency-code">{{ default_curr }}</span>
             <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
           </button>
-          <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
+          <div class="currency-dropdown" id="sticky-currency-dropdown" aria-hidden="true">
             {%- for curr_raw in currencies -%}
               {%- assign curr = curr_raw | strip | upcase -%}
               {%- if curr != blank -%}
