@@ -250,12 +250,239 @@
       letter-spacing: 1px;
   }
 
+  /* Form partial styling */
+  .contact-form-section {
+      background: #fff;
+      padding: 96px 150px;
+      position: relative;
+  }
+
+  .contact-form-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e5e5e5;
+  }
+
+  .contact-form-inner {
+      max-width: 1620px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 150px;
+  }
+
+  .contact-form-intro {
+      flex: 0 0 488px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+  }
+
+  .contact-form-intro-text {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  .contact-form-intro h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 100%;
+      letter-spacing: 0;
+      margin: 0;
+      color: #2D1F1F;
+      text-transform: none;
+  }
+
+  .contact-form-intro-text p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      color: rgba(45, 31, 31, 0.7);
+      margin: 0;
+  }
+
+  .contact-form-wrapper {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-wrapper .contact-form-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #2d1f1f;
+      margin-bottom: 24px;
+  }
+
+  .contact-form-wrapper .contact-form-text h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 12px;
+  }
+
+  .contact-form-wrapper .contact-form-text p {
+      margin-bottom: 12px;
+  }
+
+  .contact-form-wrapper form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+  }
+
+  .contact-form-wrapper form p {
+      display: contents;
+      margin: 0;
+  }
+
+  .contact-form-wrapper form br {
+      display: none;
+  }
+
+  .contact-form-wrapper form span {
+      display: block;
+  }
+
+  .contact-form-wrapper form span.full-width {
+      grid-column: 1 / -1;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"],
+  .contact-form-wrapper textarea {
+      width: 100%;
+      background: #fff;
+      border: 1px solid rgba(45, 31, 31, 0.2);
+      border-radius: 6px;
+      color: #2D1F1F;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 100%;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s ease;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"] {
+      height: 44px;
+      padding: 0 12px;
+  }
+
+  .contact-form-wrapper textarea {
+      height: 108px;
+      padding: 12px;
+      resize: vertical;
+      line-height: 1.5;
+  }
+
+  .contact-form-wrapper input[type="text"]:focus,
+  .contact-form-wrapper input[type="email"]:focus,
+  .contact-form-wrapper input[type="tel"]:focus,
+  .contact-form-wrapper textarea:focus {
+      border-color: #2D1F1F;
+  }
+
+  .contact-form-wrapper input::placeholder,
+  .contact-form-wrapper textarea::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+      opacity: 1;
+  }
+
+  .contact-bottom-row {
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+  }
+
+  .contact-toggle {
+      display: none;
+  }
+
+  .contact-submit-custom {
+      flex: 1;
+      width: 100%;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 18px;
+      background: #fff;
+      color: #2D1F1F;
+      border: 1px solid #2D1F1F;
+      border-radius: 900px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .contact-submit-custom span {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      letter-spacing: 0;
+      text-transform: none;
+  }
+
+  .contact-submit-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: block;
+  }
+
+  .contact-submit-custom:hover {
+      background: #2D1F1F;
+      color: #fff;
+  }
+
+  .wpcf7-response-output {
+      grid-column: 1 / -1;
+      margin: 12px 0 0;
+      padding: 14px 18px;
+      font-size: 14px;
+      border-radius: 4px;
+      color: #2D1F1F;
+      border: 1px solid rgba(45, 31, 31, 0.2);
+  }
+
+  .wpcf7-response-output.sent {
+      border-color: #28a745;
+      color: #1e7a35;
+      background-color: rgba(40, 167, 69, 0.05);
+  }
+
+  .wpcf7-response-output.invalid {
+      border-color: #d93b3d;
+      color: #b1282a;
+      background-color: rgba(217, 59, 61, 0.05);
+  }
+
   @media (max-width: 1023px) {
       .about-hero,
       .about-intro,
-      .about-offer {
+      .about-offer,
+      .contact-form-section {
           padding-left: 40px;
           padding-right: 40px;
+      }
+      .contact-form-section {
+          padding: 64px 40px;
       }
       .about-brands-section {
           padding: 80px 24px;
@@ -271,14 +498,22 @@
           aspect-ratio: 1/1;
           max-width: none;
       }
+      .contact-form-inner {
+          flex-direction: column;
+          gap: 40px;
+      }
   }
 
   @media (max-width: 767px) {
       .about-hero,
       .about-intro,
-      .about-offer {
+      .about-offer,
+      .contact-form-section {
           padding-left: 24px;
           padding-right: 24px;
+      }
+      .contact-form-section {
+          padding: 48px 24px;
       }
       .about-hero {
           padding-top: 32px;
@@ -336,6 +571,13 @@
           border-radius: 7.48px;
           outline: none;
           border: 0.47px solid #E5E5E5;
+      }
+      .contact-form-wrapper form {
+          grid-template-columns: 1fr;
+      }
+      .contact-bottom-row {
+          flex-direction: column;
+          align-items: stretch;
       }
   }
 {%- endstyle -%}
@@ -440,6 +682,69 @@
     </section>
 </main>
 
+<!-- Section 5 — Contact Form -->
+<section class="contact-form-section">
+    <div class="contact-form-inner">
+        <div class="contact-form-intro">
+            <div class="contact-form-intro-text">
+                <h2>{{ section.settings.form_heading | default: "Send Us A Message" }}</h2>
+                <p>{{ section.settings.form_subheading | default: "Fill out the form and we'll get back to you as quickly as possible." }}</p>
+            </div>
+        </div>
+
+        <div class="contact-form-wrapper">
+            {%- if section.settings.form_text != blank -%}
+                <div class="contact-form-text">
+                    {{ section.settings.form_text }}
+                </div>
+            {%- endif -%}
+
+            {%- form 'contact', id: 'ContactForm' -%}
+                {%- if form.posted_successfully? -%}
+                    <div class="wpcf7-response-output sent" role="status">
+                        Thanks for contacting us! We'll get back to you as soon as possible.
+                    </div>
+                {%- elsif form.errors -%}
+                    <div class="wpcf7-response-output invalid" role="alert">
+                        {{ form.errors | default_errors }}
+                    </div>
+                {%- endif -%}
+
+                <p>
+                    <span>
+                        <input type="text" name="contact[first_name]" placeholder="First Name" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required aria-required="true" />
+                    </span>
+                    <span>
+                        <input type="text" name="contact[last_name]" placeholder="Last Name" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required aria-required="true" />
+                    </span>
+                    <span>
+                        <input type="email" name="contact[email]" placeholder="Email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required aria-required="true" />
+                    </span>
+                    <span>
+                        <input type="tel" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" />
+                    </span>
+                    <span class="full-width">
+                        <textarea cols="40" rows="10" name="contact[body]" placeholder="Your Message" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                    </span>
+                    <input type="hidden" name="contact[customer_type]" value="qatar" id="contact-customer-type" />
+                    <input type="submit" class="wpcf7-submit" id="RealContactSubmit" value="Send Message" style="display:none;" />
+                </p>
+            {%- endform -%}
+
+            <div class="contact-bottom-row">
+                <button type="button" class="contact-submit-custom" onclick="document.getElementById('RealContactSubmit').click();">
+                    <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17.5 2.5L12.0833 17.5L9.16667 10.8333L2.5 7.91667L17.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Send a Message</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 {% schema %}
 {
   "name": "About Us Page",
@@ -506,6 +811,27 @@
       "id": "brands_heading",
       "label": "Brands Heading",
       "default": "House Of Brands"
+    },
+    {
+      "type": "header",
+      "content": "Contact Form Settings"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form Heading",
+      "default": "Send Us A Message"
+    },
+    {
+      "type": "text",
+      "id": "form_subheading",
+      "label": "Form Subheading",
+      "default": "Fill out the form and we'll get back to you as quickly as possible."
+    },
+    {
+      "type": "richtext",
+      "id": "form_text",
+      "label": "Form Descriptive Text"
     }
   ],
   "blocks": [

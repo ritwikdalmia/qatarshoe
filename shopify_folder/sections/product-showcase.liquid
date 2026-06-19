@@ -74,7 +74,8 @@
           
           <div class="product-card-body">
             <div class="text-wrapper">
-              <div class="product-brand">{{ product.vendor }}</div>
+              {%- assign vendor_handle = product.vendor | handleize -%}
+              <div class="product-brand"><a href="/collections/{{ vendor_handle }}">{{ product.vendor }}</a></div>
               <div class="product-model">{{ product.title }}</div>
             </div>
             {%- assign price_cent = product.price | modulo: 100 -%}
@@ -186,7 +187,8 @@
           
           <div class="product-card-body">
             <div class="text-wrapper">
-              <div class="product-brand">{{ dummy_brands[i] }}</div>
+              {%- assign vendor_handle = dummy_brands[i] | handleize -%}
+              <div class="product-brand"><a href="/collections/{{ vendor_handle }}">{{ dummy_brands[i] }}</a></div>
               <div class="product-model">{{ dummy_products[i] }}</div>
             </div>
             
