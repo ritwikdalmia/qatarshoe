@@ -23,11 +23,11 @@
     assign p_available = true
     assign p_id = "dummy-0"
   else
-    assign p_title = product.title
+     assign p_title = product.title
     assign p_vendor = product.vendor
     assign p_description = product.description
-    assign p_price_money = product.price | money_without_trailing_zeros
-    assign p_compare_price_money = product.compare_at_price | money_without_trailing_zeros
+    assign p_price_money = product.price | money
+    assign p_compare_price_money = product.compare_at_price | money
     assign p_compare_at_price_val = product.compare_at_price
     assign p_price_val = product.price
     assign p_available = product.available
@@ -223,12 +223,12 @@
               <button type="button" 
                       class="size-option" 
                       data-variant-id="dummy-variant-36"
-                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
-                      data-price-usd="$ 549" data-compare-usd="$ 687"
-                      data-price-eur="€ 506" data-compare-eur="€ 633"
-                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
-                      data-price="QAR 2,000"
-                      data-compare-price="QAR 2,500"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
                       data-available="true"
                       onclick="selectProductSize(this)">
                 36
@@ -236,12 +236,12 @@
               <button type="button" 
                       class="size-option" 
                       data-variant-id="dummy-variant-37"
-                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
-                      data-price-usd="$ 549" data-compare-usd="$ 687"
-                      data-price-eur="€ 506" data-compare-eur="€ 633"
-                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
-                      data-price="QAR 2,000"
-                      data-compare-price="QAR 2,500"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
                       data-available="true"
                       onclick="selectProductSize(this)">
                 37
@@ -249,12 +249,12 @@
               <button type="button" 
                       class="size-option" 
                       data-variant-id="dummy-variant-38"
-                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
-                      data-price-usd="$ 549" data-compare-usd="$ 687"
-                      data-price-eur="€ 506" data-compare-eur="€ 633"
-                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
-                      data-price="QAR 2,000"
-                      data-compare-price="QAR 2,500"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
                       data-available="true"
                       onclick="selectProductSize(this)">
                 38
@@ -262,12 +262,12 @@
               <button type="button" 
                       class="size-option unavailable" 
                       data-variant-id="dummy-variant-39"
-                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
-                      data-price-usd="$ 549" data-compare-usd="$ 687"
-                      data-price-eur="€ 506" data-compare-eur="€ 633"
-                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
-                      data-price="QAR 2,000"
-                      data-compare-price="QAR 2,500"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
                       data-available="false"
                       disabled
                       onclick="selectProductSize(this)">
@@ -276,12 +276,12 @@
               <button type="button" 
                       class="size-option" 
                       data-variant-id="dummy-variant-40"
-                      data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
-                      data-price-usd="$ 549" data-compare-usd="$ 687"
-                      data-price-eur="€ 506" data-compare-eur="€ 633"
-                      data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
-                      data-price="QAR 2,000"
-                      data-compare-price="QAR 2,500"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
                       data-available="true"
                       onclick="selectProductSize(this)">
                 40
@@ -301,12 +301,12 @@
               <div class="color-swatch active" 
                    data-color="Brown"
                    data-variant-id="dummy-variant-brown"
-                   data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
-                   data-price-usd="$ 549" data-compare-usd="$ 687"
-                   data-price-eur="€ 506" data-compare-eur="€ 633"
-                   data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
-                   data-price="QAR 2,000"
-                   data-compare-price="QAR 2,500"
+                   data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                   data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                   data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                   data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                   data-price="QAR 2,000.00"
+                   data-compare-price="QAR 2,500.00"
                    data-available="true"
                    title="Brown"
                    onclick="selectProductColor(this)">
@@ -314,12 +314,12 @@
               <div class="color-swatch" 
                    data-color="Black"
                    data-variant-id="dummy-variant-black"
-                   data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
-                   data-price-usd="$ 549" data-compare-usd="$ 687"
-                   data-price-eur="€ 506" data-compare-eur="€ 633"
-                   data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
-                   data-price="QAR 2,000"
-                   data-compare-price="QAR 2,500"
+                   data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                   data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                   data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                   data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                   data-price="QAR 2,000.00"
+                   data-compare-price="QAR 2,500.00"
                    data-available="true"
                    title="Black"
                    onclick="selectProductColor(this)">
@@ -327,12 +327,12 @@
               <div class="color-swatch" 
                    data-color="Red"
                    data-variant-id="dummy-variant-red"
-                   data-price-qar="QAR 2,000" data-compare-qar="QAR 2,500"
-                   data-price-usd="$ 549" data-compare-usd="$ 687"
-                   data-price-eur="€ 506" data-compare-eur="€ 633"
-                   data-price-aed="AED 2,006" data-compare-aed="AED 2,508"
-                   data-price="QAR 2,000"
-                   data-compare-price="QAR 2,500"
+                   data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                   data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                   data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                   data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                   data-price="QAR 2,000.00"
+                   data-compare-price="QAR 2,500.00"
                    data-available="true"
                    title="Red"
                    onclick="selectProductColor(this)">
@@ -381,9 +381,9 @@
                         {%- if variant.options contains value -%}
                           {%- if variant.available -%}{%- assign v_avail = true -%}{%- endif -%}
                           {%- assign v_id = variant.id -%}
-                          {%- assign v_price = variant.price | money_without_trailing_zeros -%}
+                          {%- assign v_price = variant.price | money -%}
                           {%- if variant.compare_at_price > variant.price -%}
-                            {%- assign v_compare = variant.compare_at_price | money_without_trailing_zeros -%}
+                            {%- assign v_compare = variant.compare_at_price | money -%}
                           {%- endif -%}
                           {%- assign v_inventory_qty = variant.inventory_quantity -%}
                           {%- assign v_inventory_management = variant.inventory_management -%}
@@ -431,9 +431,9 @@
                         {%- if variant.options contains value -%}
                           {%- if variant.available -%}{%- assign v_avail = true -%}{%- endif -%}
                           {%- assign v_id = variant.id -%}
-                          {%- assign v_price = variant.price | money_without_trailing_zeros -%}
+                          {%- assign v_price = variant.price | money -%}
                           {%- if variant.compare_at_price > variant.price -%}
-                            {%- assign v_compare = variant.compare_at_price | money_without_trailing_zeros -%}
+                            {%- assign v_compare = variant.compare_at_price | money -%}
                           {%- endif -%}
                           {%- assign v_inventory_qty = variant.inventory_quantity -%}
                           {%- assign v_inventory_management = variant.inventory_management -%}

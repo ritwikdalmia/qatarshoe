@@ -1732,11 +1732,11 @@
         'GBP': 0.21
       };
       var rate = FALLBACK_RATES[currency] || 1.0;
-      val = Math.round(val * rate);
+      val = val * rate;
       
       symbol = window.CURRENCY_SYMBOLS[currency] || currency;
       
-      return symbol + ' ' + val.toLocaleString();
+      return symbol + ' ' + val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
     window.openSideDrawer = function(type, noLoading) {
