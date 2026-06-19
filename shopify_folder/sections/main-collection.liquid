@@ -638,9 +638,9 @@
             {%- endif -%}
             
             {%- if show_fallback -%}
-              <a href="/collections/all" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">All</a>
-              <a href="/collections/on-sale" class="filter-pill{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
-              <a href="/collections/new-in" class="filter-pill{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
+              <a href="/collections/all" class="filter-pill filter-pill-general{% if collection.handle == 'all' %} active{% endif %}" onclick="filterGeneralPills(this, 'all', event)">All</a>
+              <a href="/collections/on-sale" class="filter-pill filter-pill-general{% if collection.handle == 'on-sale' %} active{% endif %}" onclick="filterGeneralPills(this, 'sale', event)">Sale</a>
+              <a href="/collections/new-in" class="filter-pill filter-pill-general{% if collection.handle == 'new-in' %} active{% endif %}" onclick="filterGeneralPills(this, 'new', event)">New In</a>
               {%- if collection.handle == 'all' -%}
                 {%- for block in section.blocks -%}
                   {%- if block.type == 'filter_link' -%}
@@ -724,6 +724,11 @@
         {%- assign currencies = currency_data_parts[0] | split: ',' -%}
         {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
         {%- for product in collection.products -%}
+          {%- if collection.handle == 'on-sale' -%}
+            {%- unless product.compare_at_price > product.price -%}
+              {%- continue -%}
+            {%- endunless -%}
+          {%- endif -%}
           <a href="{{ product.url }}" class="product-card" aria-label="{{ product.title }}">
             <div class="product-card-img" 
                  data-images="{%- if product.images.size > 1 -%}{%- for img in product.images -%}{{ img | image_url: width: 600, height: 900, crop: 'center' }}{% unless forloop.last %},{% endunless %}{%- endfor -%}{%- endif -%}">
@@ -1557,6 +1562,41 @@
     }
     
     applyFilters();
+  }
+
+  function filterGeneralPills(pill, type, event) {
+    if (event) event.preventDefault();
+    
+    const pills = document.querySelectorAll('.filter-pill-general');
+    pills.forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+      if (type === 'all') {
+        card.style.display = '';
+      } else if (type === 'sale') {
+        const isSale = card.querySelector('.product-badge-sale-new');
+        if (isSale) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      } else if (type === 'new') {
+        const isNew = card.querySelector('.product-badge-new');
+        if (isNew) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      }
+    });
+    
+    const visibleCount = Array.from(cards).filter(c => c.style.display !== 'none').length;
+    const resultsCountEl = document.querySelector('.results-count');
+    if (resultsCountEl) {
+      resultsCountEl.textContent = `${visibleCount} results`;
+    }
   }
 
   function initCollectionProductImageSlideshows() {
