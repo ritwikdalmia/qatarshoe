@@ -2,7 +2,132 @@
   "sections": {
     "main": {
       "type": "about-us",
-      "settings": {}
+      "settings": {
+        "hero_heading": "About US",
+        "hero_subheading": "At the heart of our brand is a single commitment — to make every luxury purchase effortless, trusted, and genuinely satisfying.",
+        "offer_heading": "What We Offer:",
+        "explore_label": "explore",
+        "brands_heading": "House Of Brands"
+      },
+      "blocks": {
+        "what_we_do": {
+          "type": "intro_block",
+          "settings": {
+            "label": "WHAT WE DO",
+            "text": "We curate a refined selection of fashion, footwear, bags, and accessories from globally recognised brands. Every piece is chosen for its craftsmanship, desirability, and lasting appeal — nothing reaches our edit without first meeting the standard our customers expect."
+          }
+        },
+        "how_we_operate": {
+          "type": "intro_block",
+          "settings": {
+            "label": "HOW WE OPERATE",
+            "text": "Our service is built around clarity and reliability. Immediate delivery within Qatar and Dubai. Seamless shipping across the GCC and worldwide. Exclusive access to sought-after pieces through our Personal Shopping service. Every part of the journey is considered, so the experience feels as good as the product."
+          }
+        },
+        "what_we_stand_for": {
+          "type": "intro_block",
+          "settings": {
+            "label": "WHAT WE STAND FOR",
+            "text": "We believe the experience of buying something exceptional should feel exceptional too. From the moment you discover a piece to the moment it arrives, we focus on consistency, attention to detail, and the kind of service that earns trust.\n\nQTRSHOE is not simply a destination for luxury goods. It is a place where quality, access, and experience come together — and where customers return with confidence."
+          }
+        },
+        "offer_footwear": {
+          "type": "offer_card",
+          "settings": {
+            "name": "Footwear"
+          }
+        },
+        "offer_bags": {
+          "type": "offer_card",
+          "settings": {
+            "name": "Bags"
+          }
+        },
+        "offer_jewelry": {
+          "type": "offer_card",
+          "settings": {
+            "name": "Jewelry"
+          }
+        },
+        "offer_watches": {
+          "type": "offer_card",
+          "settings": {
+            "name": "Watches"
+          }
+        },
+        "offer_accessories": {
+          "type": "offer_card",
+          "settings": {
+            "name": "Accessories"
+          }
+        },
+        "brand_hms": {
+          "type": "brand",
+          "settings": {
+            "custom_name": "HMS"
+          }
+        },
+        "brand_coco": {
+          "type": "brand",
+          "settings": {
+            "custom_name": "COCO"
+          }
+        },
+        "brand_gyd": {
+          "type": "brand",
+          "settings": {
+            "custom_name": "GYD"
+          }
+        },
+        "brand_lp": {
+          "type": "brand",
+          "settings": {
+            "custom_name": "LP"
+          }
+        },
+        "brand_dr": {
+          "type": "brand",
+          "settings": {
+            "custom_name": "DR"
+          }
+        },
+        "brand_lvn": {
+          "type": "brand",
+          "settings": {
+            "custom_name": "LVN"
+          }
+        },
+        "brand_crt": {
+          "type": "brand",
+          "settings": {
+            "custom_name": "CRT"
+          }
+        },
+        "brand_msk": {
+          "type": "brand",
+          "settings": {
+            "custom_name": "MSK"
+          }
+        }
+      },
+      "block_order": [
+        "what_we_do",
+        "how_we_operate",
+        "what_we_stand_for",
+        "offer_footwear",
+        "offer_bags",
+        "offer_jewelry",
+        "offer_watches",
+        "offer_accessories",
+        "brand_hms",
+        "brand_coco",
+        "brand_gyd",
+        "brand_lp",
+        "brand_dr",
+        "brand_lvn",
+        "brand_crt",
+        "brand_msk"
+      ]
     }
   },
   "order": [

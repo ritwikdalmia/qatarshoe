@@ -2,7 +2,121 @@
   "sections": {
     "main": {
       "type": "returns-refunds",
-      "settings": {}
+      "settings": {
+        "heading": "Returns and Refunds",
+        "subheading": "At Qtrshoe, we handle returns and refunds in a clear and fair manner. Eligibility depends on the service selected and the condition of the item.",
+        "side_left_heading": "IF THE ISSUE IS ON OUR SIDE",
+        "side_left_subheading": "In the event that an item arrives incorrect, damaged, or with a defect attributable to QTRSHOE:",
+        "side_right_heading": "IF THE RETURN IS CUSTOMER-INITIATED",
+        "side_right_subheading": "For returns not resulting from an error on our part:",
+        "non_returnable_heading": "NON-RETURNABLE ITEMS",
+        "refund_label": "REFUND PROCESSING",
+        "refund_text": "Once your return is received, it will be inspected to confirm it meets all eligibility conditions. Refunds are approved only after this inspection is complete. Approved refunds are issued to the original payment method used at the time of purchase."
+      },
+      "blocks": {
+        "eligibility_1": {
+          "type": "eligibility_card",
+          "settings": {
+            "title": "Qatar Collection",
+            "description": "Returns are accepted within 10 days of the delivery date. Items must be unused, unworn, and returned in original packaging.",
+            "icon_type": "qatar"
+          }
+        },
+        "eligibility_2": {
+          "type": "eligibility_card",
+          "settings": {
+            "title": "International Collection",
+            "description": "Returns are accepted within 10 days of the delivery date. Items must be unused, unworn, and returned in original packaging.",
+            "icon_type": "uae"
+          }
+        },
+        "intro_block": {
+          "type": "content_block",
+          "settings": {
+            "title": "Return Eligibility",
+            "uppercase": false,
+            "intro": "We want every purchase to be right. If something is not, we are here to make it easy.",
+            "bullets": "Returns are accepted within 10 days of the confirmed delivery date.||Items must be unused, unworn, and returned in their original packaging with all accessories, tags, and branded materials intact.||Requests made outside the 10-day window will not be eligible."
+          }
+        },
+        "side_left_item_1": {
+          "type": "side_card",
+          "settings": {
+            "side": "left",
+            "text": "A full refund will be issued without question."
+          }
+        },
+        "side_left_item_2": {
+          "type": "side_card",
+          "settings": {
+            "side": "left",
+            "text": "All return delivery costs are covered entirely by QTRSHOE."
+          }
+        },
+        "side_right_item_1": {
+          "type": "side_card",
+          "settings": {
+            "side": "right",
+            "text": "Returns may still be accepted for eligible items within the 10-day window."
+          }
+        },
+        "side_right_item_2": {
+          "type": "side_card",
+          "settings": {
+            "side": "right",
+            "text": "Original delivery fees are non-refundable."
+          }
+        },
+        "side_right_item_3": {
+          "type": "side_card",
+          "settings": {
+            "side": "right",
+            "text": "Return shipping or collection costs are the customer's responsibility."
+          }
+        },
+        "non_returnable_1": {
+          "type": "non_returnable_card",
+          "settings": {
+            "title": "Watches",
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2D1F1F\" stroke-width=\"1.5\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>"
+          }
+        },
+        "non_returnable_2": {
+          "type": "non_returnable_card",
+          "settings": {
+            "title": "Items that have been used, worn, or show any signs of use.",
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2D1F1F\" stroke-width=\"1.5\"><path d=\"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\"/></svg>"
+          }
+        },
+        "non_returnable_3": {
+          "type": "non_returnable_card",
+          "settings": {
+            "title": "Items returned without their original packaging, boxes, or dust bags.",
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2D1F1F\" stroke-width=\"1.5\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"14\" rx=\"2\" ry=\"2\"/><path d=\"M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/></svg>"
+          }
+        },
+        "non_returnable_4": {
+          "type": "non_returnable_card",
+          "settings": {
+            "title": "Items missing accessories, insoles, laces, or any included components.",
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2D1F1F\" stroke-width=\"1.5\"><path d=\"M18.36 6.64a9 9 0 1 1-12.73 0\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"12\"/></svg>"
+          }
+        }
+      },
+      "block_order": [
+        "eligibility_1",
+        "eligibility_2",
+        "intro_block",
+        "side_left_item_1",
+        "side_left_item_2",
+        "side_right_item_1",
+        "side_right_item_2",
+        "side_right_item_3",
+        "non_returnable_1",
+        "non_returnable_2",
+        "non_returnable_3",
+        "non_returnable_4"
+      ]
     }
   },
   "order": [

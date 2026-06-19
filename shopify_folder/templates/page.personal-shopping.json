@@ -2,7 +2,41 @@
   "sections": {
     "main": {
       "type": "personal-shopping",
-      "settings": {}
+      "settings": {
+        "heading": "Personal Shopping",
+        "subheading": "We offer distinct services designed to provide flexibility, speed, and access depending on your location and what you are looking for. Designed for customers who want access to a specific product that is not currently in stock. Our Personal Shopping service sources items exclusively on demand — simply tell us what you need, and we will take care of the rest."
+      },
+      "blocks": {
+        "how_it_works": {
+          "type": "content_block",
+          "settings": {
+            "title": "HOW IT WORKS",
+            "uppercase": true,
+            "bullets": "Get in touch with our customer care team via WhatsApp and share the product details — style, size, and any preferences||Our team will confirm availability and provide full details before any payment is taken.||Once confirmed, payment is collected in full via Bank Transfer before sourcing begins.||Your item is sourced exclusively for you and dispatched within the confirmed timeframe."
+          }
+        },
+        "what_to_expect": {
+          "type": "content_block",
+          "settings": {
+            "title": "WHAT TO EXPECT",
+            "uppercase": true,
+            "bullets": "Access to products sourced specifically on demand for you.||Estimated delivery of 15 to 18 working days from the date of confirmed payment.||Clear timelines communicated before you commit to your order.||A dedicated, personal experience handled with care from enquiry to delivery."
+          }
+        },
+        "payment_options": {
+          "type": "content_block",
+          "settings": {
+            "title": "PAYMENT OPTIONS",
+            "uppercase": true,
+            "bullets": "Bank Transfer only. Full payment is required before sourcing begins"
+          }
+        }
+      },
+      "block_order": [
+        "how_it_works",
+        "what_to_expect",
+        "payment_options"
+      ]
     }
   },
   "order": [
