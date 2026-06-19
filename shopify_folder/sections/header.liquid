@@ -107,59 +107,6 @@
         <span class="header-v-sep" aria-hidden="true"></span>
 
         
-        <div class="currency-wrapper" id="desktop-currency-wrapper">
-          {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
-          {%- assign currency_data_parts = currency_data | split: '|||' -%}
-          {%- assign currencies = currency_data_parts[0] | split: ',' -%}
-          {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
-          {%- assign default_curr = currencies | first | strip | upcase -%}
-          {%- liquid
-            assign default_symbol = default_curr
-            for sym_pair_raw in custom_symbols
-              assign sym_pair = sym_pair_raw | split: ':'
-              assign sym_code = sym_pair[0] | strip | upcase
-              if sym_code == default_curr
-                assign default_symbol = sym_pair[1] | strip
-                break
-              endif
-            endfor
-          -%}
-          <button type="button" class="currency-selector" id="desktop-currency-btn" aria-expanded="false" aria-label="Select currency">
-            <span class="currency-symbol">{{ default_symbol }}</span>
-            <span class="currency-code">{{ default_curr }}</span>
-            <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-              <path d="M5 8L10 13L15 8"/>
-            </svg>
-          </button>
-          <div class="currency-dropdown" id="desktop-currency-dropdown" aria-hidden="true">
-            {%- for curr_raw in currencies -%}
-              {%- assign curr = curr_raw | strip | upcase -%}
-              {%- if curr != blank -%}
-                {%- liquid
-                  assign symbol = curr
-                  for sym_pair_raw in custom_symbols
-                    assign sym_pair = sym_pair_raw | split: ':'
-                    assign sym_code = sym_pair[0] | strip | upcase
-                    if sym_code == curr
-                      assign symbol = sym_pair[1] | strip
-                      break
-                    endif
-                  endfor
-                -%}
-                <div class="currency-option {% if forloop.first %}is-active{% endif %}" data-currency="{{ curr }}">
-                  <span>{{ symbol }} {{ curr }}</span>
-                  {%- if forloop.first -%}
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
-                  {%- endif -%}
-                </div>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        </div>
-
-        <span class="header-v-sep" aria-hidden="true"></span>
-
-        
         <div class="lang-selector-wrapper" id="desktop-lang-wrapper">
           <button type="button" class="lang-selector" id="desktop-lang-btn" aria-expanded="false" aria-label="Language">
             <span class="lang-label">{{ request.locale.iso_code | upcase }}</span>
@@ -691,55 +638,6 @@
         </a>
 
         <span class="desktop-header-sep site-hdr-desktop" aria-hidden="true"></span>
-
-        
-        <div class="currency-wrapper site-hdr-desktop">
-          {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
-          {%- assign currency_data_parts = currency_data | split: '|||' -%}
-          {%- assign currencies = currency_data_parts[0] | split: ',' -%}
-          {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
-          {%- assign default_curr = currencies | first | strip | upcase -%}
-          {%- liquid
-            assign default_symbol = default_curr
-            for sym_pair_raw in custom_symbols
-              assign sym_pair = sym_pair_raw | split: ':'
-              assign sym_code = sym_pair[0] | strip | upcase
-              if sym_code == default_curr
-                assign default_symbol = sym_pair[1] | strip
-                break
-              endif
-            endfor
-          -%}
-          <button type="button" class="currency-selector" id="sticky-currency-btn" aria-expanded="false" aria-label="Select currency">
-            <span class="currency-symbol">{{ default_symbol }}</span>
-            <span class="currency-code">{{ default_curr }}</span>
-            <svg class="currency-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
-          </button>
-          <div class="currency-dropdown" id="sticky-currency-dropdown" aria-hidden="true">
-            {%- for curr_raw in currencies -%}
-              {%- assign curr = curr_raw | strip | upcase -%}
-              {%- if curr != blank -%}
-                {%- liquid
-                  assign symbol = curr
-                  for sym_pair_raw in custom_symbols
-                    assign sym_pair = sym_pair_raw | split: ':'
-                    assign sym_code = sym_pair[0] | strip | upcase
-                    if sym_code == curr
-                      assign symbol = sym_pair[1] | strip
-                      break
-                    endif
-                  endfor
-                -%}
-                <div class="currency-option {% if forloop.first %}is-active{% endif %}" data-currency="{{ curr }}">
-                  <span>{{ symbol }} {{ curr }}</span>
-                  {%- if forloop.first -%}
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
-                  {%- endif -%}
-                </div>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        </div>
 
         
         <div class="lang-selector-wrapper site-hdr-desktop">
@@ -1294,13 +1192,7 @@
   
   <div class="drawer-footer">
     <div class="drawer-locale-row">
-      <div class="drawer-locale-col drawer-currency-col">
-        <button type="button" class="drawer-locale-trigger" aria-expanded="false">
-          <span class="drawer-locale-text"><span style="color:rgba(26,26,26,0.4)">QR</span> QAR</span>
-          <svg class="drawer-locale-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
-        </button>
-      </div>
-      <div class="drawer-locale-col drawer-lang-wrapper">
+      <div class="drawer-locale-col drawer-lang-wrapper" style="width: 100%;">
         <button type="button" class="drawer-locale-trigger drawer-lang-selector" aria-expanded="false">
           <span class="drawer-locale-text">{{ request.locale.iso_code | upcase }}</span>
           <svg class="drawer-locale-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
@@ -1602,8 +1494,9 @@
 
     
     window.applyStoreCurrency = function(currency) {
-      var key = currency.toLowerCase();
-      localStorage.setItem('qtr_currency', currency);
+      currency = 'QAR';
+      var key = 'qar';
+      localStorage.setItem('qtr_currency', 'QAR');
 
       
       applyCurrencyLabel(currency);

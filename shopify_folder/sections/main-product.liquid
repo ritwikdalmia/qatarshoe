@@ -125,10 +125,23 @@
       {%- assign currencies = currency_data_parts[0] | split: ',' -%}
       {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
       
+      {%- assign price_cent = p_price_val | modulo: 100 -%}
+      {%- assign price_main = p_price_val | divided_by: 100 -%}
+      {%- if price_cent < 10 -%}{%- assign price_cent = '0' | append: price_cent -%}{%- endif -%}
+      {%- assign price_qar_formatted = 'QAR ' | append: price_main | append: '.' | append: price_cent -%}
+      
+      {%- assign compare_qar_formatted = blank -%}
+      {%- if p_compare_at_price_val > p_price_val -%}
+        {%- assign compare_cent = p_compare_at_price_val | modulo: 100 -%}
+        {%- assign compare_main = p_compare_at_price_val | divided_by: 100 -%}
+        {%- if compare_cent < 10 -%}{%- assign compare_cent = '0' | append: compare_cent -%}{%- endif -%}
+        {%- assign compare_qar_formatted = 'QAR ' | append: compare_main | append: '.' | append: compare_cent -%}
+      {%- endif -%}
+
       <div class="price-container"
-           data-price-qar="QAR {{ p_price_val | divided_by: 100.0 | round }}"
+           data-price-qar="{{ price_qar_formatted }}"
            {%- if p_compare_at_price_val > p_price_val %}
-           data-compare-qar="QAR {{ p_compare_at_price_val | divided_by: 100.0 | round }}"
+           data-compare-qar="{{ compare_qar_formatted }}"
            {%- endif %}
            {%- for curr_raw in currencies -%}
              {%- assign curr = curr_raw | strip | upcase -%}
@@ -458,6 +471,57 @@
         </div>
       </div>
 
+      <!-- Estimated Delivery — custom dropdown -->
+      <div class="est-delivery">
+        <div class="est-hdr">
+          {%- if request.locale.iso_code == 'ar' -%}الشحن من مستودع قطر{%- else -%}Shipping from Qatar Warehouse{%- endif -%}
+        </div>
+        <div class="est-body">
+          <div class="est-label">
+            {%- if request.locale.iso_code == 'ar' -%}تاريخ التوصيل المتوقع{%- else -%}Estimated Delivery{%- endif -%}
+            <i class="est-info-i" title="{% if request.locale.iso_code == 'ar' %}تختلف أوقات التوصيل حسب المنطقة{% else %}Delivery times vary by area{% endif %}">i</i>
+          </div>
+
+          <!-- Custom styled dropdown -->
+          <div class="cs-wrap" id="city-dd">
+            <div class="cs-trigger" onclick="toggleDD()">
+              <span id="cs-label">{% if request.locale.iso_code == 'ar' %}الشحانية{% else %}Ash-Shahaniyah{% endif %}</span>
+              <span class="cs-arrow"></span>
+            </div>
+            <div class="cs-options" id="cs-opts">
+              <div class="cs-opt" data-fee="{% if request.locale.iso_code == 'ar' %}مجاني{% else %}Free{% endif %}" data-time="same" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الدوحة{% else %}Doha{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 70"  data-time="same" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الريان{% else %}Al Rayyan{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 70"  data-time="same" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الوكرة{% else %}Al Wakrah{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 80"  data-time="same" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}أم صلال محمد{% else %}Umm Salal Mohammed{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 80"  data-time="next" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الخور{% else %}Al Khor{% endif %}</div>
+              <div class="cs-opt active" data-fee="QAR 90" data-time="next" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الشحانية{% else %}Ash-Shahaniyah{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 90"  data-time="next" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}دخان{% else %}Dukhan{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 100" data-time="next" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الشمال{% else %}Al Shamal{% endif %}</div>
+            </div>
+          </div>
+
+          <div class="est-result" style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+            <div>
+              <span class="same-day-tag next" id="delivery-tag">{% if request.locale.iso_code == 'ar' %}توصيل في اليوم التالي{% else %}Next-day delivery{% endif %}</span>
+              <div class="est-to">
+                {%- if request.locale.iso_code == 'ar' -%}
+                  إلى <strong id="delivery-city">الشحانية</strong>
+                {%- else -%}
+                  to <strong id="delivery-city">Ash-Shahaniyah</strong>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="est-fee" id="delivery-fee">
+              {%- if request.locale.iso_code == 'ar' -%}
+                توصيل بقيمة <b>QAR 90</b>
+              {%- else -%}
+                <b>QAR 90</b> delivery
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+
       
       <div class="product-accordions">
         <div class="accordion-item active">
@@ -536,6 +600,49 @@
     });
     thumbnail.classList.add('active');
   }
+
+  /* ── Custom City Dropdown ── */
+  window.toggleDD = function() {
+    document.getElementById('city-dd').classList.toggle('open');
+  }
+  window.pickCity = function(opt) {
+    const city = opt.textContent.trim();
+    const fee  = opt.dataset.fee;
+    const time = opt.dataset.time;
+    const isAr = document.documentElement.lang === 'ar' || window.location.pathname.startsWith('/ar');
+
+    document.querySelectorAll('#city-dd .cs-opt').forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+    document.getElementById('cs-label').textContent = city;
+    document.getElementById('delivery-city').textContent = city;
+
+    const tag = document.getElementById('delivery-tag');
+    if (time === 'same') {
+      tag.textContent = isAr ? 'توصيل في نفس اليوم' : 'Same-day delivery';
+      tag.className = 'same-day-tag';
+    } else {
+      tag.textContent = isAr ? 'توصيل في اليوم التالي' : 'Next-day delivery';
+      tag.className = 'same-day-tag next';
+    }
+
+    const feeEl = document.getElementById('delivery-fee');
+    if (isAr) {
+      feeEl.innerHTML = (fee === 'Free' || fee === 'مجاني')
+        ? 'توصيل <b style="color:#1a6e2e">مجاني</b>'
+        : 'توصيل بقيمة <b>' + fee + '</b>';
+    } else {
+      feeEl.innerHTML = (fee === 'Free' || fee === 'مجاني')
+        ? '<b style="color:#1a6e2e">Free</b> delivery'
+        : '<b>' + fee + '</b> delivery';
+    }
+
+    document.getElementById('city-dd').classList.remove('open');
+  }
+
+  document.addEventListener('click', e => {
+    const dd = document.getElementById('city-dd');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  });
 
   
   function adjustProductQty(amount) {
