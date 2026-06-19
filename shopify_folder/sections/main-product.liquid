@@ -615,17 +615,114 @@
   };
 
   
-  function switchMainImage(thumbnail) {
+  let galleryTimer = null;
+  let isGalleryPaused = false;
+
+  function switchMainImage(thumbnail, fromAuto = false) {
     const mainSrc = thumbnail.getAttribute('data-main-src');
     if (!mainSrc) return;
     
-    document.getElementById('main-image-view').src = mainSrc;
+    const container = document.querySelector('.product-main-image');
+    let currentImg = document.getElementById('main-image-view');
+    if (!container || !currentImg) return;
     
-    
+    if (currentImg.src === mainSrc) return;
+
+    // Ensure container has relative positioning and overflow hidden
+    container.style.position = 'relative';
+    container.style.overflow = 'hidden';
+
+    // Set active thumbnail class
     document.querySelectorAll('.product-thumbnails img').forEach(img => {
       img.classList.remove('active');
     });
     thumbnail.classList.add('active');
+
+    // Scroll active thumbnail into view
+    thumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+
+    // Preload and create the next image
+    const nextImg = document.createElement('img');
+    nextImg.id = 'main-image-view';
+    nextImg.alt = currentImg.alt;
+    
+    const doTransition = () => {
+      nextImg.style.position = 'absolute';
+      nextImg.style.top = '0';
+      nextImg.style.left = '100%';
+      nextImg.style.width = '100%';
+      nextImg.style.height = '100%';
+      nextImg.style.objectFit = 'cover';
+      nextImg.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      
+      container.appendChild(nextImg);
+      
+      // Force reflow
+      nextImg.offsetWidth;
+      
+      // Slide current image left and next image left
+      currentImg.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      currentImg.style.transform = 'translateX(-100%)';
+      nextImg.style.transform = 'translateX(-100%)';
+      
+      // Remove ID from old image to prevent duplicate ID issues
+      currentImg.removeAttribute('id');
+      
+      setTimeout(() => {
+        if (currentImg && currentImg.parentNode === container) {
+          container.removeChild(currentImg);
+        }
+        
+        nextImg.style.position = 'relative';
+        nextImg.style.left = '0';
+        nextImg.style.transform = 'none';
+        nextImg.style.transition = 'transform 0.1s ease-out'; // reset zoom transition
+        
+        if (!fromAuto) {
+          restartGalleryAutoSlide();
+        }
+      }, 500);
+    };
+    
+    nextImg.onload = doTransition;
+    nextImg.onerror = doTransition;
+    nextImg.src = mainSrc;
+  }
+
+  function startGalleryAutoSlide() {
+    stopGalleryAutoSlide();
+    if (isGalleryPaused) return;
+
+    galleryTimer = setTimeout(() => {
+      const thumbnails = document.querySelectorAll('.product-thumbnails img');
+      if (thumbnails.length <= 1) return;
+      
+      let activeIndex = -1;
+      thumbnails.forEach((thumb, idx) => {
+        if (thumb.classList.contains('active')) {
+          activeIndex = idx;
+        }
+      });
+      
+      const nextIndex = (activeIndex + 1) % thumbnails.length;
+      const nextThumb = thumbnails[nextIndex];
+      if (nextThumb) {
+        switchMainImage(nextThumb, true);
+      }
+      startGalleryAutoSlide();
+    }, 3000);
+  }
+
+  function stopGalleryAutoSlide() {
+    if (galleryTimer) {
+      clearTimeout(galleryTimer);
+      galleryTimer = null;
+    }
+  }
+
+  function restartGalleryAutoSlide() {
+    stopGalleryAutoSlide();
+    startGalleryAutoSlide();
   }
 
   /* ── Custom City Dropdown ── */
@@ -1009,9 +1106,13 @@
 
     // Main image pan zoom on hover
     const mainImageContainer = document.querySelector('.product-main-image');
-    const mainImageView = document.getElementById('main-image-view');
 
-    if (mainImageContainer && mainImageView) {
+    if (mainImageContainer) {
+      mainImageContainer.addEventListener('mouseenter', function() {
+        isGalleryPaused = true;
+        stopGalleryAutoSlide();
+      });
+
       mainImageContainer.addEventListener('mousemove', function(e) {
         const rect = mainImageContainer.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -1020,15 +1121,26 @@
         const xPercent = (x / rect.width) * 100;
         const yPercent = (y / rect.height) * 100;
         
-        mainImageView.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-        mainImageView.style.transform = 'scale(2.5)';
+        const activeImageView = document.getElementById('main-image-view');
+        if (activeImageView) {
+          activeImageView.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+          activeImageView.style.transform = 'scale(2.5)';
+        }
       });
       
       mainImageContainer.addEventListener('mouseleave', function() {
-        mainImageView.style.transformOrigin = 'center center';
-        mainImageView.style.transform = 'scale(1)';
+        const activeImageView = document.getElementById('main-image-view');
+        if (activeImageView) {
+          activeImageView.style.transformOrigin = 'center center';
+          activeImageView.style.transform = 'scale(1)';
+        }
+        isGalleryPaused = false;
+        restartGalleryAutoSlide();
       });
     }
+
+    // Start auto slide on load
+    startGalleryAutoSlide();
 
     // Load dynamic shipping rates from active Shopify shipping settings
     fetchDynamicShippingRates();

@@ -693,7 +693,8 @@
         {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
         {%- for product in collection.products -%}
           <a href="{{ product.url }}" class="product-card" aria-label="{{ product.title }}">
-            <div class="product-card-img">
+            <div class="product-card-img" 
+                 data-images="{%- if product.images.size > 1 -%}{%- for img in product.images -%}{{ img | image_url: width: 600, height: 900, crop: 'center' }}{% unless forloop.last %},{% endunless %}{%- endfor -%}{%- endif -%}">
               {%- if product.featured_image != blank -%}
                 <img src="{{ product.featured_image | image_url: width: 600, height: 900, crop: 'center' }}"
                      alt="{{ product.featured_image.alt | escape }}"
@@ -1197,9 +1198,80 @@
     window.location.href = pill.getAttribute('href');
   }
 
+  function initCollectionProductImageSlideshows() {
+    const cards = document.querySelectorAll('.product-card-img[data-images]');
+    cards.forEach(card => {
+      const imagesAttr = card.getAttribute('data-images');
+      if (!imagesAttr) return;
+      const images = imagesAttr.split(',').filter(src => src.trim() !== '');
+      if (images.length <= 1) return;
+      
+      let imgEl = card.querySelector('img');
+      if (!imgEl) return;
+      
+      // Prepare container style for absolute sliding transition
+      card.style.position = 'relative';
+      card.style.overflow = 'hidden';
+      
+      let currentIndex = 0;
+      
+      function showNextImage() {
+        const nextIndex = (currentIndex + 1) % images.length;
+        const nextSrc = images[nextIndex];
+        
+        // Preload next image and build element
+        const nextImgEl = document.createElement('img');
+        const triggerTransition = () => {
+          nextImgEl.style.position = 'absolute';
+          nextImgEl.style.top = '0';
+          nextImgEl.style.left = '100%';
+          nextImgEl.style.width = '100%';
+          nextImgEl.style.height = '100%';
+          nextImgEl.style.objectFit = 'cover';
+          nextImgEl.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          
+          card.appendChild(nextImgEl);
+          
+          // Force layout repaint
+          nextImgEl.offsetWidth;
+          
+          // Slide old image left and next image left
+          imgEl.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          imgEl.style.transform = 'translateX(-100%)';
+          nextImgEl.style.transform = 'translateX(-100%)';
+          
+          setTimeout(() => {
+            if (imgEl && imgEl.parentNode === card) {
+              card.removeChild(imgEl);
+            }
+            
+            // Standardize next image
+            nextImgEl.style.position = 'relative';
+            nextImgEl.style.left = '0';
+            nextImgEl.style.transform = 'none';
+            nextImgEl.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            
+            imgEl = nextImgEl;
+            currentIndex = nextIndex;
+            
+            // Cycle again
+            setTimeout(showNextImage, 3000);
+          }, 500);
+        };
+        
+        nextImgEl.onload = triggerTransition;
+        nextImgEl.onerror = triggerTransition;
+        nextImgEl.src = nextSrc;
+      }
+      
+      setTimeout(showNextImage, 3000);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     initTypeFilters();
     initCategoryTypeFilters();
+    initCollectionProductImageSlideshows();
     var savedCurrency = localStorage.getItem('qtr_currency') || 'QAR';
     if (typeof window.applyStoreCurrency === 'function') {
       window.applyStoreCurrency(savedCurrency);

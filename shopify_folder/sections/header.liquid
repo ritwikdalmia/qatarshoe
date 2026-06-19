@@ -476,8 +476,8 @@
         {%- endfor -%}
 
         {%- if men_menu == blank and menu_item_blocks.size == 0 -%}
-        {%- if section.settings.menu_m_new_arrivals -%}{%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}{%- endif -%}
-        {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale">On Sale</a></div>{%- endif -%}
+        {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}
+        {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale-men">On Sale</a></div>{%- endif -%}
 {%- if section.settings.menu_m_brands -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#">Brands</a>
@@ -948,7 +948,7 @@
 
           {%- if men_menu == blank and menu_item_blocks.size == 0 -%}
           {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}
-          {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On Sale</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale-men">On Sale</a></div>{%- endif -%}
           {%- if section.settings.menu_m_bags -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/bags-men">Bags</a></div>{%- endif -%}
           {%- if section.settings.menu_m_shoes -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/shoes-men">Shoes</a></div>{%- endif -%}
           {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>{%- endif -%}
@@ -1012,7 +1012,7 @@
     {%- else -%}
       {%- if section.settings.menu_w_new_in -%}<a class="drawer-link" href="/collections/new-in">New in</a>{%- endif -%}
       {%- if section.settings.menu_w_restock -%}<a class="drawer-link" href="/collections/restock">Restock</a>{%- endif -%}
-      {%- if section.settings.menu_w_on_sale -%}{%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On sale</a>{%- endif -%}{%- endif -%}
+      {%- if section.settings.menu_w_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On sale</a>{%- endif -%}
       {%- if section.settings.menu_w_brands -%}
       <div class="drawer-expandable">
         <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
@@ -1170,7 +1170,7 @@
       {%- endfor -%}
     {%- else -%}
       {%- if section.settings.menu_m_new_arrivals -%}<a class="drawer-link" href="/collections/new-arrivals">New arrivals</a>{%- endif -%}
-      {%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On Sale</a>{%- endif -%}
+      {%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale-men">On Sale</a>{%- endif -%}
       {%- if section.settings.menu_m_brands -%}
       <div class="drawer-expandable">
         <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
