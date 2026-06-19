@@ -91,5 +91,44 @@
 
     {%- sections 'footer-group' -%}
 
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        if ('IntersectionObserver' in window) {
+          const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50px 0px',
+            threshold: 0.05
+          };
+
+          const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, observerOptions);
+
+          const selectors = [
+            '.product-card',
+            '.qtr-section',
+            '.brands-grid',
+            '.above-footer-banner',
+            '.product-container',
+            '.est-delivery',
+            '.breadcrumbs',
+            '.luxury-img-area',
+            '.luxury-content-area'
+          ];
+
+          selectors.forEach(selector => {
+            document.querySelectorAll(selector).forEach(el => {
+              el.classList.add('scroll-reveal');
+              observer.observe(el);
+            });
+          });
+        }
+      });
+    </script>
   </body>
 </html>
