@@ -878,93 +878,122 @@
         </div>
 
         {%- comment -%} Collections filter section — context-aware, mirrors the filter pills logic {%- endcomment -%}
-        {%- if is_brand_menu == false -%}
-          {%- liquid
-            assign drawer_col_all_url = blank
-            assign drawer_col_all_label = 'All'
-            assign drawer_col_links_str = ''
+        {%- liquid
+          assign drawer_col_all_url = blank
+          assign drawer_col_all_label = 'All'
+          assign drawer_col_links_str = ''
 
-            if parent_link != blank and parent_link.links.size > 0
-              comment
-                We are on a page that has a parent with children (e.g. on Bags or Mini Bags).
-                Show the children of parent_link as the collection options.
-                "All" → parent_link.url (e.g. /collections/bags)
-              endcomment
-              assign drawer_col_all_url = parent_link.url
-              assign drawer_col_all_label = 'All ' | append: parent_link.title
-              for cl in parent_link.links
-                assign clt = cl.title | downcase
-                if clt contains 'explore' or clt contains 'view all'
-                  continue
-                endif
-                if cl.url contains '/collections/'
-                  assign clh = cl.url | split: '/' | last
-                  assign centry = '::' | append: clh | append: '||'
-                  unless drawer_col_links_str contains centry
-                    assign drawer_col_links_str = drawer_col_links_str | append: cl.title | append: '::' | append: clh | append: '||'
-                  endunless
-                endif
-              endfor
+          if is_brand_menu
+            assign drawer_col_all_url = collection.url
+            if request.locale.iso_code == 'ar'
+              assign drawer_col_all_label = 'الكل'
             else
-              comment
-                We are on /collections/all or a top-level standalone page.
-                Show top-level category links from the menu.
-              endcomment
-              assign drawer_col_all_url = '/collections/all'
               assign drawer_col_all_label = 'All'
-              for handle in menu_handles
-                if linklists[handle] != blank
-                  for link in linklists[handle].links
-                    assign lt = link.title | downcase
-                    if lt contains 'explore' or lt contains 'home' or lt contains 'new' or lt contains 'sale' or lt contains 'brand' or lt contains 'vendor' or lt contains 'restock'
-                      continue
-                    endif
-                    if link.url contains '/collections/'
-                      assign lh = link.url | split: '/' | last
-                      assign entry = '::' | append: lh | append: '||'
-                      unless drawer_col_links_str contains entry
-                        assign drawer_col_links_str = drawer_col_links_str | append: link.title | append: '::' | append: lh | append: '||'
-                      endunless
-                    endif
-                  endfor
-                endif
-                if drawer_col_links_str != ''
-                  break
-                endif
-              endfor
             endif
-            assign drawer_col_pairs = drawer_col_links_str | split: '||'
-          -%}
+            assign drawer_col_links_str = category_links
+          elsif parent_link != blank and parent_link.links.size > 0
+            assign drawer_col_all_url = parent_link.url
+            assign drawer_col_all_label = 'All ' | append: parent_link.title
+            for cl in parent_link.links
+              assign clt = cl.title | downcase
+              if clt contains 'explore' or clt contains 'view all'
+                continue
+              endif
+              if cl.url contains '/collections/'
+                assign clh = cl.url | split: '/' | last
+                assign centry = '::' | append: clh | append: '||'
+                unless drawer_col_links_str contains centry
+                  assign drawer_col_links_str = drawer_col_links_str | append: cl.title | append: '::' | append: clh | append: '||'
+                endunless
+              endif
+            endfor
+          else
+            assign drawer_col_all_url = '/collections/all'
+            assign drawer_col_all_label = 'All'
+            for handle in menu_handles
+              if linklists[handle] != blank
+                for link in linklists[handle].links
+                  assign lt = link.title | downcase
+                  if lt contains 'explore' or lt contains 'home' or lt contains 'new' or lt contains 'sale' or lt contains 'brand' or lt contains 'vendor' or lt contains 'restock'
+                    continue
+                  endif
+                  if link.url contains '/collections/'
+                    assign lh = link.url | split: '/' | last
+                    assign entry = '::' | append: lh | append: '||'
+                    unless drawer_col_links_str contains entry
+                      assign drawer_col_links_str = drawer_col_links_str | append: link.title | append: '::' | append: lh | append: '||'
+                    endunless
+                  endif
+                endfor
+              endif
+              if drawer_col_links_str != ''
+                break
+              endif
+            endfor
+          endif
+          assign drawer_col_pairs = drawer_col_links_str | split: '||'
+        -%}
 
-          {%- if drawer_col_pairs.size > 0 -%}
-            {%- assign drawer_all_active = false -%}
+        {%- if drawer_col_pairs.size > 0 -%}
+          {%- assign drawer_all_active = false -%}
+          {%- if is_brand_menu -%}
+            {%- assign drawer_all_active = true -%}
+          {%- else -%}
             {%- if drawer_col_all_url == '/collections/all' and collection.handle == 'all' -%}
               {%- assign drawer_all_active = true -%}
             {%- elsif drawer_col_all_url == collection.url -%}
               {%- assign drawer_all_active = true -%}
             {%- endif -%}
+          {%- endif -%}
 
-            <div class="filter-drawer-section active" data-filter-type="collections">
-              <div class="filter-section-header" onclick="toggleFilterSection(this)">
-                <h3>Collections</h3>
-                <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
-              </div>
-              <div class="filter-section-content">
-                <div class="filter-collection-links" style="display: flex; flex-direction: column; gap: 0; padding: 4px 0;">
-                  <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: 1px solid var(--color-border); margin-bottom: 0; font-weight: {% if drawer_all_active %}600{% else %}400{% endif %};">
-                    <input type="checkbox"
-                           class="filter-drawer-checkbox collection-nav-cb collection-nav-all"
-                           data-collection-url="{{ drawer_col_all_url }}"
-                           data-is-all="true"
-                           {% if drawer_all_active %}checked{% endif %}
-                           style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); flex-shrink: 0;">
-                    <span class="filter-value-text">{{ drawer_col_all_label }}</span>
-                  </label>
-                  {%- for pair in drawer_col_pairs -%}
-                    {%- assign parts = pair | split: '::' -%}
-                    {%- assign ctitle = parts[0] -%}
-                    {%- assign chandle = parts[1] -%}
-                    {%- if ctitle != blank and chandle != blank -%}
+          <div class="filter-drawer-section active" data-filter-type="collections">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)">
+              <h3>Collections</h3>
+              <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
+            </div>
+            <div class="filter-section-content">
+              <div class="filter-collection-links" style="display: flex; flex-direction: column; gap: 0; padding: 4px 0;">
+                <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: 1px solid var(--color-border); margin-bottom: 0; font-weight: {% if drawer_all_active %}600{% else %}400{% endif %};">
+                  <input type="checkbox"
+                         class="filter-drawer-checkbox {% if is_brand_menu %}brand-collection-nav-all{% else %}collection-nav-cb collection-nav-all{% endif %}"
+                         data-collection-url="{{ drawer_col_all_url }}"
+                         data-is-all="true"
+                         {% if drawer_all_active %}checked{% endif %}
+                         style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); flex-shrink: 0;">
+                  <span class="filter-value-text">{{ drawer_col_all_label }}</span>
+                </label>
+                {%- for pair in drawer_col_pairs -%}
+                  {%- assign parts = pair | split: '::' -%}
+                  {%- assign ctitle = parts[0] -%}
+                  {%- assign chandle = parts[1] -%}
+                  {%- if ctitle != blank and chandle != blank -%}
+                    {%- if is_brand_menu -%}
+                      {%- liquid
+                        assign types_list_str = ""
+                        if chandle contains 'bags' or chandle contains 'leather'
+                          assign types_list_str = "Bags,Bag,All Bags,Handbags,Mini Bags,Shoulder Bags,Tote Bags,Backpacks,Travel Bags,Wallets,Card Holders,Pouches,Small Leather Goods"
+                        elsif chandle contains 'shoes'
+                          assign types_list_str = "Shoes,Shoe,All Shoes,Sneakers,Sandals,Boots,Heels,Flats,Mules,Loafers,Ballet Flats"
+                        elsif chandle contains 'watches'
+                          assign types_list_str = "Watches,Watch,All Watches"
+                        elsif chandle contains 'jewel'
+                          assign types_list_str = "Jewellery,Jewelry,Jewellry,All Jewellery,Rings,Anklets,Earrings,Bracelets,Necklaces"
+                        elsif chandle contains 'access'
+                          assign types_list_str = "Accessories,Accessory,All Accessories,Belts,Caps,Straps,Badge Holders,Home Accessories,Key Holders & Bag Charms"
+                        elsif chandle contains 'cloth'
+                          assign types_list_str = "Clothing,T-shirts,Tops,All Clothing"
+                        else
+                          assign types_list_str = ctitle
+                        endif
+                      -%}
+                      <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: {%- if forloop.last -%}none{%- else -%}1px solid var(--color-border){%- endif -%}; margin-bottom: 0; font-weight: 400;">
+                        <input type="checkbox"
+                               class="filter-drawer-checkbox brand-category-cb"
+                               data-type-values="{{ types_list_str | escape }}"
+                               style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); flex-shrink: 0;">
+                        <span class="filter-value-text">{{ ctitle }}</span>
+                      </label>
+                    {%- else -%}
                       {%- assign is_active_link = false -%}
                       {%- if collection.handle == chandle -%}{%- assign is_active_link = true -%}{%- endif -%}
                       <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: {%- if forloop.last -%}none{%- else -%}1px solid var(--color-border){%- endif -%}; margin-bottom: 0; font-weight: {% if is_active_link %}600{% else %}400{% endif %};">
@@ -977,11 +1006,11 @@
                         <span class="filter-value-text">{{ ctitle }}</span>
                       </label>
                     {%- endif -%}
-                  {%- endfor -%}
-                </div>
+                  {%- endif -%}
+                {%- endfor -%}
               </div>
             </div>
-          {%- endif -%}
+          </div>
         {%- endif -%}
 
 
@@ -1154,28 +1183,46 @@
       }
     }
 
-    // 2. Collection nav checkboxes (multi-select)
+    // 2. Collection nav & brand categories (multi-select)
     let baseUrl = window.location.pathname;
-    const checkedCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all):checked');
-    const allColCb = document.querySelector('.collection-nav-all:checked');
+    const allBrandColCb = document.querySelector('.brand-collection-nav-all:checked');
 
-    if (allColCb) {
-      baseUrl = allColCb.getAttribute('data-collection-url');
-    } else if (checkedCollCbs.length > 0) {
-      baseUrl = checkedCollCbs[0].getAttribute('data-parent-url') || '/collections/all';
-      checkedCollCbs.forEach(cb => {
-        const textEl = cb.closest('label').querySelector('.filter-value-text');
-        if (textEl) {
-          newParams.append('filter.p.product_type', textEl.textContent.trim());
-        }
-      });
+    if (allBrandColCb) {
+      baseUrl = allBrandColCb.getAttribute('data-collection-url');
     } else {
-      // If we are on a parent collection page and have product types in current URL, preserve them
-      const currentTypes = currentParams.getAll('filter.p.product_type');
-      currentTypes.forEach(t => newParams.append('filter.p.product_type', t));
+      const checkedBrandCbs = document.querySelectorAll('.brand-category-cb:checked');
+      if (checkedBrandCbs.length > 0) {
+        checkedBrandCbs.forEach(cb => {
+          const typesAttr = cb.getAttribute('data-type-values');
+          if (typesAttr) {
+            const types = typesAttr.split(',');
+            types.forEach(t => {
+              newParams.append('filter.p.product_type', t.trim());
+            });
+          }
+        });
+      } else {
+        const checkedCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all):checked');
+        const allColCb = document.querySelector('.collection-nav-all:checked');
+
+        if (allColCb) {
+          baseUrl = allColCb.getAttribute('data-collection-url');
+        } else if (checkedCollCbs.length > 0) {
+          baseUrl = checkedCollCbs[0].getAttribute('data-parent-url') || '/collections/all';
+          checkedCollCbs.forEach(cb => {
+            const textEl = cb.closest('label').querySelector('.filter-value-text');
+            if (textEl) {
+              newParams.append('filter.p.product_type', textEl.textContent.trim());
+            }
+          });
+        } else {
+          const currentTypes = currentParams.getAll('filter.p.product_type');
+          currentTypes.forEach(t => newParams.append('filter.p.product_type', t));
+        }
+      }
     }
     
-    const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:not(.collection-nav-cb):checked');
+    const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:not(.collection-nav-cb):not(.brand-category-cb):not(.brand-collection-nav-all):checked');
     checkboxes.forEach(cb => {
       newParams.append(cb.name, cb.value);
     });
@@ -1209,15 +1256,27 @@
 
   // Collection nav checkbox mutual-exclusivity
   document.addEventListener('change', function(e) {
-    if (!e.target.classList.contains('collection-nav-cb')) return;
-    const isAll = e.target.getAttribute('data-is-all') === 'true';
-    if (isAll && e.target.checked) {
-      // Uncheck all sub-collection boxes
-      document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => cb.checked = false);
-    } else if (!isAll && e.target.checked) {
-      // Uncheck the "All" box
-      const allCb = document.querySelector('.collection-nav-all');
+    if (e.target.classList.contains('collection-nav-cb')) {
+      const isAll = e.target.getAttribute('data-is-all') === 'true';
+      if (isAll && e.target.checked) {
+        // Uncheck all sub-collection boxes
+        document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => cb.checked = false);
+      } else if (!isAll && e.target.checked) {
+        // Uncheck the "All" box
+        const allCb = document.querySelector('.collection-nav-all');
+        if (allCb) allCb.checked = false;
+      }
+    }
+    
+    if (e.target.classList.contains('brand-category-cb') && e.target.checked) {
+      // Uncheck the brand "All" box
+      const allCb = document.querySelector('.brand-collection-nav-all');
       if (allCb) allCb.checked = false;
+    }
+    
+    if (e.target.classList.contains('brand-collection-nav-all') && e.target.checked) {
+      // Uncheck all brand category boxes
+      document.querySelectorAll('.brand-category-cb').forEach(cb => cb.checked = false);
     }
   });
 
@@ -1282,31 +1341,17 @@
     const parentUrl = pill.getAttribute('data-parent-url');
     
     if (isAll) {
-      const params = new URLSearchParams(window.location.search);
-      params.delete('filter.p.product_type');
-      params.delete('page');
-      window.location.href = parentUrl + (params.toString() ? '?' + params.toString() : '');
+      window.location.href = parentUrl;
       return;
     }
     
-    pill.classList.toggle('active');
-    
-    const activeTypes = [];
-    const pills = document.querySelectorAll('.filter-pill-type:not([data-is-all="true"])');
-    pills.forEach(p => {
-      if (p.classList.contains('active')) {
-        activeTypes.push(p.getAttribute('data-type-value'));
-      }
-    });
-    
-    const params = new URLSearchParams(window.location.search);
-    params.delete('filter.p.product_type');
-    activeTypes.forEach(type => {
-      params.append('filter.p.product_type', type);
-    });
-    params.delete('page');
-    
-    window.location.href = parentUrl + (params.toString() ? '?' + params.toString() : '');
+    if (pill.classList.contains('active')) {
+      // Clicked on already active filter: unselect (go back to All)
+      window.location.href = parentUrl;
+    } else {
+      // Go to subcollection URL
+      window.location.href = pill.getAttribute('href');
+    }
   }
   function initCategoryTypeFilters() {
     const params = new URLSearchParams(window.location.search);
@@ -1344,7 +1389,17 @@
 
   function toggleCategoryTypeFilter(pill, event) {
     event.preventDefault();
-    window.location.href = pill.getAttribute('href');
+    if (pill.classList.contains('active')) {
+      // Clicked on already active filter: go back to Brand All
+      const allPill = document.querySelector('.filter-pill[data-is-brand-all="true"]');
+      if (allPill) {
+        window.location.href = allPill.getAttribute('href');
+      } else {
+        window.location.href = window.location.pathname;
+      }
+    } else {
+      window.location.href = pill.getAttribute('href');
+    }
   }
 
   function initCollectionProductImageSlideshows() {
@@ -1455,6 +1510,23 @@
           }
         }
       });
+      
+      let matchedAnyBrand = false;
+      document.querySelectorAll('.brand-category-cb').forEach(cb => {
+        const typesAttr = cb.getAttribute('data-type-values');
+        if (typesAttr) {
+          const types = typesAttr.split(',');
+          const hasMatch = activeTypes.some(t => types.map(x => x.toLowerCase().trim()).includes(t.toLowerCase().trim()));
+          if (hasMatch) {
+            cb.checked = true;
+            matchedAnyBrand = true;
+          }
+        }
+      });
+      if (matchedAnyBrand) {
+        const allCb = document.querySelector('.brand-collection-nav-all');
+        if (allCb) allCb.checked = false;
+      }
     }
   });
 </script>
