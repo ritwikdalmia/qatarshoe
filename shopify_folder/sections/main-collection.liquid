@@ -402,6 +402,51 @@
 </div>
 
 {%- paginate collection.products by products_per_page -%}
+  {%- liquid
+    assign parent_link = blank
+    
+    # Determine menu handle based on collection handle
+    if collection.handle contains '-men' or collection.handle contains 'men-'
+      assign menu_handles = 'men,main-menu' | split: ','
+    else
+      assign menu_handles = 'women,main-menu' | split: ','
+    endif
+    
+    # Search for matching parent link or child link in the menus
+    for handle in menu_handles
+      if linklists[handle] != blank
+        for link in linklists[handle].links
+          assign link_handle = link.url | split: '/' | last
+          if link.url == collection.url or link_handle == collection.handle
+            assign parent_link = link
+            break
+          endif
+          
+          for child_link in link.links
+            assign child_handle = child_link.url | split: '/' | last
+            if child_link.url == collection.url or child_handle == collection.handle
+              assign parent_link = link
+              break
+            endif
+          endfor
+          if parent_link != blank
+            break
+          endif
+        endfor
+      endif
+      if parent_link != blank
+        break
+      endif
+    endfor
+
+    assign is_brand_menu = false
+    if parent_link != blank
+      assign parent_title_down = parent_link.title | downcase
+      if parent_title_down contains 'brand' or parent_title_down contains 'vendor' or parent_title_down contains 'البراند' or parent_title_down contains 'ماركة' or parent_title_down contains 'البراندات'
+        assign is_brand_menu = true
+      endif
+    endif
+  -%}
   <div class="collection-toolbar">
     <div class="toolbar-left" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; flex: 1; min-width: 0;">
       <span class="results-count">{{ collection.products_count }} results</span>
@@ -424,54 +469,6 @@
       
       {%- if show_filters -%}
         <div class="filter-pills-scroll">
-          {%- liquid
-            assign parent_link = blank
-            
-            # Determine menu handle based on collection handle
-            if collection.handle contains '-men' or collection.handle contains 'men-'
-              assign menu_handles = 'men,main-menu' | split: ','
-            else
-              assign menu_handles = 'women,main-menu' | split: ','
-            endif
-            
-            # Search for matching parent link or child link in the menus
-            for handle in menu_handles
-              if linklists[handle] != blank
-                for link in linklists[handle].links
-                  assign link_handle = link.url | split: '/' | last
-                  if link.url == collection.url or link_handle == collection.handle
-                    assign parent_link = link
-                    break
-                  endif
-                  
-                  for child_link in link.links
-                    assign child_handle = child_link.url | split: '/' | last
-                    if child_link.url == collection.url or child_handle == collection.handle
-                      assign parent_link = link
-                      break
-                    endif
-                  endfor
-                  if parent_link != blank
-                    break
-                  endif
-                endfor
-              endif
-              if parent_link != blank
-                break
-              endif
-            endfor
-          -%}
-
-          {%- liquid
-            assign is_brand_menu = false
-            if parent_link != blank
-              assign parent_title_down = parent_link.title | downcase
-              if parent_title_down contains 'brand' or parent_title_down contains 'vendor' or parent_title_down contains 'البراند' or parent_title_down contains 'ماركة' or parent_title_down contains 'البراندات'
-                assign is_brand_menu = true
-              endif
-            endif
-          -%}
-
           {%- if parent_link != blank and parent_link.links.size > 0 and is_brand_menu == false -%}
             {%- assign parent_handle = parent_link.title | handle -%}
             <a href="{{ parent_link.url }}" 
@@ -493,66 +490,80 @@
           {%- else -%}
             {%- comment -%}
               We are on a brand collection page (where parent_link points to the Brands menu) or parent_link is blank.
-              If it's a brand collection page, we show Product Type filter values as pills.
-              If it's a category/collection page, we show Brand/Vendor filter values as pills.
+              If it's a brand collection page, we show dynamic category pills (Bags, Shoes, Watches, Jewellery, Accessories)
+              which point to the respective category collections filtered by brand vendor.
             {%- endcomment -%}
             {%- assign show_fallback = true -%}
             
-            {%- if is_brand_menu or collection.handle != 'all' -%}
-              {%- if is_brand_menu -%}
-                {%- comment -%} Look for Product Type / Category filter {%- endcomment -%}
-                {%- assign type_filter = blank -%}
-                {%- for filter in collection.filters -%}
-                  {%- assign label_down = filter.label | downcase -%}
-                  {%- if label_down contains 'type' or label_down contains 'category' or label_down contains 'النوع' or label_down contains 'الفئة' or label_down contains 'نوع المنتج' -%}
-                    {%- assign type_filter = filter -%}
-                    {%- break -%}
-                  {%- endif -%}
-                {%- endfor -%}
-                
-                {%- if type_filter != blank and type_filter.values.size > 0 -%}
-                  {%- assign active_count = type_filter.active_values.size -%}
-                  <a href="{{ collection.url }}" class="filter-pill {% if active_count == 0 %}active{% endif %}">All</a>
-                  {%- for value in type_filter.values limit: 8 -%}
-                    {%- if value.active -%}
-                      <a href="{{ value.url_to_remove }}" class="filter-pill active">
-                        {{ value.label }}
-                      </a>
-                    {%- else -%}
-                      <a href="{{ value.url_to_add }}" class="filter-pill">
-                        {{ value.label }}
-                      </a>
-                    {%- endif -%}
-                  {%- endfor -%}
-                  {%- assign show_fallback = false -%}
-                {%- endif -%}
+            {%- if is_brand_menu -%}
+              {%- assign vendor_name = collection.title -%}
+              {%- if request.locale.iso_code == 'ar' -%}
+                {%- assign all_label = 'الكل' -%}
               {%- else -%}
-                {%- comment -%} Look for Brand / Vendor filter {%- endcomment -%}
-                {%- assign brand_filter = blank -%}
-                {%- for filter in collection.filters -%}
-                  {%- assign label_down = filter.label | downcase -%}
-                  {%- if label_down contains 'brand' or label_down contains 'vendor' or label_down contains 'البراند' or label_down contains 'ماركة' -%}
-                    {%- assign brand_filter = filter -%}
-                    {%- break -%}
-                  {%- endif -%}
-                {%- endfor -%}
-                
-                {%- if brand_filter != blank and brand_filter.values.size > 0 -%}
-                  {%- assign active_count = brand_filter.active_values.size -%}
-                  <a href="{{ collection.url }}" class="filter-pill {% if active_count == 0 %}active{% endif %}">All</a>
-                  {%- for value in brand_filter.values limit: 8 -%}
-                    {%- if value.active -%}
-                      <a href="{{ value.url_to_remove }}" class="filter-pill active">
-                        {{ value.label }}
-                      </a>
-                    {%- else -%}
-                      <a href="{{ value.url_to_add }}" class="filter-pill">
-                        {{ value.label }}
-                      </a>
+                {%- assign all_label = 'All' -%}
+              {%- endif -%}
+
+              <a href="{{ collection.url }}" class="filter-pill active">{{ all_label }}</a>
+
+              {%- comment -%} Dynamically extract category collection links from menus {%- endcomment -%}
+              {%- assign category_links = "" -%}
+              {%- for menu_handle in menu_handles -%}
+                {%- if linklists[menu_handle] != blank -%}
+                  {%- for link in linklists[menu_handle].links -%}
+                    {%- assign link_title_down = link.title | downcase -%}
+                    {%- if link_title_down contains 'brand' or link_title_down contains 'vendor' or link_title_down contains 'البراند' or link_title_down contains 'ماركة' or link_title_down contains 'البراندات' -%}
+                      {%- continue -%}
+                    {%- endif -%}
+                    {%- if link_title_down contains 'home' or link_title_down contains 'الرئيسية' or link_title_down contains 'new' or link_title_down contains 'sale' or link_title_down contains 'عرض' -%}
+                      {%- continue -%}
+                    {%- endif -%}
+                    {%- if link.url contains '/collections/' -%}
+                      {%- assign col_handle = link.url | split: '/' | last -%}
+                      {%- assign check_handle = '::' | append: col_handle | append: '||' -%}
+                      {%- unless category_links contains check_handle -%}
+                        {%- assign category_links = category_links | append: link.title | append: '::' | append: col_handle | append: '||' -%}
+                      {%- endunless -%}
                     {%- endif -%}
                   {%- endfor -%}
-                  {%- assign show_fallback = false -%}
                 {%- endif -%}
+              {%- endfor -%}
+
+              {%- assign category_pairs = category_links | split: '||' -%}
+              {%- for pair in category_pairs -%}
+                {%- assign parts = pair | split: '::' -%}
+                {%- assign title = parts[0] -%}
+                {%- assign handle = parts[1] -%}
+                {%- if title != blank and handle != blank -%}
+                  <a href="/collections/{{ handle }}?filter.p.vendor={{ vendor_name | url_encode }}" class="filter-pill">{{ title }}</a>
+                {%- endif -%}
+              {%- endfor -%}
+              {%- assign show_fallback = false -%}
+            {%- elsif collection.handle != 'all' -%}
+              {%- comment -%} Look for Brand / Vendor filter {%- endcomment -%}
+              {%- assign brand_filter = blank -%}
+              {%- for filter in collection.filters -%}
+                {%- assign label_down = filter.label | downcase -%}
+                {%- if label_down contains 'brand' or label_down contains 'vendor' or label_down contains 'البراند' or label_down contains 'ماركة' -%}
+                  {%- assign brand_filter = filter -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+              
+              {%- if brand_filter != blank and brand_filter.values.size > 0 -%}
+                {%- assign active_count = brand_filter.active_values.size -%}
+                <a href="{{ collection.url }}" class="filter-pill {% if active_count == 0 %}active{% endif %}">All</a>
+                {%- for value in brand_filter.values limit: 8 -%}
+                  {%- if value.active -%}
+                    <a href="{{ value.url_to_remove }}" class="filter-pill active">
+                      {{ value.label }}
+                    </a>
+                  {%- else -%}
+                    <a href="{{ value.url_to_add }}" class="filter-pill">
+                      {{ value.label }}
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- assign show_fallback = false -%}
               {%- endif -%}
             {%- endif -%}
             
@@ -824,6 +835,12 @@
         </div>
 
         {%- for filter in collection.filters -%}
+          {%- liquid
+            assign filter_label_down = filter.label | downcase
+            if is_brand_menu and filter_label_down contains 'brand' or filter_label_down contains 'vendor' or filter_label_down contains 'البراند' or filter_label_down contains 'ماركة'
+              continue
+            endif
+          -%}
           <div class="filter-drawer-section" data-filter-type="{{ filter.label | downcase }}">
             <div class="filter-section-header" onclick="toggleFilterSection(this)">
               <h3>{{ filter.label }}</h3>
@@ -895,7 +912,7 @@
           endfor
         -%}
 
-        {%- if has_brand_filter == false and collection.all_vendors.size > 0 -%}
+        {%- if has_brand_filter == false and collection.all_vendors.size > 0 and is_brand_menu == false -%}
           <div class="filter-drawer-section" data-filter-type="brand">
             <div class="filter-section-header" onclick="toggleFilterSection(this)">
               <h3>{% if request.locale.iso_code == 'ar' %}البراند{% else %}Brand{% endif %}</h3>
