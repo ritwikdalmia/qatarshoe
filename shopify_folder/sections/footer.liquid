@@ -738,72 +738,97 @@ footer.site-footer {
 
             <!-- Navigation columns -->
             <div class="site-footer-links-area">
-              {%- assign footer_blocks = section.blocks | where: "type", "footer_column" -%}
-              {%- if footer_blocks.size > 0 -%}
-                {%- for block in footer_blocks -%}
-                  <div class="site-footer-links-column {% if block.settings.title == 'About' %}about-col{% endif %}" {{ block.shopify_attributes }}>
-                    <h4>{{ block.settings.title }}</h4>
+              {%- assign nested_menu = false -%}
+              {%- assign footer_menu_handle = section.settings.footer_menu | default: 'footer' -%}
+              {%- if linklists[footer_menu_handle] != blank and linklists[footer_menu_handle].links.size > 0 -%}
+                {%- for link in linklists[footer_menu_handle].links -%}
+                  {%- if link.links.size > 0 -%}
+                    {%- assign nested_menu = true -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+
+              {%- if nested_menu -%}
+                {%- for link in linklists[footer_menu_handle].links -%}
+                  <div class="site-footer-links-column {% if link.title == 'About' %}about-col{% endif %}">
+                    <h4>{{ link.title }}</h4>
                     <ul>
-                      {%- assign menu = block.settings.menu -%}
-                      {%- if menu != blank and linklists[menu] != blank -%}
-                        {%- for link in linklists[menu].links -%}
-                          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                        {%- endfor -%}
-                      {%- endif -%}
+                      {%- for child_link in link.links -%}
+                        <li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>
+                      {%- endfor -%}
                     </ul>
                   </div>
                 {%- endfor -%}
               {%- else -%}
+                {%- assign footer_blocks = section.blocks | where: "type", "footer_column" -%}
+                {%- if footer_blocks.size > 0 -%}
+                  {%- for block in footer_blocks -%}
+                    <div class="site-footer-links-column {% if block.settings.title == 'About' %}about-col{% endif %}" {{ block.shopify_attributes }}>
+                      <h4>{{ block.settings.title }}</h4>
+                      <ul>
+                        {%- assign menu = block.settings.menu -%}
+                        {%- if menu != blank and linklists[menu] != blank -%}
+                          {%- for link in linklists[menu].links -%}
+                            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                          {%- endfor -%}
+                        {%- endif -%}
+                      </ul>
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
 
-                <div class="site-footer-links-column">
-                    <h4>Customer Care</h4>
-                    <ul>
-                        <li><a href="/pages/contact">Contact Us</a></li>
-                        <li><a href="/pages/customer-care">Customer Care</a></li>
-                        <li><a href="/pages/faqs">FAQs</a></li>
-                    </ul>
-                </div>
+                  <div class="site-footer-links-column">
+                      <h4>Customer Care</h4>
+                      <ul>
+                          <li><a href="/pages/contact">Contact Us</a></li>
+                          <li><a href="/pages/customer-care">Customer Care</a></li>
+                          <li><a href="/pages/faqs">FAQs</a></li>
+                      </ul>
+                  </div>
 
-                <div class="site-footer-links-column">
-                    <h4>Shipping & Returns</h4>
-                    <ul>
-                        <li><a href="/pages/shipping-delivery">Shipping & Delivery</a></li>
-                        <li><a href="/pages/returns-and-refunds">Returns & Refunds</a></li>
-                    </ul>
-                </div>
+                  <div class="site-footer-links-column">
+                      <h4>Shipping & Returns</h4>
+                      <ul>
+                          <li><a href="/pages/shipping-delivery">Shipping & Delivery</a></li>
+                          <li><a href="/pages/returns-and-refunds">Returns & Refunds</a></li>
+                      </ul>
+                  </div>
 
-                <div class="site-footer-links-column">
-                    <h4>Payments</h4>
-                    <ul>
-                        <li><a href="/pages/payments-pricing">Payments & Pricing</a></li>
-                    </ul>
-                </div>
+                  <div class="site-footer-links-column">
+                      <h4>Payments</h4>
+                      <ul>
+                          <li><a href="/pages/payments-pricing">Payments & Pricing</a></li>
+                      </ul>
+                  </div>
 
-                <div class="site-footer-links-column">
-                    <h4>Policies</h4>
-                    <ul>
-                        <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
-                        <li><a href="/policies/terms-of-service">Terms Of Service</a></li>
-                    </ul>
-                </div>
+                  <div class="site-footer-links-column">
+                      <h4>Policies</h4>
+                      <ul>
+                          <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+                          <li><a href="/policies/terms-of-service">Terms Of Service</a></li>
+                      </ul>
+                  </div>
 
-                <div class="site-footer-links-column">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="/collections/qatar-collection">Qatar</a></li>
-                        <li><a href="/pages/pre-orders">Personal Shopping</a></li>
-                    </ul>
-                </div>
+                  <div class="site-footer-links-column">
+                      <h4>Services</h4>
+                      <ul>
+                          <li><a href="/collections/qatar-collection">Qatar</a></li>
+                          <li><a href="/pages/pre-orders">Personal Shopping</a></li>
+                      </ul>
+                  </div>
 
-                <div class="site-footer-links-column about-col">
-                    <h4>About</h4>
-                    <ul>
-                        <li><a href="/pages/about-us">About Us</a></li>
-                        <li><a href="/pages/sitemap">Sitemap</a></li>
-                    </ul>
-                </div>
+                  <div class="site-footer-links-column about-col">
+                      <h4>About</h4>
+                      <ul>
+                          <li><a href="/pages/about-us">About Us</a></li>
+                          <li><a href="/pages/sitemap">Sitemap</a></li>
+                      </ul>
+                  </div>
 
-            {%- endif -%}</div><!-- /.site-footer-links-area -->
+                {%- endif -%}
+              {%- endif -%}
+            </div><!-- /.site-footer-links-area -->
 
             <!-- Feature strip -->
             <div class="site-footer-features">
@@ -928,6 +953,13 @@ footer.site-footer {
       "type": "image_picker",
       "id": "logo_image",
       "label": "Footer Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "Footer Menu (Nested)",
+      "default": "footer",
+      "info": "Select a menu that has nested sub-menus to display as columns."
     },
     {
       "type": "textarea",
