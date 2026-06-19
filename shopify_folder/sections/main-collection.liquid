@@ -460,10 +460,19 @@
 
           {%- if parent_link != blank and parent_link.links.size > 0 -%}
             {%- assign parent_handle = parent_link.title | handle -%}
-            <a href="{{ parent_link.url }}" class="filter-pill{% if collection.url == parent_link.url or collection.handle == parent_handle %} active{% endif %}">All</a>
+            <a href="{{ parent_link.url }}" 
+               class="filter-pill filter-pill-type" 
+               data-parent-url="{{ parent_link.url }}" 
+               data-is-all="true" 
+               onclick="toggleTypeFilter(this, event)">All</a>
             {%- for child_link in parent_link.links -%}
               {%- assign child_col_handle = child_link.url | split: '/' | last -%}
-              <a href="{{ child_link.url }}" class="filter-pill{% if collection.url == child_link.url or collection.handle == child_col_handle %} active{% endif %}">
+              {%- assign type_value = child_link.title -%}
+              <a href="{{ child_link.url }}" 
+                 class="filter-pill filter-pill-type" 
+                 data-parent-url="{{ parent_link.url }}" 
+                 data-type-value="{{ type_value | escape }}" 
+                 onclick="toggleTypeFilter(this, event)">
                 {{ child_link.title }}
               </a>
             {%- endfor -%}
@@ -801,8 +810,77 @@
     if (dd) dd.classList.remove('open');
   });
 
-  document.addEventListener('DOMContentLoaded', function() {
+  function initTypeFilters() {
+    const params = new URLSearchParams(window.location.search);
+    const activeTypes = params.getAll('filter.p.product_type');
+    const pills = document.querySelectorAll('.filter-pill-type');
     
+    let anyActive = false;
+    pills.forEach(pill => {
+      const val = pill.getAttribute('data-type-value');
+      const isAll = pill.getAttribute('data-is-all') === 'true';
+      
+      if (!isAll && val && activeTypes.includes(val)) {
+        pill.classList.add('active');
+        anyActive = true;
+      } else {
+        pill.classList.remove('active');
+      }
+    });
+    
+    if (!anyActive) {
+      pills.forEach(pill => {
+        const isAll = pill.getAttribute('data-is-all') === 'true';
+        if (isAll) {
+          const parentUrl = pill.getAttribute('data-parent-url');
+          if (window.location.pathname === parentUrl) {
+            pill.classList.add('active');
+          }
+        } else {
+          const href = pill.getAttribute('href');
+          if (href && window.location.pathname === new URL(href, window.location.origin).pathname) {
+            pill.classList.add('active');
+          }
+        }
+      });
+    }
+  }
+
+  function toggleTypeFilter(pill, event) {
+    event.preventDefault();
+    const isAll = pill.getAttribute('data-is-all') === 'true';
+    const parentUrl = pill.getAttribute('data-parent-url');
+    
+    if (isAll) {
+      const params = new URLSearchParams(window.location.search);
+      params.delete('filter.p.product_type');
+      params.delete('page');
+      window.location.href = parentUrl + (params.toString() ? '?' + params.toString() : '');
+      return;
+    }
+    
+    pill.classList.toggle('active');
+    
+    const activeTypes = [];
+    const pills = document.querySelectorAll('.filter-pill-type:not([data-is-all="true"])');
+    pills.forEach(p => {
+      if (p.classList.contains('active')) {
+        activeTypes.push(p.getAttribute('data-type-value'));
+      }
+    });
+    
+    const params = new URLSearchParams(window.location.search);
+    params.delete('filter.p.product_type');
+    activeTypes.forEach(type => {
+      params.append('filter.p.product_type', type);
+    });
+    params.delete('page');
+    
+    window.location.href = parentUrl + (params.toString() ? '?' + params.toString() : '');
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    initTypeFilters();
     var savedCurrency = localStorage.getItem('qtr_currency') || 'QAR';
     if (typeof window.applyStoreCurrency === 'function') {
       window.applyStoreCurrency(savedCurrency);
