@@ -180,13 +180,27 @@
       </div>
 
       
-      <div class="stock-banner in-stock" id="qtr-stock-banner">
+      {%- if is_mock -%}
+        {%- assign initial_available = true -%}
+      {%- else -%}
+        {%- assign initial_available = product.selected_or_first_available_variant.available -%}
+      {%- endif -%}
+
+      <div class="stock-banner {% if initial_available %}in-stock{% else %}out-of-stock{% endif %}" id="qtr-stock-banner">
         <span class="status-dot"></span>
         <span class="status-text">
-          {%- if request.locale.iso_code == 'ar' -%}
-            متوفر في المخزون — متاح للتوصيل في نفس اليوم في قطر
+          {%- if initial_available -%}
+            {%- if request.locale.iso_code == 'ar' -%}
+              متوفر في المخزون — متاح للتوصيل في نفس اليوم في قطر
+            {%- else -%}
+              In Stock — Available for Same Day Delivery in Qatar
+            {%- endif -%}
           {%- else -%}
-            In Stock — Available for Same Day Delivery in Qatar
+            {%- if request.locale.iso_code == 'ar' -%}
+              نفذت الكمية — غير متوفر
+            {%- else -%}
+              Out of Stock — Not Available
+            {%- endif -%}
           {%- endif -%}
         </span>
       </div>
@@ -357,8 +371,13 @@
                         {%- endif -%}
                       {%- endfor -%}
 
+                      {%- assign is_selected = false -%}
+                      {%- if product.selected_or_first_available_variant.id == matched_variant_id -%}
+                        {%- assign is_selected = true -%}
+                      {%- endif -%}
+
                       <button type="button" 
-                              class="size-option{% unless variant_available %} unavailable{% endunless %}" 
+                              class="size-option{% unless variant_available %} unavailable{% endunless %}{% if is_selected %} selected{% endif %}" 
                               data-variant-id="{{ matched_variant_id }}"
                               data-price="{{ matched_variant_price }}"
                               data-compare-price="{{ matched_variant_compare_price }}"
@@ -400,7 +419,12 @@
                         {%- endif -%}
                       {%- endfor -%}
 
-                      <div class="color-swatch{% if option.selected_value == value %} active{% endif %}{% unless variant_available %} unavailable{% endunless %}" 
+                      {%- assign is_active = false -%}
+                      {%- if product.selected_or_first_available_variant.id == matched_variant_id or option.selected_value == value -%}
+                        {%- assign is_active = true -%}
+                      {%- endif -%}
+
+                      <div class="color-swatch{% if is_active %} active{% endif %}{% unless variant_available %} unavailable{% endunless %}" 
                            data-color="{{ value }}"
                            data-variant-id="{{ matched_variant_id }}"
                            data-price="{{ matched_variant_price }}"
@@ -440,16 +464,16 @@
       
       <div class="cta-wrapper">
         <button type="button" id="add-to-cart" class="checkout-btn atc-btn" 
-                {% unless p_available %}disabled{% endunless %}
+                {% unless initial_available %}disabled{% endunless %}
                 onclick="addToCartClick()">
-          {%- if p_available -%}
+          {%- if initial_available -%}
             {%- if request.locale.iso_code == 'ar' -%}أضف إلى السلة{%- else -%}Add to Cart{%- endif -%}
           {%- else -%}
             {%- if request.locale.iso_code == 'ar' -%}نفذت الكمية{%- else -%}Sold Out{%- endif -%}
           {%- endif -%}
         </button>
         <button type="button" id="buy-now" class="checkout-btn buy-now-btn" 
-                {% unless p_available %}disabled{% endunless %}
+                {% unless initial_available %}disabled{% endunless %}
                 onclick="buyNowClick()">
           {%- if request.locale.iso_code == 'ar' -%}اشتري الآن{%- else -%}Buy Now{%- endif -%}
         </button>
@@ -724,10 +748,13 @@
     const atcBtn = document.getElementById('add-to-cart');
     const buyBtn = document.getElementById('buy-now');
     const banner = document.getElementById('qtr-stock-banner');
+    const isAr = document.documentElement.lang === 'ar' || window.location.pathname.startsWith('/ar');
 
     if (atcBtn) {
       atcBtn.disabled = !isAvailable;
-      atcBtn.textContent = isAvailable ? 'Add to Cart' : 'Sold Out';
+      atcBtn.textContent = isAvailable 
+        ? (isAr ? 'أضف إلى السلة' : 'Add to Cart') 
+        : (isAr ? 'نفذت الكمية' : 'Sold Out');
     }
 
     if (buyBtn) {
@@ -737,10 +764,14 @@
     if (banner) {
       if (isAvailable) {
         banner.className = 'stock-banner in-stock';
-        banner.querySelector('.status-text').textContent = 'In Stock — Available for Same Day Delivery in Qatar';
+        banner.querySelector('.status-text').textContent = isAr 
+          ? 'متوفر في المخزون — متاح للتوصيل في نفس اليوم في قطر' 
+          : 'In Stock — Available for Same Day Delivery in Qatar';
       } else {
         banner.className = 'stock-banner out-of-stock';
-        banner.querySelector('.status-text').textContent = 'Out of Stock — Pre-orders only';
+        banner.querySelector('.status-text').textContent = isAr 
+          ? 'نفذت الكمية — غير متوفر' 
+          : 'Out of Stock — Not Available';
       }
     }
   }

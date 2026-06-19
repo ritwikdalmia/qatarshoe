@@ -1430,21 +1430,10 @@
           setActiveCategory(activeCat);
       }
 
-      if (window.innerWidth >= 1024) {
-          if (desktopScrollContainer) {
-              desktopScrollContainer.addEventListener('scroll', function() {
-                  var activeCat = categoryKeys[0];
-                  sections.forEach(function(sec) {
-                      if (sec.offsetTop - desktopScrollContainer.scrollTop <= 40) {
-                          activeCat = sec.getAttribute('data-category');
-                      }
-                  });
-                  setActiveCategory(activeCat);
-              });
-          }
-      } else {
-          window.addEventListener('scroll', onScroll);
-      }
+      // Listen to main window scroll for both desktop and mobile
+      window.addEventListener('scroll', onScroll);
+      // Run once at start to highlight initial section
+      onScroll();
 
       function setActiveCategory(cat) {
           sidebarItems.forEach(function(item) {
@@ -1477,14 +1466,7 @@
               var target = this.getAttribute('data-target');
               var section = document.querySelector('.faq-section-group[data-category="' + target + '"]');
               if (section) {
-                  if (window.innerWidth >= 1024 && desktopScrollContainer) {
-                      desktopScrollContainer.scrollTo({
-                          top: section.offsetTop - 20,
-                          behavior: 'smooth'
-                      });
-                  } else {
-                      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
+                  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   setActiveCategory(target);
               }
           });
