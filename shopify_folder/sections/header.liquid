@@ -204,7 +204,7 @@
                 <span class="nav-link-text">{{ link.title }}</span>
               </a>
               {%- if link.links.size > 0 -%}
-                <div class="hover-box">
+                <div class="hover-box {% if link.links.size > 2 %}two-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in link.links -%}
@@ -226,7 +226,7 @@
               </a>
               {%- assign sub_menu = block.settings.dropdown_menu -%}
               {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                <div class="hover-box">
+                <div class="hover-box {% if linklists[sub_menu].links.size > 2 %}two-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in linklists[sub_menu].links -%}
@@ -458,7 +458,7 @@
                 <span class="nav-link-text">{{ link.title }}</span>
               </a>
               {%- if link.links.size > 0 -%}
-                <div class="hover-box">
+                <div class="hover-box {% if link.links.size > 2 %}two-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in link.links -%}
@@ -480,7 +480,7 @@
               </a>
               {%- assign sub_menu = block.settings.dropdown_menu -%}
               {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                <div class="hover-box">
+                <div class="hover-box {% if linklists[sub_menu].links.size > 2 %}two-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in linklists[sub_menu].links -%}
@@ -785,7 +785,7 @@
                   <span class="nav-link-text">{{ link.title }}</span>
                 </a>
                 {%- if link.links.size > 0 -%}
-                  <div class="hover-box">
+                  <div class="hover-box {% if link.links.size > 2 %}two-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in link.links -%}
@@ -807,7 +807,7 @@
                 </a>
                 {%- assign sub_menu = block.settings.dropdown_menu -%}
                 {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                  <div class="hover-box">
+                  <div class="hover-box {% if linklists[sub_menu].links.size > 2 %}two-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in linklists[sub_menu].links -%}
@@ -974,7 +974,7 @@
                   <span class="nav-link-text">{{ link.title }}</span>
                 </a>
                 {%- if link.links.size > 0 -%}
-                  <div class="hover-box">
+                  <div class="hover-box {% if link.links.size > 2 %}two-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in link.links -%}
@@ -996,7 +996,7 @@
                 </a>
                 {%- assign sub_menu = block.settings.dropdown_menu -%}
                 {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                  <div class="hover-box">
+                  <div class="hover-box {% if linklists[sub_menu].links.size > 2 %}two-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in linklists[sub_menu].links -%}
