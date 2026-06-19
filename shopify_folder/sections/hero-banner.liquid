@@ -4,25 +4,25 @@
   if section.settings.image_desktop != blank
     assign hero_desktop = section.settings.image_desktop | image_url: width: 2000
   else
-    assign hero_desktop = 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Group-2.png'
+    assign hero_desktop = 'hero-desktop-women.png' | asset_url
   endif
 
   if section.settings.image_mobile != blank
     assign hero_mobile = section.settings.image_mobile | image_url: width: 800
   else
-    assign hero_mobile = 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/qtr-w-mobile.png'
+    assign hero_mobile = 'hero-mobile-women.png' | asset_url
   endif
 
   if section.settings.image_desktop_men != blank
     assign hero_desktop_men = section.settings.image_desktop_men | image_url: width: 2000
   else
-    assign hero_desktop_men = 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Qtr-men.jpg'
+    assign hero_desktop_men = 'hero-men.jpg' | asset_url
   endif
 
   if section.settings.image_mobile_men != blank
     assign hero_mobile_men = section.settings.image_mobile_men | image_url: width: 800
   else
-    assign hero_mobile_men = 'https://staging3.qatarshoe.com/wp-content/uploads/2026/03/Qtr-men.jpg'
+    assign hero_mobile_men = 'hero-men.jpg' | asset_url
   endif
 -%}
 

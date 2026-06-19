@@ -454,20 +454,30 @@
         left: -15px;
     }
 }
+[dir="rtl"] .above-footer-content {
+    align-items: flex-end;
+    text-align: right;
+}
+[dir="rtl"] .above-footer-bullets-wrap {
+    align-items: flex-end;
+}
+[dir="rtl"] .above-footer-bullets-wrap ul {
+    padding-left: 0;
+    padding-right: 20px;
+}
 </style>
 
 <section class="above-footer-banner" id="above-footer-banner-{{ section.id }}">
     <img class="afb-img afb-img--go_women"
-         src="{% if section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/women-hand-qatar.png{% endif %}" alt=""
-         data-base-url="https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/"
-         data-src-go_men="{% if section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}FooterHand.png{% endif %}"
-         data-src-mobile-go_men="{% if section.settings.image_mobile_go_men != blank %}{{ section.settings.image_mobile_go_men | image_url }}{% elsif section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Qtr-m-h.png{% endif %}"
-         data-src-go_women="{% if section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}Qtr-w-h.png{% endif %}"
-         data-src-mobile-go_women="{% if section.settings.image_mobile_go_women != blank %}{{ section.settings.image_mobile_go_women | image_url }}{% elsif section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Qtr-w-h.png{% endif %}"
-         data-src-ship_women="{% if section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}women-hand-dubai.png{% endif %}"
-         data-src-mobile-ship_women="{% if section.settings.image_mobile_ship_women != blank %}{{ section.settings.image_mobile_ship_women | image_url }}{% elsif section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Dub-w-h.png{% endif %}"
-         data-src-ship_men="{% if section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}men-hand-dubai.png{% endif %}"
-         data-src-mobile-ship_men="{% if section.settings.image_mobile_ship_men != blank %}{{ section.settings.image_mobile_ship_men | image_url }}{% elsif section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}https://qatarshoe.com/wp-content/themes/qatarshoes-theme/assets/images/Dub-m-h.png{% endif %}">
+         src="{% if section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}{{ 'women-hand-qatar.png' | asset_url }}{% endif %}" alt=""
+         data-src-go_men="{% if section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}{{ 'FooterHand.png' | asset_url }}{% endif %}"
+         data-src-mobile-go_men="{% if section.settings.image_mobile_go_men != blank %}{{ section.settings.image_mobile_go_men | image_url }}{% elsif section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}{{ 'Qtr-m-h.png' | asset_url }}{% endif %}"
+         data-src-go_women="{% if section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}{{ 'Qtr-w-h.png' | asset_url }}{% endif %}"
+         data-src-mobile-go_women="{% if section.settings.image_mobile_go_women != blank %}{{ section.settings.image_mobile_go_women | image_url }}{% elsif section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}{{ 'Qtr-w-h.png' | asset_url }}{% endif %}"
+         data-src-ship_women="{% if section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}{{ 'women-hand-dubai.png' | asset_url }}{% endif %}"
+         data-src-mobile-ship_women="{% if section.settings.image_mobile_ship_women != blank %}{{ section.settings.image_mobile_ship_women | image_url }}{% elsif section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}{{ 'Dub-w-h.png' | asset_url }}{% endif %}"
+         data-src-ship_men="{% if section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}{{ 'men-hand-dubai.png' | asset_url }}{% endif %}"
+         data-src-mobile-ship_men="{% if section.settings.image_mobile_ship_men != blank %}{{ section.settings.image_mobile_ship_men | image_url }}{% elsif section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}{{ 'Dub-m-h.png' | asset_url }}{% endif %}">
     <div class="above-footer-content">
         <div class="above-footer-heading">{{ section.settings.heading_text }}</div>
         <div class="above-footer-bullets-wrap">
@@ -490,7 +500,6 @@
     if (!section) return;
     var img = section.querySelector('.afb-img');
     if (!img) return;
-    var base = img.dataset.baseUrl;
     var cache = {};
 
     function getMode() {
@@ -498,7 +507,6 @@
         return dm.replace('ready-to-', '');
     }
 
-    
     ['go', 'ship'].forEach(function(m) {
         ['men', 'women'].forEach(function(g) {
             var key = m + '_' + g;
@@ -506,7 +514,7 @@
             var mobileSrc = img.getAttribute('data-src-mobile-' + key);
             if (desktopSrc) {
                 var p = new Image();
-                p.src = (desktopSrc.indexOf('http') === 0 || desktopSrc.indexOf('//') === 0 || desktopSrc.indexOf('/cdn') === 0) ? desktopSrc : (base + desktopSrc);
+                p.src = desktopSrc;
                 cache[key] = p;
             }
             if (mobileSrc) {
@@ -525,14 +533,13 @@
         var mobileSrc = isMobile ? img.getAttribute('data-src-mobile-' + key) : null;
         var newSrc = img.getAttribute('data-src-' + key);
         if (!newSrc) return;
-        var fullSrc = mobileSrc || ((newSrc.indexOf('http') === 0 || newSrc.indexOf('//') === 0 || newSrc.indexOf('/cdn') === 0) ? newSrc : (base + newSrc));
+        var fullSrc = mobileSrc || newSrc;
         if (img.src === fullSrc) return;
 
         img.style.visibility = 'hidden';
         img.className = 'afb-img afb-img--' + key;
         img.src = fullSrc;
 
-        
         if (img.complete) {
             img.style.visibility = '';
         } else {

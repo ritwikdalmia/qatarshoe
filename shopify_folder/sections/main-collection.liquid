@@ -764,38 +764,36 @@
   }
 
   function applyFilters() {
-    const params = new URLSearchParams(window.location.search);
+    const currentParams = new URLSearchParams(window.location.search);
+    const newParams = new URLSearchParams();
     
-    
-    const keysToRemove = [];
-    for (const key of params.keys()) {
-      if (key.startsWith('filter.p.') || key.startsWith('filter.v.')) {
-        keysToRemove.push(key);
+    for (const [key, value] of currentParams.entries()) {
+      if (!key.startsWith('filter.p.') && !key.startsWith('filter.v.')) {
+        newParams.append(key, value);
       }
     }
-    keysToRemove.forEach(key => params.delete(key));
-    
     
     const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:checked');
     checkboxes.forEach(cb => {
-      params.append(cb.name, cb.value);
+      newParams.append(cb.name, cb.value);
     });
     
-    params.delete('page');
-    window.location.search = params.toString();
+    newParams.delete('page');
+    window.location.search = newParams.toString();
   }
 
   function clearAllFilters() {
-    const params = new URLSearchParams(window.location.search);
-    const keysToRemove = [];
-    for (const key of params.keys()) {
-      if (key.startsWith('filter.p.') || key.startsWith('filter.v.')) {
-        keysToRemove.push(key);
+    const currentParams = new URLSearchParams(window.location.search);
+    const newParams = new URLSearchParams();
+    
+    for (const [key, value] of currentParams.entries()) {
+      if (!key.startsWith('filter.p.') && !key.startsWith('filter.v.')) {
+        newParams.append(key, value);
       }
     }
-    keysToRemove.forEach(key => params.delete(key));
-    params.delete('page');
-    window.location.search = params.toString();
+    
+    newParams.delete('page');
+    window.location.search = newParams.toString();
   }
 
   document.addEventListener('click', function() {
