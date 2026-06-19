@@ -462,7 +462,17 @@
             endfor
           -%}
 
-          {%- if parent_link != blank and parent_link.links.size > 0 -%}
+          {%- liquid
+            assign is_brand_menu = false
+            if parent_link != blank
+              assign parent_title_down = parent_link.title | downcase
+              if parent_title_down contains 'brand' or parent_title_down contains 'vendor' or parent_title_down contains 'البراند' or parent_title_down contains 'ماركة' or parent_title_down contains 'البراندات'
+                assign is_brand_menu = true
+              endif
+            endif
+          -%}
+
+          {%- if parent_link != blank and parent_link.links.size > 0 and is_brand_menu == false -%}
             {%- assign parent_handle = parent_link.title | handle -%}
             <a href="{{ parent_link.url }}" 
                class="filter-pill filter-pill-type" 
@@ -481,49 +491,87 @@
               </a>
             {%- endfor -%}
           {%- else -%}
-            {%- if collection.handle != 'all' -%}
-              {%- assign brand_filter = blank -%}
-              {%- for filter in collection.filters -%}
-                {%- assign label_down = filter.label | downcase -%}
-                {%- if label_down contains 'brand' or label_down contains 'vendor' or label_down contains 'البراند' or label_down contains 'ماركة' -%}
-                  {%- assign brand_filter = filter -%}
-                  {%- break -%}
-                {%- endif -%}
-              {%- endfor -%}
-              
-              {%- if brand_filter != blank and brand_filter.values.size > 0 -%}
-                {%- assign active_count = brand_filter.active_values.size -%}
-                <a href="{{ collection.url }}" class="filter-pill {% if active_count == 0 %}active{% endif %}">All</a>
-                {%- for value in brand_filter.values limit: 8 -%}
-                  {%- if value.active -%}
-                    <a href="{{ value.url_to_remove }}" class="filter-pill active">
-                      {{ value.label }}
-                    </a>
-                  {%- else -%}
-                    <a href="{{ value.url_to_add }}" class="filter-pill">
-                      {{ value.label }}
-                    </a>
+            {%- comment -%}
+              We are on a brand collection page (where parent_link points to the Brands menu) or parent_link is blank.
+              If it's a brand collection page, we show Product Type filter values as pills.
+              If it's a category/collection page, we show Brand/Vendor filter values as pills.
+            {%- endcomment -%}
+            {%- assign show_fallback = true -%}
+            
+            {%- if is_brand_menu or collection.handle != 'all' -%}
+              {%- if is_brand_menu -%}
+                {%- comment -%} Look for Product Type / Category filter {%- endcomment -%}
+                {%- assign type_filter = blank -%}
+                {%- for filter in collection.filters -%}
+                  {%- assign label_down = filter.label | downcase -%}
+                  {%- if label_down contains 'type' or label_down contains 'category' or label_down contains 'النوع' or label_down contains 'الفئة' or label_down contains 'نوع المنتج' -%}
+                    {%- assign type_filter = filter -%}
+                    {%- break -%}
                   {%- endif -%}
                 {%- endfor -%}
+                
+                {%- if type_filter != blank and type_filter.values.size > 0 -%}
+                  {%- assign active_count = type_filter.active_values.size -%}
+                  <a href="{{ collection.url }}" class="filter-pill {% if active_count == 0 %}active{% endif %}">All</a>
+                  {%- for value in type_filter.values limit: 8 -%}
+                    {%- if value.active -%}
+                      <a href="{{ value.url_to_remove }}" class="filter-pill active">
+                        {{ value.label }}
+                      </a>
+                    {%- else -%}
+                      <a href="{{ value.url_to_add }}" class="filter-pill">
+                        {{ value.label }}
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- assign show_fallback = false -%}
+                {%- endif -%}
               {%- else -%}
-                <a href="/collections/all" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">All</a>
-                <a href="/collections/on-sale" class="filter-pill{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
-                <a href="/collections/new-in" class="filter-pill{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
+                {%- comment -%} Look for Brand / Vendor filter {%- endcomment -%}
+                {%- assign brand_filter = blank -%}
+                {%- for filter in collection.filters -%}
+                  {%- assign label_down = filter.label | downcase -%}
+                  {%- if label_down contains 'brand' or label_down contains 'vendor' or label_down contains 'البراند' or label_down contains 'ماركة' -%}
+                    {%- assign brand_filter = filter -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                
+                {%- if brand_filter != blank and brand_filter.values.size > 0 -%}
+                  {%- assign active_count = brand_filter.active_values.size -%}
+                  <a href="{{ collection.url }}" class="filter-pill {% if active_count == 0 %}active{% endif %}">All</a>
+                  {%- for value in brand_filter.values limit: 8 -%}
+                    {%- if value.active -%}
+                      <a href="{{ value.url_to_remove }}" class="filter-pill active">
+                        {{ value.label }}
+                      </a>
+                    {%- else -%}
+                      <a href="{{ value.url_to_add }}" class="filter-pill">
+                        {{ value.label }}
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- assign show_fallback = false -%}
+                {%- endif -%}
               {%- endif -%}
-            {%- else -%}
+            {%- endif -%}
+            
+            {%- if show_fallback -%}
               <a href="/collections/all" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">All</a>
               <a href="/collections/on-sale" class="filter-pill{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
               <a href="/collections/new-in" class="filter-pill{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
-              {%- for block in section.blocks -%}
-                {%- if block.type == 'filter_link' -%}
-                  {%- assign target_col = collections[block.settings.collection_handle] -%}
-                  {%- if target_col != blank -%}
-                    <a href="{{ target_col.url }}" class="filter-pill{% if collection.handle == target_col.handle %} active{% endif %}">
-                      {{ block.settings.label | default: target_col.title }}
-                    </a>
+              {%- if collection.handle == 'all' -%}
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'filter_link' -%}
+                    {%- assign target_col = collections[block.settings.collection_handle] -%}
+                    {%- if target_col != blank -%}
+                      <a href="{{ target_col.url }}" class="filter-pill{% if collection.handle == target_col.handle %} active{% endif %}">
+                        {{ block.settings.label | default: target_col.title }}
+                      </a>
+                    {%- endif -%}
                   {%- endif -%}
-                {%- endif -%}
-              {%- endfor -%}
+                {%- endfor -%}
+              {%- endif -%}
             {%- endif -%}
           {%- endif -%}
         </div>
