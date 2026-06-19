@@ -477,6 +477,10 @@
                data-is-all="true" 
                onclick="toggleTypeFilter(this, event)">All</a>
             {%- for child_link in parent_link.links -%}
+              {%- assign child_title_down = child_link.title | downcase -%}
+              {%- if child_title_down contains 'explore' or child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
+                {%- continue -%}
+              {%- endif -%}
               {%- assign child_col_handle = child_link.url | split: '/' | last -%}
               {%- assign type_value = child_link.title -%}
               <a href="{{ child_link.url }}" 
@@ -873,7 +877,77 @@
           </div>
         </div>
 
+        {%- comment -%} Collections filter section — show on all category pages (not brand pages) {%- endcomment -%}
+        {%- if is_brand_menu == false -%}
+          {%- liquid
+            assign col_nav_links = ''
+            for handle in menu_handles
+              if linklists[handle] != blank
+                for link in linklists[handle].links
+                  assign lt = link.title | downcase
+                  if lt contains 'explore' or lt contains 'home' or lt contains 'new' or lt contains 'sale' or lt contains 'brand' or lt contains 'vendor'
+                    continue
+                  endif
+                  if link.url contains '/collections/'
+                    assign lh = link.url | split: '/' | last
+                    assign entry = '::' | append: lh | append: '||'
+                    unless col_nav_links contains entry
+                      assign col_nav_links = col_nav_links | append: link.title | append: '::' | append: lh | append: '||'
+                    endunless
+                  endif
+                  for cl in link.links
+                    assign clt = cl.title | downcase
+                    if clt contains 'explore' or clt contains 'home' or clt contains 'new' or clt contains 'sale' or clt contains 'brand' or clt contains 'vendor'
+                      continue
+                    endif
+                    if cl.url contains '/collections/'
+                      assign clh = cl.url | split: '/' | last
+                      assign centry = '::' | append: clh | append: '||'
+                      unless col_nav_links contains centry
+                        assign col_nav_links = col_nav_links | append: cl.title | append: '::' | append: clh | append: '||'
+                      endunless
+                    endif
+                  endfor
+                endfor
+              endif
+              if col_nav_links != ''
+                break
+              endif
+            endfor
+            assign col_nav_pairs = col_nav_links | split: '||'
+          -%}
+
+          {%- if col_nav_pairs.size > 1 -%}
+            <div class="filter-drawer-section active" data-filter-type="collections">
+              <div class="filter-section-header" onclick="toggleFilterSection(this)">
+                <h3>Collections</h3>
+                <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
+              </div>
+              <div class="filter-section-content">
+                <div class="filter-collection-links" style="display: flex; flex-direction: column; gap: 2px; padding: 4px 0;">
+                  <a href="/collections/all" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); text-decoration: none; border-bottom: 1px solid var(--color-border); font-weight: {% if collection.handle == 'all' %}700{% else %}400{% endif %};">
+                    All
+                    {%- if collection.handle == 'all' -%}<span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); display: inline-block;"></span>{%- endif -%}
+                  </a>
+                  {%- for pair in col_nav_pairs -%}
+                    {%- assign parts = pair | split: '::' -%}
+                    {%- assign ctitle = parts[0] -%}
+                    {%- assign chandle = parts[1] -%}
+                    {%- if ctitle != blank and chandle != blank and chandle != 'all' -%}
+                      <a href="/collections/{{ chandle }}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); text-decoration: none; border-bottom: 1px solid var(--color-border); font-weight: {% if collection.handle == chandle %}700{% else %}400{% endif %};">
+                        {{ ctitle }}
+                        {%- if collection.handle == chandle -%}<span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); display: inline-block;"></span>{%- endif -%}
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+
         {%- for filter in collection.filters -%}
+
           {%- liquid
             assign filter_label_down = filter.label | downcase
             if is_brand_menu and filter_label_down contains 'brand' or filter_label_down contains 'vendor' or filter_label_down contains 'البراند' or filter_label_down contains 'ماركة'
