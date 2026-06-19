@@ -967,7 +967,7 @@
                     {%- if ctitle != blank and chandle != blank -%}
                       {%- assign is_active_link = false -%}
                       {%- if collection.handle == chandle -%}{%- assign is_active_link = true -%}{%- endif -%}
-                      <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: 1px solid var(--color-border); margin-bottom: 0; font-weight: {% if is_active_link %}600{% else %}400{% endif %};">
+                      <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: {%- if forloop.last -%}none{%- else -%}1px solid var(--color-border){%- endif -%}; margin-bottom: 0; font-weight: {% if is_active_link %}600{% else %}400{% endif %};">
                         <input type="checkbox"
                                class="filter-drawer-checkbox collection-nav-cb"
                                data-collection-url="/collections/{{ chandle }}"
