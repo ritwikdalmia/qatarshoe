@@ -36,13 +36,15 @@
       {
         "type": "text",
         "id": "supported_currencies",
-        "label": "Supported Currencies (comma-separated)",
+        "label": "Supported Currencies",
+        "info": "Enter the currency codes separated by commas (e.g. QAR, USD, EUR, AED, SAR)",
         "default": "QAR, USD, EUR, AED, SAR"
       },
       {
-        "type": "textarea",
+        "type": "text",
         "id": "currency_symbols",
-        "label": "Currency Symbols (comma-separated mapping, e.g. QAR:QR,USD:$,EUR:€)",
+        "label": "Custom Currency Symbols",
+        "info": "Optional: Override standard symbols using a comma-separated list (e.g. QAR:QR,USD:$). Leave default if unsure.",
         "default": "QAR:QR,USD:$,EUR:€,AED:د.إ,SAR:SR,BHD:BD,KWD:KD,OMR:RO,GBP:£,INR:₹"
       }
     ]
