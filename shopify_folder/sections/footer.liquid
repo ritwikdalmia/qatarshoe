@@ -227,13 +227,16 @@
 .site-footer-links-area {
     padding: 40px;          
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
-    gap: 40px;              
+    flex-wrap: wrap;
+    gap: 32px 24px;              
 }
 
 .site-footer-links-column {
-    flex: 1 1 0;
+    flex: 1 1 170px;
+    min-width: 150px;
+    max-width: 220px;
     display: flex;
     flex-direction: column;
     gap: 7px;               
@@ -737,17 +740,38 @@ footer.site-footer {
               {%- assign footer_blocks = section.blocks | where: "type", "footer_column" -%}
               {%- if footer_blocks.size > 0 -%}
                 {%- for block in footer_blocks -%}
-                  <div class="site-footer-links-column {% if block.settings.title == 'About' %}about-col{% endif %}" {{ block.shopify_attributes }}>
-                    <h4>{{ block.settings.title }}</h4>
-                    <ul>
-                      {%- assign menu = block.settings.menu -%}
-                      {%- if menu != blank and linklists[menu] != blank -%}
-                        {%- for link in linklists[menu].links -%}
-                          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                        {%- endfor -%}
+                  {%- assign menu = block.settings.menu -%}
+                  {%- if menu != blank and linklists[menu] != blank -%}
+                    {%- assign has_submenus = false -%}
+                    {%- for link in linklists[menu].links -%}
+                      {%- if link.links.size > 0 -%}
+                        {%- assign has_submenus = true -%}
+                        {%- break -%}
                       {%- endif -%}
-                    </ul>
-                  </div>
+                    {%- endfor -%}
+
+                    {%- if has_submenus -%}
+                      {%- for link in linklists[menu].links -%}
+                        <div class="site-footer-links-column" {{ block.shopify_attributes }}>
+                          <h4>{{ link.title }}</h4>
+                          <ul>
+                            {%- for child_link in link.links -%}
+                              <li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      {%- endfor -%}
+                    {%- else -%}
+                      <div class="site-footer-links-column {% if block.settings.title == 'About' %}about-col{% endif %}" {{ block.shopify_attributes }}>
+                        <h4>{{ block.settings.title }}</h4>
+                        <ul>
+                          {%- for link in linklists[menu].links -%}
+                            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
                 {%- endfor -%}
               {%- else -%}
 

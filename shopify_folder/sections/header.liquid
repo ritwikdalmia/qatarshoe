@@ -158,17 +158,17 @@
         
         <div class="lang-selector-wrapper" id="desktop-lang-wrapper">
           <button type="button" class="lang-selector" id="desktop-lang-btn" aria-expanded="false" aria-label="Language">
-            <span class="lang-label">EN</span>
+            <span class="lang-label">{{ request.locale.iso_code | upcase }}</span>
             <svg class="lang-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
               <path d="M2.5 4L6 7.5L9.5 4"/>
             </svg>
           </button>
           <div class="lang-dropdown" id="desktop-lang-dropdown" aria-hidden="true">
-            <div class="lang-option is-active" data-lang="en">
+            <div class="lang-option {% if request.locale.iso_code == 'en' %}is-active{% endif %}" data-lang="en">
               <span>EN</span>
               <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
             </div>
-            <div class="lang-option" data-lang="ar">
+            <div class="lang-option {% if request.locale.iso_code == 'ar' %}is-active{% endif %}" data-lang="ar">
               <span>AR</span>
               <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
             </div>
@@ -736,15 +736,15 @@
         
         <div class="lang-selector-wrapper site-hdr-desktop">
           <button type="button" class="lang-selector" id="sticky-lang-btn" aria-expanded="false" aria-label="Language">
-            <span class="lang-label">EN</span>
+            <span class="lang-label">{{ request.locale.iso_code | upcase }}</span>
             <svg class="lang-chevron" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2.5 4L6 7.5L9.5 4"/></svg>
           </button>
           <div class="lang-dropdown" id="sticky-lang-dropdown" aria-hidden="true">
-            <div class="lang-option is-active" data-lang="en">
+            <div class="lang-option {% if request.locale.iso_code == 'en' %}is-active{% endif %}" data-lang="en">
               <span>EN</span>
               <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
             </div>
-            <div class="lang-option" data-lang="ar">
+            <div class="lang-option {% if request.locale.iso_code == 'ar' %}is-active{% endif %}" data-lang="ar">
               <span>AR</span>
               <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
             </div>
@@ -1290,7 +1290,7 @@
       </div>
       <div class="drawer-locale-col drawer-lang-wrapper">
         <button type="button" class="drawer-locale-trigger drawer-lang-selector" aria-expanded="false">
-          <span class="drawer-locale-text">EN</span>
+          <span class="drawer-locale-text">{{ request.locale.iso_code | upcase }}</span>
           <svg class="drawer-locale-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
         </button>
       </div>
@@ -1712,15 +1712,26 @@
     document.querySelectorAll('.lang-option').forEach(function(opt) {
       opt.addEventListener('click', function(e) {
         e.stopPropagation();
-        var selectedLang = opt.getAttribute('data-lang').toUpperCase();
+        var selectedLang = opt.getAttribute('data-lang').toLowerCase();
+        var currentLang = "{{ request.locale.iso_code }}".toLowerCase();
         
-        document.querySelectorAll('.lang-selector-wrapper').forEach(function(wrapper) {
-          var labelSpan = wrapper.querySelector('.lang-label');
-          if (labelSpan) labelSpan.textContent = selectedLang;
-          wrapper.querySelectorAll('.lang-option').forEach(function(o) {
-            o.classList.toggle('is-active', o.getAttribute('data-lang').toUpperCase() === selectedLang);
-          });
-        });
+        if (selectedLang !== currentLang) {
+          var newPath = window.location.pathname;
+          
+          if (selectedLang === 'ar') {
+            if (!newPath.startsWith('/ar')) {
+              newPath = '/ar' + (newPath === '/' ? '' : newPath);
+            }
+          } else {
+            if (newPath.startsWith('/ar/')) {
+              newPath = newPath.replace('/ar/', '/');
+            } else if (newPath === '/ar') {
+              newPath = '/';
+            }
+          }
+          
+          window.location.href = window.location.origin + newPath + window.location.search + window.location.hash;
+        }
         
         if (langDd) langDd.classList.remove('open');
         if (stickyLangDd) stickyLangDd.classList.remove('open');
