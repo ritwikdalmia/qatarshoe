@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -10,19 +19,26 @@
       "type": "product-showcase",
       "settings": {
         "heading": "Featured",
-        "view_all_url": "/collections/all",
+        "collection_handle": "featured",
+        "view_all_url": "shopify://collections/featured",
         "max_products": 5
       }
     },
     "marquee": {
       "type": "marquee-ticker",
-      "settings": {}
+      "settings": {
+        "items_rtg": "FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING • FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING",
+        "items_rts": "Shipping to all GCC • Delivered Within 2-3 Days",
+        "bg_color": "#1a1a1a",
+        "text_color": "#ffffff"
+      }
     },
     "trending": {
       "type": "product-showcase",
       "settings": {
         "heading": "Trending Now",
-        "view_all_url": "/collections/all",
+        "collection_handle": "trending",
+        "view_all_url": "shopify://collections/trending",
         "max_products": 5
       }
     },
@@ -30,7 +46,8 @@
       "type": "product-showcase",
       "settings": {
         "heading": "New In",
-        "view_all_url": "/collections/new-in",
+        "collection_handle": "new-in",
+        "view_all_url": "shopify://collections/new-in",
         "max_products": 5
       }
     },
@@ -38,17 +55,26 @@
       "type": "product-showcase",
       "settings": {
         "heading": "Best Sellers",
-        "view_all_url": "/collections/all",
+        "collection_handle": "best-sellers",
+        "view_all_url": "shopify://collections/best-sellers",
         "max_products": 5
       }
     },
     "brands": {
       "type": "brands-grid",
-      "settings": {}
+      "settings": {
+        "title": "House Of Brands"
+      }
     },
     "above-footer": {
       "type": "above-footer-banner",
-      "settings": {}
+      "settings": {
+        "bg_color": "#2d1f1f",
+        "heading_text": "A selection of designer pieces,<span class=\"afb-newline\"> chosen with purpose</span>",
+        "bullet_1": "Selected For Quality, Rarity, And Design.",
+        "bullet_2": "Exclusive Styles In Limited Quantities.",
+        "bullet_3": "Delivered Through A Seamless Experience."
+      }
     }
   },
   "order": [

@@ -59,5 +59,38 @@
         "default": "#1e3524"
       }
     ]
+  },
+  {
+    "name": "Slideshow Settings",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "slideshow_enabled_homepage",
+        "label": "Enable Slideshow on Homepage Showcase",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow_enabled_collections",
+        "label": "Enable Slideshow on Collection Pages",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow_enabled_products",
+        "label": "Enable Slideshow on Product Detail Pages",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "slideshow_interval",
+        "label": "Slideshow Interval (Seconds)",
+        "min": 2,
+        "max": 10,
+        "step": 1,
+        "default": 5,
+        "unit": "s"
+      }
+    ]
   }
 ]

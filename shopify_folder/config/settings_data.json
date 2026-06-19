@@ -20,6 +20,12 @@
         }
       }
     },
+    "settings": {
+      "slideshow_enabled_homepage": true,
+      "slideshow_enabled_collections": true,
+      "slideshow_enabled_products": true,
+      "slideshow_interval": 5
+    },
     "content_for_index": []
   },
   "presets": {}

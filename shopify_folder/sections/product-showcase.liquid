@@ -16,7 +16,7 @@
   assign aed_rate = 1.003
   assign sar_rate = 1.03
 -%}
-
+{%- if col != blank and col.products.size > 0 or request.design_mode -%}
 <div class="qtr-section" id="section-{{ section.id }}">
   <div class="section-heading-row">
     <h2 class="section-heading">{{ heading }}</h2>
@@ -133,7 +133,7 @@
           </div>
         </a>
       {%- endfor -%}
-    {%- else -%}
+    {%- elsif request.design_mode -%}
     
       {%- if request.locale.iso_code == 'ar' -%}
         {%- assign dummy_products = "حقيبة توت ديانا الصغيرة من جي سي سي,حقيبة جاكي 1961 الصغيرة حمراء من جي سي سي,حقيبة ليدي مايكرو سوداء من دي آر,حقيبة ليدي مايكرو بيج من دي آر,حقيبة ميني أنديامو بني من بي في جي" | split: "," -%}
@@ -143,6 +143,13 @@
         {%- assign dummy_brands   = "GCC,GCC,DR,DR,BVG" | split: "," -%}
       {%- endif -%}
       {%- assign dummy_images = "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop,https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600&auto=format&fit=crop" | split: "," -%}
+      
+      {%- assign dummy_images_0 = "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop,https://images.unsplash.com/photo-1566150905458-1bf1fc15aae9?q=80&w=800&auto=format&fit=crop,https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=800&auto=format&fit=crop" -%}
+      {%- assign dummy_images_1 = "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1591348278863-a8fb3887e2ac?q=80&w=600&auto=format&fit=crop" -%}
+      {%- assign dummy_images_2 = "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1598532187856-327247a26b01?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1566150905458-1bf1fc15aae9?q=80&w=600&auto=format&fit=crop" -%}
+      {%- assign dummy_images_3 = "https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=600&auto=format&fit=crop" -%}
+      {%- assign dummy_images_4 = "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1605733727293-e475586618ce?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=600&auto=format&fit=crop" -%}
+      
       {%- assign dummy_has_sale = "true,false,true,false,true" | split: "," -%}
 
       
@@ -158,8 +165,20 @@
 
       {%- for i in (0..4) -%}
         {%- assign has_sale = dummy_has_sale[i] -%}
+        {%- case i -%}
+          {%- when 0 -%}
+            {%- assign card_images = dummy_images_0 -%}
+          {%- when 1 -%}
+            {%- assign card_images = dummy_images_1 -%}
+          {%- when 2 -%}
+            {%- assign card_images = dummy_images_2 -%}
+          {%- when 3 -%}
+            {%- assign card_images = dummy_images_3 -%}
+          {%- when 4 -%}
+            {%- assign card_images = dummy_images_4 -%}
+        {%- endcase -%}
         <a href="/collections/all" class="product-card" aria-label="{{ dummy_products[i] }}">
-          <div class="product-card-img">
+          <div class="product-card-img" data-images="{{ card_images }}">
             <img src="{{ dummy_images[i] }}" alt="{{ dummy_products[i] }}" loading="lazy">
 
             
@@ -226,6 +245,9 @@
   function initCollectionProductImageSlideshows() {
     const cards = document.querySelectorAll('.product-card-img[data-images]');
     cards.forEach(card => {
+      if (card.dataset.slideshowInitialized === 'true') return;
+      card.dataset.slideshowInitialized = 'true';
+
       const imagesAttr = card.getAttribute('data-images');
       if (!imagesAttr) return;
       const images = imagesAttr.split(',').filter(src => src.trim() !== '');
@@ -249,7 +271,7 @@
         const triggerTransition = () => {
           nextImgEl.style.position = 'absolute';
           nextImgEl.style.top = '0';
-          nextImgEl.style.left = '100%';
+          nextImgEl.style.left = '-100%';
           nextImgEl.style.width = '100%';
           nextImgEl.style.height = '100%';
           nextImgEl.style.objectFit = 'cover';
@@ -260,10 +282,10 @@
           // Force layout repaint
           nextImgEl.offsetWidth;
           
-          // Slide old image left and next image left
+          // Slide old image right and next image right
           imgEl.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-          imgEl.style.transform = 'translateX(-100%)';
-          nextImgEl.style.transform = 'translateX(-100%)';
+          imgEl.style.transform = 'translateX(100%)';
+          nextImgEl.style.transform = 'translateX(100%)';
           
           setTimeout(() => {
             if (imgEl && imgEl.parentNode === card) {
@@ -280,7 +302,7 @@
             currentIndex = nextIndex;
             
             // Cycle again
-            setTimeout(showNextImage, 3000);
+            setTimeout(showNextImage, {{ settings.slideshow_interval | default: 5 | times: 1000 }});
           }, 500);
         };
         
@@ -289,14 +311,16 @@
         nextImgEl.src = nextSrc;
       }
       
-      setTimeout(showNextImage, 3000);
+      setTimeout(showNextImage, {{ settings.slideshow_interval | default: 5 | times: 1000 }});
     });
   }
 
   document.addEventListener('DOMContentLoaded', function() {
     syncWishlistUI();
     window.addEventListener('wishlistChanged', syncWishlistUI);
+    {%- if settings.slideshow_enabled_homepage -%}
     initCollectionProductImageSlideshows();
+    {%- endif -%}
 
     /* Restore saved currency — falls back to QAR if nothing saved */
     var savedCurrency = localStorage.getItem('qtr_currency') || 'QAR';
@@ -305,6 +329,7 @@
     }
   });
 </script>
+{%- endif -%}
 {% schema %}
 {
   "name": "Product Showcase",
