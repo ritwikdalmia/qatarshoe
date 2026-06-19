@@ -673,10 +673,10 @@
           container.removeChild(currentImg);
         }
         
+        nextImg.style.transition = 'none';
         nextImg.style.position = 'relative';
         nextImg.style.left = '0';
         nextImg.style.transform = 'none';
-        nextImg.style.transition = 'transform 0.1s ease-out'; // reset zoom transition
         
         if (!fromAuto) {
           {%- if settings.slideshow_enabled_products -%}
