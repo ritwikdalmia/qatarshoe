@@ -486,7 +486,7 @@
       <div class="delivery-info-strip">
         <div class="info-item">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          <span style="display: inline; color: #666; font-size: 13px;">
+          <span>
             {%- if request.locale.iso_code == 'ar' -%}التوصيل في نفس اليوم في قطر (للطلبات قبل 4 مساءً){- else -%}Same Day Delivery in Qatar (orders before 4 PM){%- endif -%}
           </span>
         </div>
@@ -946,7 +946,22 @@
       }
       
       const nameLower = rate.name.toLowerCase();
-      const isNext = nameLower.includes('khor') || nameLower.includes('shamal') || nameLower.includes('shaniyah') || nameLower.includes('dukhan') || nameLower.includes('shahaniyah');
+      
+      // Fallback city keyword checking
+      let isNext = nameLower.includes('khor') || nameLower.includes('shamal') || nameLower.includes('shaniyah') || nameLower.includes('dukhan') || nameLower.includes('shahaniyah');
+      
+      // Check delivery range transit times if available (1-1 is same-day, 1-2 is next-day)
+      if (rate.delivery_range && typeof rate.delivery_range === 'object') {
+        const minVal = rate.delivery_range.min ? parseInt(rate.delivery_range.min.value) : null;
+        const maxVal = rate.delivery_range.max ? parseInt(rate.delivery_range.max.value) : null;
+        
+        if (minVal === 1 && maxVal === 1) {
+          isNext = false;
+        } else if (minVal === 1 && maxVal === 2) {
+          isNext = true;
+        }
+      }
+      
       const timeVal = isNext ? 'next' : 'same';
       
       const activeClass = index === 0 ? 'active' : '';
