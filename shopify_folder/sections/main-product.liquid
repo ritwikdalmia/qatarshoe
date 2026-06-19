@@ -341,11 +341,11 @@
           </div>
         </div>
       {%- else -%}
-        {%- if product.variants.size > 1 -%}
+        {%- if product.options_with_values.size > 0 -%}
           <div class="product-variant-selectors">
             {%- for option in product.options_with_values -%}
               {%- assign downcase_name = option.name | downcase -%}
-              {%- if downcase_name == 'size' or downcase_name == 'مقاس' or downcase_name == 'المقاس' -%}
+              {%- if downcase_name contains 'size' or downcase_name contains 'eu' or downcase_name contains 'uk' or downcase_name contains 'us' or downcase_name == 'مقاس' or downcase_name == 'المقاس' or downcase_name contains 'مقاس' -%}
                 <div id="size-selector" class="selector-group">
                   <label class="option-label">
                     {%- if request.locale.iso_code == 'ar' -%}
@@ -439,6 +439,43 @@
                     {%- endfor -%}
                   </div>
                 </div>
+              {%- else -%}
+                {%- comment -%} Generic fallback for any other option (e.g. Title, Material, Width) {%- endcomment -%}
+                {%- unless downcase_name == 'title' and option.values.size == 1 and option.values.first == 'Default Title' -%}
+                  <div class="selector-group">
+                    <label class="option-label">{{ option.name }}</label>
+                    <div class="size-options">
+                      {%- for value in option.values -%}
+                        {%- assign variant_available = false -%}
+                        {%- assign matched_variant_id = '' -%}
+                        {%- assign matched_variant_price = '' -%}
+                        {%- assign matched_variant_compare_price = '' -%}
+                        {%- for variant in product.variants -%}
+                          {%- if variant.options contains value -%}
+                            {%- if variant.available -%}{%- assign variant_available = true -%}{%- endif -%}
+                            {%- assign matched_variant_id = variant.id -%}
+                            {%- assign matched_variant_price = variant.price | money_without_trailing_zeros -%}
+                            {%- if variant.compare_at_price > variant.price -%}
+                              {%- assign matched_variant_compare_price = variant.compare_at_price | money_without_trailing_zeros -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                        {%- assign is_selected = false -%}
+                        {%- if product.selected_or_first_available_variant.id == matched_variant_id -%}{%- assign is_selected = true -%}{%- endif -%}
+                        <button type="button"
+                                class="size-option{% unless variant_available %} unavailable{% endunless %}{% if is_selected %} selected{% endif %}"
+                                data-variant-id="{{ matched_variant_id }}"
+                                data-price="{{ matched_variant_price }}"
+                                data-compare-price="{{ matched_variant_compare_price }}"
+                                data-available="{{ variant_available }}"
+                                {% unless variant_available %}disabled{% endunless %}
+                                onclick="selectProductSize(this)">
+                          {{ value }}
+                        </button>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endunless -%}
               {%- endif -%}
             {%- endfor -%}
           </div>
