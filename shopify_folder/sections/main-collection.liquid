@@ -249,6 +249,141 @@
   .pagination-item:hover:not(.active) {
     background: var(--color-bg);
   }
+
+  /* Filters Drawer Overlay styling */
+  .filters-drawer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    justify-content: flex-end;
+  }
+  .filters-drawer-overlay.active {
+    display: flex;
+  }
+  .filters-drawer {
+    width: 100%;
+    max-width: 440px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .filters-drawer-overlay.active .filters-drawer {
+    transform: translateX(0);
+  }
+
+  /* Header */
+  .filters-drawer-header {
+    padding: 24px 30px;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .filters-drawer-title {
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin: 0;
+  }
+  .filters-drawer-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--color-primary);
+    line-height: 1;
+    padding: 0;
+  }
+
+  /* Content */
+  .filters-drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 30px;
+  }
+  .filter-drawer-section {
+    border-bottom: 1px solid var(--color-border);
+    padding: 20px 0;
+  }
+  .filter-drawer-section:last-child {
+    border-bottom: none;
+  }
+  .filter-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+  .filter-section-header h3 {
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin: 0;
+  }
+  .section-chevron {
+    transition: transform 0.2s ease;
+  }
+  .filter-drawer-section:not(.active) .section-chevron {
+    transform: rotate(180deg);
+  }
+  .filter-drawer-section:not(.active) .filter-section-content {
+    display: none;
+  }
+
+  /* Footer */
+  .filters-drawer-footer {
+    padding: 20px 30px;
+    border-top: 1px solid var(--color-border);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 12px;
+    background: #fff;
+  }
+  .filters-clear-btn {
+    padding: 14px;
+    border: 1.5px solid var(--color-primary);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: #fff;
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filters-clear-btn:hover {
+    background: var(--color-bg);
+  }
+  .filters-apply-btn {
+    padding: 14px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: #2D1F1F;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .filters-apply-btn:hover {
+    background: #1a1010;
+  }
 </style>
 
 {%- if show_breadcrumbs -%}
@@ -268,28 +403,88 @@
 
 {%- paginate collection.products by products_per_page -%}
   <div class="collection-toolbar">
-    <div class="toolbar-left">
+    <div class="toolbar-left" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
       <span class="results-count">{{ collection.products_count }} results</span>
+
+      <!-- Trigger Button for Filters Drawer -->
+      <button type="button" class="filter-trigger-btn" onclick="openFiltersDrawer()" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1.5px solid var(--color-border); border-radius: 6px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-primary); background: #fff; cursor: pointer; transition: all 0.2s;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="21" x2="4" y2="14"/>
+          <line x1="4" y1="10" x2="4" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12" y2="3"/>
+          <line x1="20" y1="21" x2="20" y2="16"/>
+          <line x1="20" y1="12" x2="20" y2="3"/>
+          <line x1="1" y1="14" x2="7" y2="14"/>
+          <line x1="9" y1="8" x2="15" y2="8"/>
+          <line x1="17" y1="16" x2="23" y2="16"/>
+        </svg>
+        <span>Filters</span>
+      </button>
       
       {%- if show_filters -%}
         <div class="filter-pills-scroll">
-          {% comment %}
-            Pills mapping to standard brands / menu categories.
-            Highlight active if current collection title matches.
-          {% endcomment %}
-          <a href="/collections/all" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">All</a>
-          <a href="/collections/on-sale" class="filter-pill{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
-          <a href="/collections/new-in" class="filter-pill{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'filter_link' -%}
-              {%- assign target_col = collections[block.settings.collection_handle] -%}
-              {%- if target_col != blank -%}
-                <a href="{{ target_col.url }}" class="filter-pill{% if collection.handle == target_col.handle %} active{% endif %}">
-                  {{ block.settings.label | default: target_col.title }}
-                </a>
+          {%- liquid
+            assign parent_link = blank
+            
+            # Determine menu handle based on collection handle
+            if collection.handle contains '-men' or collection.handle contains 'men-'
+              assign menu_handles = 'men,main-menu' | split: ','
+            else
+              assign menu_handles = 'women,main-menu' | split: ','
+            endif
+            
+            # Search for matching parent link or child link in the menus
+            for handle in menu_handles
+              if linklists[handle] != blank
+                for link in linklists[handle].links
+                  assign link_handle = link.url | split: '/' | last
+                  if link.url == collection.url or link_handle == collection.handle
+                    assign parent_link = link
+                    break
+                  endif
+                  
+                  for child_link in link.links
+                    assign child_handle = child_link.url | split: '/' | last
+                    if child_link.url == collection.url or child_handle == collection.handle
+                      assign parent_link = link
+                      break
+                    endif
+                  endfor
+                  if parent_link != blank
+                    break
+                  endif
+                endfor
+              endif
+              if parent_link != blank
+                break
+              endif
+            endfor
+          -%}
+
+          {%- if parent_link != blank and parent_link.links.size > 0 -%}
+            <a href="{{ parent_link.url }}" class="filter-pill{% if collection.url == parent_link.url or collection.handle == parent_link.title | handle %} active{% endif %}">All</a>
+            {%- for child_link in parent_link.links -%}
+              {%- assign child_col_handle = child_link.url | split: '/' | last -%}
+              <a href="{{ child_link.url }}" class="filter-pill{% if collection.url == child_link.url or collection.handle == child_col_handle %} active{% endif %}">
+                {{ child_link.title }}
+              </a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/collections/all" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">All</a>
+            <a href="/collections/on-sale" class="filter-pill{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
+            <a href="/collections/new-in" class="filter-pill{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'filter_link' -%}
+                {%- assign target_col = collections[block.settings.collection_handle] -%}
+                {%- if target_col != blank -%}
+                  <a href="{{ target_col.url }}" class="filter-pill{% if collection.handle == target_col.handle %} active{% endif %}">
+                    {{ block.settings.label | default: target_col.title }}
+                  </a>
+                {%- endif -%}
               {%- endif -%}
-            {%- endif -%}
-          {%- endfor -%}
+            {%- endfor -%}
+          {%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -476,6 +671,57 @@
       </div>
     {%- endif -%}
   </div>
+
+  <!-- Filters Drawer Overlay -->
+  <div class="filters-drawer-overlay" id="filters-drawer-overlay" onclick="closeFiltersDrawer()">
+    <div class="filters-drawer" id="filters-drawer" onclick="event.stopPropagation()">
+      
+      <!-- Drawer Header -->
+      <div class="filters-drawer-header">
+        <h2 class="filters-drawer-title">Filters</h2>
+        <button class="filters-drawer-close" onclick="closeFiltersDrawer()" aria-label="Close filters">&times;</button>
+      </div>
+
+      <!-- Drawer Content -->
+      <div class="filters-drawer-content">
+        {%- for filter in collection.filters -%}
+          <div class="filter-drawer-section active" data-filter-type="{{ filter.label | downcase }}">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)">
+              <h3>{{ filter.label }}</h3>
+              <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
+            </div>
+            
+            <div class="filter-section-content">
+              {%- if filter.label == 'Brand' or filter.label == 'Brand' or filter.label == 'Brands' or filter.label == 'Type' or filter.label == 'Types' -%}
+                <div class="filter-search-wrap" style="margin-bottom: 12px; position: relative;">
+                  <input type="text" class="filter-search-input" placeholder="Search {{ filter.label | downcase }}..." onkeyup="filterCheckboxList(this)" style="width: 100%; padding: 10px 14px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit; font-size: 13px; outline: none; box-sizing: border-box;">
+                </div>
+              {%- endif -%}
+
+              <div class="filter-checkbox-list" style="max-height: 240px; overflow-y: auto; padding-right: 4px;">
+                {%- for value in filter.values -%}
+                  <label class="filter-checkbox-label" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; font-weight: 400; text-transform: none; line-height: 1;">
+                    <span style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} class="filter-drawer-checkbox" style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); border: 1px solid var(--color-border); border-radius: 4px;">
+                      <span class="filter-value-text">{{ value.label }}</span>
+                    </span>
+                    <span style="color: #888; font-size: 12px;">({{ value.count }})</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <!-- Drawer Footer -->
+      <div class="filters-drawer-footer">
+        <button class="filters-clear-btn" onclick="clearAllFilters()">Clear All</button>
+        <button class="filters-apply-btn" onclick="applyFilters()">View Results ({{ collection.products_count }})</button>
+      </div>
+
+    </div>
+  </div>
 {%- endpaginate -%}
 
 <script>
@@ -486,7 +732,73 @@
 
   function pickSortOption(opt) {
     const val = opt.getAttribute('data-value');
-    window.location.search = '?sort_by=' + val;
+    const params = new URLSearchParams(window.location.search);
+    params.set('sort_by', val);
+    window.location.search = params.toString();
+  }
+
+  function openFiltersDrawer() {
+    document.getElementById('filters-drawer-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFiltersDrawer() {
+    document.getElementById('filters-drawer-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function toggleFilterSection(header) {
+    header.closest('.filter-drawer-section').classList.toggle('active');
+  }
+
+  function filterCheckboxList(input) {
+    const filter = input.value.toLowerCase();
+    const section = input.closest('.filter-drawer-section');
+    const labels = section.querySelectorAll('.filter-checkbox-label');
+    
+    labels.forEach(label => {
+      const text = label.querySelector('.filter-value-text').textContent.toLowerCase();
+      if (text.includes(filter)) {
+        label.style.display = 'flex';
+      } else {
+        label.style.display = 'none';
+      }
+    });
+  }
+
+  function applyFilters() {
+    const params = new URLSearchParams(window.location.search);
+    
+    // Clear existing filters
+    const keysToRemove = [];
+    for (const key of params.keys()) {
+      if (key.startsWith('filter.p.') || key.startsWith('filter.v.')) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach(key => params.delete(key));
+    
+    // Collect all checked filters in the drawer
+    const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:checked');
+    checkboxes.forEach(cb => {
+      params.append(cb.name, cb.value);
+    });
+    
+    params.delete('page');
+    window.location.search = params.toString();
+  }
+
+  function clearAllFilters() {
+    const params = new URLSearchParams(window.location.search);
+    const keysToRemove = [];
+    for (const key of params.keys()) {
+      if (key.startsWith('filter.p.') || key.startsWith('filter.v.')) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach(key => params.delete(key));
+    params.delete('page');
+    window.location.search = params.toString();
   }
 
   document.addEventListener('click', function() {

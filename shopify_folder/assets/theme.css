@@ -437,13 +437,10 @@ body {
 }
 
 /* Brands panel: 2-column CSS grid */
-.two-panel-dropdown .panel-container {
+.two-panel-dropdown .panel-left {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px 32px;
-}
-.two-panel-dropdown .panel-left {
-  display: contents; /* items become direct grid children */
 }
 /* Right-aligned brands that would go off-screen: flip to right edge */
 .nav-item-wrapper:last-child .hover-box,
