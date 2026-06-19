@@ -509,7 +509,7 @@
 
               <a href="{{ collection.url }}" class="filter-pill active" data-is-brand-all="true">{{ all_label }}</a>
 
-              {%- comment -%} Dynamically extract category collection links from menus {%- endcomment -%}
+              {%- comment -%} Dynamically extract category collection links from menus including dropdowns {%- endcomment -%}
               {%- assign category_links = "" -%}
               {%- for menu_handle in menu_handles -%}
                 {%- if linklists[menu_handle] != blank -%}
@@ -528,6 +528,34 @@
                         {%- assign category_links = category_links | append: link.title | append: '::' | append: col_handle | append: '||' -%}
                       {%- endunless -%}
                     {%- endif -%}
+
+                    {%- for child_link in link.links -%}
+                      {%- assign child_title_down = child_link.title | downcase -%}
+                      {%- if child_title_down contains 'explore' or child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
+                        {%- continue -%}
+                      {%- endif -%}
+                      {%- if child_link.url contains '/collections/' -%}
+                        {%- assign col_handle = child_link.url | split: '/' | last -%}
+                        {%- assign check_handle = '::' | append: col_handle | append: '||' -%}
+                        {%- unless category_links contains check_handle -%}
+                          {%- assign category_links = category_links | append: child_link.title | append: '::' | append: col_handle | append: '||' -%}
+                        {%- endunless -%}
+                      {%- endif -%}
+
+                      {%- for grandchild_link in child_link.links -%}
+                        {%- assign grandchild_title_down = grandchild_link.title | downcase -%}
+                        {%- if grandchild_title_down contains 'explore' or grandchild_title_down contains 'view all' or grandchild_title_down contains 'all collection' -%}
+                          {%- continue -%}
+                        {%- endif -%}
+                        {%- if grandchild_link.url contains '/collections/' -%}
+                          {%- assign col_handle = grandchild_link.url | split: '/' | last -%}
+                          {%- assign check_handle = '::' | append: col_handle | append: '||' -%}
+                          {%- unless category_links contains check_handle -%}
+                            {%- assign category_links = category_links | append: grandchild_link.title | append: '::' | append: col_handle | append: '||' -%}
+                          {%- endunless -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endfor -%}
                   {%- endfor -%}
                 {%- endif -%}
               {%- endfor -%}
@@ -542,17 +570,17 @@
                   {%- assign query_params = "" -%}
                   {%- assign type_values_str = "" -%}
                   
-                  {%- if handle contains 'bags' or handle contains 'leather' -%}
+                  {%- if handle == 'bags' or handle == 'all-bags' or handle == 'small-leather-goods' -%}
                     {%- assign types_list = "Bags,Bag,All Bags,Handbags,Mini Bags,Shoulder Bags,Tote Bags,Backpacks,Travel Bags,Wallets,Card Holders,Pouches,Small Leather Goods" | split: ',' -%}
-                  {%- elsif handle contains 'shoes' -%}
+                  {%- elsif handle == 'shoes' or handle == 'all-shoes' -%}
                     {%- assign types_list = "Shoes,Shoe,All Shoes,Sneakers,Sandals,Boots,Heels,Flats,Mules,Loafers,Ballet Flats" | split: ',' -%}
-                  {%- elsif handle contains 'watches' -%}
+                  {%- elsif handle == 'watches' or handle == 'all-watches' -%}
                     {%- assign types_list = "Watches,Watch,All Watches" | split: ',' -%}
-                  {%- elsif handle contains 'jewel' -%}
+                  {%- elsif handle == 'jewellery' or handle == 'jewelry' or handle == 'all-jewellery' -%}
                     {%- assign types_list = "Jewellery,Jewelry,Jewellry,All Jewellery,Rings,Anklets,Earrings,Bracelets,Necklaces" | split: ',' -%}
-                  {%- elsif handle contains 'access' -%}
+                  {%- elsif handle == 'accessories' or handle == 'all-accessories' -%}
                     {%- assign types_list = "Accessories,Accessory,All Accessories,Belts,Caps,Straps,Badge Holders,Home Accessories,Key Holders & Bag Charms" | split: ',' -%}
-                  {%- elsif handle contains 'cloth' -%}
+                  {%- elsif handle == 'clothing' or handle == 'all-clothing' -%}
                     {%- assign types_list = "Clothing,T-shirts,Tops,All Clothing" | split: ',' -%}
                   {%- else -%}
                     {%- assign types_list = title | split: ',' -%}
@@ -575,7 +603,7 @@
                      class="filter-pill filter-pill-category-type" 
                      data-type-values="{{ type_values_str | escape }}" 
                      onclick="toggleCategoryTypeFilter(this, event)">
-                    {{ title }}
+                     {{ title }}
                   </a>
                 {%- endif -%}
               {%- endfor -%}
@@ -970,17 +998,17 @@
                     {%- if is_brand_menu -%}
                       {%- liquid
                         assign types_list_str = ""
-                        if chandle contains 'bags' or chandle contains 'leather'
+                        if chandle == 'bags' or chandle == 'all-bags' or chandle == 'small-leather-goods'
                           assign types_list_str = "Bags,Bag,All Bags,Handbags,Mini Bags,Shoulder Bags,Tote Bags,Backpacks,Travel Bags,Wallets,Card Holders,Pouches,Small Leather Goods"
-                        elsif chandle contains 'shoes'
+                        elsif chandle == 'shoes' or chandle == 'all-shoes'
                           assign types_list_str = "Shoes,Shoe,All Shoes,Sneakers,Sandals,Boots,Heels,Flats,Mules,Loafers,Ballet Flats"
-                        elsif chandle contains 'watches'
+                        elsif chandle == 'watches' or chandle == 'all-watches'
                           assign types_list_str = "Watches,Watch,All Watches"
-                        elsif chandle contains 'jewel'
+                        elsif chandle == 'jewellery' or chandle == 'jewelry' or chandle == 'all-jewellery'
                           assign types_list_str = "Jewellery,Jewelry,Jewellry,All Jewellery,Rings,Anklets,Earrings,Bracelets,Necklaces"
-                        elsif chandle contains 'access'
+                        elsif chandle == 'accessories' or chandle == 'all-accessories'
                           assign types_list_str = "Accessories,Accessory,All Accessories,Belts,Caps,Straps,Badge Holders,Home Accessories,Key Holders & Bag Charms"
-                        elsif chandle contains 'cloth'
+                        elsif chandle == 'clothing' or chandle == 'all-clothing'
                           assign types_list_str = "Clothing,T-shirts,Tops,All Clothing"
                         else
                           assign types_list_str = ctitle
@@ -1187,7 +1215,19 @@
     let baseUrl = window.location.pathname;
     const allBrandColCb = document.querySelector('.brand-collection-nav-all:checked');
 
-    if (allBrandColCb) {
+    // General collection check (all, on-sale, new-in, restock, etc.)
+    const collectionHandle = "{{ collection.handle }}";
+    const isGeneralCollection = ['all', 'on-sale', 'new-in', 'restock'].includes(collectionHandle);
+
+    if (isGeneralCollection) {
+      const checkedCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all):checked');
+      checkedCollCbs.forEach(cb => {
+        const textEl = cb.closest('label').querySelector('.filter-value-text');
+        if (textEl) {
+          newParams.append('filter.p.product_type', textEl.textContent.trim());
+        }
+      });
+    } else if (allBrandColCb) {
       baseUrl = allBrandColCb.getAttribute('data-collection-url');
     } else {
       const checkedBrandCbs = document.querySelectorAll('.brand-category-cb:checked');
@@ -1254,29 +1294,121 @@
     window.location.search = newParams.toString();
   }
 
-  // Collection nav checkbox mutual-exclusivity
+  // Collection nav checkbox mutual-exclusivity & real-time horizontal pill sync
   document.addEventListener('change', function(e) {
     if (e.target.classList.contains('collection-nav-cb')) {
       const isAll = e.target.getAttribute('data-is-all') === 'true';
-      if (isAll && e.target.checked) {
-        // Uncheck all sub-collection boxes
-        document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => cb.checked = false);
-      } else if (!isAll && e.target.checked) {
-        // Uncheck the "All" box
-        const allCb = document.querySelector('.collection-nav-all');
-        if (allCb) allCb.checked = false;
+      
+      if (isAll) {
+        if (e.target.checked) {
+          // Uncheck all other sub-collection checkboxes
+          document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => cb.checked = false);
+        } else {
+          // Prevent unchecking "All" if nothing else is checked
+          const anyChecked = Array.from(document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)')).some(cb => cb.checked);
+          if (!anyChecked) {
+            e.target.checked = true;
+          }
+        }
+      } else {
+        if (e.target.checked) {
+          // Uncheck the "All" checkbox
+          const allCb = document.querySelector('.collection-nav-all');
+          if (allCb) allCb.checked = false;
+        } else {
+          // If we unchecked it, check if any other is checked. If none, check "All"
+          const anyChecked = Array.from(document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)')).some(cb => cb.checked);
+          if (!anyChecked) {
+            const allCb = document.querySelector('.collection-nav-all');
+            if (allCb) allCb.checked = true;
+          }
+        }
       }
+      
+      // Sync all .filter-pill-type pills based on checkbox states
+      const allCb = document.querySelector('.collection-nav-all');
+      const isAllChecked = allCb ? allCb.checked : false;
+      
+      const pills = document.querySelectorAll('.filter-pill-type');
+      pills.forEach(pill => {
+        const pillIsAll = pill.getAttribute('data-is-all') === 'true';
+        if (pillIsAll) {
+          pill.classList.toggle('active', isAllChecked);
+        } else {
+          const pillText = pill.textContent.trim().toLowerCase();
+          // Find the checkbox for this pill
+          let cbForPill = null;
+          document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => {
+            const textEl = cb.closest('label').querySelector('.filter-value-text');
+            if (textEl && textEl.textContent.trim().toLowerCase() === pillText) {
+              cbForPill = cb;
+            }
+          });
+          if (cbForPill) {
+            pill.classList.toggle('active', cbForPill.checked);
+          } else {
+            pill.classList.remove('active');
+          }
+        }
+      });
     }
     
-    if (e.target.classList.contains('brand-category-cb') && e.target.checked) {
-      // Uncheck the brand "All" box
+    if (e.target.classList.contains('brand-category-cb') || e.target.classList.contains('brand-collection-nav-all')) {
+      const isAll = e.target.classList.contains('brand-collection-nav-all');
+      
+      if (isAll) {
+        if (e.target.checked) {
+          document.querySelectorAll('.brand-category-cb').forEach(cb => cb.checked = false);
+        } else {
+          const anyChecked = Array.from(document.querySelectorAll('.brand-category-cb')).some(cb => cb.checked);
+          if (!anyChecked) {
+            e.target.checked = true;
+          }
+        }
+      } else {
+        if (e.target.checked) {
+          const allCb = document.querySelector('.brand-collection-nav-all');
+          if (allCb) allCb.checked = false;
+        } else {
+          const anyChecked = Array.from(document.querySelectorAll('.brand-category-cb')).some(cb => cb.checked);
+          if (!anyChecked) {
+            const allCb = document.querySelector('.brand-collection-nav-all');
+            if (allCb) allCb.checked = true;
+          }
+        }
+      }
+      
+      // Sync category pills
       const allCb = document.querySelector('.brand-collection-nav-all');
-      if (allCb) allCb.checked = false;
-    }
-    
-    if (e.target.classList.contains('brand-collection-nav-all') && e.target.checked) {
-      // Uncheck all brand category boxes
-      document.querySelectorAll('.brand-category-cb').forEach(cb => cb.checked = false);
+      const isAllChecked = allCb ? allCb.checked : false;
+      
+      const pills = document.querySelectorAll('.filter-pill-category-type');
+      pills.forEach(pill => {
+        const pillIsAll = pill.getAttribute('data-is-brand-all') === 'true';
+        if (pillIsAll) {
+          pill.classList.toggle('active', isAllChecked);
+        } else {
+          const pillText = pill.textContent.trim().toLowerCase();
+          let cbForPill = null;
+          document.querySelectorAll('.brand-category-cb').forEach(cb => {
+            const textEl = cb.closest('label').querySelector('.filter-value-text');
+            if (textEl && textEl.textContent.trim().toLowerCase() === pillText) {
+              cbForPill = cb;
+            }
+          });
+          if (cbForPill) {
+            pill.classList.toggle('active', cbForPill.checked);
+          } else {
+            pill.classList.remove('active');
+          }
+        }
+      });
+      
+      // Sync the All pill at the beginning of the brand pills
+      const brandAllPill = document.querySelector('.filter-pill[data-is-brand-all="true"]');
+      if (brandAllPill) {
+        brandAllPill.classList.toggle('active', isAllChecked);
+      }
     }
   });
 
@@ -1338,21 +1470,32 @@
   function toggleTypeFilter(pill, event) {
     event.preventDefault();
     const isAll = pill.getAttribute('data-is-all') === 'true';
-    const parentUrl = pill.getAttribute('data-parent-url');
     
+    let targetCb = null;
     if (isAll) {
-      window.location.href = parentUrl;
-      return;
+      targetCb = document.querySelector('.collection-nav-all');
+      if (targetCb) {
+        targetCb.checked = true;
+        targetCb.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    } else {
+      const labelText = pill.textContent.trim().toLowerCase();
+      document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => {
+        const textEl = cb.closest('label').querySelector('.filter-value-text');
+        if (textEl && textEl.textContent.trim().toLowerCase() === labelText) {
+          targetCb = cb;
+        }
+      });
+      
+      if (targetCb) {
+        targetCb.checked = !targetCb.checked;
+        targetCb.dispatchEvent(new Event('change', { bubbles: true }));
+      }
     }
     
-    if (pill.classList.contains('active')) {
-      // Clicked on already active filter: unselect (go back to All)
-      window.location.href = parentUrl;
-    } else {
-      // Go to subcollection URL
-      window.location.href = pill.getAttribute('href');
-    }
+    applyFilters();
   }
+  
   function initCategoryTypeFilters() {
     const params = new URLSearchParams(window.location.search);
     const activeTypes = params.getAll('filter.p.product_type');
@@ -1389,17 +1532,31 @@
 
   function toggleCategoryTypeFilter(pill, event) {
     event.preventDefault();
-    if (pill.classList.contains('active')) {
-      // Clicked on already active filter: go back to Brand All
-      const allPill = document.querySelector('.filter-pill[data-is-brand-all="true"]');
-      if (allPill) {
-        window.location.href = allPill.getAttribute('href');
-      } else {
-        window.location.href = window.location.pathname;
+    const isAll = pill.getAttribute('data-is-brand-all') === 'true';
+    
+    let targetCb = null;
+    if (isAll) {
+      targetCb = document.querySelector('.brand-collection-nav-all');
+      if (targetCb) {
+        targetCb.checked = true;
+        targetCb.dispatchEvent(new Event('change', { bubbles: true }));
       }
     } else {
-      window.location.href = pill.getAttribute('href');
+      const labelText = pill.textContent.trim().toLowerCase();
+      document.querySelectorAll('.brand-category-cb').forEach(cb => {
+        const textEl = cb.closest('label').querySelector('.filter-value-text');
+        if (textEl && textEl.textContent.trim().toLowerCase() === labelText) {
+          targetCb = cb;
+        }
+      });
+      
+      if (targetCb) {
+        targetCb.checked = !targetCb.checked;
+        targetCb.dispatchEvent(new Event('change', { bubbles: true }));
+      }
     }
+    
+    applyFilters();
   }
 
   function initCollectionProductImageSlideshows() {
