@@ -1,0 +1,1589 @@
+{%- style -%}
+  .faq-main {
+      padding: 0 150px;
+      padding-top: 96px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+  }
+
+  .faq-header {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      flex-shrink: 0;
+  }
+
+  .faq-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 64px;
+      font-weight: 400;
+      line-height: 100%;
+      letter-spacing: 0;
+      color: #2D1F1F;
+      text-transform: none;
+      margin: 0;
+  }
+
+  .faq-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #666666;
+      margin: 0;
+  }
+
+  .faq-columns {
+      display: flex;
+      gap: 48px;
+      width: 100%;
+  }
+
+  .faq-sidebar {
+      width: 431px;
+      flex-shrink: 0;
+  }
+
+  .faq-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      min-width: 0;
+  }
+
+  .faq-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+  }
+
+  .faq-sidebar-nav {
+      border: 1px solid #E0DCD3;
+      border-radius: 20px;
+      overflow: hidden;
+      position: sticky;
+      top: 120px;
+  }
+
+  .faq-sidebar-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      height: 48px;
+      border-bottom: 1px solid #E0DCD3;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(45, 31, 31, 0.7);
+      background: #fff;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+      user-select: none;
+  }
+
+  .faq-sidebar-item:last-child {
+      border-bottom: none;
+  }
+
+  .faq-sidebar-item:hover {
+      color: #2D1F1F;
+  }
+
+  .faq-sidebar-item.active {
+      font-weight: 600;
+      color: #2D1F1F;
+      background: #FAF8F5;
+  }
+
+  .faq-sidebar-item svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+  }
+
+  .faq-search-wrap {
+      flex-shrink: 0;
+      background: #fff;
+      padding-bottom: 4px;
+  }
+
+  .faq-search-wrap--header {
+      display: none;
+  }
+
+  .faq-search {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(45, 31, 31, 0.1);
+      border-radius: 8px;
+      padding: 8px 12px;
+      height: 48px;
+      box-sizing: border-box;
+  }
+
+  .faq-search svg {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+  }
+
+  .faq-search input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #2D1F1F;
+      background: transparent;
+  }
+
+  .faq-search input::placeholder {
+      color: rgba(26, 26, 26, 0.4);
+  }
+
+  .faq-section-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-margin-top: 140px;
+  }
+
+  .faq-section-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 29px;
+      text-transform: uppercase;
+      color: #2D1F1F;
+      letter-spacing: -0.02em;
+      margin: 0;
+  }
+
+  .faq-items-container {
+      background: #E0DCD3;
+      border-radius: 16px;
+      padding: 1px;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      overflow: hidden;
+  }
+
+  .faq-item {
+      background: #fff;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .faq-item:first-child {
+      border-radius: 15px 15px 0 0;
+  }
+
+  .faq-item:last-child {
+      border-radius: 0 0 15px 15px;
+  }
+
+  .faq-item:only-child {
+      border-radius: 15px;
+  }
+
+  .faq-question {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 24px;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: #2D1F1F;
+      text-align: left;
+      padding: 0;
+      line-height: 24px;
+  }
+
+  .faq-question-text {
+      flex: 1;
+  }
+
+  .faq-chevron {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+  }
+
+  .faq-item.active .faq-chevron {
+      transform: rotate(180deg);
+  }
+
+  .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+  }
+
+  .faq-item.active .faq-answer {
+      max-height: 1000px;
+  }
+
+  .faq-answer-inner {
+      padding-top: 16px;
+  }
+
+  .faq-answer p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #2D1F1F;
+      margin: 0;
+      max-width: 751px;
+  }
+
+  .faq-answer p + p {
+      margin-top: 12px;
+  }
+
+  .faq-section-group.faq-hidden,
+  .faq-item.faq-hidden {
+      display: none;
+  }
+
+  .faq-no-results {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 24px;
+      gap: 8px;
+  }
+
+  .faq-no-results-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #2D1F1F;
+      margin: 0;
+  }
+
+  .faq-no-results-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #666666;
+      margin: 0;
+      max-width: 320px;
+  }
+
+  .faq-mobile-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 16px;
+      right: 16px;
+      z-index: 100;
+      border: 1px solid #E0DCD3;
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px 16px;
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .faq-mobile-bar-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #2D1F1F;
+  }
+
+  .faq-mobile-bar svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+  }
+
+  .faq-mobile-bar-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(45, 31, 31, 0.1);
+      border-radius: 0 0 7px 7px;
+      overflow: hidden;
+  }
+
+  .faq-mobile-bar-progress-fill {
+      height: 100%;
+      background: #2D1F1F;
+      width: 0%;
+      transition: width 0.3s ease;
+  }
+
+  .faq-mobile-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px;
+  }
+
+  .faq-mobile-overlay.active {
+      display: flex;
+  }
+
+  .faq-mobile-overlay-card {
+      background: #fff;
+      border: 1px solid #E0DCD3;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 400px;
+      max-height: 70vh;
+      overflow-y: auto;
+      margin-bottom: 58px;
+  }
+
+  .faq-mobile-overlay-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      min-height: 48px;
+      height: auto;
+      border-bottom: 1px solid #E0DCD3;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(45, 31, 31, 0.7);
+      background: #fff;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+  }
+
+  .faq-mobile-overlay-item:last-child {
+      border-bottom: none;
+  }
+
+  .faq-mobile-overlay-item.active {
+      font-weight: 600;
+      color: #2D1F1F;
+      pointer-events: none;
+  }
+
+  .faq-mobile-overlay-item.active svg {
+      display: none;
+  }
+
+  .faq-mobile-overlay-item svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+  }
+
+  /* Contact form on the FAQ page */
+  .contact-form-section {
+      background: #fff;
+      padding: 96px 150px;
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .contact-form-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e5e5e5;
+  }
+
+  .contact-form-inner {
+      max-width: 1620px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 150px;
+  }
+
+  .contact-form-intro {
+      flex: 0 0 488px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  .contact-form-intro h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 100%;
+      margin: 0;
+      color: #2D1F1F;
+  }
+
+  .contact-form-intro p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: rgba(45, 31, 31, 0.7);
+      margin: 0;
+  }
+
+  .contact-form-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-wrapper form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+  }
+
+  .contact-form-wrapper form span.full-width {
+      grid-column: 1 / -1;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"],
+  .contact-form-wrapper textarea {
+      width: 100%;
+      background: #fff;
+      border: 1px solid rgba(45, 31, 31, 0.2);
+      border-radius: 6px;
+      color: #2D1F1F;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"] {
+      height: 44px;
+      padding: 0 12px;
+  }
+
+  .contact-form-wrapper textarea {
+      height: 108px;
+      padding: 12px;
+      resize: vertical;
+  }
+
+  .contact-submit-custom {
+      width: 100%;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #fff;
+      color: #2D1F1F;
+      border: 1px solid #2D1F1F;
+      border-radius: 900px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+  }
+
+  .contact-submit-custom:hover {
+      background: #2D1F1F;
+      color: #fff;
+  }
+
+  @media (max-width: 1023px) {
+      .faq-main {
+          padding: 64px 40px;
+      }
+      .faq-columns {
+          flex-direction: column;
+          gap: 32px;
+      }
+      .faq-sidebar {
+          display: none;
+      }
+      .faq-mobile-bar {
+          display: flex;
+      }
+      .contact-form-section {
+          padding: 64px 40px;
+      }
+      .contact-form-inner {
+          flex-direction: column;
+          gap: 40px;
+      }
+  }
+
+  @media (max-width: 767px) {
+      .faq-main {
+          padding: 48px 24px;
+      }
+      .faq-title {
+          font-size: 32px;
+      }
+      .faq-search-wrap--header {
+          display: block;
+      }
+      .faq-content > .faq-search-wrap {
+          display: none;
+      }
+      .contact-form-section {
+          padding: 48px 24px;
+      }
+      .contact-form-wrapper form {
+          grid-template-columns: 1fr;
+      }
+  }
+{%- endstyle -%}
+
+<script>
+  document.body.classList.add('faq-page-body');
+</script>
+
+<main class="faq-main">
+    <div class="faq-header">
+        <h1 class="faq-title">{{ section.settings.heading | default: "FAQs" }}</h1>
+        <p class="faq-subtitle">{{ section.settings.subheading | default: "Clear answers to common questions about shopping, delivery timelines, payment methods, returns, and product availability." }}</p>
+        
+        <div class="faq-search-wrap faq-search-wrap--header">
+            <div class="faq-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" placeholder="Search..." />
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-columns">
+        <!-- Sidebar -->
+        <aside class="faq-sidebar">
+            <nav class="faq-sidebar-nav">
+                <div class="faq-sidebar-item active" data-target="general">
+                    <span>General</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="cart-and-order-rules">
+                    <span>Cart And Order Rules</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="qatar-customers">
+                    <span>Qatar Customers</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="uae-customers">
+                    <span>UAE Customers</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="gcc-and-international">
+                    <span>GCC And International Customers</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="shipping-and-delivery">
+                    <span>Shipping And Delivery</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="payments">
+                    <span>Payments</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="returns-and-refunds">
+                    <span>Returns And Refunds</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="pre-orders">
+                    <span>Personal Shopping</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="product-quality">
+                    <span>Product Quality And Visual Accuracy</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+                <div class="faq-sidebar-item" data-target="support">
+                    <span>Support</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Content -->
+        <div class="faq-content">
+            <div class="faq-search-wrap">
+                <div class="faq-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    <input type="text" placeholder="Search..." />
+                </div>
+            </div>
+
+            <div class="faq-sections">
+                <!-- Group 1: General -->
+                <div class="faq-section-group" data-category="general">
+                    <h2 class="faq-section-title">General</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">1. What services do you offer?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>We offer three services: Qatar, Dubai/GCC, and Personal Shopping. Each follows a separate fulfilment, delivery, and payment process designed to meet different customer needs.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">2. What is Qatar?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Qatar refers to products stocked locally within Qatar and fulfilled through our local inventory. Orders are delivered same-day or next business day, depending on confirmation time and location.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">3. What is Dubai/GCC?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Dubai/GCC refers to products fulfilled from our international inventory, offering access to a wider global selection. This service is available for customers in Qatar, UAE, GCC countries, and worldwide.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">4. What is Personal Shopping?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Personal Shopping is our dedicated service for clients looking to source a specific product. Simply get in touch with our customer care team via WhatsApp, share what you are looking for, and we will handle everything — from sourcing to delivery. Payment is via Bank Transfer only, and if we are unable to source the product, a full refund is issued with no deductions.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">5. What is the main difference between the services?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Qatar focuses on fast local delivery from in-stock inventory. Dubai/GCC focuses on global access and a wider product selection. Personal Shopping is a dedicated sourcing service for specific products requested by the customer, handled personally by our team.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">6. Are all products available under all services?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>No. Products are assigned to specific services depending on availability and sourcing. Personal Shopping requests are assessed individually based on what the customer is looking for.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">7. Can I request or order products not listed on the website?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>For Qatar and Dubai/GCC, all orders are strictly limited to products listed on our website. For Personal Shopping, you may contact our team via WhatsApp with your request and we will advise on availability.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 2: Cart And Order Rules -->
+                <div class="faq-section-group" data-category="cart-and-order-rules">
+                    <h2 class="faq-section-title">Cart And Order Rules</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">8. Can I combine different services in one order?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>No. Each service follows a different fulfilment process and must be placed as a separate order.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">9. Why are separate orders required?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>This ensures accurate delivery timelines, proper payment handling, and smooth fulfilment for each service type.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">10. What happens if I try to add different services to one cart?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>The system will not allow it. You will need to complete one order before placing another.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">11. Can I change my order type after placing an order?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>No. Once an order is placed, the selected service cannot be changed.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">12. Can I modify or cancel my order after checkout?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Orders can only be modified or cancelled before confirmation. Once processing begins, changes are not possible.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 3: Qatar Customers -->
+                <div class="faq-section-group" data-category="qatar-customers">
+                    <h2 class="faq-section-title">Qatar Customers</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">13. Can customers in Qatar order all services?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes. Customers in Qatar can place orders for Qatar, Dubai/GCC, and Personal Shopping as separate transactions.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">14. How fast is delivery in Qatar?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Orders under the Qatar service are delivered same-day or next business day, depending on confirmation time and location.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">15. How long does international delivery take to Qatar?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Premium delivery typically takes 1 to 2 working days. Other shipping options may take longer depending on the selected service.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">16. What payment methods are available in Qatar?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Qatar service: Cash on Delivery and Bank Transfer. Dubai/GCC and Personal Shopping: Bank Transfer only.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 4: UAE Customers -->
+                <div class="faq-section-group" data-category="uae-customers">
+                    <h2 class="faq-section-title">UAE Customers</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">17. Can UAE customers order from the Qatar service?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>No. The Qatar service is available only within Qatar.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">18. Which services are available for UAE customers?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>UAE customers can place orders through Dubai/GCC and Personal Shopping.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">19. How fast is delivery in the UAE?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Delivery is typically completed same-day or next business day across all Emirates, depending on confirmation time and location.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">20. What payment methods are available in the UAE?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Dubai/GCC orders: Cash on Delivery and Bank Transfer. Personal Shopping: Bank Transfer only.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 5: GCC And International Customers -->
+                <div class="faq-section-group" data-category="gcc-and-international">
+                    <h2 class="faq-section-title">GCC And International Customers</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">21. Do you ship internationally?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes. Customers across the GCC and worldwide can place orders through Dubai/GCC and Personal Shopping.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">22. Is Cash on Delivery available internationally?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>No. Cash on Delivery is not available outside the UAE.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">23. How long does international delivery take?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Premium: 1 to 2 working days across all GCC countries. Parcel Express: 3 to 4 working days for selected GCC countries. Standard Economy: 6 to 7 working days for selected GCC countries.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 6: Shipping And Delivery -->
+                <div class="faq-section-group" data-category="shipping-and-delivery">
+                    <h2 class="faq-section-title">Shipping And Delivery</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">24. When does delivery time start counting?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Delivery timelines start after order confirmation and are calculated in working days only.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">25. Can I track my shipment?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes. Tracking details are shared once your order is dispatched.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">26. Are delivery timelines guaranteed?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Delivery timelines are estimates based on confirmation time, destination, and courier operations. We communicate any changes promptly.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">27. What happens if my order is delayed?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>If delays occur, our support team will contact you with updates and revised timelines.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">28. What should I do if my package arrives damaged?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Damaged items must be reported within 24 hours of delivery with clear photos sent to our team via WhatsApp.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 7: Payments -->
+                <div class="faq-section-group" data-category="payments">
+                    <h2 class="faq-section-title">Payments</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">29. Why do payment methods differ by service and country?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Different services and destinations follow different fulfilment and courier requirements, which determine the available payment methods for each.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">30. Is my payment information secure?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes. All transactions are handled securely and customer data is protected in accordance with our privacy standards.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">31. Can I pay using a different name or bank account?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes, as long as valid proof of payment is provided for verification.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">32. When is my order confirmed?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Bank Transfer orders are confirmed after payment verification. Cash on Delivery orders are confirmed after scheduling is completed.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 8: Returns And Refunds -->
+                <div class="faq-section-group" data-category="returns-and-refunds">
+                    <h2 class="faq-section-title">Returns And Refunds</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">33. Are refunds handled differently for Qatar and Dubai/GCC?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes. Qatar service refunds are handled at the time of collection or delivery. Dubai/GCC refunds are processed after the returned item is received and inspected.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">34. How long does it take to receive a refund?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Approved refunds are processed within 10 business days. Your bank may take additional time to reflect the amount.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">35. Are shipping charges refundable?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>No. Shipping charges are non-refundable.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">36. What items are not eligible for return?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Used, worn, damaged, or non-compliant items are not eligible for return. Watches are strictly non-returnable under any circumstances.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 9: Personal Shopping -->
+                <div class="faq-section-group" data-category="pre-orders">
+                    <h2 class="faq-section-title">Personal Shopping</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">37. How do I place a Personal Shopping request?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Contact our customer care team via WhatsApp with your product request — including the style, size, and any specific preferences. Our team will confirm availability and share all details before any payment is taken.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">38. How long does Personal Shopping delivery take?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Personal Shopping orders are typically delivered within 15 to 18 working days from the date of confirmed payment.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">39. How is payment handled for Personal Shopping?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Payment is collected in full via Bank Transfer only, after availability has been confirmed by our team. Sourcing begins only once payment is received.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">40. Can a Personal Shopping order be cancelled?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Personal Shopping orders can only be cancelled before processing begins. Once sourcing has started, cancellation is not possible.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">41. What happens if you cannot source my requested product?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>If we are unable to source the product you requested, a full refund will be issued promptly — no deductions and no delays.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 10: Product Quality -->
+                <div class="faq-section-group" data-category="product-quality">
+                    <h2 class="faq-section-title">Product Quality And Visual Accuracy</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">42. Can I see product videos or more images?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes. Customers can view real product visuals on our TikTok and Instagram pages.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">43. Are the products the same as shown online?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes. What you see is what you receive.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">44. Do you edit or enhance product images?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Images may be lightly edited for lighting and clarity, but the product's colour, shape, size, and design are never altered.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">45. Can I request additional photos or videos before ordering?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>For selected products, you may contact us via WhatsApp to request additional visuals, subject to availability.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 11: Support -->
+                <div class="faq-section-group" data-category="support">
+                    <h2 class="faq-section-title">Support</h2>
+                    <div class="faq-items-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">46. How will I receive order updates?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Order updates are shared via WhatsApp and email throughout the process.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">47. Is customer support available for international customers?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes. All customer support is managed from Qatar and is available for both Qatar and Dubai/GCC customers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text">48. What should I do if I need help before placing an order?</span>
+                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Contact our support team via WhatsApp for product details, sizing guidance, service clarification, or to initiate a Personal Shopping request.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Results -->
+                <div class="faq-no-results" id="faqNoResults" style="display:none;">
+                    <h3 class="faq-no-results-title">No results found</h3>
+                    <p class="faq-no-results-text">We couldn't find any match for your search. Try checking your spelling or search for another term.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Bottom Form -->
+<section class="contact-form-section">
+    <div class="contact-form-inner">
+        <div class="contact-form-intro">
+            <h2>{{ section.settings.form_heading | default: "Send Us A Message" }}</h2>
+            <p>{{ section.settings.form_subheading | default: "Fill out the form and we'll get back to you as quickly as possible." }}</p>
+        </div>
+
+        <div class="contact-form-wrapper">
+            {%- form 'contact', id: 'ContactForm' -%}
+                {%- if form.posted_successfully? -%}
+                    <div class="wpcf7-response-output sent" role="status">
+                        Thanks for contacting us! We'll get back to you as soon as possible.
+                    </div>
+                {%- elsif form.errors -%}
+                    <div class="wpcf7-response-output invalid" role="alert">
+                        {{ form.errors | default_errors }}
+                    </div>
+                {%- endif -%}
+
+                <p>
+                    <span>
+                        <input type="text" name="contact[first_name]" placeholder="First Name" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required aria-required="true" />
+                    </span>
+                    <span>
+                        <input type="text" name="contact[last_name]" placeholder="Last Name" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required aria-required="true" />
+                    </span>
+                    <span>
+                        <input type="email" name="contact[email]" placeholder="Email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required aria-required="true" />
+                    </span>
+                    <span>
+                        <input type="tel" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" />
+                    </span>
+                    <span class="full-width">
+                        <textarea cols="40" rows="10" name="contact[body]" placeholder="Your Message" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                    </span>
+                    <input type="hidden" name="contact[customer_type]" value="qatar" id="contact-customer-type" />
+                    <input type="submit" class="wpcf7-submit" id="RealContactSubmit" value="Send Message" style="display:none;" />
+                </p>
+            {%- endform -%}
+
+            <div class="contact-bottom-row">
+                <button type="button" class="contact-submit-custom" onclick="document.getElementById('RealContactSubmit').click();">
+                    <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17.5 2.5L12.0833 17.5L9.16667 10.8333L2.5 7.91667L17.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Send a Message</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mobile Bottom Navigation Sheet -->
+<div class="faq-mobile-bar" id="faqMobileBar">
+    <span class="faq-mobile-bar-label">General</span>
+    <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7.5l5 5 5-5"/></svg>
+    <div class="faq-mobile-bar-progress">
+        <div class="faq-mobile-bar-progress-fill" id="faqMobileProgressFill"></div>
+    </div>
+</div>
+
+<div class="faq-mobile-overlay" id="faqMobileOverlay">
+    <div class="faq-mobile-overlay-card">
+        <div class="faq-mobile-overlay-item active" data-target="general">
+            <span>General</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="cart-and-order-rules">
+            <span>Cart And Order Rules</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="qatar-customers">
+            <span>Qatar Customers</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="uae-customers">
+            <span>UAE Customers</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="gcc-and-international">
+            <span>GCC And International Customers</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="shipping-and-delivery">
+            <span>Shipping And Delivery</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="payments">
+            <span>Payments</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="returns-and-refunds">
+            <span>Returns And Refunds</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="pre-orders">
+            <span>Personal Shopping</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="product-quality">
+            <span>Product Quality & Visual Accuracy</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="faq-mobile-overlay-item" data-target="support">
+            <span>Support</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+    </div>
+</div>
+
+<script>
+  (function() {
+      // ── Accordion toggle ──
+      var questions = document.querySelectorAll('.faq-question');
+      questions.forEach(function(q) {
+          q.addEventListener('click', function() {
+              var item = this.parentElement;
+              var isActive = item.classList.contains('active');
+              
+              // Close other items in the same section
+              var container = item.parentElement;
+              container.querySelectorAll('.faq-item').forEach(function(other) {
+                  other.classList.remove('active');
+                  other.querySelector('.faq-answer').style.maxHeight = null;
+              });
+
+              if (!isActive) {
+                  item.classList.add('active');
+                  var ans = item.querySelector('.faq-answer');
+                  ans.style.maxHeight = ans.scrollHeight + "px";
+              }
+          });
+      });
+
+      // ── Navigation Categories Active Styling on Scroll ──
+      var sections = document.querySelectorAll('.faq-section-group');
+      var sidebarItems = document.querySelectorAll('.faq-sidebar-item');
+      var barLabel = document.querySelector('.faq-mobile-bar-label');
+      var categoryKeys = Array.from(sidebarItems).map(function(item) { return item.getAttribute('data-target'); });
+
+      function getScrollableParent(node) {
+          if (node == null) return null;
+          if (node.scrollHeight > node.clientHeight && window.getComputedStyle(node).overflowY === 'auto') {
+              return node;
+          }
+          return getScrollableParent(node.parentNode);
+      }
+
+      var scrollContainer = window;
+      var desktopScrollContainer = document.querySelector('.faq-sections');
+      
+      function onScroll() {
+          var scrollY = window.scrollY || window.pageYOffset;
+          var activeCat = categoryKeys[0];
+          
+          sections.forEach(function(sec) {
+              var rect = sec.getBoundingClientRect();
+              if (rect.top <= 160) {
+                  activeCat = sec.getAttribute('data-category');
+              }
+          });
+          setActiveCategory(activeCat);
+      }
+
+      if (window.innerWidth >= 1024) {
+          if (desktopScrollContainer) {
+              desktopScrollContainer.addEventListener('scroll', function() {
+                  var activeCat = categoryKeys[0];
+                  sections.forEach(function(sec) {
+                      if (sec.offsetTop - desktopScrollContainer.scrollTop <= 40) {
+                          activeCat = sec.getAttribute('data-category');
+                      }
+                  });
+                  setActiveCategory(activeCat);
+              });
+          }
+      } else {
+          window.addEventListener('scroll', onScroll);
+      }
+
+      function setActiveCategory(cat) {
+          sidebarItems.forEach(function(item) {
+              item.classList.toggle('active', item.getAttribute('data-target') === cat);
+          });
+          if (barLabel) {
+              var section = document.querySelector('.faq-section-group[data-category="' + cat + '"]');
+              if (section) {
+                  barLabel.textContent = section.querySelector('.faq-section-title').textContent;
+              }
+          }
+          document.querySelectorAll('.faq-mobile-overlay-item').forEach(function(oi) {
+              oi.classList.toggle('active', oi.getAttribute('data-target') === cat);
+          });
+          updateMobileProgress(cat);
+      }
+
+      function updateMobileProgress(cat) {
+          var idx = categoryKeys.indexOf(cat);
+          var fill = document.getElementById('faqMobileProgressFill');
+          if (fill && idx >= 0) {
+              var pct = ((idx + 1) / categoryKeys.length) * 100;
+              fill.style.width = pct + '%';
+          }
+      }
+
+      // ── Sidebar click scroll ──
+      sidebarItems.forEach(function(si) {
+          si.addEventListener('click', function() {
+              var target = this.getAttribute('data-target');
+              var section = document.querySelector('.faq-section-group[data-category="' + target + '"]');
+              if (section) {
+                  if (window.innerWidth >= 1024 && desktopScrollContainer) {
+                      desktopScrollContainer.scrollTo({
+                          top: section.offsetTop - 20,
+                          behavior: 'smooth'
+                      });
+                  } else {
+                      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                  setActiveCategory(target);
+              }
+          });
+      });
+
+      // ── Search filtering ──
+      var searchInputs = document.querySelectorAll('.faq-search input');
+      var debounceTimer;
+      searchInputs.forEach(function(input) {
+          input.addEventListener('input', function() {
+              searchInputs.forEach(function(other) {
+                  if (other !== input) other.value = input.value;
+              });
+              clearTimeout(debounceTimer);
+              debounceTimer = setTimeout(function() {
+                  filterFaq(input.value.trim().toLowerCase());
+              }, 200);
+          });
+      });
+
+      function filterFaq(query) {
+          var totalVisible = 0;
+          sections.forEach(function(sec) {
+              var items = sec.querySelectorAll('.faq-item');
+              var visibleCount = 0;
+              items.forEach(function(item) {
+                  var qText = item.querySelector('.faq-question-text').textContent.toLowerCase();
+                  var aText = item.querySelector('.faq-answer').textContent.toLowerCase();
+                  var match = !query || qText.indexOf(query) !== -1 || aText.indexOf(query) !== -1;
+                  item.classList.toggle('faq-hidden', !match);
+                  if (match) visibleCount++;
+              });
+              sec.classList.toggle('faq-hidden', visibleCount === 0);
+              totalVisible += visibleCount;
+          });
+          var noResults = document.getElementById('faqNoResults');
+          if (noResults) {
+              noResults.style.display = (query && totalVisible === 0) ? '' : 'none';
+          }
+      }
+
+      // ── Mobile bottom sheet ──
+      var mobileBar = document.getElementById('faqMobileBar');
+      var mobileOverlay = document.getElementById('faqMobileOverlay');
+
+      if (mobileBar && mobileOverlay) {
+          mobileBar.addEventListener('click', function() {
+              mobileOverlay.classList.add('active');
+          });
+
+          mobileOverlay.addEventListener('click', function(e) {
+              if (e.target === mobileOverlay) {
+                  mobileOverlay.classList.remove('active');
+              }
+          });
+
+          document.querySelectorAll('.faq-mobile-overlay-item').forEach(function(oi) {
+              oi.addEventListener('click', function() {
+                  var target = this.getAttribute('data-target');
+                  var section = document.querySelector('.faq-section-group[data-category="' + target + '"]');
+                  if (section) {
+                      mobileOverlay.classList.remove('active');
+                      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      setActiveCategory(target);
+                  }
+              });
+          });
+      }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FAQs Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FAQs"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Clear answers to common questions about shopping, delivery timelines, payment methods, returns, and product availability."
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form Heading",
+      "default": "Send Us A Message"
+    },
+    {
+      "type": "text",
+      "id": "form_subheading",
+      "label": "Form Subheading",
+      "default": "Fill out the form and we'll get back to you as quickly as possible."
+    }
+  ]
+}
+{% endschema %}

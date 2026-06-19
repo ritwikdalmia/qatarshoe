@@ -882,6 +882,52 @@
   }
 
   
+  async function fetchDynamicShippingRates() {
+    try {
+      const res = await fetch('/cart/shipping_rates.json?shipping_address[country]=Qatar');
+      if (!res.ok) throw new Error('Network error or cart empty');
+      const data = await res.json();
+      if (data.shipping_rates && data.shipping_rates.length > 0) {
+        populateShippingDropdown(data.shipping_rates);
+      }
+    } catch (e) {
+      console.log('Using default shipping rates:', e);
+    }
+  }
+
+  function populateShippingDropdown(rates) {
+    const container = document.getElementById('cs-opts');
+    if (!container) return;
+    
+    const isAr = document.documentElement.lang === 'ar' || window.location.pathname.startsWith('/ar');
+    let html = '';
+    
+    rates.forEach((rate, index) => {
+      const priceNum = parseFloat(rate.price);
+      let feeText = '';
+      if (priceNum === 0) {
+        feeText = isAr ? 'مجاني' : 'Free';
+      } else {
+        feeText = `QAR ${priceNum.toFixed(0)}`;
+      }
+      
+      const nameLower = rate.name.toLowerCase();
+      const isNext = nameLower.includes('khor') || nameLower.includes('shamal') || nameLower.includes('shaniyah') || nameLower.includes('dukhan') || nameLower.includes('shahaniyah');
+      const timeVal = isNext ? 'next' : 'same';
+      
+      const activeClass = index === 0 ? 'active' : '';
+      
+      html += `<div class="cs-opt ${activeClass}" data-fee="${feeText}" data-time="${timeVal}" onclick="pickCity(this)">${rate.name}</div>`;
+    });
+    
+    container.innerHTML = html;
+    
+    const firstOpt = container.querySelector('.cs-opt');
+    if (firstOpt) {
+      pickCity(firstOpt);
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     
     document.querySelectorAll('.color-swatch').forEach(swatch => {
@@ -911,6 +957,9 @@
         heartSvg.setAttribute('stroke', '#e74c3c');
       }
     }
+
+    // Load dynamic shipping rates from active Shopify shipping settings
+    fetchDynamicShippingRates();
   });
 </script>
 

@@ -1,0 +1,620 @@
+{%- style -%}
+  .pp-main {
+      padding: 96px 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+  }
+
+  .pp-header {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+  }
+
+  .pp-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 64px;
+      font-weight: 400;
+      line-height: 100%;
+      letter-spacing: 0;
+      color: #2D1F1F;
+      text-transform: capitalize;
+      margin: 0;
+  }
+
+  .pp-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #666666;
+      margin: 0;
+  }
+
+  .pp-columns {
+      display: flex;
+      gap: 48px;
+      width: 100%;
+  }
+
+  .pp-sidebar {
+      width: 431px;
+      flex-shrink: 0;
+  }
+
+  .pp-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      min-width: 0;
+  }
+
+  .pp-sidebar-nav {
+      border: 1px solid #E0DCD3;
+      border-radius: 20px;
+      overflow: hidden;
+      position: sticky;
+      top: 120px;
+      max-height: calc(100vh - 140px);
+      overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+  }
+
+  .pp-sidebar-nav::-webkit-scrollbar {
+      display: none;
+  }
+
+  .pp-sidebar-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      height: 48px;
+      border-bottom: 1px solid #E0DCD3;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(45, 31, 31, 0.7);
+      background: #fff;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+      user-select: none;
+  }
+
+  .pp-sidebar-item:last-child {
+      border-bottom: none;
+  }
+
+  .pp-sidebar-item:hover {
+      color: #2D1F1F;
+  }
+
+  .pp-sidebar-item.active {
+      font-weight: 600;
+      color: #2D1F1F;
+      background: #FAF8F5;
+  }
+
+  .pp-sidebar-item svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+  }
+
+  .pp-intro {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+  }
+
+  .pp-intro p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      letter-spacing: 0;
+      color: #2D1F1F;
+      margin: 0;
+  }
+
+  .pp-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+  }
+
+  .pp-section {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      scroll-margin-top: 140px;
+  }
+
+  .pp-section-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 40px;
+      letter-spacing: 0;
+      color: #2D1F1F;
+      text-transform: capitalize;
+      margin: 0;
+  }
+
+  .pp-section-body {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+  }
+
+  .pp-section-body p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      letter-spacing: 0;
+      color: #2D1F1F;
+      margin: 0;
+  }
+
+  .pp-sub-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  .pp-sub-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 24px;
+      color: #2D1F1F;
+      margin: 0;
+  }
+
+  .pp-section-body ul {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      letter-spacing: 0;
+      color: #2D1F1F;
+      margin: 0;
+      padding-left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+  }
+
+  .pp-section-body ul li {
+      padding-left: 4px;
+  }
+
+  .pp-card-grid {
+      background: #E0DCD3;
+      border-radius: 24px;
+      padding: 1px;
+      display: flex;
+      flex-direction: row;
+      gap: 1px;
+      overflow: hidden;
+  }
+
+  .pp-card {
+      background: #fff;
+      padding: 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  .pp-card:first-child {
+      border-radius: 23px 0 0 23px;
+  }
+
+  .pp-card:last-child {
+      border-radius: 0 23px 23px 0;
+  }
+
+  .pp-card-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 24px;
+      color: #2D1F1F;
+      margin: 0;
+  }
+
+  .pp-card p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      color: #2D1F1F;
+      margin: 0;
+  }
+
+  .pp-mobile-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 16px;
+      right: 16px;
+      z-index: 1000;
+      border: 1px solid #E0DCD3;
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px 16px;
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .pp-mobile-bar-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #2D1F1F;
+  }
+
+  .pp-mobile-bar svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+  }
+
+  .pp-mobile-bar-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(45, 31, 31, 0.1);
+      border-radius: 0 0 7px 7px;
+      overflow: hidden;
+  }
+
+  .pp-mobile-bar-progress-fill {
+      height: 100%;
+      background: #2D1F1F;
+      width: 0%;
+      transition: width 0.3s ease;
+  }
+
+  .pp-mobile-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px;
+  }
+
+  .pp-mobile-overlay.active {
+      display: flex;
+  }
+
+  .pp-mobile-overlay-card {
+      background: #fff;
+      border: 1px solid #E0DCD3;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 400px;
+      max-height: 70vh;
+      overflow-y: auto;
+      margin-bottom: 58px;
+  }
+
+  .pp-mobile-overlay-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      min-height: 48px;
+      border-bottom: 1px solid #E0DCD3;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(45, 31, 31, 0.7);
+      background: #fff;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+  }
+
+  .pp-mobile-overlay-item:last-child {
+      border-bottom: none;
+  }
+
+  .pp-mobile-overlay-item.active {
+      font-weight: 600;
+      color: #2D1F1F;
+      pointer-events: none;
+  }
+
+  .pp-mobile-overlay-item.active svg {
+      display: none;
+  }
+
+  .pp-mobile-overlay-item svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+  }
+
+  @media (max-width: 1023px) {
+      .pp-main {
+          padding: 64px 40px;
+      }
+      .pp-sidebar {
+          display: none;
+      }
+      .pp-mobile-bar {
+          display: flex;
+      }
+  }
+
+  @media (max-width: 767px) {
+      .pp-main {
+          padding: 48px 24px;
+      }
+      .pp-title {
+          font-size: 32px;
+      }
+      .pp-columns {
+          flex-direction: column;
+      }
+      .pp-card-grid {
+          flex-direction: column;
+      }
+      .pp-card:first-child {
+          border-radius: 23px 23px 0 0;
+      }
+      .pp-card:last-child {
+          border-radius: 0 0 23px 23px;
+      }
+  }
+{%- endstyle -%}
+
+<script>
+  document.body.classList.add('privacy-policy-page-body');
+</script>
+
+<main class="pp-main">
+    <div class="pp-header">
+        <h1 class="pp-title">{{ section.settings.heading | default: page.title }}</h1>
+        <p class="pp-subtitle">{{ section.settings.subheading | default: "Last updated: January 15, 2026" }}</p>
+    </div>
+
+    <div class="pp-columns">
+        <!-- Sidebar Navigation (Desktop) -->
+        <aside class="pp-sidebar">
+            <nav class="pp-sidebar-nav">
+                {%- assign is_first = true -%}
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'policy_section' -%}
+                        <div class="pp-sidebar-item{% if is_first %} active{% endif %}" data-target="{{ block.settings.title | handleize }}" {{ block.shopify_attributes }}>
+                            <span>{{ block.settings.title }}</span>
+                            <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                        </div>
+                        {%- assign is_first = false -%}
+                    {%- endif -%}
+                {%- endfor -%}
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="pp-content">
+            {%- if section.settings.intro_text != blank -%}
+                <div class="pp-intro">
+                    {{ section.settings.intro_text }}
+                </div>
+            {%- endif -%}
+
+            <div class="pp-sections">
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'policy_section' -%}
+                        <div class="pp-section" id="{{ block.settings.title | handleize }}" data-section="{{ block.settings.title | handleize }}" {{ block.shopify_attributes }}>
+                            <h2 class="pp-section-title">{{ block.settings.title }}</h2>
+                            <div class="pp-section-body">
+                                {{ block.settings.content }}
+                            </div>
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Mobile Sticky Navigation Bar -->
+<div class="pp-mobile-bar" id="ppMobileBar">
+    <span class="pp-mobile-bar-label">Changes To This Privacy Policy</span>
+    <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7.5l5 5 5-5"/></svg>
+    <div class="pp-mobile-bar-progress">
+        <div class="pp-mobile-bar-progress-fill" id="ppMobileProgressFill"></div>
+    </div>
+</div>
+
+<!-- Mobile Navigation Drawer Overlay -->
+<div class="pp-mobile-overlay" id="ppMobileOverlay">
+    <div class="pp-mobile-overlay-card">
+        {%- assign is_first = true -%}
+        {%- for block in section.blocks -%}
+            {%- if block.type == 'policy_section' -%}
+                <div class="pp-mobile-overlay-item{% if is_first %} active{% endif %}" data-target="{{ block.settings.title | handleize }}">
+                    <span>{{ block.settings.title }}</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                {%- assign is_first = false -%}
+            {%- endif -%}
+        {%- endfor -%}
+    </div>
+</div>
+
+<script>
+  (function() {
+      var sections = document.querySelectorAll('.pp-section');
+      var sidebarItems = document.querySelectorAll('.pp-sidebar-item');
+      var barLabel = document.querySelector('.pp-mobile-bar-label');
+      var categoryKeys = Array.from(sidebarItems).map(function(item) { return item.getAttribute('data-target'); });
+
+      // Handle sidebar item click (smooth scroll)
+      sidebarItems.forEach(function(item) {
+          item.addEventListener('click', function() {
+              var targetId = this.getAttribute('data-target');
+              var targetElement = document.getElementById(targetId);
+              if (targetElement) {
+                  window.scrollTo({
+                      top: targetElement.offsetTop - 130,
+                      behavior: 'smooth'
+                  });
+              }
+          });
+      });
+
+      // Handle mobile overlay items
+      var mobileOverlayItems = document.querySelectorAll('.pp-mobile-overlay-item');
+      mobileOverlayItems.forEach(function(item) {
+          item.addEventListener('click', function() {
+              var targetId = this.getAttribute('data-target');
+              var targetElement = document.getElementById(targetId);
+              if (targetElement) {
+                  window.scrollTo({
+                      top: targetElement.offsetTop - 130,
+                      behavior: 'smooth'
+                  });
+              }
+              closeMobileDrawer();
+          });
+      });
+
+      // Handle mobile bottom sheet triggers
+      var mobileBar = document.getElementById('ppMobileBar');
+      var mobileOverlay = document.getElementById('ppMobileOverlay');
+
+      if (mobileBar) {
+          mobileBar.addEventListener('click', function(e) {
+              e.stopPropagation();
+              mobileOverlay.classList.toggle('active');
+          });
+      }
+
+      function closeMobileDrawer() {
+          if (mobileOverlay) mobileOverlay.classList.remove('active');
+      }
+
+      document.addEventListener('click', function(e) {
+          if (mobileOverlay && !e.target.closest('.pp-mobile-overlay-card') && !e.target.closest('#ppMobileBar')) {
+              closeMobileDrawer();
+          }
+      });
+
+      // Active state on scroll & progress indicator
+      function onScroll() {
+          var scrollY = window.scrollY || window.pageYOffset;
+          var activeCat = categoryKeys[0];
+          
+          sections.forEach(function(sec) {
+              var rect = sec.getBoundingClientRect();
+              if (rect.top <= 160) {
+                  activeCat = sec.getAttribute('data-section');
+              }
+          });
+          setActiveCategory(activeCat);
+      }
+
+      window.addEventListener('scroll', onScroll);
+
+      function setActiveCategory(cat) {
+          sidebarItems.forEach(function(item) {
+              item.classList.toggle('active', item.getAttribute('data-target') === cat);
+          });
+          if (barLabel) {
+              var section = document.getElementById(cat);
+              if (section) {
+                  barLabel.textContent = section.querySelector('.pp-section-title').textContent;
+              }
+          }
+          document.querySelectorAll('.pp-mobile-overlay-item').forEach(function(oi) {
+              oi.classList.toggle('active', oi.getAttribute('data-target') === cat);
+          });
+          updateMobileProgress(cat);
+      }
+
+      function updateMobileProgress(cat) {
+          var index = categoryKeys.indexOf(cat);
+          if (index === -1) index = 0;
+          var pct = ((index + 1) / categoryKeys.length) * 100;
+          var fill = document.getElementById('ppMobileProgressFill');
+          if (fill) fill.style.width = pct + "%";
+      }
+
+      // Initial run
+      if (categoryKeys.length > 0) {
+          setActiveCategory(categoryKeys[0]);
+      }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Privacy Policy",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Last updated: January 15, 2026"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Introductory Text",
+      "default": "<p>This Privacy Policy describes how qtrshoe collects, uses, and discloses your personal information when you visit, use our services, or make a purchase.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "policy_section",
+      "name": "Policy Section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Section Title",
+          "default": "Changes To This Privacy Policy"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Section Content",
+          "default": "<p>We may update this Privacy Policy from time to time, including to reflect changes to our practices or for other operational, legal, or regulatory reasons.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

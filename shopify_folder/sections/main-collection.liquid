@@ -66,16 +66,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 20px;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
     background: #fff;
+    overflow: hidden;
   }
   .toolbar-left {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex: 1;
+    min-width: 0;
+    flex-wrap: nowrap;
   }
   .results-count {
     font-size: 13px;
@@ -399,7 +403,7 @@
 
 {%- paginate collection.products by products_per_page -%}
   <div class="collection-toolbar">
-    <div class="toolbar-left" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+    <div class="toolbar-left" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; flex: 1; min-width: 0;">
       <span class="results-count">{{ collection.products_count }} results</span>
 
       
@@ -704,33 +708,102 @@
       
       <div class="filters-drawer-content">
         {%- for filter in collection.filters -%}
-          <div class="filter-drawer-section active" data-filter-type="{{ filter.label | downcase }}">
+          <div class="filter-drawer-section" data-filter-type="{{ filter.label | downcase }}">
             <div class="filter-section-header" onclick="toggleFilterSection(this)">
               <h3>{{ filter.label }}</h3>
               <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
             </div>
             
             <div class="filter-section-content">
-              {%- if filter.label == 'Brand' or filter.label == 'Brand' or filter.label == 'Brands' or filter.label == 'Type' or filter.label == 'Types' -%}
-                <div class="filter-search-wrap" style="margin-bottom: 12px; position: relative;">
-                  <input type="text" class="filter-search-input" placeholder="Search {{ filter.label | downcase }}..." onkeyup="filterCheckboxList(this)" style="width: 100%; padding: 10px 14px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit; font-size: 13px; outline: none; box-sizing: border-box;">
+              {%- if filter.type == 'price_range' -%}
+                <div class="filter-price-range" style="display: flex; align-items: center; gap: 10px; padding: 10px 0;">
+                  <div class="price-range-field" style="flex: 1; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 13px; color: var(--color-muted);">Min</span>
+                    <input type="number" 
+                           name="{{ filter.min_value.param_name }}"
+                           id="Filter-{{ filter.label | handle }}-Min"
+                           {%- if filter.min_value.value -%}
+                             value="{{ filter.min_value.value | divided_by: 100 }}"
+                           {%- endif -%}
+                           placeholder="0"
+                           min="0"
+                           max="{{ filter.range_max | divided_by: 100 }}"
+                           class="filter-price-input"
+                           style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit; font-size: 13px; box-sizing: border-box;">
+                  </div>
+                  <div class="price-range-field" style="flex: 1; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 13px; color: var(--color-muted);">Max</span>
+                    <input type="number" 
+                           name="{{ filter.max_value.param_name }}"
+                           id="Filter-{{ filter.label | handle }}-Max"
+                           {%- if filter.max_value.value -%}
+                             value="{{ filter.max_value.value | divided_by: 100 }}"
+                           {%- endif -%}
+                           placeholder="{{ filter.range_max | divided_by: 100 }}"
+                           min="0"
+                           max="{{ filter.range_max | divided_by: 100 }}"
+                           class="filter-price-input"
+                           style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit; font-size: 13px; box-sizing: border-box;">
+                  </div>
+                </div>
+              {%- else -%}
+                {%- if filter.label == 'Brand' or filter.label == 'Brand' or filter.label == 'Brands' or filter.label == 'Type' or filter.label == 'Types' -%}
+                  <div class="filter-search-wrap" style="margin-bottom: 12px; position: relative;">
+                    <input type="text" class="filter-search-input" placeholder="Search {{ filter.label | downcase }}..." onkeyup="filterCheckboxList(this)" style="width: 100%; padding: 10px 14px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit; font-size: 13px; outline: none; box-sizing: border-box;">
+                  </div>
+                {%- endif -%}
+
+                <div class="filter-checkbox-list" style="max-height: 240px; overflow-y: auto; padding-right: 4px;">
+                  {%- for value in filter.values -%}
+                    <label class="filter-checkbox-label" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; font-weight: 400; text-transform: none; line-height: 1;">
+                      <span style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} class="filter-drawer-checkbox" style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); border: 1px solid var(--color-border); border-radius: 4px;">
+                        <span class="filter-value-text">{{ value.label }}</span>
+                      </span>
+                      <span style="color: #888; font-size: 12px;">({{ value.count }})</span>
+                    </label>
+                  {%- endfor -%}
                 </div>
               {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+
+        {%- liquid
+          assign has_brand_filter = false
+          for filter in collection.filters
+            assign filter_label_down = filter.label | downcase
+            if filter_label_down contains 'brand' or filter_label_down contains 'vendor' or filter_label_down contains 'ماركة'
+              assign has_brand_filter = true
+            endif
+          endfor
+        -%}
+
+        {%- if has_brand_filter == false and collection.all_vendors.size > 0 -%}
+          <div class="filter-drawer-section" data-filter-type="brand">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)">
+              <h3>{% if request.locale.iso_code == 'ar' %}البراند{% else %}Brand{% endif %}</h3>
+              <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
+            </div>
+            
+            <div class="filter-section-content">
+              <div class="filter-search-wrap" style="margin-bottom: 12px; position: relative;">
+                <input type="text" class="filter-search-input" placeholder="{% if request.locale.iso_code == 'ar' %}ابحث عن البراند...{% else %}Search brand...{% endif %}" onkeyup="filterCheckboxList(this)" style="width: 100%; padding: 10px 14px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit; font-size: 13px; outline: none; box-sizing: border-box;">
+              </div>
 
               <div class="filter-checkbox-list" style="max-height: 240px; overflow-y: auto; padding-right: 4px;">
-                {%- for value in filter.values -%}
+                {%- for vendor in collection.all_vendors -%}
                   <label class="filter-checkbox-label" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; font-weight: 400; text-transform: none; line-height: 1;">
                     <span style="display: flex; align-items: center; gap: 8px;">
-                      <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} class="filter-drawer-checkbox" style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); border: 1px solid var(--color-border); border-radius: 4px;">
-                      <span class="filter-value-text">{{ value.label }}</span>
+                      <input type="checkbox" name="filter.p.vendor" value="{{ vendor | escape }}" class="filter-drawer-checkbox custom-brand-cb" style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); border: 1px solid var(--color-border); border-radius: 4px;">
+                      <span class="filter-value-text">{{ vendor }}</span>
                     </span>
-                    <span style="color: #888; font-size: 12px;">({{ value.count }})</span>
                   </label>
                 {%- endfor -%}
               </div>
             </div>
           </div>
-        {%- endfor -%}
+        {%- endif -%}
       </div>
 
       
@@ -798,6 +871,18 @@
     const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:checked');
     checkboxes.forEach(cb => {
       newParams.append(cb.name, cb.value);
+    });
+    
+    const customBrandCbs = document.querySelectorAll('.custom-brand-cb:checked');
+    customBrandCbs.forEach(cb => {
+      newParams.append(cb.name, cb.value);
+    });
+
+    const priceInputs = document.querySelectorAll('.filter-price-input');
+    priceInputs.forEach(input => {
+      if (input.value !== '') {
+        newParams.append(input.name, input.value);
+      }
     });
     
     newParams.delete('page');
@@ -898,6 +983,14 @@
     if (typeof window.applyStoreCurrency === 'function') {
       window.applyStoreCurrency(savedCurrency);
     }
+    
+    const params = new URLSearchParams(window.location.search);
+    const activeVendors = params.getAll('filter.p.vendor');
+    document.querySelectorAll('.custom-brand-cb').forEach(cb => {
+      if (activeVendors.includes(cb.value)) {
+        cb.checked = true;
+      }
+    });
   });
 </script>
 
