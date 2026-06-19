@@ -71,7 +71,7 @@
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
     background: #fff;
-    overflow: hidden;
+    overflow: visible;
   }
   .toolbar-left {
     display: flex;
@@ -503,7 +503,7 @@
                 {%- assign all_label = 'All' -%}
               {%- endif -%}
 
-              <a href="{{ collection.url }}" class="filter-pill active">{{ all_label }}</a>
+              <a href="{{ collection.url }}" class="filter-pill active" data-is-brand-all="true">{{ all_label }}</a>
 
               {%- comment -%} Dynamically extract category collection links from menus {%- endcomment -%}
               {%- assign category_links = "" -%}
@@ -534,7 +534,45 @@
                 {%- assign title = parts[0] -%}
                 {%- assign handle = parts[1] -%}
                 {%- if title != blank and handle != blank -%}
-                  <a href="/collections/{{ handle }}?filter.p.vendor={{ vendor_name | url_encode }}" class="filter-pill">{{ title }}</a>
+                  {%- comment -%} Build type list based on category handle {%- endcomment -%}
+                  {%- assign query_params = "" -%}
+                  {%- assign type_values_str = "" -%}
+                  
+                  {%- if handle contains 'bags' or handle contains 'leather' -%}
+                    {%- assign types_list = "Bags,Bag,All Bags,Handbags,Mini Bags,Shoulder Bags,Tote Bags,Backpacks,Travel Bags,Wallets,Card Holders,Pouches,Small Leather Goods" | split: ',' -%}
+                  {%- elsif handle contains 'shoes' -%}
+                    {%- assign types_list = "Shoes,Shoe,All Shoes,Sneakers,Sandals,Boots,Heels,Flats,Mules,Loafers,Ballet Flats" | split: ',' -%}
+                  {%- elsif handle contains 'watches' -%}
+                    {%- assign types_list = "Watches,Watch,All Watches" | split: ',' -%}
+                  {%- elsif handle contains 'jewel' -%}
+                    {%- assign types_list = "Jewellery,Jewelry,Jewellry,All Jewellery,Rings,Anklets,Earrings,Bracelets,Necklaces" | split: ',' -%}
+                  {%- elsif handle contains 'access' -%}
+                    {%- assign types_list = "Accessories,Accessory,All Accessories,Belts,Caps,Straps,Badge Holders,Home Accessories,Key Holders & Bag Charms" | split: ',' -%}
+                  {%- elsif handle contains 'cloth' -%}
+                    {%- assign types_list = "Clothing,T-shirts,Tops,All Clothing" | split: ',' -%}
+                  {%- else -%}
+                    {%- assign types_list = title | split: ',' -%}
+                  {%- endif -%}
+
+                  {%- for type_item in types_list -%}
+                    {%- assign type_encoded = type_item | strip | url_encode -%}
+                    {%- if forloop.first -%}
+                      {%- assign query_params = query_params | append: "filter.p.product_type=" | append: type_encoded -%}
+                    {%- else -%}
+                      {%- assign query_params = query_params | append: "&filter.p.product_type=" | append: type_encoded -%}
+                    {%- endif -%}
+                    {%- assign type_values_str = type_values_str | append: type_item | strip -%}
+                    {%- unless forloop.last -%}
+                      {%- assign type_values_str = type_values_str | append: "," -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+
+                  <a href="{{ collection.url }}?{{ query_params }}" 
+                     class="filter-pill filter-pill-category-type" 
+                     data-type-values="{{ type_values_str | escape }}" 
+                     onclick="toggleCategoryTypeFilter(this, event)">
+                    {{ title }}
+                  </a>
                 {%- endif -%}
               {%- endfor -%}
               {%- assign show_fallback = false -%}
@@ -1120,9 +1158,48 @@
     
     window.location.href = parentUrl + (params.toString() ? '?' + params.toString() : '');
   }
+  function initCategoryTypeFilters() {
+    const params = new URLSearchParams(window.location.search);
+    const activeTypes = params.getAll('filter.p.product_type');
+    const pills = document.querySelectorAll('.filter-pill-category-type');
+    
+    let activePillFound = false;
+    
+    if (activeTypes.length > 0) {
+      pills.forEach(pill => {
+        const valuesAttr = pill.getAttribute('data-type-values');
+        if (valuesAttr) {
+          const values = valuesAttr.split(',');
+          const hasIntersection = activeTypes.some(type => values.includes(type));
+          if (hasIntersection) {
+            pill.classList.add('active');
+            activePillFound = true;
+          } else {
+            pill.classList.remove('active');
+          }
+        }
+      });
+    }
+    
+    // Highlight "All" pill if no category pill is active
+    const allPill = document.querySelector('.filter-pill[data-is-brand-all="true"]');
+    if (allPill) {
+      if (activePillFound) {
+        allPill.classList.remove('active');
+      } else {
+        allPill.classList.add('active');
+      }
+    }
+  }
+
+  function toggleCategoryTypeFilter(pill, event) {
+    event.preventDefault();
+    window.location.href = pill.getAttribute('href');
+  }
 
   document.addEventListener('DOMContentLoaded', function() {
     initTypeFilters();
+    initCategoryTypeFilters();
     var savedCurrency = localStorage.getItem('qtr_currency') || 'QAR';
     if (typeof window.applyStoreCurrency === 'function') {
       window.applyStoreCurrency(savedCurrency);
