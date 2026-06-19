@@ -1147,32 +1147,32 @@
     const currentParams = new URLSearchParams(window.location.search);
     const newParams = new URLSearchParams();
 
-    // ── Collection nav checkboxes (multi-select) ──────────────────────────────
-    const checkedCollCbs = document.querySelectorAll('.collection-nav-cb:checked');
-    const allColCb = document.querySelector('.collection-nav-all:checked');
-
-    if (checkedCollCbs.length > 0) {
-      if (allColCb) {
-        // "All" selected → navigate straight to parent URL, no extra filters
-        window.location.href = allColCb.getAttribute('data-collection-url');
-        return;
-      } else if (checkedCollCbs.length === 1) {
-        // Single sub-collection → navigate to it directly
-        window.location.href = checkedCollCbs[0].getAttribute('data-collection-url');
-        return;
-      } else {
-        // Multiple sub-collections selected → navigate to parent collection URL
-        const parentUrl = checkedCollCbs[0].getAttribute('data-parent-url') || '/collections/all';
-        window.location.href = parentUrl;
-        return;
-      }
-    }
-    // ─────────────────────────────────────────────────────────────────────────
-
+    // 1. Keep other query params (like search, language, etc.)
     for (const [key, value] of currentParams.entries()) {
       if (!key.startsWith('filter.p.') && !key.startsWith('filter.v.') && key !== 'sort_by') {
         newParams.append(key, value);
       }
+    }
+
+    // 2. Collection nav checkboxes (multi-select)
+    let baseUrl = window.location.pathname;
+    const checkedCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all):checked');
+    const allColCb = document.querySelector('.collection-nav-all:checked');
+
+    if (allColCb) {
+      baseUrl = allColCb.getAttribute('data-collection-url');
+    } else if (checkedCollCbs.length > 0) {
+      baseUrl = checkedCollCbs[0].getAttribute('data-parent-url') || '/collections/all';
+      checkedCollCbs.forEach(cb => {
+        const textEl = cb.closest('label').querySelector('.filter-value-text');
+        if (textEl) {
+          newParams.append('filter.p.product_type', textEl.textContent.trim());
+        }
+      });
+    } else {
+      // If we are on a parent collection page and have product types in current URL, preserve them
+      const currentTypes = currentParams.getAll('filter.p.product_type');
+      currentTypes.forEach(t => newParams.append('filter.p.product_type', t));
     }
     
     const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:not(.collection-nav-cb):checked');
@@ -1438,6 +1438,24 @@
         cb.checked = true;
       }
     });
+
+    // Sync drawer collection checkboxes with active product types
+    const activeTypes = params.getAll('filter.p.product_type');
+    if (activeTypes.length > 0) {
+      document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => {
+        const textEl = cb.closest('label').querySelector('.filter-value-text');
+        if (textEl) {
+          const ctitle = textEl.textContent.trim().toLowerCase();
+          const isMatched = activeTypes.some(t => t.toLowerCase() === ctitle);
+          if (isMatched) {
+            cb.checked = true;
+            // Also uncheck the "All" checkbox
+            const allCb = document.querySelector('.collection-nav-all');
+            if (allCb) allCb.checked = false;
+          }
+        }
+      });
+    }
   });
 </script>
 
