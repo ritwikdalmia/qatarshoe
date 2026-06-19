@@ -652,7 +652,7 @@
     const doTransition = () => {
       nextImg.style.position = 'absolute';
       nextImg.style.top = '0';
-      nextImg.style.left = '-100%';
+      nextImg.style.left = '100%';
       nextImg.style.width = '100%';
       nextImg.style.height = '100%';
       nextImg.style.objectFit = 'cover';
@@ -663,10 +663,10 @@
       // Force reflow
       nextImg.offsetWidth;
       
-      // Slide current image right and next image right
+      // Slide current image left and next image left
       currentImg.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      currentImg.style.transform = 'translateX(100%)';
-      nextImg.style.transform = 'translateX(100%)';
+      currentImg.style.transform = 'translateX(-100%)';
+      nextImg.style.transform = 'translateX(-100%)';
       
       // Remove ID from old image to prevent duplicate ID issues
       currentImg.removeAttribute('id');
