@@ -1,11 +1,6 @@
-/*
-  QatarShoes Shopify Theme — Full Replica Stylesheet
-  Mirrors: https://qatarshoe.com/ready-to-go/
-*/
 
-/* ==========================================
-   FONTS & RESET
-   ========================================== */
+
+
 @font-face {
   font-family: 'Canela Text';
   font-display: swap;
@@ -42,9 +37,7 @@ body {
   background: #fff;
 }
 
-/* ==========================================
-   CSS VARIABLES
-   ========================================== */
+
 :root {
   --color-primary:   #2d1f1f;
   --color-accent:    #f25c5e;
@@ -59,9 +52,7 @@ body {
   --header-height:   108px;
 }
 
-/* ==========================================
-   ===  HOMEPAGE DESKTOP HEADER  ===
-   ========================================== */
+
 .homepage-desktop-header {
   position: fixed;
   top: 0;
@@ -79,7 +70,7 @@ body {
   transform: translateY(-10px);
 }
 
-/* Row 1 */
+
 .desktop-header-row1 {
   display: flex;
   align-items: center;
@@ -88,7 +79,7 @@ body {
   position: relative;
 }
 
-/* Left: gender toggle */
+
 .desktop-header-left { flex: 1; }
 
 .dept-toggle {
@@ -116,19 +107,19 @@ body {
   background: rgba(255,255,255,0.18);
 }
 
-/* Center: Logo */
+
 .desktop-header-center {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   top: 50%;
-  margin-top: -14px; /* adjust for row1 padding */
+  margin-top: -14px; 
 }
 .desktop-header-logo img {
   height: 26px;
   width: auto;
 }
-/* fallback text logo when image not set */
+
 .desktop-header-logo .logo-text-fallback {
   font-family: var(--font-serif);
   font-size: 30px;
@@ -137,7 +128,7 @@ body {
   color: #fff;
 }
 
-/* Right: buttons */
+
 .desktop-header-right {
   flex: 1;
   display: flex;
@@ -146,18 +137,18 @@ body {
   gap: 12px;
 }
 
-/* Delivery mode selector — equal height with other pills */
+
 .delivery-mode-wrapper { position: relative; }
 .delivery-mode-selector {
   display: flex;
   align-items: center;
   gap: 6px;
-  height: 36px;                          /* FIXED HEIGHT */
+  height: 36px;                          
   background: rgba(153,153,153,0.2);
   backdrop-filter: blur(17.5px);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 45px;
-  padding: 0 14px;                       /* Use height not padding for vertical */
+  padding: 0 14px;                       
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -205,20 +196,20 @@ body {
 .dm-check { width: 14px; height: 14px; stroke: #333; }
 .delivery-mode-option:not(.is-active) .dm-check { display: none; }
 
-/* Header Search/Lang group — equal height with delivery pill */
+
 .header-search-lang-group {
   display: flex;
   align-items: center;
   gap: 14px;
-  height: 36px;                          /* FIXED HEIGHT */
+  height: 36px;                          
   background: rgba(153,153,153,0.2);
   backdrop-filter: blur(17.5px);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 45px;
-  padding: 0 14px;                       /* Use height not padding for vertical */
+  padding: 0 14px;                       
 }
 
-/* header separator */
+
 .header-v-sep {
   display: block;
   width: 1px;
@@ -226,7 +217,7 @@ body {
   background: rgba(255,255,255,0.25);
 }
 
-/* Currency selector */
+
 .currency-wrapper { position: relative; }
 .currency-selector {
   display: flex;
@@ -269,7 +260,7 @@ body {
 .currency-option:hover { background: #f5f5f5; }
 .currency-option.is-active { background: #f0f0f0; font-weight: 600; }
 
-/* Language selector */
+
 .lang-selector-wrapper { position: relative; }
 .lang-selector {
   display: flex;
@@ -314,17 +305,17 @@ body {
 .lang-check { width: 14px; height: 14px; }
 .lang-option:not(.is-active) .lang-check { display: none; }
 
-/* Icon group — equal height with other pills */
+
 .header-icon-group {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 36px;                          /* FIXED HEIGHT */
+  height: 36px;                          
   background: rgba(153,153,153,0.2);
   backdrop-filter: blur(17.5px);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 45px;
-  padding: 0 10px;                       /* Use height not padding for vertical */
+  padding: 0 10px;                       
 }
 
 .header-icon-btn {
@@ -358,16 +349,14 @@ body {
   justify-content: center;
 }
 
-/* Row 2: Navigation — left-aligned */
+
 .desktop-header-row2 {
   padding: 0 40px 16px 40px;
   display: flex;
-  justify-content: flex-start;  /* LEFT aligned */
+  justify-content: flex-start;  
 }
 
-/* ==========================================
-   DESKTOP NAVIGATION MENU
-   ========================================== */
+
 .nav-menu-wrapper {
   display: flex;
   align-items: center;
@@ -394,11 +383,11 @@ body {
 }
 .nav-link:hover { color: #fff; }
 
-/* Hover dropdown — left-aligned under nav item */
+
 .hover-box {
   display: none;
   position: absolute;
-  top: 100%;                     /* flush to bottom of nav item */
+  top: 100%;                     
   left: 0;
   transform: none;
   background: #fff;
@@ -407,24 +396,24 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
   z-index: 300;
   padding: 16px 24px 20px 24px;
-  padding-top: 24px;             /* extra top padding acts as bridge */
+  padding-top: 24px;             
   min-width: 200px;
 }
-/* Invisible bridge: fills gap between trigger and dropdown panel */
+
 .hover-box::before {
   content: '';
   position: absolute;
-  top: -12px;                    /* covers the gap above the box */
+  top: -12px;                    
   left: 0;
   right: 0;
   height: 12px;
   background: transparent;
 }
-/* Brands: wider to fit 2-column grid */
+
 .hover-box.two-panel-dropdown { min-width: 360px; }
 .nav-item-wrapper:hover > .hover-box { display: block; }
 
-/* Generic panel: single column flex */
+
 .panel-container {
   display: flex;
   flex-direction: column;
@@ -436,13 +425,13 @@ body {
   gap: 10px;
 }
 
-/* Brands panel: 2-column CSS grid */
+
 .two-panel-dropdown .panel-left {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px 32px;
 }
-/* Right-aligned brands that would go off-screen: flip to right edge */
+
 .nav-item-wrapper:last-child .hover-box,
 .nav-item-wrapper:nth-last-child(-n+3) .hover-box {
   left: auto;
@@ -460,9 +449,7 @@ body {
 }
 .panel-item:hover { color: var(--color-accent); }
 
-/* ==========================================
-   STICKY WHITE HEADER (appears on scroll)
-   ========================================== */
+
 .homepage-sticky-wrapper {
   position: fixed;
   top: 0;
@@ -480,7 +467,7 @@ body {
   pointer-events: auto;
 }
 
-/* Sticky uses the site-header inside */
+
 .site-header {
   display: flex;
   align-items: center;
@@ -495,7 +482,7 @@ body {
   justify-content: space-between;
 }
 
-/* Left */
+
 .header-left { 
   flex: 1; 
   display: flex;
@@ -503,10 +490,10 @@ body {
   gap: 20px;
 }
 
-/* Mobile logo — hide by default, show on mobile */
+
 .header-logo.mobile-header-logo { display: none; }
 
-/* Center: Logo */
+
 .header-center { flex: 1; display: flex; justify-content: center; }
 .header-logo {
   display: flex;
@@ -515,7 +502,7 @@ body {
 .header-logo img { height: 22px; width: auto; }
 .logo-dark { display: none; }
 
-/* Right */
+
 .header-right {
   flex: 1;
   display: flex;
@@ -524,7 +511,7 @@ body {
   gap: 10px;
 }
 
-/* Selectors inside sticky header inherit same styling */
+
 .site-header .delivery-mode-selector { color: rgba(255,255,255,0.85); }
 .site-header .currency-selector { color: rgba(255,255,255,0.85); }
 .site-header .lang-selector { color: rgba(255,255,255,0.85); }
@@ -534,25 +521,25 @@ body {
 .site-hdr-desktop { display: flex !important; }
 .site-hdr-mobile  { display: none !important; }
 
-/* Separators */
+
 .header-mobile-sep  { display: none; width: 1px; height: 16px; background: rgba(255,255,255,0.2); }
 .desktop-header-sep { display: block; width: 1px; height: 16px; background: rgba(255,255,255,0.2); }
 
-/* Desktop Nav (sticky black header) */
+
 .desktop-nav {
   background: #1a1a1a;
   border-top: 1px solid rgba(255,255,255,0.1);
   height: 44px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;  /* left-aligned */
+  justify-content: flex-start;  
   padding: 0 40px;
 }
 .desktop-nav-container { width: 100%; }
 .desktop-nav .nav-link { color: rgba(255,255,255,0.85); text-transform: uppercase; }
 .desktop-nav .nav-link:hover { color: #fff; }
 
-/* Promo banner */
+
 .promo-banner {
   background: #304854;
   color: #fff;
@@ -563,9 +550,7 @@ body {
   text-transform: uppercase;
 }
 
-/* ==========================================
-   MOBILE SEARCH OVERLAY
-   ========================================== */
+
 .home-search-overlay {
   display: none;
   position: fixed;
@@ -608,9 +593,7 @@ body {
 }
 .search-overlay-results { padding: 12px; min-height: 60px; }
 
-/* ==========================================
-   MOBILE DRAWER
-   ========================================== */
+
 .home-drawer-overlay {
   display: none;
   position: fixed;
@@ -620,7 +603,7 @@ body {
 }
 .home-drawer-overlay.active { display: block; }
 
-/* Hide old floating external close — replaced by inline header */
+
 .drawer-close-external { display: none !important; }
 
 .home-mobile-drawer {
@@ -640,7 +623,7 @@ body {
 }
 .home-mobile-drawer.active { left: 0; }
 
-/* Drawer header: tabs + X close button in same row */
+
 .drawer-header {
   display: flex;
   align-items: stretch;
@@ -652,7 +635,7 @@ body {
   z-index: 2;
 }
 
-/* Tabs are now inside .drawer-header, flex-grow to fill space */
+
 .drawer-tabs {
   display: flex;
   flex: 1;
@@ -803,9 +786,7 @@ body {
 .drawer-footer-item:hover { background: #f9f9f9; }
 .drawer-footer-item svg { width: 20px; height: 20px; stroke: var(--color-primary); stroke-width: 1.4; fill: none; flex-shrink: 0; }
 
-/* ==========================================
-   HERO SECTION
-   ========================================== */
+
 .qtr-hero {
   position: relative;
   width: 100%;
@@ -820,7 +801,7 @@ body {
 .hero-image-mask {
   display: none;
 }
-/* FOMO badge */
+
 .hero-fomo {
   position: absolute;
   bottom: 40px;
@@ -842,9 +823,7 @@ body {
   line-height: 19px;
 }
 
-/* ==========================================
-   PRODUCT SHOWCASE SECTIONS
-   ========================================== */
+
 .qtr-section {
   background: #fff;
   padding: 0 40px 40px 40px;
@@ -896,7 +875,7 @@ body {
   transform: translateX(4px);
 }
 
-/* Product grid */
+
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -966,7 +945,7 @@ body {
   }
 }
 
-/* Wishlist Button */
+
 .product-wishlist-btn {
   position: absolute;
   top: 15px;
@@ -1002,7 +981,7 @@ body {
   display: block;
 }
 
-/* Badges */
+
 .product-badge-new,
 .product-badge-sale-new {
   position: absolute;
@@ -1073,10 +1052,10 @@ body {
   color: #999;
   text-decoration: line-through;
   text-decoration-color: var(--color-accent, #e74c3c);
-  order: -1; /* compare price always renders visually first */
+  order: -1; 
 }
 
-/* Add to cart button (product card) */
+
 .product-atc-btn {
   display: block;
   width: 100%;
@@ -1094,9 +1073,7 @@ body {
   color: #fff;
 }
 
-/* ==========================================
-   MARQUEE / TICKER
-   ========================================== */
+
 .qtr-marquee {
   font-size: 19px;
   line-height: 20px;
@@ -1121,9 +1098,7 @@ body {
   100% { transform: translateX(-50%); }
 }
 
-/* ==========================================
-   LUXURY EDITORIAL SECTION
-   ========================================== */
+
 .qtr-luxury-section {
   padding: 60px 40px;
   background: var(--color-bg);
@@ -1170,9 +1145,7 @@ body {
   height: auto;
 }
 
-/* ==========================================
-   FOOTER
-   ========================================== */
+
 .qtr-footer {
   background: var(--color-primary);
   color: rgba(255,255,255,0.75);
@@ -1238,14 +1211,12 @@ body {
 .footer-social a:hover { color: #fff; }
 .footer-social svg { width: 18px; height: 18px; fill: currentColor; }
 
-/* ==========================================
-   MOBILE RESPONSIVE — ≤1023px
-   ========================================== */
+
 @media (max-width: 1023px) {
-  /* Hide desktop header */
+  
   .homepage-desktop-header { display: none !important; }
 
-  /* Sticky header = fixed top bar on mobile */
+  
   .homepage-sticky-wrapper {
     position: fixed;
     top: 0;
@@ -1265,7 +1236,7 @@ body {
 
   .desktop-nav { display: none !important; }
 
-  /* Hero */
+  
   .qtr-hero {
     background-image: var(--bg-mobile);
     height: 100vh;
@@ -1273,7 +1244,7 @@ body {
   }
   .fomo-message { font-size: 10px; }
 
-  /* Sections */
+  
   .qtr-section { padding: 0 15px 30px 15px; }
   .section-heading-row { border-radius: 10px 10px 0 0; }
   .product-grid { grid-template-columns: repeat(2, 1fr); gap: 1px; }
@@ -1282,33 +1253,29 @@ body {
   .product-card-img img,
   .product-card-placeholder { width: 100% !important; height: 100% !important; margin: 0 !important; }
 
-  /* Marquee */
+  
   .qtr-marquee { margin: 30px 0; }
 
-  /* Luxury */
+  
   .qtr-luxury-section { flex-direction: column-reverse; padding: 30px 15px; gap: 20px; }
   .luxury-heading { font-size: 36px; line-height: 42px; }
   .luxury-img-area { width: 150px; margin: 0 auto; }
 
-  /* Footer */
+  
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
   .qtr-footer { padding: 40px 20px 30px 20px; }
   .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
 }
 
-/* ==========================================
-   BODY PADDING — push content below fixed headers
-   ========================================== */
+
 body.template-index .page-content {
-  padding-top: 0; /* hero full-bleed under transparent header */
+  padding-top: 0; 
 }
 
-/* Hide footer-group placeholder until footer section created */
+
 #shopify-section-footer { background: var(--color-primary); }
 
-/* ==========================================
-   PRODUCT DETAIL PAGE REPLICA
-   ========================================== */
+
 .product-detail-page {
   max-width: 1320px;
   margin: 0 auto;
@@ -1318,11 +1285,11 @@ body.template-index .page-content {
 @media (max-width: 1023px) {
   .product-detail-page {
     padding: 24px 20px 60px 20px;
-    margin-top: 60px; /* mobile header height */
+    margin-top: 60px; 
   }
 }
 
-/* Breadcrumbs */
+
 .breadcrumbs {
   font-family: var(--font-body);
   font-size: 11px;
@@ -1349,7 +1316,7 @@ body.template-index .page-content {
   font-weight: 600;
 }
 
-/* Grid Layout */
+
 .product-container {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -1363,7 +1330,7 @@ body.template-index .page-content {
   }
 }
 
-/* Product Gallery */
+
 .product-gallery-container {
   position: sticky;
   top: calc(var(--header-height) + 20px);
@@ -1388,7 +1355,7 @@ body.template-index .page-content {
 
 .product-thumbnails {
   width: 80px;
-  max-height: 648px; /* 5 images * 120px + 4 gaps * 12px */
+  max-height: 648px; 
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -1396,7 +1363,7 @@ body.template-index .page-content {
   flex-shrink: 0;
   scrollbar-width: thin;
 }
-/* Custom scrollbar styles */
+
 .product-thumbnails::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -1435,7 +1402,7 @@ body.template-index .page-content {
 }
 @media (max-width: 768px) {
   .product-thumbnails img {
-    width: calc((100% - 32px) / 5); /* fits exactly 5 visible items with 8px gaps */
+    width: calc((100% - 32px) / 5); 
     min-width: 50px;
     aspect-ratio: 2/3;
   }
@@ -1458,7 +1425,7 @@ body.template-index .page-content {
   object-fit: cover;
 }
 
-/* Wishlist Button over Image */
+
 .product-main-image .product-wishlist-btn {
   position: absolute;
   top: 20px;
@@ -1486,7 +1453,7 @@ body.template-index .page-content {
   color: #e74c3c;
 }
 
-/* Badges over Image */
+
 .product-main-image .product-badge-new,
 .product-main-image .product-badge-sale-new {
   position: absolute;
@@ -1495,7 +1462,7 @@ body.template-index .page-content {
   z-index: 10;
 }
 
-/* Product Info Column */
+
 #product-info {
   display: flex;
   flex-direction: column;
@@ -1545,10 +1512,10 @@ body.template-index .page-content {
   color: #999;
   text-decoration: line-through;
   text-decoration-color: var(--color-accent, #e74c3c);
-  order: -1; /* always appears before sale price visually */
+  order: -1; 
 }
 
-/* Stock Banner */
+
 .stock-banner {
   display: inline-flex;
   align-items: center;
@@ -1600,7 +1567,7 @@ body.template-index .page-content {
   }
 }
 
-/* Options selectors */
+
 .product-variant-selectors {
   display: flex;
   flex-direction: column;
@@ -1658,7 +1625,7 @@ body.template-index .page-content {
   text-decoration: line-through;
 }
 
-/* Color Swatches */
+
 .color-swatches {
   display: flex;
   flex-wrap: wrap;
@@ -1695,7 +1662,7 @@ body.template-index .page-content {
   transform: rotate(-45deg);
 }
 
-/* Quantity controls */
+
 .quantity-wrapper {
   display: flex;
   flex-direction: column;
@@ -1749,7 +1716,7 @@ body.template-index .page-content {
   outline: none;
 }
 
-/* Checkout Call To Action Buttons */
+
 .cta-wrapper {
   display: flex;
   flex-direction: column;
@@ -1798,10 +1765,10 @@ body.template-index .page-content {
   box-shadow: 0 4px 12px rgba(45,31,31,0.08);
 }
 .cta-wrapper .buy-now-btn:disabled {
-  display: none; /* Hide Buy Now if Sold Out */
+  display: none; 
 }
 
-/* Delivery Info Strip */
+
 .delivery-info-strip {
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
@@ -1823,7 +1790,7 @@ body.template-index .page-content {
   flex-shrink: 0;
 }
 
-/* Accordions */
+
 .product-accordions {
   display: flex;
   flex-direction: column;

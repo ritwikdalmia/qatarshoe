@@ -1,7 +1,4 @@
-{% comment %}
-  QatarShoes — Complete Header Section (Replica)
-  Matches: https://qatarshoe.com/ready-to-go/ header exactly
-{% endcomment %}
+
 
 {%- if template != 'index' -%}
   <style>
@@ -19,22 +16,45 @@
 {%- endif -%}
 
 <style>
+  .two-panel-dropdown {
+    min-width: 360px !important;
+  }
   .two-panel-dropdown .panel-left {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px 32px !important;
+    display: block !important;
+    column-count: 2 !important;
+    column-gap: 32px !important;
+  }
+  .two-panel-dropdown .panel-left .panel-item {
+    display: block !important;
+    break-inside: avoid-column !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
+  }
+  
+  
+  .hover-box:has(.panel-left *:nth-child(3)) {
+    min-width: 360px !important;
+  }
+  .hover-box:has(.panel-left *:nth-child(3)) .panel-left {
+    display: block !important;
+    column-count: 2 !important;
+    column-gap: 32px !important;
+  }
+  .hover-box:has(.panel-left *:nth-child(3)) .panel-left .panel-item {
+    display: block !important;
+    break-inside: avoid-column !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
   }
 </style>
 
-<!-- ===================================================
-     1. TRANSPARENT DESKTOP HEADER (hero overlay)
-     =================================================== -->
+
 <header class="homepage-desktop-header" id="homepage-desktop-header">
 
-  <!-- Row 1: Gender | Logo | Actions -->
+  
   <div class="desktop-header-row1">
 
-    <!-- Left: Gender Toggle -->
+    
     <div class="desktop-header-left">
       <div class="dept-toggle">
         <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">Women</a>
@@ -42,7 +62,7 @@
       </div>
     </div>
 
-    <!-- Center: Logo -->
+    
     <div class="desktop-header-center">
       <a href="{{ routes.root_url }}" class="desktop-header-logo" aria-label="{{ shop.name }}">
         {%- if section.settings.logo_image != blank -%}
@@ -53,10 +73,10 @@
       </a>
     </div>
 
-    <!-- Right: Delivery | Search/Currency/Lang group | Icons -->
+    
     <div class="desktop-header-right">
 
-      <!-- Delivery Mode Selector (Static) -->
+      
       <div class="delivery-mode-wrapper" id="desktop-delivery-wrapper">
         <button type="button" class="delivery-mode-selector" id="desktop-delivery-btn"
                 aria-label="Delivery location: Qatar" style="cursor: default; pointer-events: none;">
@@ -70,9 +90,9 @@
         </button>
       </div>
 
-      <!-- Search + Currency + Language group -->
+      
       <div class="header-search-lang-group">
-        <!-- Search -->
+        
         <button class="header-icon-btn header-desktop-search" onclick="openSearch()" aria-label="Search" id="desktop-search-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
             <circle cx="11" cy="11" r="8"/>
@@ -82,7 +102,7 @@
 
         <span class="header-v-sep" aria-hidden="true"></span>
 
-        <!-- Currency -->
+        
         <div class="currency-wrapper" id="desktop-currency-wrapper">
           {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
           {%- assign default_curr = currencies | first | strip | upcase -%}
@@ -133,7 +153,7 @@
 
         <span class="header-v-sep" aria-hidden="true"></span>
 
-        <!-- Language -->
+        
         <div class="lang-selector-wrapper" id="desktop-lang-wrapper">
           <button type="button" class="lang-selector" id="desktop-lang-btn" aria-expanded="false" aria-label="Language">
             <span class="lang-label">EN</span>
@@ -156,9 +176,9 @@
 
       <span class="header-v-sep" aria-hidden="true" style="background:rgba(255,255,255,0.2);display:block;width:1px;height:20px;"></span>
 
-      <!-- Icon Group: Wishlist + Cart + Account -->
+      
       <div class="header-icon-group">
-        <!-- Wishlist -->
+        
         <button type="button" class="header-icon-btn wishlist-trigger" id="homepage-wishlist-btn"
                 aria-label="Wishlist" style="position:relative;">
           <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
@@ -167,7 +187,7 @@
           <span class="wishlist-count" style="display:none;">0</span>
         </button>
 
-        <!-- Cart -->
+        
         <a href="{{ routes.cart_url }}" class="header-icon-btn cart-link" id="desktop-header-cart" aria-label="Cart" style="position:relative;">
           <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
@@ -177,7 +197,7 @@
           <span class="cart-count-badge" id="desktop-header-cart-count" style="display:none;">{{ cart.item_count }}</span>
         </a>
 
-        <!-- Account -->
+        
         {%- if customer -%}
           <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="My Account">
             <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
@@ -193,14 +213,14 @@
         {%- endif -%}
       </div>
 
-    </div><!-- .desktop-header-right -->
-  </div><!-- .desktop-header-row1 -->
+    </div>
+  </div>
 
-  <!-- Row 2: Navigation -->
+  
   <div class="desktop-header-row2">
     <div class="nav-menu-wrapper" id="desktop-nav-menu">
-      <!-- Women Navigation -->
-            <!-- Women Navigation -->
+      
+            
       <div class="navigation-menu-wrapper" data-dept="women" id="desktop-nav-women">
         {%- assign women_menu = section.settings.women_main_menu -%}
         {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
@@ -212,7 +232,7 @@
                 <span class="nav-link-text">{{ link.title }}</span>
               </a>
               {%- if link.links.size > 0 -%}
-                <div class="hover-box">
+                <div class="hover-box{% if link.links.size >= 3 %} two-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in link.links -%}
@@ -234,7 +254,7 @@
               </a>
               {%- assign sub_menu = block.settings.dropdown_menu -%}
               {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                <div class="hover-box">
+                <div class="hover-box{% if linklists[sub_menu].links.size >= 3 %} two-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in linklists[sub_menu].links -%}
@@ -452,9 +472,9 @@
         </div>
 {%- endif -%}
       {%- endif -%}
-      </div><!-- #desktop-nav-women -->
+      </div>
 
-      <!-- Men Navigation (hidden by default) -->
+      
             <div class="navigation-menu-wrapper" data-dept="men" id="desktop-nav-men" style="display:none;">
         {%- assign men_menu = section.settings.men_main_menu -%}
         {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
@@ -466,7 +486,7 @@
                 <span class="nav-link-text">{{ link.title }}</span>
               </a>
               {%- if link.links.size > 0 -%}
-                <div class="hover-box">
+                <div class="hover-box{% if link.links.size >= 3 %} two-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in link.links -%}
@@ -488,7 +508,7 @@
               </a>
               {%- assign sub_menu = block.settings.dropdown_menu -%}
               {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                <div class="hover-box">
+                <div class="hover-box{% if linklists[sub_menu].links.size >= 3 %} two-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in linklists[sub_menu].links -%}
@@ -572,24 +592,22 @@
 {%- if section.settings.menu_m_travel_bags -%}        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/travel-bags-men">Travel Bags</a></div>{%- endif -%}
 {%- if section.settings.menu_m_accessories -%}        {%- if section.settings.menu_m_accessories -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>{%- endif -%}{%- endif -%}
       {%- endif -%}
-      </div><!-- #desktop-nav-men -->
+      </div>
     </div>
-  </div><!-- .desktop-header-row2 -->
-</header><!-- .homepage-desktop-header -->
+  </div>
+</header>
 
 
-<!-- ===================================================
-     2. STICKY WHITE HEADER (appears on scroll)
-     =================================================== -->
+
 <div id="homepage-sticky-header" class="homepage-sticky-wrapper">
 
-  <!-- Main site header -->
+  
   <header class="site-header">
     <div class="header-container">
 
-      <!-- Left -->
+      
       <div class="header-left">
-        <!-- Mobile: Logo -->
+        
         <a href="{{ routes.root_url }}" class="header-logo mobile-header-logo" aria-label="{{ shop.name }}">
           {%- if section.settings.logo_image != blank -%}
             <img src="{{ section.settings.logo_image | image_url: height: 44 }}" alt="{{ shop.name }}" height="22" class="logo-light">
@@ -597,14 +615,14 @@
             <span style="font-family:'Canela Text',Georgia,serif;font-size:22px;font-weight:300;color:#fff;">{{ section.settings.logo_text | default: shop.name }}</span>
           {%- endif -%}
         </a>
-        <!-- Desktop: Gender Toggle -->
+        
         <div class="dept-toggle">
           <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">Women</a>
           <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">Men</a>
         </div>
       </div>
 
-      <!-- Center: Logo (desktop) -->
+      
       <div class="header-center">
         <a href="{{ routes.root_url }}" class="header-logo">
           {%- if section.settings.logo_image != blank -%}
@@ -613,7 +631,7 @@
             <span style="font-family:'Canela Text',Georgia,serif;font-size:22px;font-weight:300;color:#fff;">{{ section.settings.logo_text | default: shop.name }}</span>
           {%- endif -%}
         </a>
-        <!-- Mobile Center Delivery -->
+        
         <div class="delivery-mode-wrapper site-hdr-mobile" style="display: none;">
           <button type="button" class="delivery-mode-selector" aria-label="Delivery location: Qatar" style="cursor: default; pointer-events: none;">
             <span class="delivery-flag">
@@ -627,10 +645,10 @@
         </div>
       </div>
 
-      <!-- Right -->
+      
       <div class="header-right">
 
-        <!-- Delivery (desktop + mobile - Static) -->
+        
         <div class="delivery-mode-wrapper site-hdr-desktop" id="sticky-delivery-wrapper">
           <button type="button" class="delivery-mode-selector" aria-label="Delivery location: Qatar" style="cursor: default; pointer-events: none;">
             <span class="delivery-flag">
@@ -643,7 +661,7 @@
           </button>
         </div>
 
-        <!-- Search (mobile) -->
+        
         <button class="header-icon-btn header-search-icon site-hdr-mobile" onclick="openSearch()" aria-label="Search">
           <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -652,7 +670,7 @@
 
         <span class="header-mobile-sep" aria-hidden="true"></span>
 
-        <!-- Cart (mobile) -->
+        
         <a href="{{ routes.cart_url }}" class="header-icon-btn cart-link site-hdr-mobile" id="mobile-header-cart-btn" aria-label="Cart" style="position:relative;">
           <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
@@ -664,7 +682,7 @@
 
         <span class="desktop-header-sep site-hdr-desktop" aria-hidden="true"></span>
 
-        <!-- Currency (desktop) -->
+        
         <div class="currency-wrapper site-hdr-desktop">
           {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
           {%- assign default_curr = currencies | first | strip | upcase -%}
@@ -711,7 +729,7 @@
           </div>
         </div>
 
-        <!-- Language (desktop) -->
+        
         <div class="lang-selector-wrapper site-hdr-desktop">
           <button type="button" class="lang-selector" id="sticky-lang-btn" aria-expanded="false" aria-label="Language">
             <span class="lang-label">EN</span>
@@ -731,7 +749,7 @@
 
         <span class="desktop-header-sep site-hdr-desktop" aria-hidden="true"></span>
 
-        <!-- Wishlist (desktop) -->
+        
         <button type="button" class="header-icon-btn wishlist-trigger site-hdr-desktop" aria-label="Wishlist" style="position:relative;">
           <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -739,7 +757,7 @@
           <span class="wishlist-count" style="display:none;">0</span>
         </button>
 
-        <!-- Cart (desktop) -->
+        
         <a href="{{ routes.cart_url }}" class="header-icon-btn cart-link site-hdr-desktop" aria-label="Cart" style="position:relative;">
           <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
@@ -749,7 +767,7 @@
           <span class="cart-count-badge" style="display:none;">{{ cart.item_count }}</span>
         </a>
 
-        <!-- Account (desktop) -->
+        
         {%- if customer -%}
           <a href="{{ routes.account_url }}" class="header-icon-btn site-hdr-desktop" aria-label="My Account">
             <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
@@ -764,7 +782,7 @@
           </a>
         {%- endif -%}
 
-        <!-- Mobile: separator then hamburger -->
+        
         <span class="header-mobile-sep" aria-hidden="true"></span>
         <button class="header-icon-btn menu-toggle site-hdr-mobile" id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
           <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round">
@@ -774,11 +792,11 @@
           </svg>
         </button>
 
-      </div><!-- .header-right -->
+      </div>
     </div>
-  </header><!-- .site-header -->
+  </header>
 
-  <!-- Desktop sticky nav row -->
+  
   <nav class="desktop-nav">
     <div class="desktop-nav-container">
       <div class="nav-menu-wrapper">
@@ -793,7 +811,7 @@
                   <span class="nav-link-text">{{ link.title }}</span>
                 </a>
                 {%- if link.links.size > 0 -%}
-                  <div class="hover-box">
+                  <div class="hover-box{% if link.links.size >= 3 %} two-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in link.links -%}
@@ -815,7 +833,7 @@
                 </a>
                 {%- assign sub_menu = block.settings.dropdown_menu -%}
                 {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                  <div class="hover-box">
+                  <div class="hover-box{% if linklists[sub_menu].links.size >= 3 %} two-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in linklists[sub_menu].links -%}
@@ -982,7 +1000,7 @@
                   <span class="nav-link-text">{{ link.title }}</span>
                 </a>
                 {%- if link.links.size > 0 -%}
-                  <div class="hover-box">
+                  <div class="hover-box{% if link.links.size >= 3 %} two-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in link.links -%}
@@ -1004,7 +1022,7 @@
                 </a>
                 {%- assign sub_menu = block.settings.dropdown_menu -%}
                 {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                  <div class="hover-box">
+                  <div class="hover-box{% if linklists[sub_menu].links.size >= 3 %} two-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in linklists[sub_menu].links -%}
@@ -1030,12 +1048,10 @@
       </div>
     </div>
   </nav>
-</div><!-- #homepage-sticky-header -->
+</div>
 
 
-<!-- ===================================================
-     3. SEARCH OVERLAY
-     =================================================== -->
+
 <div class="home-search-overlay" id="home-search-overlay" onclick="closeSearch()">
   <div class="home-search-overlay-content" onclick="event.stopPropagation()">
     <div class="search-overlay-header">
@@ -1048,13 +1064,11 @@
 </div>
 
 
-<!-- ===================================================
-     4. MOBILE DRAWER
-     =================================================== -->
+
 <div class="home-drawer-overlay" id="home-drawer-overlay"></div>
 
 <div class="home-mobile-drawer" id="home-mobile-drawer">
-  <!-- Drawer Header: Tabs + Close X (all inside drawer) -->
+  
   <div class="drawer-header">
     <div class="drawer-tabs">
       <button class="drawer-tab active" data-gender="women">Women</button>
@@ -1063,7 +1077,7 @@
     <button type="button" class="drawer-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu">&times;</button>
   </div>
 
-  <!-- Women's Menu -->
+  
   <nav class="drawer-nav" id="drawer-nav-women" data-dept="women">
     {%- assign women_menu = section.settings.women_main_menu -%}
     {%- if women_menu != blank and linklists[women_menu] != blank -%}
@@ -1222,7 +1236,7 @@
     {%- endif -%}
   </nav>
 
-  <!-- Men's Menu -->
+  
   <nav class="drawer-nav" id="drawer-nav-men" data-dept="men" style="display:none;">
     {%- assign men_menu = section.settings.men_main_menu -%}
     {%- if men_menu != blank and linklists[men_menu] != blank -%}
@@ -1261,7 +1275,7 @@
     {%- endif -%}
   </nav>
 
-  <!-- Footer: Currency + Language | Wishlist | Account -->
+  
   <div class="drawer-footer">
     <div class="drawer-locale-row">
       <div class="drawer-locale-col drawer-currency-col">
@@ -1294,12 +1308,10 @@
       </a>
     {%- endif -%}
   </div>
-</div><!-- .home-mobile-drawer -->
+</div>
 
 
-<!-- ===================================================
-     5. JAVASCRIPT — Header interactions
-     =================================================== -->
+
 <script>
   window.CURRENCY_SYMBOLS = {
     {%- assign custom_symbols = settings.currency_symbols | default: 'QAR:QR,USD:$,EUR:€,AED:د.إ,SAR:SR' | split: ',' -%}
@@ -1314,7 +1326,7 @@
   };
 
 (function() {
-  /* ---- Department (Women/Men) switching ---- */
+  
   var savedDept = localStorage.getItem('qatarshoes_department') || 'women';
 
   function applyDept(dept) {
@@ -1325,7 +1337,7 @@
     document.body.classList.remove('dept-women', 'dept-men');
     document.body.classList.add('dept-' + dept);
 
-    // Update all dept links
+    
     document.querySelectorAll('.dept-link').forEach(function(l) {
       l.classList.toggle('active', l.dataset.dept === dept);
     });
@@ -1333,13 +1345,13 @@
       t.classList.toggle('active', t.dataset.gender === dept);
     });
 
-    // Show correct nav
+    
     var desktopNavs = document.querySelectorAll('#desktop-nav-menu .navigation-menu-wrapper, .desktop-nav .navigation-menu-wrapper');
     desktopNavs.forEach(function(n) {
       n.style.display = (n.dataset.dept === dept) ? 'flex' : 'none';
     });
 
-    // Drawer nav
+    
     var womenNav = document.getElementById('drawer-nav-women');
     var menNav   = document.getElementById('drawer-nav-men');
     if (womenNav) womenNav.style.display = dept === 'women' ? '' : 'none';
@@ -1350,7 +1362,7 @@
 
   window.switchDept = function(dept) { applyDept(dept); };
 
-  /* ---- Delivery Mode switching ---- */
+  
   var savedMode = 'ready-to-go';
 
   function applyDeliveryMode(mode) {
@@ -1395,7 +1407,7 @@
     applyDept(savedDept);
     applyDeliveryMode(savedMode);
 
-    // Option click handling (removed delivery wrapper toggles since it is static Qatar only)
+    
     document.querySelectorAll('.delivery-mode-option').forEach(function(opt) {
       opt.addEventListener('click', function(e) {
         e.preventDefault();
@@ -1404,12 +1416,12 @@
       });
     });
 
-    // Drawer gender tab switching
+    
     document.querySelectorAll('.drawer-tab').forEach(function(tab) {
       tab.addEventListener('click', function() { applyDept(tab.dataset.gender); });
     });
 
-    /* ---- Sticky header scroll logic ---- */
+    
     var stickyWrapper      = document.getElementById('homepage-sticky-header');
     var transparentHeader  = document.getElementById('homepage-desktop-header');
     var ticking = false;
@@ -1434,7 +1446,7 @@
     }, { passive: true });
     updateHeader();
 
-    /* ---- Mobile Drawer ---- */
+    
     window.toggleMobileMenu = function() {
       var drawer  = document.getElementById('home-mobile-drawer');
       var overlay = document.getElementById('home-drawer-overlay');
@@ -1462,7 +1474,7 @@
       if (e.target === drawerOverlay) window.toggleMobileMenu();
     });
 
-    /* ---- Drawer expand/collapse ---- */
+    
     document.querySelectorAll('.drawer-expand-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
         var submenu = btn.nextElementSibling;
@@ -1473,7 +1485,7 @@
       });
     });
 
-    /* ---- Search ---- */
+    
     window.openSearch = function() {
       document.getElementById('home-search-overlay').classList.add('active');
       var inp = document.getElementById('home-search-input');
@@ -1486,7 +1498,7 @@
     };
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeSearch(); } });
 
-    /* ---- Currency dropdown (desktop & sticky) ---- */
+    
     var currencyBtn = document.getElementById('desktop-currency-btn');
     var currencyDd  = document.getElementById('desktop-currency-dropdown');
     var stickyCurrencyBtn = document.getElementById('sticky-currency-btn');
@@ -1494,7 +1506,7 @@
 
     function toggleCurrencyDropdown(btn, dd, e) {
       e.stopPropagation();
-      // Close other dropdowns
+      
       if (langDd) langDd.classList.remove('open');
       if (stickyLangDd) stickyLangDd.classList.remove('open');
       if (currencyDd && currencyDd !== dd) currencyDd.classList.remove('is-open');
@@ -1512,7 +1524,7 @@
       stickyCurrencyBtn.addEventListener('click', function(e) { toggleCurrencyDropdown(stickyCurrencyBtn, stickyCurrencyDd, e); });
     }
 
-    /* ---- Language dropdown (desktop & sticky) ---- */
+    
     var langBtn = document.getElementById('desktop-lang-btn');
     var langDd  = document.getElementById('desktop-lang-dropdown');
     var stickyLangBtn = document.getElementById('sticky-lang-btn');
@@ -1520,7 +1532,7 @@
 
     function toggleLangDropdown(btn, dd, e) {
       e.stopPropagation();
-      // Close other dropdowns
+      
       if (currencyDd) currencyDd.classList.remove('is-open');
       if (stickyCurrencyDd) stickyCurrencyDd.classList.remove('is-open');
       if (langDd && langDd !== dd) langDd.classList.remove('open');
@@ -1538,7 +1550,7 @@
       stickyLangBtn.addEventListener('click', function(e) { toggleLangDropdown(stickyLangBtn, stickyLangDd, e); });
     }
 
-    /* ---- Close all dropdowns on outside click ---- */
+    
     document.addEventListener('click', function() {
       if (currencyDd) { currencyDd.classList.remove('is-open'); if (currencyBtn) currencyBtn.setAttribute('aria-expanded', 'false'); }
       if (langDd)     { langDd.classList.remove('open');        if (langBtn) langBtn.setAttribute('aria-expanded', 'false'); }
@@ -1546,7 +1558,7 @@
       if (stickyLangDd)     { stickyLangDd.classList.remove('open');        if (stickyLangBtn) stickyLangBtn.setAttribute('aria-expanded', 'false'); }
     });
 
-    /* ---- Synchronize Currency Option Selections & Update Prices ---- */
+    
     function applyCurrencyLabel(selectedCurrency) {
       document.querySelectorAll('.currency-wrapper').forEach(function(wrapper) {
         var symbolSpan = wrapper.querySelector('.currency-symbol');
@@ -1570,15 +1582,15 @@
       });
     }
 
-    /* ---- Update all product prices on the page globally ---- */
+    
     window.applyStoreCurrency = function(currency) {
       var key = currency.toLowerCase();
       localStorage.setItem('qtr_currency', currency);
 
-      // Update header labels and checkmarks
+      
       applyCurrencyLabel(currency);
 
-      // 1. Update general product price rows (like in collections, showcases, grids)
+      
       document.querySelectorAll('.product-price-row[data-price-qar], .card-price-row[data-price-qar]').forEach(function(row) {
         var price   = row.getAttribute('data-price-' + key) || row.getAttribute('data-price-qar');
         var compare = row.getAttribute('data-compare-' + key) || row.getAttribute('data-compare-qar') || null;
@@ -1611,7 +1623,7 @@
         }
       });
 
-      // 2. Update variant selectors (.size-option, .color-swatch, .sz-btn)
+      
       document.querySelectorAll('.size-option, .color-swatch, .sz-btn').forEach(function(btn) {
         var priceAttr = btn.getAttribute('data-price-' + key) || btn.getAttribute('data-price-qar');
         var compareAttr = btn.getAttribute('data-compare-' + key) || btn.getAttribute('data-compare-qar');
@@ -1628,7 +1640,7 @@
         }
       });
 
-      // 3. Update main product display price if present
+      
       var activeSize = document.querySelector('.size-option.selected, .sz-btn.selected');
       if (activeSize) {
         if (typeof selectProductSize === 'function') {
@@ -1676,16 +1688,16 @@
         e.stopPropagation();
         var selectedCurrency = opt.getAttribute('data-currency');
 
-        /* Update dynamic pricing */
+        
         window.applyStoreCurrency(selectedCurrency);
 
-        /* Close dropdowns */
+        
         if (currencyDd)       currencyDd.classList.remove('is-open');
         if (stickyCurrencyDd) stickyCurrencyDd.classList.remove('is-open');
       });
     });
 
-    /* Restore saved currency label + prices on page load */
+    
     (function() {
       var saved = localStorage.getItem('qtr_currency') || 'QAR';
       window.applyStoreCurrency(saved);
@@ -1695,7 +1707,7 @@
       opt.addEventListener('click', function(e) {
         e.stopPropagation();
         var selectedLang = opt.getAttribute('data-lang').toUpperCase();
-        // Update all language labels in page headers
+        
         document.querySelectorAll('.lang-selector-wrapper').forEach(function(wrapper) {
           var labelSpan = wrapper.querySelector('.lang-label');
           if (labelSpan) labelSpan.textContent = selectedLang;
@@ -1703,13 +1715,13 @@
             o.classList.toggle('is-active', o.getAttribute('data-lang').toUpperCase() === selectedLang);
           });
         });
-        // Close dropdowns
+        
         if (langDd) langDd.classList.remove('open');
         if (stickyLangDd) stickyLangDd.classList.remove('open');
       });
     });
 
-    /* ---- Update cart badge ---- */
+    
     function updateCartBadge(count) {
       var badges = document.querySelectorAll('.cart-count-badge');
       badges.forEach(function(b) {
@@ -1718,7 +1730,7 @@
       });
     }
 
-    /* ---- Wishlist Badge Update ---- */
+    
     function updateWishlistBadge() {
       var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
       var badges = document.querySelectorAll('.wishlist-count');
@@ -1728,14 +1740,14 @@
       });
     }
 
-    // Shopify cart count polling (basic)
+    
     fetch('/cart.js').then(function(r) { return r.json(); }).then(function(d) {
       updateCartBadge(d.item_count);
     }).catch(function() {});
 
     updateWishlistBadge();
 
-    /* ---- Drawers System ---- */
+    
     var drawer = document.getElementById('side-drawer');
     var overlay = document.getElementById('side-drawer-overlay');
     var titleEl = document.getElementById('side-drawer-title');
@@ -1924,7 +1936,7 @@
       });
 
       addPromise.then(function() {
-        // Remove from wishlist
+        
         var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
         var items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
         
@@ -1937,7 +1949,7 @@
         updateWishlistBadge();
         window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
         
-        // Refresh cart drawer
+        
         window.openSideDrawer('cart');
       }).catch(function(err) {
         console.error('Error adding to cart from wishlist:', err);
@@ -1948,7 +1960,7 @@
     overlay.addEventListener('click', window.closeSideDrawer);
     closeBtn.addEventListener('click', window.closeSideDrawer);
 
-    // Bind triggers to open drawer
+    
     document.querySelectorAll('.cart-link').forEach(function(link) {
       link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -1991,7 +2003,7 @@
         }
         btn.classList.add('active');
         
-        // Save metadata
+        
         var title = btn.getAttribute('data-title') || 'Product';
         var image = btn.getAttribute('data-image') || '';
         var price = parseInt(btn.getAttribute('data-price')) || 0;
@@ -2105,7 +2117,7 @@
 })();
 </script>
 
-<!-- Side Drawer HTML -->
+
 <div class="side-drawer-overlay" id="side-drawer-overlay"></div>
 <div class="side-drawer" id="side-drawer">
   <div class="side-drawer-header">
@@ -2117,7 +2129,7 @@
 </div>
 
 <style>
-  /* Side Drawer Styles */
+  
   .side-drawer-overlay {
     display: none;
     position: fixed;
@@ -2305,7 +2317,7 @@
     padding: 40px 0;
     font-size: 14px;
   }
-  /* Wishlist & Cart Count badge styling */
+  
   .wishlist-count, .cart-count-badge {
     position: absolute !important;
     top: -5px !important;
@@ -2324,14 +2336,14 @@
     z-index: 5 !important;
   }
 
-  /* Mobile Header Layout Overrides */
+  
   @media (max-width: 1024px) {
-    /* Hide transparent desktop header on mobile homepage */
+    
     #homepage-desktop-header {
       display: none !important;
     }
     
-    /* Make the white sticky header behave as the main header on mobile */
+    
     #homepage-sticky-header {
       position: fixed !important;
       top: 0 !important;
@@ -2342,7 +2354,7 @@
       visibility: visible !important;
       display: block !important;
       box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
-      background: #1a1a1a !important; /* Premium dark mobile header style */
+      background: #1a1a1a !important; 
     }
 
     .site-header {
@@ -2360,7 +2372,7 @@
       justify-content: space-between !important;
     }
 
-    /* Force mobile logo to display on left */
+    
     .site-header .header-left .mobile-header-logo {
       display: flex !important;
     }
@@ -2368,17 +2380,17 @@
       color: #fff !important;
     }
     
-    /* Hide desktop gender switch */
+    
     .site-header .header-left .dept-toggle {
       display: none !important;
     }
 
-    /* Hide middle logo on mobile */
+    
     .site-header .header-center > a {
       display: none !important;
     }
 
-    /* Show mobile delivery indicator in center */
+    
     .site-header .header-center .delivery-mode-wrapper.site-hdr-mobile {
       display: inline-flex !important;
       align-items: center !important;
@@ -2401,12 +2413,12 @@
       margin-top: 1px !important;
     }
 
-    /* Hide desktop items in right header row */
+    
     .site-header .header-right .site-hdr-desktop {
       display: none !important;
     }
     
-    /* Show mobile header items */
+    
     .site-header .header-right .site-hdr-mobile {
       display: flex !important;
     }

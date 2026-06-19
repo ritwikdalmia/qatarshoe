@@ -1,7 +1,4 @@
-{% comment %}
-  QatarShoes — Hero Fullscreen Section
-  Full-bleed hero image matching https://qatarshoe.com/ready-to-go/
-{% endcomment %}
+
 
 {%- liquid
   if section.settings.image_desktop != blank
@@ -60,11 +57,11 @@
   @media (max-width: 1023px) {
     .qtr-hero { background-image: var(--bg-mobile) !important; }
   }
-  /* Push hero under transparent header on desktop */
+  
   @media (min-width: 1024px) {
     .qtr-hero { margin-top: 0; }
   }
-  /* On mobile, push below fixed sticky header */
+  
   @media (max-width: 1023px) {
     .qtr-hero { margin-top: 60px; }
   }
@@ -90,12 +87,12 @@
       }
     }
 
-    // Listen to department changes from header
+    
     window.addEventListener('departmentChanged', function(e) {
       updateHeroBG(e.detail.department);
     });
 
-    // Check initial department
+    
     var initial = localStorage.getItem('qatarshoes_department') || 'women';
     updateHeroBG(initial);
   });

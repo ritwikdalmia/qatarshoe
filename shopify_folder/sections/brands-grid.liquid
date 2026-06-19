@@ -1,6 +1,4 @@
-{% comment %}
-  QatarShoes — House Of Brands Grid Section
-{% endcomment %}
+
 
 <section class="brands-on-qatarshoes homepage-section" data-section="featured-brands" data-has-women="true" data-has-men="true">
   <style>
@@ -79,7 +77,7 @@
       text-align: center;
     }
     
-    /* Brand-specific styling fallbacks for exact replication */
+    
     .brand-font-hms {
       font-family: 'Canela Text', Georgia, serif;
       text-transform: uppercase;
@@ -207,7 +205,7 @@
         </a>
       {%- endfor -%}
     {%- else -%}
-      {%- comment %} Fallback default brands to replicate Figma/WordPress homepage {% endcomment %}
+      
       {%- assign fallback_names = "HMS,coco,GYD,L P,DR,LVN,Crt,MSK" | split: "," -%}
       {%- assign fallback_handles = "hms,coco,gyd,lp,dr,lvn,crt,msk" | split: "," -%}
       {%- assign fallback_font_classes = "brand-font-hms,brand-font-coco,brand-font-gyd,brand-font-lp,brand-font-dr,brand-font-lvn,brand-font-crt,brand-font-msk" | split: "," -%}

@@ -1,7 +1,4 @@
-{% comment %}
-  QatarShoes — Above Footer Banner Section
-  Includes responsive hands/jewelry visual that dynamically adapts to selected department & delivery mode.
-{% endcomment %}
+
 
 <style>
 .afb-mobile-br { display: none; }
@@ -16,7 +13,7 @@
     clip-path: inset(-9999px -9999px 0 -9999px);
     background-color: #2d1f1f;
 }
-/* Base image — shared properties */
+
 .above-footer-banner .afb-img {
     position: absolute;
     object-fit: contain;
@@ -24,13 +21,13 @@
     pointer-events: none;
     transform-origin: top left;
 }
-/* Variant: men ready-to-go (FooterHand — Rolex) */
+
 .afb-img.afb-img--go_men {
     top: -130px; left: -288.87px;
     width: 933.14px; height: 520.79px;
     transform: scale(1.5);
 }
-/* Variant: women ready-to-go (women-hand-qatar — jewelry) */
+
 .afb-img.afb-img--go_women {
     left: -284.38px;
     top: 221px;
@@ -38,13 +35,13 @@
     height: 598.53px;
     transform: rotate(-28.64deg);
 }
-/* Variant: women ready-to-ship (women-hand-dubai — Chanel bag) */
+
 .afb-img.afb-img--ship_women {
     left: -161px; top: -87.75px;
     width: 1328px; height: 741px;
     transform: none;
 }
-/* Variant: men ready-to-ship (men-hand-dubai — Goyard wallet) */
+
 .afb-img.afb-img--ship_men {
     left: -180px; top: -80px;
     width: 900px; height: 700px;
@@ -93,19 +90,9 @@
     font-size: inherit;
     list-style: disc;
 }
-/* ===========================================
-   RESPONSIVE BREAKPOINTS (7 stops)
-   1600+  → Full desktop (default)
-   1400–1599 → Large desktop
-   1200–1399 → Standard desktop
-   1024–1199 → Small desktop / laptop
-   768–1023  → Tablet landscape
-   480–767   → Large phone / tablet portrait
-   <480      → Phone
-   <375      → Small phone
-   =========================================== */
 
-/* ----- LARGE DESKTOP (1400-1599px) ----- */
+
+
 @media (min-width: 1400px) and (max-width: 1599px) {
     .above-footer-banner {
         height: clamp(380px, 28vw, 520px);
@@ -135,7 +122,7 @@
     }
 }
 
-/* ----- STANDARD DESKTOP (1200-1399px) ----- */
+
 @media (min-width: 1200px) and (max-width: 1399px) {
     .above-footer-banner {
         height: clamp(350px, 27vw, 470px);
@@ -169,7 +156,7 @@
     }
 }
 
-/* ----- SMALL DESKTOP / LAPTOP (1024-1199px) ----- */
+
 @media (min-width: 1024px) and (max-width: 1199px) {
     .above-footer-banner {
         height: clamp(320px, 30vw, 420px);
@@ -209,7 +196,7 @@
     }
 }
 
-/* ----- MOBILE BASE (<1024px) — stacked layout ----- */
+
 @media (max-width: 1023px) {
     .above-footer-banner {
         height: 640px;
@@ -290,7 +277,7 @@
     }
 }
 
-/* ----- TABLET LANDSCAPE (768-1023px) ----- */
+
 @media (min-width: 768px) and (max-width: 1023px) {
     .above-footer-banner {
         height: auto;
@@ -332,7 +319,7 @@
     }
 }
 
-/* ----- LARGE PHONE / TABLET PORTRAIT (480-767px) ----- */
+
 @media (min-width: 480px) and (max-width: 767px) {
     .above-footer-banner {
         height: auto;
@@ -374,7 +361,7 @@
     }
 }
 
-/* ----- PHONE (<480px) — matches Figma 390px frame ----- */
+
 @media (max-width: 479px) {
     .above-footer-banner {
         height: 640px;
@@ -422,7 +409,7 @@
     }
 }
 
-/* ----- SMALL PHONE (<375px) ----- */
+
 @media (max-width: 374px) {
     .above-footer-banner {
         height: 580px;
@@ -505,7 +492,7 @@
         return dm.replace('ready-to-', '');
     }
 
-    // Preload all variants (both modes, both genders, desktop + mobile)
+    
     ['go', 'ship'].forEach(function(m) {
         ['men', 'women'].forEach(function(g) {
             var key = m + '_' + g;
@@ -539,7 +526,7 @@
         img.className = 'afb-img afb-img--' + key;
         img.src = fullSrc;
 
-        // Wait for image to load before revealing
+        
         if (img.complete) {
             img.style.visibility = '';
         } else {

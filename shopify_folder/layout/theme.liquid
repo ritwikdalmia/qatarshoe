@@ -25,18 +25,18 @@
 
     {{ content_for_header }}
 
-    <!-- Fonts -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Styles -->
+    
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {%- if template contains 'customer' -%}
       {{ 'accounts.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
 
-    <!-- Department body class set before render -->
+    
     <script>
       (function() {
         var dept = localStorage.getItem('qatarshoes_department') || 'women';

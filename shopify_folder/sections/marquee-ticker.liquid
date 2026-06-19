@@ -1,7 +1,4 @@
-{% comment %}
-  QatarShoes — Marquee / Ticker Section
-  Dark band with scrolling text that dynamically swaps based on delivery mode
-{% endcomment %}
+
 
 {%- assign items_rtg = section.settings.items_rtg | default: "FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING • FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING" -%}
 {%- assign items_rts = section.settings.items_rts | default: "Shipping to all GCC • Delivered Within 2-3 Days" -%}
@@ -21,7 +18,7 @@
   <div class="marquee-track" id="marquee-track-{{ section.id }}"
        data-items-rtg="{{ items_rtg | escape }}"
        data-items-rts="{{ items_rts | escape }}">
-    {%- comment %} Will be updated by JavaScript below for real-time mode swapping {%- endcomment %}
+    
   </div>
 </div>
 
@@ -37,11 +34,11 @@
     var mode = localStorage.getItem('delivery_mode') || 'ready-to-go';
     var text = (mode === 'ready-to-go') ? rtgText : rtsText;
     
-    // Split items by bullet separator
+    
     var items = text.split('•');
     var html = '';
     
-    // Duplicate the sequence for a seamless looping scroll animation
+    
     for (var loop = 0; loop < 2; loop++) {
       items.forEach(function(item) {
         var trimmed = item.trim();
@@ -54,10 +51,10 @@
     track.innerHTML = html;
   }
 
-  // Initial render
+  
   updateMarquee();
 
-  // Listen to delivery mode changes
+  
   window.addEventListener('deliveryModeChanged', updateMarquee);
 })();
 </script>

@@ -1,12 +1,12 @@
 <div class="account-page-container">
   
-  <!-- Account Header -->
+  
   <div class="account-header">
     <h1>My Account</h1>
     <p>Welcome back,, <strong>{{ customer.name }}</strong></p>
   </div>
 
-  <!-- Tab Bar -->
+  
   <div class="account-tabs-wrapper">
     <div class="account-tabs">
       <button class="account-tab active" onclick="switchTab('overview')">
@@ -45,13 +45,11 @@
     </div>
   </div>
 
-  <!-- ==========================================
-       TAB: OVERVIEW
-       ========================================== -->
+  
   <div class="account-tab-content active" id="tab-overview">
     <div class="overview-cards">
       
-      <!-- Card: Orders -->
+      
       <div class="overview-card">
         <div class="card-icon-wrapper">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -66,7 +64,7 @@
         <a href="javascript:void(0)" class="card-link" onclick="switchTab('orders')">View More</a>
       </div>
 
-      <!-- Card: Wishlist -->
+      
       <div class="overview-card">
         <div class="card-icon-wrapper">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -80,7 +78,7 @@
         <a href="javascript:void(0)" class="card-link" onclick="switchTab('wishlist')">View More</a>
       </div>
 
-      <!-- Card: Addresses -->
+      
       <div class="overview-card">
         <div class="card-icon-wrapper">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -96,7 +94,7 @@
 
     </div>
 
-    <!-- Recent Orders Section -->
+    
     <div class="section-title-bar">
       <h2>Recent Orders</h2>
       {%- if customer.orders_count > 0 -%}
@@ -150,7 +148,7 @@
       </div>
     {%- endif -%}
 
-    <!-- Account Details Section -->
+    
     <div class="section-title-bar">
       <h2>Account Details</h2>
       <a href="javascript:void(0)" class="card-link" onclick="switchTab('settings')">Edit</a>
@@ -185,9 +183,7 @@
     </a>
   </div>
 
-  <!-- ==========================================
-       TAB: ORDERS
-       ========================================== -->
+  
   <div class="account-tab-content" id="tab-orders">
     <div class="section-title-bar">
       <h2>Order History</h2>
@@ -249,15 +245,13 @@
     </div>
   </div>
 
-  <!-- ==========================================
-       TAB: WISHLIST
-       ========================================== -->
+  
   <div class="account-tab-content" id="tab-wishlist">
     <div class="section-title-bar">
       <h2>Wishlist</h2>
     </div>
 
-    <!-- Empty State -->
+    
     <div class="empty-state" id="wishlist-empty-state" style="display: none;">
       <div class="empty-state-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -269,7 +263,7 @@
       <a href="/collections/all" class="empty-state-btn">Browse Products</a>
     </div>
 
-    <!-- Dynamic Grid -->
+    
     <div class="wishlist-grid" id="wishlist-tab-grid"></div>
 
     <div style="margin-top: 40px;">
@@ -282,9 +276,7 @@
     </div>
   </div>
 
-  <!-- ==========================================
-       TAB: ADDRESSES
-       ========================================== -->
+  
   <div class="account-tab-content" id="tab-addresses">
     <div class="section-title-bar">
       <h2>Saved Addresses</h2>
@@ -328,7 +320,7 @@
             <div class="address-actions">
               <button class="form-link" onclick="openAddressModal('edit-address-modal-{{ address.id }}')" style="font-weight: 600;">Edit</button>
               
-              <!-- Native Delete address form -->
+              
               <form method="post" action="/account/addresses/{{ address.id }}" onsubmit="return confirm('Are you sure you want to delete this address?');" style="display:inline;">
                 <input type="hidden" name="_method" value="delete">
                 <button type="submit" class="form-link" style="color: var(--color-accent); font-weight: 600;">Delete</button>
@@ -336,7 +328,7 @@
             </div>
           </div>
 
-          <!-- Overlay Form: Edit Address -->
+          
           <div class="address-form-overlay" id="edit-address-modal-{{ address.id }}">
             <div class="address-form-card" onclick="event.stopPropagation()">
               <div class="address-form-title-bar">
@@ -411,7 +403,7 @@
       </div>
     {%- endif -%}
 
-    <!-- Overlay Form: Add New Address -->
+    
     <div class="address-form-overlay" id="new-address-modal">
       <div class="address-form-card" onclick="event.stopPropagation()">
         <div class="address-form-title-bar">
@@ -493,9 +485,7 @@
     </div>
   </div>
 
-  <!-- ==========================================
-       TAB: SETTINGS
-       ========================================== -->
+  
   <div class="account-tab-content" id="tab-settings">
     <div class="section-title-bar">
       <h2>Account Settings</h2>
@@ -547,34 +537,32 @@
 
 </div>
 
-<!-- ==========================================
-     DASHBOARD JAVASCRIPT
-     ========================================== -->
+
 <script>
-  // Global tab switching logic
+  
   function switchTab(tabName) {
-    // Update active tab buttons
+    
     document.querySelectorAll('.account-tab').forEach(function(btn) {
       const isMatch = btn.textContent.toLowerCase().includes(tabName);
       btn.classList.toggle('active', isMatch);
     });
 
-    // Update active content blocks
+    
     document.querySelectorAll('.account-tab-content').forEach(function(content) {
       const isMatch = content.id === 'tab-' + tabName;
       content.classList.toggle('active', isMatch);
     });
 
-    // Handle initializations per tab
+    
     if (tabName === 'wishlist') {
       renderWishlistTab();
     }
 
-    // Save current active tab in URL hash for refreshing
+    
     window.location.hash = tabName;
   }
 
-  // Address modal controls
+  
   function openAddressModal(id) {
     const modal = document.getElementById(id);
     if (modal) {
@@ -591,7 +579,7 @@
     }
   }
 
-  // Close modals on clicking overlay background
+  
   document.querySelectorAll('.address-form-overlay').forEach(function(overlay) {
     overlay.addEventListener('click', function(e) {
       if (e.target === overlay) {
@@ -600,7 +588,7 @@
     });
   });
 
-  // Price formatting helper for wishlist items
+  
   function formatStorePrice(cents, currency) {
     var val = cents / 100;
     var symbol = 'QAR';
@@ -619,7 +607,7 @@
     return symbol + ' ' + val.toLocaleString();
   }
 
-  // Render wishlist tab dynamically from localStorage
+  
   function renderWishlistTab() {
     const grid = document.getElementById('wishlist-tab-grid');
     const emptyState = document.getElementById('wishlist-empty-state');
@@ -664,7 +652,7 @@
     }
   }
 
-  // Remove item from wishlist page handler
+  
   window.removeWishlistItemFromPage = function(productId) {
     if (typeof window.removeWishlistItem === 'function') {
       window.removeWishlistItem(productId);
@@ -672,25 +660,25 @@
     }
   };
 
-  // Add item from wishlist to cart handler
+  
   window.addWishlistToCartFromPage = function(productId, variantId) {
     if (typeof window.addWishlistToCart === 'function') {
       window.addWishlistToCart(productId, variantId);
     }
   };
 
-  // On load: restore active tab or load overview count
+  
   document.addEventListener('DOMContentLoaded', function() {
     var initialTab = window.location.hash.replace('#', '') || 'overview';
     switchTab(initialTab);
 
-    // Initial counter load for overview page
+    
     const items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
     const countSpan = document.getElementById('overview-wishlist-count');
     if (countSpan) countSpan.textContent = items.length;
   });
 
-  // Re-sync values if localStorage wishlist is updated elsewhere
+  
   window.addEventListener('wishlistChanged', function() {
     const items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
     const countSpan = document.getElementById('overview-wishlist-count');

@@ -1,6 +1,6 @@
 <div class="order-page-container">
   
-  <!-- Back and Title Row -->
+  
   <div class="order-header-bar">
     <div class="order-title-block">
       <h1>Order {{ order.name }}</h1>
@@ -20,10 +20,10 @@
     </div>
   {%- endif -%}
 
-  <!-- Metadata Grid -->
+  
   <div class="order-meta-grid">
     
-    <!-- Billing Address -->
+    
     <div class="meta-block">
       <h4>Billing Address</h4>
       <div style="margin-top: 8px;">
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <!-- Shipping Address -->
+    
     <div class="meta-block">
       <h4>Shipping Address</h4>
       <div style="margin-top: 8px;">
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <!-- Contact & Details -->
+    
     <div class="meta-block">
       <h4>Contact Details</h4>
       <div style="margin-top: 8px; line-height: 1.6;">
@@ -65,7 +65,7 @@
 
   </div>
 
-  <!-- Line Items Table -->
+  
   <div class="section-title-bar">
     <h2>Items Ordered</h2>
   </div>
@@ -74,7 +74,7 @@
     {%- for line_item in order.line_items -%}
       <div class="order-item-row">
         
-        <!-- Product Thumbnail -->
+        
         {%- if line_item.image != blank -%}
           <img src="{{ line_item.image | image_url: width: 140 }}" class="order-item-img" alt="{{ line_item.title | escape }}">
         {%- else -%}
@@ -83,7 +83,7 @@
           </div>
         {%- endif -%}
 
-        <!-- Item Details -->
+        
         <div class="order-item-details">
           <span class="order-item-vendor">{{ line_item.vendor }}</span>
           <h3 class="order-item-title">{{ line_item.product.title }}</h3>
@@ -97,7 +97,7 @@
           {%- endif -%}
         </div>
 
-        <!-- Pricing -->
+        
         <div class="order-item-pricing">
           <div class="order-item-total">{{ line_item.final_line_price | money }}</div>
           <div class="order-item-qty">{{ line_item.quantity }} &times; {{ line_item.final_price | money }}</div>
@@ -107,7 +107,7 @@
     {%- endfor -%}
   </div>
 
-  <!-- Summary Card -->
+  
   <div class="order-totals-card">
     
     <div class="total-summary-row">

@@ -1,11 +1,7 @@
-{% comment %}
-  QatarShoes — Figma Spec Footer Section
-{% endcomment %}
+
 
 <style>
-/* ============================================================
-   FOOTER — isolated and pixel-perfect Figma spec
-   ============================================================ */
+
 
 .site-footer {
     background: #fff;
@@ -14,23 +10,23 @@
     box-sizing: border-box;
 }
 
-/* ── Row: left panel + right panel ── */
+
 .site-footer-panels {
     display: flex;
     align-items: stretch;
     width: 100%;
 }
 
-/* ── LEFT PANEL ── */
+
 .site-footer-panel-left {
-    width: 581px;          /* Figma: 581.33px */
+    width: 581px;          
     flex-shrink: 0;
     padding: 40px;
     outline: 1px solid rgba(0, 0, 0, 0.20);
     outline-offset: -1px;
     display: flex;
     flex-direction: column;
-    gap: 64px;             /* Figma: 64px between logo and subscribe block */
+    gap: 64px;             
     box-sizing: border-box;
 }
 
@@ -41,17 +37,17 @@
 }
 
 .site-footer-logo-link img {
-    width: 110px;          /* Figma: 110.02px */
+    width: 110px;          
     height: 32px;
     object-fit: contain;
     display: block;
 }
 
-/* Subscribe block */
+
 .site-footer-subscribe-block {
     display: flex;
     flex-direction: column;
-    gap: 24px;             /* Figma: 24px between heading / form / disclaimer */
+    gap: 24px;             
 }
 
 .site-footer-subscribe-heading {
@@ -66,7 +62,7 @@
     word-wrap: break-word;
 }
 
-/* CF7 form — reset to match original subscribe design */
+
 .site-footer-subscribe-form .wpcf7 {
     margin: 0;
     padding: 0;
@@ -78,14 +74,14 @@
     gap: 4px;
 }
 
-/* CF7 wraps fields in <p> — make them inline-flex so they sit side by side */
+
 .site-footer-subscribe-form .wpcf7-form p {
     margin: 0;
     padding: 0;
     display: contents;
 }
 
-/* Hide <br> tags CF7 auto-inserts between fields */
+
 .site-footer-subscribe-form .wpcf7-form br {
     display: none;
 }
@@ -149,7 +145,7 @@
     color: #ffffff;
 }
 
-/* Loading spinner overlay — input elements can't use ::after */
+
 .site-footer-subscribe-form .wpcf7-submit-wrap {
     position: relative;
     display: flex;
@@ -187,14 +183,14 @@
     to { transform: rotate(360deg); }
 }
 
-/* Hide CF7 inline feedback — modal handles all responses */
+
 .site-footer-subscribe-form .wpcf7-response-output,
 .site-footer-subscribe-form .wpcf7-not-valid-tip,
 .site-footer-subscribe-form .wpcf7 .wpcf7-spinner {
     display: none !important;
 }
 
-/* Disclaimer */
+
 .site-footer-subscribe-disclaimer {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -206,7 +202,7 @@
 }
 
 .site-footer-subscribe-disclaimer a {
-    color: #2D1F1F;        /* Figma: #2D1F1F */
+    color: #2D1F1F;        
     font-weight: 700;
     text-decoration: none;
 }
@@ -215,7 +211,7 @@
     text-decoration: underline;
 }
 
-/* ── RIGHT PANEL ── */
+
 .site-footer-panel-right {
     flex: 1 1 0;
     border-top: 1px solid rgba(0, 0, 0, 0.20);
@@ -223,31 +219,31 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.20);
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Figma: space-between (links top, features bottom) */
+    justify-content: space-between; 
     box-sizing: border-box;
 }
 
-/* Links grid */
+
 .site-footer-links-area {
-    padding: 40px;          /* Figma: padding 40px */
+    padding: 40px;          
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 40px;              /* Figma: 40px between columns */
+    gap: 40px;              
 }
 
 .site-footer-links-column {
     flex: 1 1 0;
     display: flex;
     flex-direction: column;
-    gap: 7px;               /* Figma: 7px between heading wrapper and links list */
+    gap: 7px;               
 }
 
 .site-footer-links-column h4 {
     font-family: 'Inter', sans-serif;
-    font-size: 16.6px;      /* Figma: 16.60px */
+    font-size: 16.6px;      
     font-weight: 400;
-    line-height: 23px;      /* Figma: 23px */
+    line-height: 23px;      
     text-transform: capitalize;
     color: #000000;
     margin: 0;
@@ -268,10 +264,10 @@
 .site-footer-links-column a {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: 13.5px;        /* Figma: 14px */
-    line-height: 43px;      /* Figma: 43px */
+    font-size: 13.5px;        
+    line-height: 43px;      
     text-transform: capitalize;
-    color: #666666;         /* Figma: #666666 */
+    color: #666666;         
     text-decoration: none;
     display: block;
     transition: color 0.2s;
@@ -282,20 +278,20 @@
     color: #000000;
 }
 
-/* ── Feature strip ── */
+
 .site-footer-features {
-    border-top: 1px solid rgba(0, 0, 0, 0.20); /* Figma */
+    border-top: 1px solid rgba(0, 0, 0, 0.20); 
     display: flex;
     align-self: stretch;
 }
 
 .site-footer-feature-item {
     flex: 1 1 0;
-    padding: 24px;          /* Figma: 24px */
-    border-right: 1px solid rgba(0, 0, 0, 0.20); /* Figma: ALL items have right border */
+    padding: 24px;          
+    border-right: 1px solid rgba(0, 0, 0, 0.20); 
     display: flex;
     align-items: center;
-    gap: 12px;              /* Figma: 12px */
+    gap: 12px;              
     box-sizing: border-box;
 }
 
@@ -317,15 +313,15 @@
 
 .site-footer-feature-label {
     font-family: 'Inter', sans-serif;
-    font-weight: 500;       /* Figma: 500 */
-    font-size: 14px;        /* Figma: 14px */
-    color: #2D1F1F;         /* Figma: #2D1F1F */
+    font-weight: 500;       
+    font-size: 14px;        
+    color: #2D1F1F;         
     word-wrap: break-word;
 }
 
-/* ── Footer Bottom ── */
+
 .site-footer-bottom {
-    padding: 31px 40px 30px; /* Figma: top 31 bottom 30 left 40 right 40 */
+    padding: 31px 40px 30px; 
     width: 100%;
     box-sizing: border-box;
 }
@@ -337,7 +333,7 @@
     width: 100%;
 }
 
-/* Social */
+
 .site-footer-social {
     display: flex;
     align-items: center;
@@ -350,7 +346,7 @@
     font-size: 14px;
     line-height: 23px;
     text-transform: capitalize;
-    color: rgba(102, 102, 102, 0.51); /* Figma: 51% opacity */
+    color: rgba(102, 102, 102, 0.51); 
 }
 
 .site-footer-social-icons {
@@ -384,22 +380,22 @@
     height: 16px;
 }
 
-/* Payment icons */
+
 .site-footer-payments {
     display: flex;
     align-items: center;
-    gap: 12px;              /* Figma: 12px */
+    gap: 12px;              
     flex-wrap: wrap;
 }
 
 .site-footer-payments svg {
-    width: 38px;            /* Figma: 38px */
-    height: 24px;           /* Figma: 24px */
-    opacity: 0.70;          /* Figma: 0.70 */
+    width: 38px;            
+    height: 24px;           
+    opacity: 0.70;          
     flex-shrink: 0;
 }
 
-/* ── Responsive ── */
+
 @media (max-width: 1550px) {
     .site-footer-panel-left {
         width: 420px;
@@ -501,7 +497,7 @@
         gap: 20px;
     }
 
-    /* Stack form vertically on mobile */
+    
     .site-footer-subscribe-form .wpcf7-form {
         flex-direction: column;
         align-items: stretch;
@@ -535,7 +531,7 @@
         border-bottom: none;
     }
 
-    /* Features above links on mobile */
+    
     .site-footer-features {
         order: -1;
         flex-direction: column;
@@ -619,7 +615,7 @@
     }
 }
 
-/* ── Footer Legal Strip ── */
+
 .site-footer-legal {
     background: #2D1F1F;
     padding: 20px 40px;
@@ -663,7 +659,7 @@
     }
 }
 
-/* Hide any old footer markup still in DOM */
+
 .main-footer[class*="jsx-"],
 div.main-footer[class*="jsx-"] {
     display: none !important;
@@ -676,10 +672,10 @@ footer.site-footer {
 
 <footer class="site-footer">
 
-    <!-- ── Two-panel row ── -->
+    
     <div class="site-footer-panels">
 
-        <!-- LEFT: Newsletter / Subscribe -->
+        
         <div class="site-footer-panel-left">
 
             <a href="/" class="site-footer-logo-link">
@@ -731,12 +727,12 @@ footer.site-footer {
                 <p class="site-footer-subscribe-disclaimer">Opt out at anytime by clicking unsubscribe at the bottom of any email.<br class="site-footer-disclaimer-br">By signing up you agree with our <a href="/policies/terms-of-service">Terms and Conditions</a> and <a href="/policies/privacy-policy">Privacy Policy</a>.</p>
             </div>
 
-        </div><!-- /.site-footer-panel-left -->
+        </div>
 
-        <!-- RIGHT: Links + Feature strip -->
+        
         <div class="site-footer-panel-right">
 
-            <!-- Navigation columns -->
+            
             <div class="site-footer-links-area">
               {%- assign footer_blocks = section.blocks | where: "type", "footer_column" -%}
               {%- if footer_blocks.size > 0 -%}
@@ -803,9 +799,9 @@ footer.site-footer {
                     </ul>
                 </div>
 
-            {%- endif -%}</div><!-- /.site-footer-links-area -->
+            {%- endif -%}</div>
 
-            <!-- Feature strip -->
+            
             <div class="site-footer-features">
 
                 <div class="site-footer-feature-item">
@@ -844,13 +840,13 @@ footer.site-footer {
                     <span class="site-footer-feature-label">Customer Support</span>
                 </div>
 
-            </div><!-- /.site-footer-features -->
+            </div>
 
-        </div><!-- /.site-footer-panel-right -->
+        </div>
 
-    </div><!-- /.site-footer-panels -->
+    </div>
 
-    <!-- ── Footer Bottom ── -->
+    
     <div class="site-footer-bottom">
         <div class="site-footer-bottom-inner">
 
@@ -881,7 +877,7 @@ footer.site-footer {
             </div>
 
             <div class="site-footer-payments">
-                <!-- Bank Deposit — 38×24px #2D1F1F, opacity 0.70 -->
+                
                 <svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="38" height="24" rx="3" fill="#2D1F1F"/>
                     <path d="M19 5L8 10V11H30V10L19 5Z" fill="white"/>
@@ -891,7 +887,7 @@ footer.site-footer {
                     <rect x="25" y="12" width="3" height="6" fill="white"/>
                     <rect x="8" y="18" width="22" height="2" fill="white"/>
                 </svg>
-                <!-- Cash on Delivery — 38×24px #2D1F1F, opacity 0.70 -->
+                
                 <svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="38" height="24" rx="3" fill="#2D1F1F"/>
                     <rect x="6" y="7" width="16" height="10" rx="1" fill="white"/>
@@ -904,9 +900,9 @@ footer.site-footer {
             </div>
 
         </div>
-    </div><!-- /.site-footer-bottom -->
+    </div>
 
-    <!-- ── Legal / Copyright Strip ── -->
+    
     <div class="site-footer-legal">
         <div class="site-footer-legal-inner">
             <p class="site-footer-legal-text">

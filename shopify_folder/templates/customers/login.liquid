@@ -1,6 +1,6 @@
 <div class="customer-auth-container">
   
-  <!-- Login Card -->
+  
   <div class="auth-card" id="login-card">
     <h1 class="auth-title">Sign In</h1>
     
@@ -50,7 +50,7 @@
     {%- endform -%}
   </div>
 
-  <!-- Recover Password Card -->
+  
   <div class="auth-card" id="recover-card" style="display: none;">
     <h1 class="auth-title">Reset Password</h1>
     <p class="auth-subtitle">We will send you an email to reset your password.</p>
@@ -110,7 +110,7 @@
     }
   }
 
-  // Initial check on page load
+  
   if (window.location.hash === '#recover') {
     toggleRecoverForm(true);
   }

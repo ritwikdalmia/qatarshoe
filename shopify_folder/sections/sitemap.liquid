@@ -1,10 +1,7 @@
-{% comment %}
-  QatarShoes — Sitemap Page Section
-  Matches sitemap layout and styling exactly from the design mockups.
-{% endcomment %}
+
 
 <main class="sitemap-page">
-  <!-- Hero Section -->
+  
   <section class="sitemap-hero">
     <div class="sitemap-hero-content">
       <h1>{{ section.settings.title | default: page.title }}</h1>
@@ -14,10 +11,10 @@
     </div>
   </section>
 
-  <!-- Main Content -->
+  
   <section class="sitemap-content">
 
-    <!-- 1. Qatar Collection -->
+    
     {%- assign qatar_blocks = section.blocks | where: "type", "card" | where: "settings.group", "qatar" -%}
     {%- if qatar_blocks.size > 0 -%}
       <div class="sitemap-group">
@@ -67,7 +64,7 @@
       </div>
     {%- endif -%}
 
-    <!-- 2. International Collection -->
+    
     {%- assign international_blocks = section.blocks | where: "type", "card" | where: "settings.group", "international" -%}
     {%- if international_blocks.size > 0 -%}
       <div class="sitemap-group">
@@ -107,7 +104,7 @@
       </div>
     {%- endif -%}
 
-    <!-- 3. Support Pages -->
+    
     {%- assign support_blocks = section.blocks | where: "type", "card" | where: "settings.group", "support" -%}
     {%- if support_blocks.size > 0 -%}
       <div class="sitemap-group">
@@ -286,7 +283,7 @@
     height: 20px;
   }
 
-  /* ---- Mobile ---- */
+  
   @media (max-width: 767px) {
     .sitemap-hero {
       padding: 48px 20px;
@@ -344,7 +341,7 @@
     }
   }
 
-  /* ---- Tablet ---- */
+  
   @media (min-width: 768px) and (max-width: 1023px) {
     .sitemap-hero {
       padding: 64px 40px 40px;

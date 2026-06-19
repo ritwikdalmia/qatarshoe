@@ -1,6 +1,4 @@
-{% comment %}
-  QatarShoes — Main Product Details Section (Updated)
-{% endcomment %}
+
 {%- liquid
   assign is_mock = false
   if product == blank
@@ -30,7 +28,7 @@
 -%}
 
 <div class="product-detail-page">
-  <!-- Breadcrumbs -->
+  
   <div class="breadcrumbs">
     <a href="{{ routes.root_url }}">Home</a>
     <span>/</span>
@@ -40,10 +38,10 @@
   </div>
 
   <div class="product-container">
-    <!-- Left: Image Gallery -->
+    
     <div class="product-gallery-container">
       <div id="product-gallery">
-        <!-- Thumbnails -->
+        
         <div class="product-thumbnails">
           {%- if is_mock -%}
             <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=120&h=180&fit=crop"
@@ -72,16 +70,16 @@
           {%- endif -%}
         </div>
 
-        <!-- Main Product Image -->
+        
         <div class="product-main-image">
-          <!-- Wishlist Button -->
+          
           <button type="button" class="product-wishlist-btn" aria-label="Add to wishlist" onclick="toggleProductWishlist(event, '{{ p_id }}')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
             </svg>
           </button>
           
-          <!-- Badges -->
+          
           {%- if p_compare_at_price_val > p_price_val -%}
             <div class="product-badge-sale-new">
               <span class="badge-indicator sale-color"></span>
@@ -109,13 +107,13 @@
       </div>
     </div>
 
-    <!-- Right: Product Details -->
+    
     <div id="product-info">
       <div class="vendor">{{ p_vendor }}</div>
       <h1 class="title">{{ p_title }}</h1>
 
       {%- assign currencies = settings.supported_currencies | default: 'QAR, USD, EUR, AED, SAR' | split: ',' -%}
-      <!-- Pricing -->
+      
       <div class="price-container"
            data-price-qar="QAR {{ p_price_val | divided_by: 100.0 | round }}"
            {%- if p_compare_at_price_val > p_price_val %}
@@ -157,13 +155,13 @@
         {%- endif -%}
       </div>
 
-      <!-- Qatar Stock Status Banner -->
+      
       <div class="stock-banner in-stock" id="qtr-stock-banner">
         <span class="status-dot"></span>
         <span class="status-text">In Stock — Available for Same Day Delivery in Qatar</span>
       </div>
 
-      <!-- Variant Selectors -->
+      
       {%- if is_mock -%}
         <div class="product-variant-selectors">
           <div id="size-selector" class="selector-group">
@@ -366,14 +364,14 @@
         {%- endif -%}
       {%- endif -%}
 
-      <!-- Selected Variant Tracking -->
+      
       {%- if is_mock -%}
         <input type="hidden" id="selected-variant-id" name="id" value="dummy-variant-36">
       {%- else -%}
         <input type="hidden" id="selected-variant-id" name="id" value="{{ product.selected_or_first_available_variant.id }}">
       {%- endif -%}
 
-      <!-- Quantity controls -->
+      
       <div class="quantity-wrapper">
         <span class="quantity-label">Quantity</span>
         <div class="quantity-controls">
@@ -383,7 +381,7 @@
         </div>
       </div>
 
-      <!-- Add to Cart / Buy Now buttons -->
+      
       <div class="cta-wrapper">
         <button type="button" id="add-to-cart" class="checkout-btn atc-btn" 
                 {% unless p_available %}disabled{% endunless %}
@@ -397,7 +395,7 @@
         </button>
       </div>
 
-      <!-- Delivery info strip -->
+      
       <div class="delivery-info-strip">
         <div class="info-item">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
@@ -409,7 +407,7 @@
         </div>
       </div>
 
-      <!-- Product Description accordions -->
+      
       <div class="product-accordions">
         <div class="accordion-item active">
           <button type="button" class="accordion-header" onclick="toggleProductAccordion(this)">
@@ -437,7 +435,7 @@
 </div>
 
 <script>
-  // Color hex codes mapping matching qatarshoes original system
+  
   const COLOR_HEX_MAP = {
     'brown': '#8B4513', 'black': '#000000', 'red': '#B22222', 'green': '#228B22', 'navy blue': '#000080',
     'navy': '#000080', 'blue': '#0066CC', 'burgundy': '#800020', 'grey': '#808080', 'gray': '#808080',
@@ -464,21 +462,21 @@
     'midnight': '#191970'
   };
 
-  // Switch product images in gallery
+  
   function switchMainImage(thumbnail) {
     const mainSrc = thumbnail.getAttribute('data-main-src');
     if (!mainSrc) return;
     
     document.getElementById('main-image-view').src = mainSrc;
     
-    // Update active thumbnail class
+    
     document.querySelectorAll('.product-thumbnails img').forEach(img => {
       img.classList.remove('active');
     });
     thumbnail.classList.add('active');
   }
 
-  // Adjust product quantity input
+  
   function adjustProductQty(amount) {
     const input = document.getElementById('product-qty-input');
     let currentVal = parseInt(input.value) || 1;
@@ -487,52 +485,52 @@
     input.value = currentVal;
   }
 
-  // Accordion toggle functionality
+  
   function toggleProductAccordion(header) {
     const item = header.closest('.accordion-item');
     const isActive = item.classList.contains('active');
     const icon = header.querySelector('.accordion-icon');
     
-    // Toggle active class
+    
     item.classList.toggle('active', !isActive);
     if (icon) icon.textContent = isActive ? '+' : '−';
   }
 
-  // Select variant size option
+  
   function selectProductSize(btn) {
     if (btn.classList.contains('unavailable')) return;
 
-    // Toggle active state in sizes row
+    
     document.querySelectorAll('.size-option').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
 
-    // Update variant ID
+    
     const variantId = btn.getAttribute('data-variant-id');
     document.getElementById('selected-variant-id').value = variantId;
 
-    // Update pricing
+    
     updateProductPrice(btn.getAttribute('data-price'), btn.getAttribute('data-compare-price'));
     updateCTAState(btn.getAttribute('data-available') === 'true');
   }
 
-  // Select color option (swatches)
+  
   function selectProductColor(swatch) {
     if (swatch.classList.contains('unavailable')) return;
 
-    // Toggle active state in color row
+    
     document.querySelectorAll('.color-swatch').forEach(b => b.classList.remove('active'));
     swatch.classList.add('active');
 
-    // Update variant ID
+    
     const variantId = swatch.getAttribute('data-variant-id');
     document.getElementById('selected-variant-id').value = variantId;
 
-    // Update pricing
+    
     updateProductPrice(swatch.getAttribute('data-price'), swatch.getAttribute('data-compare-price'));
     updateCTAState(swatch.getAttribute('data-available') === 'true');
   }
 
-  // Update displayed prices
+  
   function updateProductPrice(price, comparePrice) {
     const priceDisplay = document.getElementById('current-price-display');
     const compareDisplay = document.getElementById('compare-price-display');
@@ -553,7 +551,7 @@
     }
   }
 
-  // Enable/Disable buttons based on variant stock availability
+  
   function updateCTAState(isAvailable) {
     const atcBtn = document.getElementById('add-to-cart');
     const buyBtn = document.getElementById('buy-now');
@@ -579,7 +577,7 @@
     }
   }
 
-  // Add item to cart and redirect to Cart page
+  
   function addToCartClick() {
     const variantId = document.getElementById('selected-variant-id').value;
     const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
@@ -623,7 +621,7 @@
     });
   }
 
-  // Fast checkout redirection
+  
   function buyNowClick() {
     const variantId = document.getElementById('selected-variant-id').value;
     const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
@@ -661,7 +659,7 @@
     });
   }
 
-  // Wishlist toggle integration
+  
   function toggleProductWishlist(event, productId) {
     event.preventDefault();
     event.stopPropagation();
@@ -711,30 +709,30 @@
     localStorage.setItem('qtr_wishlist', JSON.stringify(wishlist));
     localStorage.setItem('qtr_wishlist_items', JSON.stringify(items));
     
-    // Dispatch global event
+    
     window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
   }
 
-  // Initialize page components
+  
   document.addEventListener('DOMContentLoaded', function() {
-    // 1. Swatches background color loader
+    
     document.querySelectorAll('.color-swatch').forEach(swatch => {
       const color = swatch.getAttribute('data-color').toLowerCase().trim();
       const hex = COLOR_HEX_MAP[color] || '#dcdcdc';
       swatch.style.backgroundColor = hex;
     });
 
-    // 2. Select first in-stock variant size pill automatically
+    
     const firstAvailableSize = document.querySelector('.size-option[data-available="true"]');
     if (firstAvailableSize) {
       selectProductSize(firstAvailableSize);
     } else {
-      // If no options, check if single variant is available
+      
       const singleOpt = document.querySelector('.size-option');
       if (singleOpt) selectProductSize(singleOpt);
     }
 
-    // 3. Wishlist state sync
+    
     const wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
     const heartBtn = document.querySelector('.product-wishlist-btn');
     if (heartBtn && wishlist.indexOf('{{ product.id }}') > -1) {
@@ -754,4 +752,4 @@
   "settings": []
 }
 {% endschema %}
-{% comment %} Trigger Sync {% endcomment %}
+
