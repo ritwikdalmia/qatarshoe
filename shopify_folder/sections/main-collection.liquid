@@ -337,14 +337,8 @@
     endfor
   -%}
 
-  {%- if has_active_filters or collection.handle != 'all' -%}
+  {%- if has_active_filters -%}
     <div class="active-filters-row" style="max-width: 1600px; margin: 0 auto; padding: 0 40px 15px 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 15px;">
-      {%- if collection.handle != 'all' -%}
-        <a href="/collections/all" class="active-filter-tag" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #faf9f5; border: 1.5px solid var(--color-border); border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-primary);">
-          {{ collection.title }} <span style="font-size: 11px; opacity: 0.6;">&times;</span>
-        </a>
-      {%- endif -%}
-
       {%- for filter in collection.filters -%}
         {%- for value in filter.active_values -%}
           <a href="{{ value.url_to_remove }}" class="active-filter-tag" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #faf9f5; border: 1.5px solid var(--color-border); border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-primary);">
