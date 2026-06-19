@@ -374,6 +374,9 @@
                       {%- assign v_id = '' -%}
                       {%- assign v_price = '' -%}
                       {%- assign v_compare = '' -%}
+                      {%- assign v_inventory_qty = 999 -%}
+                      {%- assign v_inventory_management = '' -%}
+                      {%- assign v_inventory_policy = 'deny' -%}
                       {%- for variant in product.variants -%}
                         {%- if variant.options contains value -%}
                           {%- if variant.available -%}{%- assign v_avail = true -%}{%- endif -%}
@@ -382,6 +385,9 @@
                           {%- if variant.compare_at_price > variant.price -%}
                             {%- assign v_compare = variant.compare_at_price | money_without_trailing_zeros -%}
                           {%- endif -%}
+                          {%- assign v_inventory_qty = variant.inventory_quantity -%}
+                          {%- assign v_inventory_management = variant.inventory_management -%}
+                          {%- assign v_inventory_policy = variant.inventory_policy -%}
                         {%- endif -%}
                       {%- endfor -%}
                       {%- assign v_active = false -%}
@@ -394,6 +400,9 @@
                            data-price="{{ v_price }}"
                            data-compare-price="{{ v_compare }}"
                            data-available="{{ v_avail }}"
+                           data-inventory-qty="{{ v_inventory_qty }}"
+                           data-inventory-management="{{ v_inventory_management }}"
+                           data-inventory-policy="{{ v_inventory_policy }}"
                            title="{{ value }}"
                            onclick="selectProductColor(this)">
                       </div>
@@ -415,6 +424,9 @@
                       {%- assign v_id = '' -%}
                       {%- assign v_price = '' -%}
                       {%- assign v_compare = '' -%}
+                      {%- assign v_inventory_qty = 999 -%}
+                      {%- assign v_inventory_management = '' -%}
+                      {%- assign v_inventory_policy = 'deny' -%}
                       {%- for variant in product.variants -%}
                         {%- if variant.options contains value -%}
                           {%- if variant.available -%}{%- assign v_avail = true -%}{%- endif -%}
@@ -423,6 +435,9 @@
                           {%- if variant.compare_at_price > variant.price -%}
                             {%- assign v_compare = variant.compare_at_price | money_without_trailing_zeros -%}
                           {%- endif -%}
+                          {%- assign v_inventory_qty = variant.inventory_quantity -%}
+                          {%- assign v_inventory_management = variant.inventory_management -%}
+                          {%- assign v_inventory_policy = variant.inventory_policy -%}
                         {%- endif -%}
                       {%- endfor -%}
                       {%- assign v_selected = false -%}
@@ -435,6 +450,9 @@
                               data-price="{{ v_price }}"
                               data-compare-price="{{ v_compare }}"
                               data-available="{{ v_avail }}"
+                              data-inventory-qty="{{ v_inventory_qty }}"
+                              data-inventory-management="{{ v_inventory_management }}"
+                              data-inventory-policy="{{ v_inventory_policy }}"
                               {% unless v_avail %}disabled{% endunless %}
                               onclick="selectProductSize(this)">
                         {{ value }}
@@ -779,6 +797,20 @@
     let currentVal = parseInt(input.value) || 1;
     currentVal += amount;
     if (currentVal < 1) currentVal = 1;
+    
+    // Check max stock based on selected variant
+    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
+    if (selectedVariantEl) {
+      const management = selectedVariantEl.getAttribute('data-inventory-management');
+      if (management && management !== '') {
+        const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
+        if (currentVal > maxQty) {
+          alert('Only ' + maxQty + ' items available in stock.');
+          return;
+        }
+      }
+    }
+    
     input.value = currentVal;
   }
 
@@ -892,6 +924,52 @@
       return;
     }
 
+    // Check max stock
+    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
+    if (selectedVariantEl) {
+      const management = selectedVariantEl.getAttribute('data-inventory-management');
+      if (management && management !== '') {
+        const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
+        
+        atcBtn.disabled = true;
+        atcBtn.textContent = 'Checking stock...';
+        
+        fetch('/cart.js')
+          .then(r => r.json())
+          .then(cart => {
+            const inCartItem = cart.items.find(item => String(item.variant_id) === String(variantId));
+            const inCartQty = inCartItem ? inCartItem.quantity : 0;
+            if (inCartQty + qty > maxQty) {
+              alert('You cannot add ' + qty + ' more. You already have ' + inCartQty + ' in your cart, and only ' + maxQty + ' are available in stock.');
+              atcBtn.disabled = false;
+              atcBtn.textContent = 'Add to Cart';
+              return;
+            }
+            performAddToCart(variantId, qty, atcBtn);
+          })
+          .catch(err => {
+            console.error(err);
+            performAddToCart(variantId, qty, atcBtn);
+          });
+        return;
+      }
+    }
+
+    performAddToCart(variantId, qty, atcBtn);
+  }
+
+  function performAddToCart(variantId, qty, atcBtn) {
+    // Add to local window inventory cache for drawer validation
+    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
+    if (selectedVariantEl) {
+      if (!window.cartItemInventory) window.cartItemInventory = {};
+      window.cartItemInventory[variantId] = {
+        qty: parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 999,
+        management: selectedVariantEl.getAttribute('data-inventory-management') || '',
+        policy: selectedVariantEl.getAttribute('data-inventory-policy') || 'deny'
+      };
+    }
+
     atcBtn.disabled = true;
     atcBtn.textContent = 'Adding...';
 
@@ -941,6 +1019,40 @@
       return;
     }
 
+    // Check max stock
+    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
+    if (selectedVariantEl) {
+      const management = selectedVariantEl.getAttribute('data-inventory-management');
+      if (management && management !== '') {
+        const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
+        
+        buyBtn.disabled = true;
+        buyBtn.textContent = 'Checking stock...';
+        
+        fetch('/cart.js')
+          .then(r => r.json())
+          .then(cart => {
+            const inCartItem = cart.items.find(item => String(item.variant_id) === String(variantId));
+            const inCartQty = inCartItem ? inCartItem.quantity : 0;
+            if (inCartQty + qty > maxQty) {
+              alert('Only ' + maxQty + ' items are available in stock. You already have ' + inCartQty + ' in your cart.');
+              buyBtn.disabled = false;
+              buyBtn.textContent = 'Buy Now';
+              return;
+            }
+            performBuyNow(variantId, qty, buyBtn);
+          })
+          .catch(err => {
+            performBuyNow(variantId, qty, buyBtn);
+          });
+        return;
+      }
+    }
+
+    performBuyNow(variantId, qty, buyBtn);
+  }
+
+  function performBuyNow(variantId, qty, buyBtn) {
     buyBtn.disabled = true;
     buyBtn.textContent = 'Processing...';
 
