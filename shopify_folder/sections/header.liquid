@@ -1876,7 +1876,12 @@
         });
       })
       .then(function(cart) {
-        window.openSideDrawer('cart', true);
+        if (qty === 0) {
+          window.closeSideDrawer();
+          updateCartBadge(cart.item_count);
+        } else {
+          window.openSideDrawer('cart', true);
+        }
       })
       .catch(function(err) {
         window.showErrorAlert(err.message);
@@ -1896,7 +1901,7 @@
       
       updateWishlistBadge();
       window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
-      window.openSideDrawer('wishlist');
+      window.closeSideDrawer();
     };
 
     window.addWishlistToCart = function(productId, variantId) {
@@ -2136,7 +2141,7 @@
     width: 100%;
     max-width: 400px;
     height: 100%;
-    background: #fff;
+    background: var(--color-drawer-bg, #fff);
     z-index: 100000;
     box-shadow: -10px 0 30px rgba(0,0,0,0.15);
     display: flex;
@@ -2251,7 +2256,7 @@
   .side-drawer-footer {
     padding: 24px;
     border-top: 1px solid var(--color-border, #e0dcd3);
-    background: #faf9f5;
+    background: var(--color-drawer-footer-bg, #faf9f5);
   }
   .total-row {
     display: flex;

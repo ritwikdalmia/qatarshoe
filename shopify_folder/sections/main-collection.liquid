@@ -266,7 +266,7 @@
     width: 100%;
     max-width: 440px;
     height: 100%;
-    background: #fff;
+    background: var(--color-drawer-bg, #fff);
     box-shadow: -10px 0 30px rgba(0,0,0,0.15);
     display: flex;
     flex-direction: column;
@@ -350,7 +350,7 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 12px;
-    background: #fff;
+    background: var(--color-drawer-footer-bg, #faf9f5);
   }
   .filters-clear-btn {
     padding: 14px;
@@ -926,6 +926,11 @@
         {%- endfor -%}
       </div>
 
+      <div class="filter-empty-message" style="display: none; text-align: center; padding: 60px 20px;">
+        <h2 style="font-family: var(--font-serif); font-size: 24px; color: var(--color-primary); margin-bottom: 15px;">No products found with these filters</h2>
+        <a href="{{ collection.url }}" class="btn-continue-shopping">Clear Filters</a>
+      </div>
+
       {%- if paginate.pages > 1 -%}
         <div class="pagination-container">
           {%- if paginate.previous -%}
@@ -947,9 +952,36 @@
       {%- endif -%}
 
     {%- else -%}
+      {%- liquid
+        assign is_filtered = false
+        for filter in collection.filters
+          if filter.active_values.size > 0
+            assign is_filtered = true
+            break
+          endif
+          if filter.min_value.value != blank or filter.max_value.value != blank
+            assign is_filtered = true
+            break
+          endif
+        endfor
+        
+        if canonical_url contains 'filter.p.' or canonical_url contains 'filter.v.'
+          assign is_filtered = true
+        endif
+      -%}
       <div class="collection-empty">
-        <h2 class="collection-empty-title">No products found in this collection</h2>
-        <a href="/collections/all" class="btn-continue-shopping">Continue Shopping</a>
+        <h2 class="collection-empty-title">
+          {%- if is_filtered -%}
+            No products found with these filters
+          {%- else -%}
+            No products found in this collection
+          {%- endif -%}
+        </h2>
+        {%- if is_filtered -%}
+          <a href="{{ collection.url }}" class="btn-continue-shopping">Clear Filters</a>
+        {%- else -%}
+          <a href="/collections/all" class="btn-continue-shopping">Continue Shopping</a>
+        {%- endif -%}
       </div>
     {%- endif -%}
   </div>
@@ -1702,6 +1734,21 @@
     const resultsCountEl = document.querySelector('.results-count');
     if (resultsCountEl) {
       resultsCountEl.textContent = `${visibleCount} results`;
+    }
+
+    // Toggle empty state message and grid/pagination visibility
+    const emptyMsg = document.querySelector('.filter-empty-message');
+    const grid = document.querySelector('.product-grid');
+    const pagination = document.querySelector('.pagination-container');
+    
+    if (visibleCount === 0) {
+      if (emptyMsg) emptyMsg.style.display = 'block';
+      if (grid) grid.style.display = 'none';
+      if (pagination) pagination.style.display = 'none';
+    } else {
+      if (emptyMsg) emptyMsg.style.display = 'none';
+      if (grid) grid.style.display = 'grid';
+      if (pagination) pagination.style.display = 'flex';
     }
   }
 

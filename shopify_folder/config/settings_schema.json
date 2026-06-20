@@ -57,6 +57,18 @@
         "id": "color_green",
         "label": "Green Accent",
         "default": "#1e3524"
+      },
+      {
+        "type": "color",
+        "id": "color_drawer_bg",
+        "label": "Drawer Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_drawer_footer_bg",
+        "label": "Drawer Footer Background Color",
+        "default": "#faf9f5"
       }
     ]
   },
