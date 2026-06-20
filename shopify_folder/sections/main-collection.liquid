@@ -384,6 +384,99 @@
   .filters-apply-btn:hover {
     background: #1a1010;
   }
+
+  /* Custom premium checkbox styling */
+  .filter-drawer-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--color-border, #ccc);
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    margin: 0;
+  }
+  .filter-drawer-checkbox:hover {
+    border-color: var(--color-primary, #2d1f1f);
+    box-shadow: 0 0 0 3px rgba(45, 31, 31, 0.1);
+  }
+  .filter-drawer-checkbox:checked {
+    background-color: var(--color-primary, #2d1f1f);
+    border-color: var(--color-primary, #2d1f1f);
+  }
+  .filter-drawer-checkbox:checked::after {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 9px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-0.5px, -1.5px);
+  }
+  .filter-drawer-checkbox:focus-visible {
+    outline: 2px solid var(--color-primary, #2d1f1f);
+    outline-offset: 2px;
+  }
+  
+  .filter-checkbox-label {
+    transition: color 0.18s ease;
+  }
+  .filter-checkbox-label:hover {
+    color: var(--color-primary, #2d1f1f) !important;
+  }
+  .filter-checkbox-label:hover .filter-drawer-checkbox {
+    border-color: var(--color-primary, #2d1f1f);
+  }
+  
+  /* Brand search input styling */
+  .filter-search-input {
+    width: 100%;
+    padding: 10px 14px 10px 36px !important;
+    border: 1px solid var(--color-border, #e0dcd3) !important;
+    border-radius: 6px !important;
+    font-family: inherit;
+    font-size: 13.5px !important;
+    color: var(--color-primary, #2d1f1f);
+    background-color: #faf9f5 !important;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease !important;
+  }
+  .filter-search-input:focus {
+    border-color: var(--color-primary, #2d1f1f) !important;
+    background-color: #fff !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  
+  .filter-search-wrap::before {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+  }
+
+  /* Disabled option styling */
+  .disabled-filter-option {
+    opacity: 0.45 !important;
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+  }
+  .disabled-filter-option .filter-drawer-checkbox {
+    background-color: #f5f5f5 !important;
+    border-color: #e0e0e0 !important;
+  }
 </style>
 
 {%- if show_breadcrumbs -%}
@@ -478,7 +571,7 @@
                onclick="toggleTypeFilter(this, event)">All</a>
             {%- for child_link in parent_link.links -%}
               {%- assign child_title_down = child_link.title | downcase -%}
-              {%- if child_title_down contains 'explore' or child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
+              {%- if child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
                 {%- continue -%}
               {%- endif -%}
               {%- assign child_col_handle = child_link.url | split: '/' | last -%}
@@ -531,7 +624,7 @@
 
                     {%- for child_link in link.links -%}
                       {%- assign child_title_down = child_link.title | downcase -%}
-                      {%- if child_title_down contains 'explore' or child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
+                      {%- if child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
                         {%- continue -%}
                       {%- endif -%}
                       {%- if child_link.url contains '/collections/' -%}
@@ -544,7 +637,7 @@
 
                       {%- for grandchild_link in child_link.links -%}
                         {%- assign grandchild_title_down = grandchild_link.title | downcase -%}
-                        {%- if grandchild_title_down contains 'explore' or grandchild_title_down contains 'view all' or grandchild_title_down contains 'all collection' -%}
+                        {%- if grandchild_title_down contains 'view all' or grandchild_title_down contains 'all collection' -%}
                           {%- continue -%}
                         {%- endif -%}
                         {%- if grandchild_link.url contains '/collections/' -%}
@@ -929,7 +1022,7 @@
             assign drawer_col_all_label = 'All ' | append: parent_link.title
             for cl in parent_link.links
               assign clt = cl.title | downcase
-              if clt contains 'explore' or clt contains 'view all'
+              if clt contains 'view all'
                 continue
               endif
               if cl.url contains '/collections/'
@@ -947,7 +1040,7 @@
               if linklists[handle] != blank
                 for link in linklists[handle].links
                   assign lt = link.title | downcase
-                  if lt contains 'explore' or lt contains 'home' or lt contains 'new' or lt contains 'sale' or lt contains 'brand' or lt contains 'vendor' or lt contains 'restock'
+                  if lt contains 'home' or lt contains 'new' or lt contains 'sale' or lt contains 'brand' or lt contains 'vendor' or lt contains 'restock'
                     continue
                   endif
                   if link.url contains '/collections/'
@@ -991,8 +1084,7 @@
                          class="filter-drawer-checkbox {% if is_brand_menu %}brand-collection-nav-all{% else %}collection-nav-cb collection-nav-all{% endif %}"
                          data-collection-url="{{ drawer_col_all_url }}"
                          data-is-all="true"
-                         {% if drawer_all_active %}checked{% endif %}
-                         style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); flex-shrink: 0;">
+                         {% if drawer_all_active %}checked{% endif %}>
                   <span class="filter-value-text">{{ drawer_col_all_label }}</span>
                 </label>
                 {%- for pair in drawer_col_pairs -%}
@@ -1022,8 +1114,7 @@
                       <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: {%- if forloop.last -%}none{%- else -%}1px solid var(--color-border){%- endif -%}; margin-bottom: 0; font-weight: 400;">
                         <input type="checkbox"
                                class="filter-drawer-checkbox brand-category-cb"
-                               data-type-values="{{ types_list_str | escape }}"
-                               style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); flex-shrink: 0;">
+                               data-type-values="{{ types_list_str | escape }}">
                         <span class="filter-value-text">{{ ctitle }}</span>
                       </label>
                     {%- else -%}
@@ -1034,8 +1125,7 @@
                                class="filter-drawer-checkbox collection-nav-cb"
                                data-collection-url="/collections/{{ chandle }}"
                                data-parent-url="{{ drawer_col_all_url }}"
-                               {% if is_active_link %}checked{% endif %}
-                               style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); flex-shrink: 0;">
+                               {% if is_active_link %}checked{% endif %}>
                         <span class="filter-value-text">{{ ctitle }}</span>
                       </label>
                     {%- endif -%}
@@ -1102,9 +1192,13 @@
 
                 <div class="filter-checkbox-list" style="max-height: 240px; overflow-y: auto; padding-right: 4px;">
                   {%- for value in filter.values -%}
-                    <label class="filter-checkbox-label" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; font-weight: 400; text-transform: none; line-height: 1;">
+                    {%- assign option_disabled = false -%}
+                    {%- if value.count == 0 and value.active == false -%}
+                      {%- assign option_disabled = true -%}
+                    {%- endif -%}
+                    <label class="filter-checkbox-label {% if option_disabled %}disabled-filter-option{% endif %}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; font-weight: 400; text-transform: none; line-height: 1;">
                       <span style="display: flex; align-items: center; gap: 8px;">
-                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} class="filter-drawer-checkbox" style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); border: 1px solid var(--color-border); border-radius: 4px;">
+                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} class="filter-drawer-checkbox">
                         <span class="filter-value-text">{{ value.label }}</span>
                       </span>
                       <span style="color: #888; font-size: 12px;">({{ value.count }})</span>
@@ -1142,7 +1236,7 @@
                 {%- for vendor in collection.all_vendors -%}
                   <label class="filter-checkbox-label" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; font-weight: 400; text-transform: none; line-height: 1;">
                     <span style="display: flex; align-items: center; gap: 8px;">
-                      <input type="checkbox" name="filter.p.vendor" value="{{ vendor | escape }}" class="filter-drawer-checkbox custom-brand-cb" style="cursor: pointer; width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary); border: 1px solid var(--color-border); border-radius: 4px;">
+                      <input type="checkbox" name="filter.p.vendor" value="{{ vendor | escape }}" class="filter-drawer-checkbox custom-brand-cb">
                       <span class="filter-value-text">{{ vendor }}</span>
                     </span>
                   </label>
@@ -1267,7 +1361,7 @@
       }
     }
     
-    const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:not(.collection-nav-cb):not(.brand-category-cb):not(.brand-collection-nav-all):checked');
+    const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:not(.collection-nav-cb):not(.brand-category-cb):not(.brand-collection-nav-all):not(.custom-brand-cb):checked');
     checkboxes.forEach(cb => {
       newParams.append(cb.name, cb.value);
     });
@@ -1503,23 +1597,35 @@
   
   function initCategoryTypeFilters() {
     const params = new URLSearchParams(window.location.search);
-    const activeTypes = params.getAll('filter.p.product_type');
+    const activeTypes = params.getAll('filter.p.product_type').map(t => t.trim().toLowerCase());
     const pills = document.querySelectorAll('.filter-pill-category-type');
     
     let activePillFound = false;
     
     if (activeTypes.length > 0) {
-      pills.forEach(pill => {
-        const valuesAttr = pill.getAttribute('data-type-values');
-        if (valuesAttr) {
-          const values = valuesAttr.split(',');
-          const hasIntersection = activeTypes.some(type => values.includes(type));
-          if (hasIntersection) {
-            pill.classList.add('active');
-            activePillFound = true;
-          } else {
-            pill.classList.remove('active');
-          }
+      let remainingTypes = [...activeTypes];
+      
+      // Sort pills by the number of values they represent (descending)
+      const pillData = Array.from(pills).map(pill => {
+        const valuesAttr = pill.getAttribute('data-type-values') || '';
+        const values = valuesAttr.split(',').map(v => v.trim().toLowerCase()).filter(v => v !== '');
+        return { pill, values };
+      });
+      
+      pillData.sort((a, b) => b.values.length - a.values.length);
+      
+      pillData.forEach(item => {
+        if (item.values.length === 0) return;
+        
+        // Match if all values of this pill are present in remainingTypes
+        const isMatch = item.values.every(v => remainingTypes.includes(v));
+        if (isMatch) {
+          item.pill.classList.add('active');
+          activePillFound = true;
+          // Consume these values
+          remainingTypes = remainingTypes.filter(v => !item.values.includes(v));
+        } else {
+          item.pill.classList.remove('active');
         }
       });
     }
@@ -1709,17 +1815,34 @@
       });
       
       let matchedAnyBrand = false;
-      document.querySelectorAll('.brand-category-cb').forEach(cb => {
-        const typesAttr = cb.getAttribute('data-type-values');
-        if (typesAttr) {
-          const types = typesAttr.split(',');
-          const hasMatch = activeTypes.some(t => types.map(x => x.toLowerCase().trim()).includes(t.toLowerCase().trim()));
-          if (hasMatch) {
-            cb.checked = true;
-            matchedAnyBrand = true;
-          }
+      const brandCbs = Array.from(document.querySelectorAll('.brand-category-cb'));
+      const cbData = brandCbs.map(cb => {
+        const typesAttr = cb.getAttribute('data-type-values') || '';
+        const types = typesAttr.split(',').map(t => t.trim().toLowerCase()).filter(t => t !== '');
+        return { cb, types };
+      });
+      
+      // Sort by types count descending
+      cbData.sort((a, b) => b.types.length - a.types.length);
+      
+      let remainingTypes = activeTypes.map(t => t.trim().toLowerCase());
+      
+      cbData.forEach(item => {
+        if (item.types.length === 0) return;
+        
+        // Match if all types for this checkbox are present in the remainingTypes
+        const isMatch = item.types.every(t => remainingTypes.includes(t));
+        
+        if (isMatch) {
+          item.cb.checked = true;
+          matchedAnyBrand = true;
+          // Consume these types
+          remainingTypes = remainingTypes.filter(t => !item.types.includes(t));
+        } else {
+          item.cb.checked = false;
         }
       });
+      
       if (matchedAnyBrand) {
         const allCb = document.querySelector('.brand-collection-nav-all');
         if (allCb) allCb.checked = false;
