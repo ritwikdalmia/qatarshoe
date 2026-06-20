@@ -445,7 +445,7 @@
                     </div>
                     <div class="contact-field-group">
                         <label for="ContactFormPhone">Phone Number (optional)</label>
-                        <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" />
+                        <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" pattern="^[34567][0-9]{7}$" title="Please enter a valid 8-digit Qatar phone number (starting with 3, 4, 5, 6, or 7)." />
                     </div>
                     <div class="contact-field-group full-width">
                         <label for="ContactFormMessage">Your Message <span class="required">*</span></label>
