@@ -1,9 +1,57 @@
 
 
 {%- liquid
-  assign products_per_page = section.settings.products_per_page | default: 16
   assign show_breadcrumbs = section.settings.show_breadcrumbs
   assign show_filters = section.settings.show_filters
+
+  assign parent_link = blank
+  
+  # Determine menu handle based on collection handle
+  if collection.handle contains '-men' or collection.handle contains 'men-'
+    assign menu_handles = 'men,main-menu' | split: ','
+  else
+    assign menu_handles = 'women,main-menu' | split: ','
+  endif
+  
+  # Search for matching parent link or child link in the menus
+  for handle in menu_handles
+    if linklists[handle] != blank
+      for link in linklists[handle].links
+        assign link_handle = link.url | split: '/' | last
+        if link.url == collection.url or link_handle == collection.handle
+          assign parent_link = link
+          break
+        endif
+        
+        for child_link in link.links
+          assign child_handle = child_link.url | split: '/' | last
+          if child_link.url == collection.url or child_handle == collection.handle
+            assign parent_link = link
+            break
+          endif
+        endfor
+        if parent_link != blank
+          break
+        endif
+      endfor
+    endif
+    if parent_link != blank
+      break
+    endif
+  endfor
+
+  assign is_brand_menu = false
+  if parent_link != blank
+    assign parent_title_down = parent_link.title | downcase
+    if parent_title_down contains 'brand' or parent_title_down contains 'vendor' or parent_title_down contains 'البراند' or parent_title_down contains 'ماركة' or parent_title_down contains 'البراندات'
+      assign is_brand_menu = true
+    endif
+  endif
+
+  assign products_per_page = section.settings.products_per_page | default: 16
+  if is_brand_menu or collection.handle == 'all' or collection.handle == 'on-sale' or collection.handle == 'new-in' or collection.handle == 'restock'
+    assign products_per_page = 50
+  endif
 -%}
 
 <style>
@@ -494,52 +542,8 @@
   {%- endif -%}
 </div>
 
-{%- paginate collection.products by products_per_page -%}
-  {%- liquid
-    assign parent_link = blank
-    
-    # Determine menu handle based on collection handle
-    if collection.handle contains '-men' or collection.handle contains 'men-'
-      assign menu_handles = 'men,main-menu' | split: ','
-    else
-      assign menu_handles = 'women,main-menu' | split: ','
-    endif
-    
-    # Search for matching parent link or child link in the menus
-    for handle in menu_handles
-      if linklists[handle] != blank
-        for link in linklists[handle].links
-          assign link_handle = link.url | split: '/' | last
-          if link.url == collection.url or link_handle == collection.handle
-            assign parent_link = link
-            break
-          endif
-          
-          for child_link in link.links
-            assign child_handle = child_link.url | split: '/' | last
-            if child_link.url == collection.url or child_handle == collection.handle
-              assign parent_link = link
-              break
-            endif
-          endfor
-          if parent_link != blank
-            break
-          endif
-        endfor
-      endif
-      if parent_link != blank
-        break
-      endif
-    endfor
-
-    assign is_brand_menu = false
-    if parent_link != blank
-      assign parent_title_down = parent_link.title | downcase
-      if parent_title_down contains 'brand' or parent_title_down contains 'vendor' or parent_title_down contains 'البراند' or parent_title_down contains 'ماركة' or parent_title_down contains 'البراندات'
-        assign is_brand_menu = true
-      endif
-    endif
-  -%}
+{%- paginate collection.products by 50 -%}
+  {%- comment -%} Menu calculations shifted to the top of the section {%- endcomment -%}
   <div class="collection-toolbar">
     <div class="toolbar-left" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; flex: 1; min-width: 0;">
       <span class="results-count">{{ collection.products_count }} results</span>
@@ -602,6 +606,8 @@
 
               <a href="{{ collection.url }}" class="filter-pill active" data-is-brand-all="true">{{ all_label }}</a>
 
+              {%- capture vendor_titles_str -%}{%- for vendor in shop.vendors -%}::{{ vendor | downcase }}||{%- endfor -%}{%- endcapture -%}
+
               {%- comment -%} Dynamically extract category collection links from menus including dropdowns {%- endcomment -%}
               {%- assign category_links = "" -%}
               {%- for menu_handle in menu_handles -%}
@@ -615,6 +621,10 @@
                       {%- continue -%}
                     {%- endif -%}
                     {%- if link_title_down contains 'explore' or link_title_down contains 'restock' -%}
+                      {%- continue -%}
+                    {%- endif -%}
+                    {%- assign check_vendor_title = '::' | append: link_title_down | append: '||' -%}
+                    {%- if vendor_titles_str contains check_vendor_title -%}
                       {%- continue -%}
                     {%- endif -%}
                     {%- if link.url contains '/collections/' -%}
@@ -633,6 +643,10 @@
                       {%- if child_title_down contains 'explore' or child_title_down contains 'restock' -%}
                         {%- continue -%}
                       {%- endif -%}
+                      {%- assign check_vendor_title = '::' | append: child_title_down | append: '||' -%}
+                      {%- if vendor_titles_str contains check_vendor_title -%}
+                        {%- continue -%}
+                      {%- endif -%}
                       {%- if child_link.url contains '/collections/' -%}
                         {%- assign col_handle = child_link.url | split: '/' | last -%}
                         {%- assign check_handle = '::' | append: col_handle | append: '||' -%}
@@ -647,6 +661,10 @@
                           {%- continue -%}
                         {%- endif -%}
                         {%- if grandchild_title_down contains 'explore' or grandchild_title_down contains 'restock' -%}
+                          {%- continue -%}
+                        {%- endif -%}
+                        {%- assign check_vendor_title = '::' | append: grandchild_title_down | append: '||' -%}
+                        {%- if vendor_titles_str contains check_vendor_title -%}
                           {%- continue -%}
                         {%- endif -%}
                         {%- if grandchild_link.url contains '/collections/' -%}
@@ -812,7 +830,15 @@
         {%- assign currencies = currency_data_parts[0] | split: ',' -%}
         {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
         {%- for product in collection.products -%}
-          <a href="{{ product.url }}" class="product-card" aria-label="{{ product.title }}">
+          <a href="{{ product.url }}" class="product-card" aria-label="{{ product.title }}"
+             data-product-type="{{ product.type | downcase | escape }}"
+             data-vendor="{{ product.vendor | downcase | escape }}"
+             data-collections="{%- for col in product.collections -%}{{ col.handle }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}"
+             data-available="{{ product.available }}"
+             data-price-cents="{{ product.price }}"
+             {%- for option in product.options_with_values -%}
+               data-opt-{{ option.name | handle }}="{%- for val in option.values -%}{{ val | downcase | escape }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}"
+             {%- endfor -%}>
             <div class="product-card-img" 
                  data-images="{%- if product.images.size > 1 -%}{%- for img in product.images -%}{{ img | image_url: width: 600, height: 900, crop: 'center' }}{% unless forloop.last %},{% endunless %}{%- endfor -%}{%- endif -%}">
               {%- if product.featured_image != blank -%}
@@ -1121,7 +1147,8 @@
                       <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: {%- if forloop.last -%}none{%- else -%}1px solid var(--color-border){%- endif -%}; margin-bottom: 0; font-weight: 400;">
                         <input type="checkbox"
                                class="filter-drawer-checkbox brand-category-cb"
-                               data-type-values="{{ types_list_str | escape }}">
+                               data-type-values="{{ types_list_str | escape }}"
+                               data-collection-handle="{{ chandle }}">
                         <span class="filter-value-text">{{ ctitle }}</span>
                       </label>
                     {%- else -%}
@@ -1131,6 +1158,7 @@
                         <input type="checkbox"
                                class="filter-drawer-checkbox collection-nav-cb"
                                data-collection-url="/collections/{{ chandle }}"
+                               data-collection-handle="{{ chandle }}"
                                data-parent-url="{{ drawer_col_all_url }}"
                                {% if is_active_link %}checked{% endif %}>
                         <span class="filter-value-text">{{ ctitle }}</span>
@@ -1262,6 +1290,13 @@
 
     </div>
   </div>
+<script>
+  window.collectionPagination = {
+    currentPage: {{ paginate.current_page | default: 1 }},
+    totalPages: {{ paginate.pages | default: 1 }},
+    baseUrl: "{{ collection.url }}"
+  };
+</script>
 {%- endpaginate -%}
 
 <script>
@@ -1306,101 +1341,472 @@
     });
   }
 
+  function syncFiltersFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    
+    // 1. Sync collection filters
+    initCollectionFilters();
+    
+    // 2. Sync type / category type pills
+    initTypeFilters();
+    initCategoryTypeFilters();
+    
+    // 3. Sync brand category checkboxes (brand page collections)
+    const activeTypes = params.getAll('filter.p.product_type').map(t => t.trim().toLowerCase());
+    document.querySelectorAll('.brand-category-cb').forEach(cb => {
+      const typesAttr = cb.getAttribute('data-type-values') || '';
+      const types = typesAttr.split(',').map(t => t.trim().toLowerCase()).filter(t => t !== '');
+      cb.checked = types.length > 0 && types.every(t => activeTypes.includes(t));
+    });
+    const brandAllCb = document.querySelector('.brand-collection-nav-all');
+    if (brandAllCb) {
+      const anyChecked = Array.from(document.querySelectorAll('.brand-category-cb')).some(cb => cb.checked);
+      brandAllCb.checked = !anyChecked;
+    }
+    
+    // 4. Sync custom brand checkboxes
+    const activeVendors = params.getAll('filter.p.vendor').map(v => v.toLowerCase());
+    document.querySelectorAll('.custom-brand-cb').forEach(cb => {
+      cb.checked = activeVendors.includes(cb.value.toLowerCase());
+    });
+    
+    // 5. Sync native checkboxes (Size, Color, Availability, Brand, etc.)
+    document.querySelectorAll('.filter-drawer-checkbox:not(.collection-nav-cb):not(.brand-category-cb):not(.brand-collection-nav-all):not(.custom-brand-cb)').forEach(cb => {
+      const paramValues = params.getAll(cb.name).map(v => v.toLowerCase());
+      cb.checked = paramValues.includes(cb.value.toLowerCase());
+    });
+    
+    // 6. Sync price inputs
+    document.querySelectorAll('.filter-price-input').forEach(input => {
+      const val = params.get(input.name);
+      input.value = val !== null ? val : '';
+    });
+  }
+
+  function getActiveProductTypes() {
+    const activeTypes = [];
+    const isBrandMenu = {{ is_brand_menu | default: false }};
+    
+    if (isBrandMenu) {
+      const activePills = document.querySelectorAll('.filter-pill-category-type.active');
+      activePills.forEach(pill => {
+        const valuesAttr = pill.getAttribute('data-type-values') || '';
+        const values = valuesAttr.split(',').map(v => v.trim().toLowerCase()).filter(v => v !== '');
+        values.forEach(v => {
+          if (!activeTypes.includes(v)) activeTypes.push(v);
+        });
+      });
+    } else {
+      const activePills = document.querySelectorAll('.filter-pill-type.active:not([data-is-all="true"])');
+      activePills.forEach(pill => {
+        const val = pill.getAttribute('data-type-value') || '';
+        if (val) {
+          const valLower = val.trim().toLowerCase();
+          if (!activeTypes.includes(valLower)) activeTypes.push(valLower);
+        }
+      });
+    }
+    
+    // Also include native/drawer checked category checkboxes
+    document.querySelectorAll('.brand-category-cb:checked').forEach(cb => {
+      const valuesAttr = cb.getAttribute('data-type-values') || '';
+      const values = valuesAttr.split(',').map(v => v.trim().toLowerCase()).filter(v => v !== '');
+      values.forEach(v => {
+        if (!activeTypes.includes(v)) activeTypes.push(v);
+      });
+    });
+    
+    return activeTypes;
+  }
+
+  function getActiveCollections() {
+    const activeColHandles = [];
+    const checkedCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all):checked');
+    checkedCollCbs.forEach(cb => {
+      const handle = cb.getAttribute('data-collection-handle') || '';
+      if (handle && !activeColHandles.includes(handle.toLowerCase())) {
+        activeColHandles.push(handle.toLowerCase());
+      }
+    });
+    return activeColHandles;
+  }
+
+  function filterProductsDOM() {
+    const activeCols = getActiveCollections();
+    const activeTypes = getActiveProductTypes();
+    
+    const checkedBrandCbs = document.querySelectorAll('.brand-category-cb:checked');
+    const activeBrandCols = [];
+    checkedBrandCbs.forEach(cb => {
+      const handle = cb.getAttribute('data-collection-handle') || '';
+      if (handle) activeBrandCols.push(handle.toLowerCase());
+    });
+    
+    const activeVendors = [];
+    document.querySelectorAll('.custom-brand-cb:checked').forEach(cb => {
+      activeVendors.push(cb.value.toLowerCase());
+    });
+    
+    const brandSections = document.querySelectorAll('.filter-drawer-section[data-filter-type="brand"], .filter-drawer-section[data-filter-type="vendor"], .filter-drawer-section[data-filter-type="brands"]');
+    brandSections.forEach(section => {
+      section.querySelectorAll('.filter-drawer-checkbox:checked').forEach(cb => {
+        activeVendors.push(cb.value.toLowerCase());
+      });
+    });
+    
+    const activeAvailability = [];
+    const availSection = document.querySelector('.filter-drawer-section[data-filter-type="availability"]');
+    if (availSection) {
+      availSection.querySelectorAll('.filter-drawer-checkbox:checked').forEach(cb => {
+        activeAvailability.push(cb.value);
+      });
+    }
+    
+    let minPrice = parseFloat(document.getElementById('Filter-price-Min')?.value || document.querySelector('[id$="-Min"]')?.value || '');
+    let maxPrice = parseFloat(document.getElementById('Filter-price-Max')?.value || document.querySelector('[id$="-Max"]')?.value || '');
+    if (isNaN(minPrice)) minPrice = null;
+    if (isNaN(maxPrice)) maxPrice = null;
+    
+    const optionFilters = {};
+    const filterSections = document.querySelectorAll('.filter-drawer-section');
+    filterSections.forEach(section => {
+      const type = section.getAttribute('data-filter-type');
+      if (!type || type === 'collections' || type === 'brand' || type === 'vendor' || type === 'brands' || type === 'availability' || type === 'price') {
+        return;
+      }
+      const checkedCbs = section.querySelectorAll('.filter-drawer-checkbox:checked');
+      if (checkedCbs.length > 0) {
+        optionFilters[type] = Array.from(checkedCbs).map(cb => cb.value.toLowerCase());
+      }
+    });
+    
+    const cards = document.querySelectorAll('.product-grid .product-card');
+    let visibleCount = 0;
+    
+    cards.forEach(card => {
+      // 1. Filter by collection
+      const productColsAttr = card.getAttribute('data-collections') || '';
+      const productCols = productColsAttr.split(',').map(c => c.trim().toLowerCase()).filter(c => c !== '');
+      const matchesCol = activeCols.length === 0 || activeCols.some(col => productCols.includes(col));
+      
+      // 2. Filter by type
+      const type = card.getAttribute('data-product-type') || '';
+      let matchesType = activeTypes.length === 0 || activeTypes.includes(type);
+      if (!matchesType && activeBrandCols.length > 0) {
+        if (activeBrandCols.some(col => productCols.includes(col))) {
+          matchesType = true;
+        }
+      }
+      const isBrandMenu = {{ is_brand_menu | default: false }};
+      if (!isBrandMenu && !matchesType && activeTypes.length > 0) {
+        const activePillHandles = [];
+        document.querySelectorAll('.filter-pill-type.active:not([data-is-all="true"])').forEach(pill => {
+          const href = pill.getAttribute('href') || '';
+          const handle = href.split('/').pop().split('?')[0];
+          if (handle) activePillHandles.push(handle.toLowerCase());
+        });
+        if (activePillHandles.some(handle => productCols.includes(handle))) {
+          matchesType = true;
+        }
+      }
+      
+      // 3. Filter by vendor/brand
+      const vendor = (card.getAttribute('data-vendor') || '').toLowerCase();
+      const matchesVendor = activeVendors.length === 0 || activeVendors.includes(vendor);
+      
+      // 4. Filter by availability
+      const available = card.getAttribute('data-available') === 'true';
+      let matchesAvailability = true;
+      if (activeAvailability.length > 0) {
+        const matchesInStock = activeAvailability.includes('1') && available;
+        const matchesOutOfStock = activeAvailability.includes('0') && !available;
+        matchesAvailability = matchesInStock || matchesOutOfStock;
+      }
+      
+      // 5. Filter by price
+      const priceCents = parseInt(card.getAttribute('data-price-cents') || '0');
+      const price = priceCents / 100;
+      let matchesPrice = true;
+      if (minPrice !== null && price < minPrice) matchesPrice = false;
+      if (maxPrice !== null && price > maxPrice) matchesPrice = false;
+      
+      // 6. Filter by options (size, color, etc.)
+      let matchesOptions = true;
+      for (const [optName, optValues] of Object.entries(optionFilters)) {
+        const prodOptAttr = card.getAttribute(`data-opt-${optName}`) || '';
+        const prodOptValues = prodOptAttr.split(',').map(v => v.trim().toLowerCase()).filter(v => v !== '');
+        const hasMatch = optValues.some(val => prodOptValues.includes(val));
+        if (!hasMatch) {
+          matchesOptions = false;
+          break;
+        }
+      }
+      
+      if (matchesCol && matchesType && matchesVendor && matchesAvailability && matchesPrice && matchesOptions) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    
+    // Update results count label
+    const resultsCountEl = document.querySelector('.results-count');
+    if (resultsCountEl) {
+      resultsCountEl.textContent = `${visibleCount} result${visibleCount === 1 ? '' : 's'}`;
+    }
+    
+    // Toggle empty state message
+    const emptyMsg = document.querySelector('.filter-empty-message');
+    const grid = document.querySelector('.product-grid');
+    
+    if (visibleCount === 0) {
+      if (emptyMsg) emptyMsg.style.display = 'block';
+      if (grid) grid.style.display = 'none';
+    } else {
+      if (emptyMsg) emptyMsg.style.display = 'none';
+      if (grid) grid.style.display = 'grid';
+    }
+    
+    updateDrawerResultCount();
+  }
+
+  function updateDrawerResultCount() {
+    const activeCols = getActiveCollections();
+    const activeTypes = getActiveProductTypes();
+    
+    const checkedBrandCbs = document.querySelectorAll('.brand-category-cb:checked');
+    const activeBrandCols = [];
+    checkedBrandCbs.forEach(cb => {
+      const handle = cb.getAttribute('data-collection-handle') || '';
+      if (handle) activeBrandCols.push(handle.toLowerCase());
+    });
+    
+    const activeVendors = [];
+    document.querySelectorAll('.custom-brand-cb:checked').forEach(cb => {
+      activeVendors.push(cb.value.toLowerCase());
+    });
+    const brandSections = document.querySelectorAll('.filter-drawer-section[data-filter-type="brand"], .filter-drawer-section[data-filter-type="vendor"], .filter-drawer-section[data-filter-type="brands"]');
+    brandSections.forEach(section => {
+      section.querySelectorAll('.filter-drawer-checkbox:checked').forEach(cb => {
+        activeVendors.push(cb.value.toLowerCase());
+      });
+    });
+    
+    const activeAvailability = [];
+    const availSection = document.querySelector('.filter-drawer-section[data-filter-type="availability"]');
+    if (availSection) {
+      availSection.querySelectorAll('.filter-drawer-checkbox:checked').forEach(cb => {
+        activeAvailability.push(cb.value);
+      });
+    }
+    
+    let minPrice = parseFloat(document.getElementById('Filter-price-Min')?.value || document.querySelector('[id$="-Min"]')?.value || '');
+    let maxPrice = parseFloat(document.getElementById('Filter-price-Max')?.value || document.querySelector('[id$="-Max"]')?.value || '');
+    if (isNaN(minPrice)) minPrice = null;
+    if (isNaN(maxPrice)) maxPrice = null;
+    
+    const optionFilters = {};
+    const filterSections = document.querySelectorAll('.filter-drawer-section');
+    filterSections.forEach(section => {
+      const type = section.getAttribute('data-filter-type');
+      if (!type || type === 'collections' || type === 'brand' || type === 'vendor' || type === 'brands' || type === 'availability' || type === 'price') {
+        return;
+      }
+      const checkedCbs = section.querySelectorAll('.filter-drawer-checkbox:checked');
+      if (checkedCbs.length > 0) {
+        optionFilters[type] = Array.from(checkedCbs).map(cb => cb.value.toLowerCase());
+      }
+    });
+    
+    const cards = document.querySelectorAll('.product-grid .product-card');
+    let count = 0;
+    
+    cards.forEach(card => {
+      const productColsAttr = card.getAttribute('data-collections') || '';
+      const productCols = productColsAttr.split(',').map(c => c.trim().toLowerCase()).filter(c => c !== '');
+      const matchesCol = activeCols.length === 0 || activeCols.some(col => productCols.includes(col));
+      
+      const type = card.getAttribute('data-product-type') || '';
+      let matchesType = activeTypes.length === 0 || activeTypes.includes(type);
+      if (!matchesType && activeBrandCols.length > 0) {
+        if (activeBrandCols.some(col => productCols.includes(col))) {
+          matchesType = true;
+        }
+      }
+      const isBrandMenu = {{ is_brand_menu | default: false }};
+      if (!isBrandMenu && !matchesType && activeTypes.length > 0) {
+        const activePillHandles = [];
+        document.querySelectorAll('.filter-pill-type.active:not([data-is-all="true"])').forEach(pill => {
+          const href = pill.getAttribute('href') || '';
+          const handle = href.split('/').pop().split('?')[0];
+          if (handle) activePillHandles.push(handle.toLowerCase());
+        });
+        if (activePillHandles.some(handle => productCols.includes(handle))) {
+          matchesType = true;
+        }
+      }
+      
+      const vendor = (card.getAttribute('data-vendor') || '').toLowerCase();
+      const matchesVendor = activeVendors.length === 0 || activeVendors.includes(vendor);
+      
+      const available = card.getAttribute('data-available') === 'true';
+      let matchesAvailability = true;
+      if (activeAvailability.length > 0) {
+        const matchesInStock = activeAvailability.includes('1') && available;
+        const matchesOutOfStock = activeAvailability.includes('0') && !available;
+        matchesAvailability = matchesInStock || matchesOutOfStock;
+      }
+      
+      const priceCents = parseInt(card.getAttribute('data-price-cents') || '0');
+      const price = priceCents / 100;
+      let matchesPrice = true;
+      if (minPrice !== null && price < minPrice) matchesPrice = false;
+      if (maxPrice !== null && price > maxPrice) matchesPrice = false;
+      
+      let matchesOptions = true;
+      for (const [optName, optValues] of Object.entries(optionFilters)) {
+        const prodOptAttr = card.getAttribute(`data-opt-${optName}`) || '';
+        const prodOptValues = prodOptAttr.split(',').map(v => v.trim().toLowerCase()).filter(v => v !== '');
+        const hasMatch = optValues.some(val => prodOptValues.includes(val));
+        if (!hasMatch) {
+          matchesOptions = false;
+          break;
+        }
+      }
+      
+      if (matchesCol && matchesType && matchesVendor && matchesAvailability && matchesPrice && matchesOptions) {
+        count++;
+      }
+    });
+    
+    const applyBtn = document.querySelector('.filters-apply-btn');
+    if (applyBtn) {
+      applyBtn.textContent = `View Results (${count})`;
+    }
+  }
+
+  let isFetchingBackgroundPages = false;
+  function loadAllCollectionPages() {
+    if (isFetchingBackgroundPages) return;
+    const totalPages = window.collectionPagination?.totalPages || 1;
+    if (totalPages <= 1) {
+      filterProductsDOM();
+      return;
+    }
+    
+    isFetchingBackgroundPages = true;
+    
+    const paginationContainer = document.querySelector('.pagination-container');
+    if (paginationContainer) {
+      paginationContainer.style.opacity = '0.5';
+      paginationContainer.style.pointerEvents = 'none';
+    }
+
+    const currentParams = new URLSearchParams(window.location.search);
+    const fetchPromises = [];
+    
+    for (let p = 2; p <= totalPages; p++) {
+      const pageParams = new URLSearchParams(currentParams);
+      pageParams.set('page', p);
+      const url = `${window.location.pathname}?${pageParams.toString()}`;
+      
+      fetchPromises.push(
+        fetch(url)
+          .then(res => {
+            if (!res.ok) throw new Error('Network error');
+            return res.text();
+          })
+          .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const products = doc.querySelectorAll('.product-grid .product-card');
+            return Array.from(products);
+          })
+      );
+    }
+    
+    Promise.all(fetchPromises)
+      .then(results => {
+        const grid = document.querySelector('.product-grid');
+        if (grid) {
+          results.forEach(cards => {
+            cards.forEach(card => {
+              grid.appendChild(card);
+            });
+          });
+        }
+        
+        if (paginationContainer) {
+          paginationContainer.style.display = 'none';
+        }
+        
+        if (typeof initCollectionProductImageSlideshows === 'function') {
+          initCollectionProductImageSlideshows();
+        }
+        
+        var savedCurrency = localStorage.getItem('qtr_currency') || 'QAR';
+        if (typeof window.applyStoreCurrency === 'function') {
+          window.applyStoreCurrency(savedCurrency);
+        }
+        
+        isFetchingBackgroundPages = false;
+        filterProductsDOM();
+      })
+      .catch(err => {
+        console.error('Error fetching background pages:', err);
+        isFetchingBackgroundPages = false;
+        filterProductsDOM();
+      });
+  }
+
   function applyFilters() {
     const currentParams = new URLSearchParams(window.location.search);
     const newParams = new URLSearchParams();
-
-    // 1. Keep other query params (like search, language, etc.)
+    
+    // Preserve other params (like q)
     for (const [key, value] of currentParams.entries()) {
-      if (!key.startsWith('filter.p.') && !key.startsWith('filter.v.') && key !== 'sort_by') {
+      if (!key.startsWith('filter.p.') && !key.startsWith('filter.v.') && key !== 'sort_by' && key !== 'q') {
         newParams.append(key, value);
       }
     }
-
-    // 2. Collection nav & brand categories (multi-select)
-    let baseUrl = window.location.pathname;
-    const allBrandColCb = document.querySelector('.brand-collection-nav-all:checked');
-
-    // General collection check (all, on-sale, new-in, restock, etc.)
-    const collectionHandle = "{{ collection.handle }}";
-    const isGeneralCollection = ['all', 'on-sale', 'new-in', 'restock'].includes(collectionHandle);
-
-    const selectedProductTypes = new Set();
-    const hasBrandCbs = document.querySelectorAll('.brand-category-cb').length > 0;
-    const hasCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').length > 0;
-    const hasNativeTypeCbs = document.querySelectorAll('input[name="filter.p.product_type"]').length > 0;
-
-    if (isGeneralCollection) {
-      const checkedCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all):checked');
-      checkedCollCbs.forEach(cb => {
-        const textEl = cb.closest('label').querySelector('.filter-value-text');
-        if (textEl) {
-          selectedProductTypes.add(textEl.textContent.trim());
-        }
-      });
-    } else if (allBrandColCb) {
-      baseUrl = allBrandColCb.getAttribute('data-collection-url');
-    } else {
-      const checkedBrandCbs = document.querySelectorAll('.brand-category-cb:checked');
-      if (checkedBrandCbs.length > 0) {
-        checkedBrandCbs.forEach(cb => {
-          const typesAttr = cb.getAttribute('data-type-values');
-          if (typesAttr) {
-            const types = typesAttr.split(',');
-            types.forEach(t => {
-              selectedProductTypes.add(t.trim());
-            });
-          }
-        });
-      } else {
-        const checkedCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all):checked');
-        const allColCb = document.querySelector('.collection-nav-all:checked');
-
-        if (allColCb) {
-          baseUrl = allColCb.getAttribute('data-collection-url');
-        } else if (checkedCollCbs.length > 0) {
-          baseUrl = checkedCollCbs[0].getAttribute('data-parent-url') || '/collections/all';
-          checkedCollCbs.forEach(cb => {
-            const textEl = cb.closest('label').querySelector('.filter-value-text');
-            if (textEl) {
-              selectedProductTypes.add(textEl.textContent.trim());
-            }
-          });
-        }
-      }
+    
+    const query = currentParams.get('q');
+    if (query) newParams.append('q', query);
+    
+    const desktopSort = currentParams.get('sort_by');
+    const mobileSortSelected = document.querySelector('input[name="sort_by_mobile"]:checked');
+    if (mobileSortSelected && window.innerWidth <= 768) {
+      newParams.append('sort_by', mobileSortSelected.value);
+    } else if (desktopSort) {
+      newParams.append('sort_by', desktopSort);
     }
-
-    // Also collect checked native product type checkboxes in the drawer
-    const nativeTypeCbs = document.querySelectorAll('input[name="filter.p.product_type"]:not(.brand-category-cb):not(.collection-nav-cb):not(.brand-collection-nav-all):checked');
-    nativeTypeCbs.forEach(cb => {
-      selectedProductTypes.add(cb.value.trim());
+    
+    // Add collections
+    const activeCols = getActiveCollections();
+    activeCols.forEach(col => {
+      newParams.append('filter.p.collection', col);
     });
-
-    // If no brand/collection/native checkboxes are checked in the DOM:
-    // If they exist in the DOM, it means the user explicitly cleared them.
-    // If they don't exist in the DOM at all, we fall back to preserving the URL's current product types.
-    if (selectedProductTypes.size === 0 && !hasBrandCbs && !hasCollCbs && !hasNativeTypeCbs) {
-      const currentTypes = currentParams.getAll('filter.p.product_type');
-      currentTypes.forEach(t => selectedProductTypes.add(t));
-    }
-
-    // Append de-duplicated product types to new parameters
-    selectedProductTypes.forEach(t => {
+    
+    // Add active types
+    const activeTypes = getActiveProductTypes();
+    activeTypes.forEach(t => {
       newParams.append('filter.p.product_type', t);
     });
     
+    // Add native checkboxes
     const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:not(.collection-nav-cb):not(.brand-category-cb):not(.brand-collection-nav-all):not(.custom-brand-cb):checked');
     checkboxes.forEach(cb => {
-      if (cb.name !== 'filter.p.product_type') {
-        newParams.append(cb.name, cb.value);
-      }
+      newParams.append(cb.name, cb.value);
     });
     
+    // Add custom brands
     const customBrandCbs = document.querySelectorAll('.custom-brand-cb:checked');
     customBrandCbs.forEach(cb => {
       newParams.append(cb.name, cb.value);
     });
-
+    
+    // Add prices
     const priceInputs = document.querySelectorAll('.filter-price-input');
     priceInputs.forEach(input => {
       if (input.value !== '') {
@@ -1408,136 +1814,127 @@
       }
     });
     
-    // Sort logic for mobile viewports
-    const mobileSortSelected = document.querySelector('input[name="sort_by_mobile"]:checked');
-    if (mobileSortSelected && window.innerWidth <= 768) {
-      newParams.append('sort_by', mobileSortSelected.value);
-    } else {
-      const desktopSort = currentParams.get('sort_by');
-      if (desktopSort) {
-        newParams.append('sort_by', desktopSort);
-      }
-    }
-    
     newParams.delete('page');
-    window.location.search = newParams.toString();
+    
+    const newSearch = newParams.toString();
+    const newUrl = `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+    
+    filterProductsDOM();
+    closeFiltersDrawer();
   }
 
-  // Collection nav checkbox mutual-exclusivity & real-time horizontal pill sync
+  // Handle all checkbox and pill synchronization/realtime changes
   document.addEventListener('change', function(e) {
-    if (e.target.classList.contains('collection-nav-cb')) {
-      const isAll = e.target.getAttribute('data-is-all') === 'true';
-      
-      if (isAll) {
-        if (e.target.checked) {
-          // Uncheck all other sub-collection checkboxes
-          document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => cb.checked = false);
-        } else {
-          // Prevent unchecking "All" if nothing else is checked
-          const anyChecked = Array.from(document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)')).some(cb => cb.checked);
-          if (!anyChecked) {
-            e.target.checked = true;
+    if (e.target.classList.contains('filter-drawer-checkbox')) {
+      // Handle collections specific mutual exclusivity logic
+      if (e.target.classList.contains('collection-nav-cb')) {
+        const isAll = e.target.getAttribute('data-is-all') === 'true';
+        
+        if (isAll) {
+          if (e.target.checked) {
+            document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => cb.checked = false);
+          } else {
+            const anyChecked = Array.from(document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)')).some(cb => cb.checked);
+            if (!anyChecked) e.target.checked = true;
           }
-        }
-      } else {
-        if (e.target.checked) {
-          // Uncheck the "All" checkbox
-          const allCb = document.querySelector('.collection-nav-all');
-          if (allCb) allCb.checked = false;
         } else {
-          // If we unchecked it, check if any other is checked. If none, check "All"
-          const anyChecked = Array.from(document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)')).some(cb => cb.checked);
-          if (!anyChecked) {
+          if (e.target.checked) {
             const allCb = document.querySelector('.collection-nav-all');
-            if (allCb) allCb.checked = true;
+            if (allCb) allCb.checked = false;
+          } else {
+            const anyChecked = Array.from(document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)')).some(cb => cb.checked);
+            if (!anyChecked) {
+              const allCb = document.querySelector('.collection-nav-all');
+              if (allCb) allCb.checked = true;
+            }
           }
         }
+        
+        // Sync pills
+        const allCb = document.querySelector('.collection-nav-all');
+        const isAllChecked = allCb ? allCb.checked : false;
+        
+        const pills = document.querySelectorAll('.filter-pill-type');
+        pills.forEach(pill => {
+          const pillIsAll = pill.getAttribute('data-is-all') === 'true';
+          if (pillIsAll) {
+            pill.classList.toggle('active', isAllChecked);
+          } else {
+            const pillText = pill.textContent.trim().toLowerCase();
+            let cbForPill = null;
+            document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => {
+              const textEl = cb.closest('label').querySelector('.filter-value-text');
+              if (textEl && textEl.textContent.trim().toLowerCase() === pillText) {
+                cbForPill = cb;
+              }
+            });
+            if (cbForPill) {
+              pill.classList.toggle('active', cbForPill.checked);
+            } else {
+              pill.classList.remove('active');
+            }
+          }
+        });
       }
       
-      // Sync all .filter-pill-type pills based on checkbox states
-      const allCb = document.querySelector('.collection-nav-all');
-      const isAllChecked = allCb ? allCb.checked : false;
-      
-      const pills = document.querySelectorAll('.filter-pill-type');
-      pills.forEach(pill => {
-        const pillIsAll = pill.getAttribute('data-is-all') === 'true';
-        if (pillIsAll) {
-          pill.classList.toggle('active', isAllChecked);
-        } else {
-          const pillText = pill.textContent.trim().toLowerCase();
-          // Find the checkbox for this pill
-          let cbForPill = null;
-          document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => {
-            const textEl = cb.closest('label').querySelector('.filter-value-text');
-            if (textEl && textEl.textContent.trim().toLowerCase() === pillText) {
-              cbForPill = cb;
-            }
-          });
-          if (cbForPill) {
-            pill.classList.toggle('active', cbForPill.checked);
+      // Handle brand categories specific mutual exclusivity logic
+      if (e.target.classList.contains('brand-category-cb') || e.target.classList.contains('brand-collection-nav-all')) {
+        const isAll = e.target.classList.contains('brand-collection-nav-all');
+        
+        if (isAll) {
+          if (e.target.checked) {
+            document.querySelectorAll('.brand-category-cb').forEach(cb => cb.checked = false);
           } else {
-            pill.classList.remove('active');
+            const anyChecked = Array.from(document.querySelectorAll('.brand-category-cb')).some(cb => cb.checked);
+            if (!anyChecked) e.target.checked = true;
           }
-        }
-      });
-    }
-    
-    if (e.target.classList.contains('brand-category-cb') || e.target.classList.contains('brand-collection-nav-all')) {
-      const isAll = e.target.classList.contains('brand-collection-nav-all');
-      
-      if (isAll) {
-        if (e.target.checked) {
-          document.querySelectorAll('.brand-category-cb').forEach(cb => cb.checked = false);
         } else {
-          const anyChecked = Array.from(document.querySelectorAll('.brand-category-cb')).some(cb => cb.checked);
-          if (!anyChecked) {
-            e.target.checked = true;
-          }
-        }
-      } else {
-        if (e.target.checked) {
-          const allCb = document.querySelector('.brand-collection-nav-all');
-          if (allCb) allCb.checked = false;
-        } else {
-          const anyChecked = Array.from(document.querySelectorAll('.brand-category-cb')).some(cb => cb.checked);
-          if (!anyChecked) {
+          if (e.target.checked) {
             const allCb = document.querySelector('.brand-collection-nav-all');
-            if (allCb) allCb.checked = true;
-          }
-        }
-      }
-      
-      // Sync category pills
-      const allCb = document.querySelector('.brand-collection-nav-all');
-      const isAllChecked = allCb ? allCb.checked : false;
-      
-      const pills = document.querySelectorAll('.filter-pill-category-type');
-      pills.forEach(pill => {
-        const pillIsAll = pill.getAttribute('data-is-brand-all') === 'true';
-        if (pillIsAll) {
-          pill.classList.toggle('active', isAllChecked);
-        } else {
-          const pillText = pill.textContent.trim().toLowerCase();
-          let cbForPill = null;
-          document.querySelectorAll('.brand-category-cb').forEach(cb => {
-            const textEl = cb.closest('label').querySelector('.filter-value-text');
-            if (textEl && textEl.textContent.trim().toLowerCase() === pillText) {
-              cbForPill = cb;
-            }
-          });
-          if (cbForPill) {
-            pill.classList.toggle('active', cbForPill.checked);
+            if (allCb) allCb.checked = false;
           } else {
-            pill.classList.remove('active');
+            const anyChecked = Array.from(document.querySelectorAll('.brand-category-cb')).some(cb => cb.checked);
+            if (!anyChecked) {
+              const allCb = document.querySelector('.brand-collection-nav-all');
+              if (allCb) allCb.checked = true;
+            }
           }
         }
-      });
-      
-      // Sync the All pill at the beginning of the brand pills
-      const brandAllPill = document.querySelector('.filter-pill[data-is-brand-all="true"]');
-      if (brandAllPill) {
-        brandAllPill.classList.toggle('active', isAllChecked);
+        
+        // Sync pills
+        const allCb = document.querySelector('.brand-collection-nav-all');
+        const isAllChecked = allCb ? allCb.checked : false;
+        
+        const pills = document.querySelectorAll('.filter-pill-category-type');
+        pills.forEach(pill => {
+          const pillIsAll = pill.getAttribute('data-is-brand-all') === 'true';
+          if (pillIsAll) {
+            pill.classList.toggle('active', isAllChecked);
+          } else {
+            const pillText = pill.textContent.trim().toLowerCase();
+            let cbForPill = null;
+            document.querySelectorAll('.brand-category-cb').forEach(cb => {
+              const textEl = cb.closest('label').querySelector('.filter-value-text');
+              if (textEl && textEl.textContent.trim().toLowerCase() === pillText) {
+                cbForPill = cb;
+              }
+            });
+            if (cbForPill) {
+              pill.classList.toggle('active', cbForPill.checked);
+            } else {
+              pill.classList.remove('active');
+            }
+          }
+        });
+        
+        const brandAllPill = document.querySelector('.filter-pill[data-is-brand-all="true"]');
+        if (brandAllPill) {
+          brandAllPill.classList.toggle('active', isAllChecked);
+        }
       }
+      
+      updateDrawerResultCount();
     }
   });
 
@@ -1552,7 +1949,22 @@
     }
     
     newParams.delete('page');
-    window.location.search = newParams.toString();
+    
+    const newSearch = newParams.toString();
+    const newUrl = `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+    
+    // Clear all inputs/checkboxes in drawer
+    document.querySelectorAll('.filter-drawer-checkbox').forEach(cb => {
+      cb.checked = false;
+    });
+    document.querySelectorAll('.filter-price-input').forEach(input => {
+      input.value = '';
+    });
+    
+    syncFiltersFromURL();
+    filterProductsDOM();
+    closeFiltersDrawer();
   }
 
   document.addEventListener('click', function() {
@@ -1635,7 +2047,6 @@
     if (activeTypes.length > 0) {
       let remainingTypes = [...activeTypes];
       
-      // Sort pills by the number of values they represent (descending)
       const pillData = Array.from(pills).map(pill => {
         const valuesAttr = pill.getAttribute('data-type-values') || '';
         const values = valuesAttr.split(',').map(v => v.trim().toLowerCase()).filter(v => v !== '');
@@ -1647,12 +2058,10 @@
       pillData.forEach(item => {
         if (item.values.length === 0) return;
         
-        // Match if all values of this pill are present in remainingTypes
         const isMatch = item.values.every(v => remainingTypes.includes(v));
         if (isMatch) {
           item.pill.classList.add('active');
           activePillFound = true;
-          // Consume these values
           remainingTypes = remainingTypes.filter(v => !item.values.includes(v));
         } else {
           item.pill.classList.remove('active');
@@ -1660,7 +2069,6 @@
       });
     }
     
-    // Highlight "All" pill if no category pill is active
     const allPill = document.querySelector('.filter-pill[data-is-brand-all="true"]');
     if (allPill) {
       if (activePillFound) {
@@ -1700,6 +2108,41 @@
     applyFilters();
   }
 
+  function initCollectionFilters() {
+    const params = new URLSearchParams(window.location.search);
+    const activeCols = params.getAll('filter.p.collection').map(c => c.trim().toLowerCase());
+    
+    if (activeCols.length > 0) {
+      document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => {
+        const handle = cb.getAttribute('data-collection-handle') || '';
+        if (handle) {
+          cb.checked = activeCols.includes(handle.toLowerCase());
+        }
+      });
+      const allCb = document.querySelector('.collection-nav-all');
+      if (allCb) allCb.checked = false;
+    } else {
+      const currentHandle = "{{ collection.handle }}".toLowerCase();
+      let matched = false;
+      document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => {
+        const handle = cb.getAttribute('data-collection-handle') || '';
+        if (handle && handle.toLowerCase() === currentHandle) {
+          cb.checked = true;
+          matched = true;
+        } else {
+          cb.checked = false;
+        }
+      });
+      const allCb = document.querySelector('.collection-nav-all');
+      if (allCb) allCb.checked = !matched;
+    }
+  }
+
+  window.addEventListener('popstate', function() {
+    syncFiltersFromURL();
+    filterProductsDOM();
+  });
+
   function initCollectionProductImageSlideshows() {
     const cards = document.querySelectorAll('.product-card-img[data-images]');
     cards.forEach(card => {
@@ -1714,7 +2157,6 @@
       let imgEl = card.querySelector('img');
       if (!imgEl) return;
       
-      // Prepare container style for absolute sliding transition
       card.style.position = 'relative';
       card.style.overflow = 'hidden';
       
@@ -1724,7 +2166,6 @@
         const nextIndex = (currentIndex + 1) % images.length;
         const nextSrc = images[nextIndex];
         
-        // Preload next image and build element
         const nextImgEl = document.createElement('img');
         const triggerTransition = () => {
           nextImgEl.style.position = 'absolute';
@@ -1736,11 +2177,8 @@
           nextImgEl.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
           
           card.appendChild(nextImgEl);
-          
-          // Force layout repaint
           nextImgEl.offsetWidth;
           
-          // Slide old image right and next image right
           imgEl.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
           imgEl.style.transform = 'translateX(100%)';
           nextImgEl.style.transform = 'translateX(100%)';
@@ -1750,7 +2188,6 @@
               card.removeChild(imgEl);
             }
             
-            // Standardize next image
             nextImgEl.style.transition = 'none';
             nextImgEl.style.position = 'relative';
             nextImgEl.style.left = '0';
@@ -1758,8 +2195,6 @@
             
             imgEl = nextImgEl;
             currentIndex = nextIndex;
-            
-            // Cycle again
             setTimeout(showNextImage, {{ settings.slideshow_interval | default: 5 | times: 1000 }});
           }, 500);
         };
@@ -1774,75 +2209,23 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    initTypeFilters();
-    initCategoryTypeFilters();
+    syncFiltersFromURL();
+    
     {%- if settings.slideshow_enabled_collections -%}
     initCollectionProductImageSlideshows();
     {%- endif -%}
+    
     var savedCurrency = localStorage.getItem('qtr_currency') || 'QAR';
     if (typeof window.applyStoreCurrency === 'function') {
       window.applyStoreCurrency(savedCurrency);
     }
     
-    const params = new URLSearchParams(window.location.search);
-    const activeVendors = params.getAll('filter.p.vendor');
-    document.querySelectorAll('.custom-brand-cb').forEach(cb => {
-      if (activeVendors.includes(cb.value)) {
-        cb.checked = true;
-      }
+    // Add input listener for price fields to update dynamic count
+    document.querySelectorAll('.filter-price-input').forEach(input => {
+      input.addEventListener('input', updateDrawerResultCount);
     });
 
-    // Sync drawer collection checkboxes with active product types
-    const activeTypes = params.getAll('filter.p.product_type');
-    if (activeTypes.length > 0) {
-      document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => {
-        const textEl = cb.closest('label').querySelector('.filter-value-text');
-        if (textEl) {
-          const ctitle = textEl.textContent.trim().toLowerCase();
-          const isMatched = activeTypes.some(t => t.toLowerCase() === ctitle);
-          if (isMatched) {
-            cb.checked = true;
-            // Also uncheck the "All" checkbox
-            const allCb = document.querySelector('.collection-nav-all');
-            if (allCb) allCb.checked = false;
-          }
-        }
-      });
-      
-      let matchedAnyBrand = false;
-      const brandCbs = Array.from(document.querySelectorAll('.brand-category-cb'));
-      const cbData = brandCbs.map(cb => {
-        const typesAttr = cb.getAttribute('data-type-values') || '';
-        const types = typesAttr.split(',').map(t => t.trim().toLowerCase()).filter(t => t !== '');
-        return { cb, types };
-      });
-      
-      // Sort by types count descending
-      cbData.sort((a, b) => b.types.length - a.types.length);
-      
-      let remainingTypes = activeTypes.map(t => t.trim().toLowerCase());
-      
-      cbData.forEach(item => {
-        if (item.types.length === 0) return;
-        
-        // Match if all types for this checkbox are present in the remainingTypes
-        const isMatch = item.types.every(t => remainingTypes.includes(t));
-        
-        if (isMatch) {
-          item.cb.checked = true;
-          matchedAnyBrand = true;
-          // Consume these types
-          remainingTypes = remainingTypes.filter(t => !item.types.includes(t));
-        } else {
-          item.cb.checked = false;
-        }
-      });
-      
-      if (matchedAnyBrand) {
-        const allCb = document.querySelector('.brand-collection-nav-all');
-        if (allCb) allCb.checked = false;
-      }
-    }
+    loadAllCollectionPages();
   });
 </script>
 
