@@ -663,21 +663,7 @@
                   {%- assign query_params = "" -%}
                   {%- assign type_values_str = "" -%}
                   
-                  {%- if handle == 'bags' or handle == 'all-bags' or handle == 'small-leather-goods' -%}
-                    {%- assign types_list = "Bags,Bag,All Bags,Handbags,Mini Bags,Shoulder Bags,Tote Bags,Backpacks,Travel Bags,Wallets,Card Holders,Pouches,Small Leather Goods" | split: ',' -%}
-                  {%- elsif handle == 'shoes' or handle == 'all-shoes' -%}
-                    {%- assign types_list = "Shoes,Shoe,All Shoes,Sneakers,Sandals,Boots,Heels,Flats,Mules,Loafers,Ballet Flats" | split: ',' -%}
-                  {%- elsif handle == 'watches' or handle == 'all-watches' -%}
-                    {%- assign types_list = "Watches,Watch,All Watches" | split: ',' -%}
-                  {%- elsif handle == 'jewellery' or handle == 'jewelry' or handle == 'all-jewellery' -%}
-                    {%- assign types_list = "Jewellery,Jewelry,Jewellry,All Jewellery,Rings,Anklets,Earrings,Bracelets,Necklaces" | split: ',' -%}
-                  {%- elsif handle == 'accessories' or handle == 'all-accessories' -%}
-                    {%- assign types_list = "Accessories,Accessory,All Accessories,Belts,Caps,Straps,Badge Holders,Home Accessories,Key Holders & Bag Charms" | split: ',' -%}
-                  {%- elsif handle == 'clothing' or handle == 'all-clothing' -%}
-                    {%- assign types_list = "Clothing,T-shirts,Tops,All Clothing" | split: ',' -%}
-                  {%- else -%}
-                    {%- assign types_list = title | split: ',' -%}
-                  {%- endif -%}
+                  {%- assign types_list = title | split: ',' -%}
 
                   {%- for type_item in types_list -%}
                     {%- assign type_encoded = type_item | strip | url_encode -%}
@@ -1126,22 +1112,7 @@
                   {%- if ctitle != blank and chandle != blank -%}
                     {%- if is_brand_menu -%}
                       {%- liquid
-                        assign types_list_str = ""
-                        if chandle == 'bags' or chandle == 'all-bags' or chandle == 'small-leather-goods'
-                          assign types_list_str = "Bags,Bag,All Bags,Handbags,Mini Bags,Shoulder Bags,Tote Bags,Backpacks,Travel Bags,Wallets,Card Holders,Pouches,Small Leather Goods"
-                        elsif chandle == 'shoes' or chandle == 'all-shoes'
-                          assign types_list_str = "Shoes,Shoe,All Shoes,Sneakers,Sandals,Boots,Heels,Flats,Mules,Loafers,Ballet Flats"
-                        elsif chandle == 'watches' or chandle == 'all-watches'
-                          assign types_list_str = "Watches,Watch,All Watches"
-                        elsif chandle == 'jewellery' or chandle == 'jewelry' or chandle == 'all-jewellery'
-                          assign types_list_str = "Jewellery,Jewelry,Jewellry,All Jewellery,Rings,Anklets,Earrings,Bracelets,Necklaces"
-                        elsif chandle == 'accessories' or chandle == 'all-accessories'
-                          assign types_list_str = "Accessories,Accessory,All Accessories,Belts,Caps,Straps,Badge Holders,Home Accessories,Key Holders & Bag Charms"
-                        elsif chandle == 'clothing' or chandle == 'all-clothing'
-                          assign types_list_str = "Clothing,T-shirts,Tops,All Clothing"
-                        else
-                          assign types_list_str = ctitle
-                        endif
+                        assign types_list_str = ctitle
                       -%}
                       <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: {%- if forloop.last -%}none{%- else -%}1px solid var(--color-border){%- endif -%}; margin-bottom: 0; font-weight: 400;">
                         <input type="checkbox"
@@ -1350,12 +1321,17 @@
     const collectionHandle = "{{ collection.handle }}";
     const isGeneralCollection = ['all', 'on-sale', 'new-in', 'restock'].includes(collectionHandle);
 
+    const selectedProductTypes = new Set();
+    const hasBrandCbs = document.querySelectorAll('.brand-category-cb').length > 0;
+    const hasCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').length > 0;
+    const hasNativeTypeCbs = document.querySelectorAll('input[name="filter.p.product_type"]').length > 0;
+
     if (isGeneralCollection) {
       const checkedCollCbs = document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all):checked');
       checkedCollCbs.forEach(cb => {
         const textEl = cb.closest('label').querySelector('.filter-value-text');
         if (textEl) {
-          newParams.append('filter.p.product_type', textEl.textContent.trim());
+          selectedProductTypes.add(textEl.textContent.trim());
         }
       });
     } else if (allBrandColCb) {
@@ -1368,7 +1344,7 @@
           if (typesAttr) {
             const types = typesAttr.split(',');
             types.forEach(t => {
-              newParams.append('filter.p.product_type', t.trim());
+              selectedProductTypes.add(t.trim());
             });
           }
         });
@@ -1383,19 +1359,37 @@
           checkedCollCbs.forEach(cb => {
             const textEl = cb.closest('label').querySelector('.filter-value-text');
             if (textEl) {
-              newParams.append('filter.p.product_type', textEl.textContent.trim());
+              selectedProductTypes.add(textEl.textContent.trim());
             }
           });
-        } else {
-          const currentTypes = currentParams.getAll('filter.p.product_type');
-          currentTypes.forEach(t => newParams.append('filter.p.product_type', t));
         }
       }
     }
+
+    // Also collect checked native product type checkboxes in the drawer
+    const nativeTypeCbs = document.querySelectorAll('input[name="filter.p.product_type"]:not(.brand-category-cb):not(.collection-nav-cb):not(.brand-collection-nav-all):checked');
+    nativeTypeCbs.forEach(cb => {
+      selectedProductTypes.add(cb.value.trim());
+    });
+
+    // If no brand/collection/native checkboxes are checked in the DOM:
+    // If they exist in the DOM, it means the user explicitly cleared them.
+    // If they don't exist in the DOM at all, we fall back to preserving the URL's current product types.
+    if (selectedProductTypes.size === 0 && !hasBrandCbs && !hasCollCbs && !hasNativeTypeCbs) {
+      const currentTypes = currentParams.getAll('filter.p.product_type');
+      currentTypes.forEach(t => selectedProductTypes.add(t));
+    }
+
+    // Append de-duplicated product types to new parameters
+    selectedProductTypes.forEach(t => {
+      newParams.append('filter.p.product_type', t);
+    });
     
     const checkboxes = document.querySelectorAll('.filter-drawer-checkbox:not(.collection-nav-cb):not(.brand-category-cb):not(.brand-collection-nav-all):not(.custom-brand-cb):checked');
     checkboxes.forEach(cb => {
-      newParams.append(cb.name, cb.value);
+      if (cb.name !== 'filter.p.product_type') {
+        newParams.append(cb.name, cb.value);
+      }
     });
     
     const customBrandCbs = document.querySelectorAll('.custom-brand-cb:checked');
