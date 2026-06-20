@@ -242,12 +242,63 @@
   }
 
   .about-brands-section .brand-name-text {
-      font-size: 14px;
-      font-weight: 500;
-      color: #333;
+      color: #2D1F1F;
       text-align: center;
+  }
+
+  .brand-font-hms {
+      font-family: 'Canela Text', Georgia, serif;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+  }
+  .brand-font-coco {
+      font-family: 'Inter', sans-serif;
+      text-transform: lowercase;
+      font-weight: 800;
+      font-size: 25px;
+      letter-spacing: -1px;
+  }
+  .brand-font-gyd {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.5px;
+  }
+  .brand-font-lp {
+      font-family: 'Canela Text', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 32px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+  }
+  .brand-font-dr {
+      font-family: 'Canela Text', Georgia, serif;
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+  }
+  .brand-font-lvn {
+      font-family: 'Canela Text', Georgia, serif;
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+  }
+  .brand-font-crt {
+      font-family: 'Canela Text', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 30px;
+      text-transform: capitalize;
+  }
+  .brand-font-msk {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      font-size: 24px;
+      font-weight: 500;
   }
 
   /* Form partial styling */
@@ -463,6 +514,10 @@
           aspect-ratio: 1/1;
           max-width: none;
       }
+      .brand-font-lp { font-size: 26px; }
+      .brand-font-crt { font-size: 24px; }
+      .brand-font-hms, .brand-font-coco, .brand-font-dr, .brand-font-lvn, .brand-font-msk { font-size: 20px; }
+      .brand-font-gyd { font-size: 18px; }
       .contact-form-inner {
           flex-direction: column;
           gap: 40px;
@@ -628,7 +683,7 @@
                       assign col = collections[block.settings.collection_handle]
                       assign brand_name = block.settings.custom_name | default: col.title
                       assign brand_url = block.settings.custom_url | default: col.url | default: "#"
-                      assign brand_class = brand_name | downcase | replace: ' ', '-' | prepend: 'brand-font-'
+                      assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-'
                     -%}
                     <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
                         <div class="brand-image-container">

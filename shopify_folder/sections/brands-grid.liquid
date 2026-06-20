@@ -192,7 +192,7 @@
           assign col = collections[block.settings.collection_handle]
           assign brand_name = block.settings.custom_name | default: col.title
           assign brand_url = block.settings.custom_url | default: col.url | default: "#"
-          assign brand_class = brand_name | downcase | replace: ' ', '-' | prepend: 'brand-font-'
+          assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-'
         -%}
         <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
           <div class="brand-image-container">

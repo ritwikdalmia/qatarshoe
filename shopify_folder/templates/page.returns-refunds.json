@@ -22,14 +22,6 @@
             "icon_type": "qatar"
           }
         },
-        "eligibility_2": {
-          "type": "eligibility_card",
-          "settings": {
-            "title": "International Collection",
-            "description": "Returns are accepted within 10 days of the delivery date. Items must be unused, unworn, and returned in original packaging.",
-            "icon_type": "uae"
-          }
-        },
         "intro_block": {
           "type": "content_block",
           "settings": {
@@ -105,7 +97,6 @@
       },
       "block_order": [
         "eligibility_1",
-        "eligibility_2",
         "intro_block",
         "side_left_item_1",
         "side_left_item_2",
