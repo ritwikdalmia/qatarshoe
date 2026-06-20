@@ -2,6 +2,433 @@
   "sections": {
     "main": {
       "type": "faqs",
+      "blocks": {
+        "cat_1": {
+          "type": "category",
+          "settings": {
+            "title": "General",
+            "id": "general"
+          }
+        },
+        "cat_2": {
+          "type": "category",
+          "settings": {
+            "title": "Cart And Order Rules",
+            "id": "cart-and-order-rules"
+          }
+        },
+        "cat_3": {
+          "type": "category",
+          "settings": {
+            "title": "Qatar Customers",
+            "id": "qatar-customers"
+          }
+        },
+        "cat_4": {
+          "type": "category",
+          "settings": {
+            "title": "Shipping And Delivery",
+            "id": "shipping-and-delivery"
+          }
+        },
+        "cat_5": {
+          "type": "category",
+          "settings": {
+            "title": "Payments",
+            "id": "payments"
+          }
+        },
+        "cat_6": {
+          "type": "category",
+          "settings": {
+            "title": "Returns And Refunds",
+            "id": "returns-and-refunds"
+          }
+        },
+        "cat_7": {
+          "type": "category",
+          "settings": {
+            "title": "Personal Shopping",
+            "id": "pre-orders"
+          }
+        },
+        "cat_8": {
+          "type": "category",
+          "settings": {
+            "title": "Product Quality And Visual Accuracy",
+            "id": "product-quality"
+          }
+        },
+        "cat_9": {
+          "type": "category",
+          "settings": {
+            "title": "Support",
+            "id": "support"
+          }
+        },
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "general",
+            "question": "What services do you offer?",
+            "answer": "<p>We offer two main services: Qatar and Personal Shopping. Each follows a separate fulfilment, delivery, and payment process designed to meet different customer needs.<\/p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "general",
+            "question": "What is Qatar?",
+            "answer": "<p>Qatar refers to products stocked locally within Qatar and fulfilled through our local inventory. Orders are delivered same-day or next business day, depending on confirmation time and location.<\/p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "general",
+            "question": "What is Personal Shopping?",
+            "answer": "<p>Personal Shopping is our dedicated service for clients looking to source a specific product. Simply get in touch with our customer care team via WhatsApp, share what you are looking for, and we will handle everything — from sourcing to delivery. Payment is via Bank Transfer only, and if we are unable to source the product, a full refund is issued with no deductions.<\/p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "general",
+            "question": "What is the main difference between the services?",
+            "answer": "<p>Qatar focuses on fast local delivery from in-stock inventory. Personal Shopping is a dedicated sourcing service for specific products requested by the customer, handled personally by our team.<\/p>"
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "general",
+            "question": "Are all products available under all services?",
+            "answer": "<p>No. Products are assigned to specific services depending on availability and sourcing. Personal Shopping requests are assessed individually based on what the customer is looking for.<\/p>"
+          }
+        },
+        "faq_6": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "general",
+            "question": "Can I request or order products not listed on the website?",
+            "answer": "<p>For our standard catalog, all orders are strictly limited to products listed on our website. For Personal Shopping, you may contact our team via WhatsApp with your request and we will advise on availability.<\/p>"
+          }
+        },
+        "faq_7": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "cart-and-order-rules",
+            "question": "Can I combine different services in one order?",
+            "answer": "<p>No. Each service follows a different fulfilment process and must be placed as a separate order.<\/p>"
+          }
+        },
+        "faq_8": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "cart-and-order-rules",
+            "question": "Why are separate orders required?",
+            "answer": "<p>This ensures accurate delivery timelines, proper payment handling, and smooth fulfilment for each service type.<\/p>"
+          }
+        },
+        "faq_9": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "cart-and-order-rules",
+            "question": "What happens if I try to add different services to one cart?",
+            "answer": "<p>The system will not allow it. You will need to complete one order before placing another.<\/p>"
+          }
+        },
+        "faq_10": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "cart-and-order-rules",
+            "question": "Can I change my order type after placing an order?",
+            "answer": "<p>No. Once an order is placed, the selected service cannot be changed.<\/p>"
+          }
+        },
+        "faq_11": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "cart-and-order-rules",
+            "question": "Can I modify or cancel my order after checkout?",
+            "answer": "<p>Orders can only be modified or cancelled before confirmation. Once processing begins, changes are not possible.<\/p>"
+          }
+        },
+        "faq_12": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "qatar-customers",
+            "question": "Can customers in Qatar order all services?",
+            "answer": "<p>Yes. Customers in Qatar can place orders for Qatar and Personal Shopping as separate transactions.<\/p>"
+          }
+        },
+        "faq_13": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "qatar-customers",
+            "question": "How fast is delivery in Qatar?",
+            "answer": "<p>Orders under the Qatar service are delivered same-day or next business day, depending on confirmation time and location.<\/p>"
+          }
+        },
+        "faq_14": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "qatar-customers",
+            "question": "What payment methods are available in Qatar?",
+            "answer": "<p>Qatar service: Cash on Delivery and Bank Transfer. Personal Shopping: Bank Transfer only.<\/p>"
+          }
+        },
+        "faq_15": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "shipping-and-delivery",
+            "question": "When does delivery time start counting?",
+            "answer": "<p>Delivery timelines start after order confirmation and are calculated in working days only.<\/p>"
+          }
+        },
+        "faq_16": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "shipping-and-delivery",
+            "question": "Can I track my shipment?",
+            "answer": "<p>Yes. Tracking details are shared once your order is dispatched.<\/p>"
+          }
+        },
+        "faq_17": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "shipping-and-delivery",
+            "question": "Are delivery timelines guaranteed?",
+            "answer": "<p>Delivery timelines are estimates based on confirmation time, destination, and courier operations. We communicate any changes promptly.<\/p>"
+          }
+        },
+        "faq_18": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "shipping-and-delivery",
+            "question": "What happens if my order is delayed?",
+            "answer": "<p>If delays occur, our support team will contact you with updates and revised timelines.<\/p>"
+          }
+        },
+        "faq_19": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "shipping-and-delivery",
+            "question": "What should I do if my package arrives damaged?",
+            "answer": "<p>Damaged items must be reported within 24 hours of delivery with clear photos sent to our team via WhatsApp.<\/p>"
+          }
+        },
+        "faq_20": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "payments",
+            "question": "Why do payment methods differ by service?",
+            "answer": "<p>Different services and destinations follow different fulfilment and courier requirements, which determine the available payment methods for each.<\/p>"
+          }
+        },
+        "faq_21": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "payments",
+            "question": "Is my payment information secure?",
+            "answer": "<p>Yes. All transactions are handled securely and customer data is protected in accordance with our privacy standards.<\/p>"
+          }
+        },
+        "faq_22": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "payments",
+            "question": "Can I pay using a different name or bank account?",
+            "answer": "<p>Yes, as long as valid proof of payment is provided for verification.<\/p>"
+          }
+        },
+        "faq_23": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "payments",
+            "question": "When is my order confirmed?",
+            "answer": "<p>Bank Transfer orders are confirmed after payment verification. Cash on Delivery orders are confirmed after scheduling is completed.<\/p>"
+          }
+        },
+        "faq_24": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "returns-and-refunds",
+            "question": "How are refunds handled?",
+            "answer": "<p>Qatar service refunds are handled at the time of collection or delivery. Personal Shopping refunds are processed after verification.<\/p>"
+          }
+        },
+        "faq_25": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "returns-and-refunds",
+            "question": "How long does it take to receive a refund?",
+            "answer": "<p>Approved refunds are processed within 10 business days. Your bank may take additional time to reflect the amount.<\/p>"
+          }
+        },
+        "faq_26": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "returns-and-refunds",
+            "question": "Are shipping charges refundable?",
+            "answer": "<p>No. Shipping charges are non-refundable.<\/p>"
+          }
+        },
+        "faq_27": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "returns-and-refunds",
+            "question": "What items are not eligible for return?",
+            "answer": "<p>Used, worn, damaged, or non-compliant items are not eligible for return. Watches are strictly non-returnable under any circumstances.<\/p>"
+          }
+        },
+        "faq_28": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "pre-orders",
+            "question": "How do I place a Personal Shopping request?",
+            "answer": "<p>Contact our customer care team via WhatsApp with your product request — including the style, size, and any specific preferences. Our team will confirm availability and share all details before any payment is taken.<\/p>"
+          }
+        },
+        "faq_29": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "pre-orders",
+            "question": "How long does Personal Shopping delivery take?",
+            "answer": "<p>Personal Shopping orders are typically delivered within 15 to 18 working days from the date of confirmed payment.<\/p>"
+          }
+        },
+        "faq_30": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "pre-orders",
+            "question": "How is payment handled for Personal Shopping?",
+            "answer": "<p>Payment is collected in full via Bank Transfer only, after availability has been confirmed by our team. Sourcing begins only once payment is received.<\/p>"
+          }
+        },
+        "faq_31": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "pre-orders",
+            "question": "Can a Personal Shopping order be cancelled?",
+            "answer": "<p>Personal Shopping orders can only be cancelled before processing begins. Once sourcing has started, cancellation is not possible.<\/p>"
+          }
+        },
+        "faq_32": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "pre-orders",
+            "question": "What happens if you cannot source my requested product?",
+            "answer": "<p>If we are unable to source the product you requested, a full refund will be issued promptly — no deductions and no delays.<\/p>"
+          }
+        },
+        "faq_33": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "product-quality",
+            "question": "Can I see product videos or more images?",
+            "answer": "<p>Yes. Customers can view real product visuals on our TikTok and Instagram pages.<\/p>"
+          }
+        },
+        "faq_34": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "product-quality",
+            "question": "Are the products the same as shown online?",
+            "answer": "<p>Yes. What you see is what you receive.<\/p>"
+          }
+        },
+        "faq_35": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "product-quality",
+            "question": "Do you edit or enhance product images?",
+            "answer": "<p>Images may be lightly edited for lighting and clarity, but the product's colour, shape, size, and design are never altered.<\/p>"
+          }
+        },
+        "faq_36": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "product-quality",
+            "question": "Can I request additional photos or videos before ordering?",
+            "answer": "<p>For selected products, you may contact us via WhatsApp to request additional visuals, subject to availability.<\/p>"
+          }
+        },
+        "faq_37": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "support",
+            "question": "How will I receive order updates?",
+            "answer": "<p>Order updates are shared via WhatsApp and email throughout the process.<\/p>"
+          }
+        },
+        "faq_38": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "support",
+            "question": "Is customer support available?",
+            "answer": "<p>Yes. All customer support is managed from Qatar and is available for both Qatar and Personal Shopping queries.<\/p>"
+          }
+        },
+        "faq_39": {
+          "type": "faq_item",
+          "settings": {
+            "category_id": "support",
+            "question": "What should I do if I need help before placing an order?",
+            "answer": "<p>Contact our support team via WhatsApp for product details, sizing guidance, service clarification, or to initiate a Personal Shopping request.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4",
+        "cat_5",
+        "cat_6",
+        "cat_7",
+        "cat_8",
+        "cat_9",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8",
+        "faq_9",
+        "faq_10",
+        "faq_11",
+        "faq_12",
+        "faq_13",
+        "faq_14",
+        "faq_15",
+        "faq_16",
+        "faq_17",
+        "faq_18",
+        "faq_19",
+        "faq_20",
+        "faq_21",
+        "faq_22",
+        "faq_23",
+        "faq_24",
+        "faq_25",
+        "faq_26",
+        "faq_27",
+        "faq_28",
+        "faq_29",
+        "faq_30",
+        "faq_31",
+        "faq_32",
+        "faq_33",
+        "faq_34",
+        "faq_35",
+        "faq_36",
+        "faq_37",
+        "faq_38",
+        "faq_39"
+      ],
       "settings": {}
     }
   },

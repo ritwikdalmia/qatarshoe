@@ -258,14 +258,6 @@
       justify-content: stretch;
   }
 
-  .contact-toggle {
-      display: none;
-  }
-
-  .contact-toggle-pill {
-      display: none;
-  }
-
   .contact-submit-custom {
       flex: 1;
       width: 100%;
@@ -545,10 +537,6 @@
                     {%- endform -%}
 
                     <div class="contact-bottom-row">
-                        <div class="contact-toggle">
-                            <button type="button" class="contact-toggle-pill active" data-value="qatar">Qatar Customer</button>
-                            <button type="button" class="contact-toggle-pill" data-value="international">International Customer</button>
-                        </div>
                         <button type="button" class="contact-submit-custom" onclick="document.getElementById('RealContactSubmit').click();">
                             <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -563,20 +551,6 @@
     </div>
 </main>
 
-<script>
-  (function() {
-      /* Toggle pills */
-      var pills = document.querySelectorAll('.contact-toggle-pill');
-      pills.forEach(function(pill) {
-          pill.addEventListener('click', function() {
-              pills.forEach(function(p) { p.classList.remove('active'); });
-              this.classList.add('active');
-              var hidden = document.getElementById('contact-customer-type');
-              if (hidden) hidden.value = this.getAttribute('data-value');
-          });
-      });
-  })();
-</script>
 
 {% schema %}
 {
