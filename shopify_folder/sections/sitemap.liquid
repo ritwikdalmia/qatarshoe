@@ -33,81 +33,106 @@
                 <div class="sitemap-card-inner">
                   <h3>{{ block.settings.title }}</h3>
                   <div class="sitemap-card-links">
-                    {%- assign menu_handle = block.settings.menu -%}
-                    {%- if menu_handle == blank -%}
-                      {%- assign menu_handle = block.settings.title | handle -%}
-                    {%- endif -%}
+                    {%- assign has_custom_links = false -%}
+                    {%- for i in (1..6) -%}
+                      {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                      {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                      {%- if block.settings[url_setting] != blank and block.settings[label_setting] != blank -%}
+                        {%- assign has_custom_links = true -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
 
-                    {%- if linklists[menu_handle] != blank and linklists[menu_handle].links.size > 0 -%}
-                      {%- assign has_nested = false -%}
-                      {%- for link in linklists[menu_handle].links -%}
-                        {%- if link.links != blank -%}
-                          {%- assign has_nested = true -%}
-                        {%- endif -%}
-                      {%- endfor -%}
-
-                      {%- if has_nested -%}
-                        <div class="sitemap-nested-menu">
-                          {%- for link in linklists[menu_handle].links -%}
-                            <div class="sitemap-menu-item-level-1{% if link.links != blank %} sitemap-collapsible{% endif %}">
-                              {%- if link.links != blank -%}
-                                <button class="sitemap-toggle-btn" aria-expanded="false" type="button">
-                                  <span class="sitemap-link-level-1">{{ link.title }}</span>
-                                  <span class="sitemap-toggle-icon">
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                  </span>
-                                </button>
-                                <div class="sitemap-level-2-wrapper">
-                                  <div class="sitemap-level-2-grid">
-                                    {%- for child_link in link.links -%}
-                                      <div class="sitemap-menu-item-level-2">
-                                        <a href="{{ child_link.url }}" class="sitemap-link-level-2">{{ child_link.title }}</a>
-                                        {%- if child_link.links != blank -%}
-                                          <div class="sitemap-level-3-list">
-                                            {%- for grandchild_link in child_link.links -%}
-                                              <a href="{{ grandchild_link.url }}" class="sitemap-link-level-3">{{ grandchild_link.title }}</a>
-                                            {%- endfor -%}
-                                          </div>
-                                        {%- endif -%}
-                                      </div>
-                                    {%- endfor -%}
-                                  </div>
-                                </div>
-                              {%- else -%}
-                                <a href="{{ link.url }}" class="sitemap-link-level-1">{{ link.title }}</a>
-                              {%- endif -%}
-                            </div>
-                          {%- endfor -%}
-                        </div>
-                      {%- else -%}
-                        {%- for link in linklists[menu_handle].links -%}
-                          <a href="{{ link.url }}" class="sitemap-link">
-                            <span>{{ link.title }}</span>
+                    {%- if has_custom_links -%}
+                      {%- for i in (1..6) -%}
+                        {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                        {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                        {%- assign url = block.settings[url_setting] -%}
+                        {%- assign label = block.settings[label_setting] -%}
+                        {%- if url != blank and label != blank -%}
+                          <a href="{{ url }}" class="sitemap-link">
+                            <span>{{ label }}</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                           </a>
-                        {%- endfor -%}
-                      {%- endif -%}
+                        {%- endif -%}
+                      {%- endfor -%}
                     {%- else -%}
-                      {%- assign title_handle = block.settings.title | handle -%}
-                      {%- if title_handle == 'women' -%}
-                        <a href="/collections/new-in" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/restock" class="sitemap-link"><span>Restock</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/on-sale" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/all-bags" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/all-small-leather-goods" class="sitemap-link"><span>Small Leather Goods</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/all-shoes" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/all-jewellery" class="sitemap-link"><span>Jewellery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/all-watches" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/all-accessories" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      {%- elsif title_handle == 'men' -%}
-                        <a href="/collections/new-in-men" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/on-sale-men" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/bags-men" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/shoes-men" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/wallets-men" class="sitemap-link"><span>Wallets</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/watches-men" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/accessories-men" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/collections/travel-bags-men" class="sitemap-link"><span>Travel Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- assign menu_handle = block.settings.menu -%}
+                      {%- if menu_handle == blank -%}
+                        {%- assign menu_handle = block.settings.title | handle -%}
+                      {%- endif -%}
+
+                      {%- if linklists[menu_handle] != blank and linklists[menu_handle].links.size > 0 -%}
+                        {%- assign has_nested = false -%}
+                        {%- for link in linklists[menu_handle].links -%}
+                          {%- if link.links != blank -%}
+                            {%- assign has_nested = true -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+
+                        {%- if has_nested -%}
+                          <div class="sitemap-nested-menu">
+                            {%- for link in linklists[menu_handle].links -%}
+                              <div class="sitemap-menu-item-level-1{% if link.links != blank %} sitemap-collapsible{% endif %}">
+                                {%- if link.links != blank -%}
+                                  <button class="sitemap-toggle-btn" aria-expanded="false" type="button">
+                                    <span class="sitemap-link-level-1">{{ link.title }}</span>
+                                    <span class="sitemap-toggle-icon">
+                                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                  </button>
+                                  <div class="sitemap-level-2-wrapper">
+                                    <div class="sitemap-level-2-grid">
+                                      {%- for child_link in link.links -%}
+                                        <div class="sitemap-menu-item-level-2">
+                                          <a href="{{ child_link.url }}" class="sitemap-link-level-2">{{ child_link.title }}</a>
+                                          {%- if child_link.links != blank -%}
+                                            <div class="sitemap-level-3-list">
+                                              {%- for grandchild_link in child_link.links -%}
+                                                <a href="{{ grandchild_link.url }}" class="sitemap-link-level-3">{{ grandchild_link.title }}</a>
+                                              {%- endfor -%}
+                                            </div>
+                                          {%- endif -%}
+                                        </div>
+                                      {%- endfor -%}
+                                    </div>
+                                  </div>
+                                {%- else -%}
+                                  <a href="{{ link.url }}" class="sitemap-link-level-1">{{ link.title }}</a>
+                                {%- endif -%}
+                              </div>
+                            {%- endfor -%}
+                          </div>
+                        {%- else -%}
+                          {%- for link in linklists[menu_handle].links -%}
+                            <a href="{{ link.url }}" class="sitemap-link">
+                              <span>{{ link.title }}</span>
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                          {%- endfor -%}
+                        {%- endif -%}
+                      {%- else -%}
+                        {%- assign title_handle = block.settings.title | handle -%}
+                        {%- if title_handle == 'women' -%}
+                          <a href="/collections/new-in" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/restock" class="sitemap-link"><span>Restock</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/on-sale" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/all-bags" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/all-small-leather-goods" class="sitemap-link"><span>Small Leather Goods</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/all-shoes" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/all-jewellery" class="sitemap-link"><span>Jewellery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/all-watches" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/all-accessories" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        {%- elsif title_handle == 'men' -%}
+                          <a href="/collections/new-in-men" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/on-sale-men" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/bags-men" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/shoes-men" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/wallets-men" class="sitemap-link"><span>Wallets</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/watches-men" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/accessories-men" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/collections/travel-bags-men" class="sitemap-link"><span>Travel Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        {%- endif -%}
                       {%- endif -%}
                     {%- endif -%}
                   </div>
@@ -143,79 +168,104 @@
                 <div class="sitemap-card-inner">
                   <h3>{{ block.settings.title }}</h3>
                   <div class="sitemap-card-links">
-                    {%- assign menu_handle = block.settings.menu -%}
-                    {%- if menu_handle == blank -%}
-                      {%- assign menu_handle = block.settings.title | handle -%}
-                    {%- endif -%}
+                    {%- assign has_custom_links = false -%}
+                    {%- for i in (1..6) -%}
+                      {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                      {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                      {%- if block.settings[url_setting] != blank and block.settings[label_setting] != blank -%}
+                        {%- assign has_custom_links = true -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
 
-                    {%- if linklists[menu_handle] != blank and linklists[menu_handle].links.size > 0 -%}
-                      {%- assign has_nested = false -%}
-                      {%- for link in linklists[menu_handle].links -%}
-                        {%- if link.links != blank -%}
-                          {%- assign has_nested = true -%}
-                        {%- endif -%}
-                      {%- endfor -%}
-
-                      {%- if has_nested -%}
-                        <div class="sitemap-nested-menu">
-                          {%- for link in linklists[menu_handle].links -%}
-                            <div class="sitemap-menu-item-level-1{% if link.links != blank %} sitemap-collapsible{% endif %}">
-                              {%- if link.links != blank -%}
-                                <button class="sitemap-toggle-btn" aria-expanded="false" type="button">
-                                  <span class="sitemap-link-level-1">{{ link.title }}</span>
-                                  <span class="sitemap-toggle-icon">
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                  </span>
-                                </button>
-                                <div class="sitemap-level-2-wrapper">
-                                  <div class="sitemap-level-2-grid">
-                                    {%- for child_link in link.links -%}
-                                      <div class="sitemap-menu-item-level-2">
-                                        <a href="{{ child_link.url }}" class="sitemap-link-level-2">{{ child_link.title }}</a>
-                                        {%- if child_link.links != blank -%}
-                                          <div class="sitemap-level-3-list">
-                                            {%- for grandchild_link in child_link.links -%}
-                                              <a href="{{ grandchild_link.url }}" class="sitemap-link-level-3">{{ grandchild_link.title }}</a>
-                                            {%- endfor -%}
-                                          </div>
-                                        {%- endif -%}
-                                      </div>
-                                    {%- endfor -%}
-                                  </div>
-                                </div>
-                              {%- else -%}
-                                <a href="{{ link.url }}" class="sitemap-link-level-1">{{ link.title }}</a>
-                              {%- endif -%}
-                            </div>
-                          {%- endfor -%}
-                        </div>
-                      {%- else -%}
-                        {%- for link in linklists[menu_handle].links -%}
-                          <a href="{{ link.url }}" class="sitemap-link">
-                            <span>{{ link.title }}</span>
+                    {%- if has_custom_links -%}
+                      {%- for i in (1..6) -%}
+                        {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                        {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                        {%- assign url = block.settings[url_setting] -%}
+                        {%- assign label = block.settings[label_setting] -%}
+                        {%- if url != blank and label != blank -%}
+                          <a href="{{ url }}" class="sitemap-link">
+                            <span>{{ label }}</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                           </a>
-                        {%- endfor -%}
-                      {%- endif -%}
+                        {%- endif -%}
+                      {%- endfor -%}
                     {%- else -%}
-                      {%- assign title_handle = block.settings.title | handle -%}
-                      {%- if title_handle == 'customer-care' -%}
-                        <a href="/pages/customer-care" class="sitemap-link"><span>Contact Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/pages/customer-care" class="sitemap-link"><span>Customer Care</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/pages/faqs" class="sitemap-link"><span>FAQs</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      {%- elsif title_handle == 'shipping-returns' -%}
-                        <a href="/pages/shipping-delivery" class="sitemap-link"><span>Shipping & Delivery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/pages/returns-and-refunds" class="sitemap-link"><span>Returns & Refunds</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      {%- elsif title_handle == 'payments' -%}
-                        <a href="/pages/payments-pricing" class="sitemap-link"><span>Payments & Pricing</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      {%- elsif title_handle == 'policies' -%}
-                        <a href="/policies/privacy-policy" class="sitemap-link"><span>Privacy Policy</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/policies/terms-of-service" class="sitemap-link"><span>Terms Of Service</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      {%- elsif title_handle == 'services' -%}
-                        <a href="/pages/personal-shopping" class="sitemap-link"><span>Personal Shopping</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                      {%- elsif title_handle == 'about' -%}
-                        <a href="/pages/about-us" class="sitemap-link"><span>About Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        <a href="/pages/sitemap" class="sitemap-link"><span>Sitemap</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- assign menu_handle = block.settings.menu -%}
+                      {%- if menu_handle == blank -%}
+                        {%- assign menu_handle = block.settings.title | handle -%}
+                      {%- endif -%}
+
+                      {%- if linklists[menu_handle] != blank and linklists[menu_handle].links.size > 0 -%}
+                        {%- assign has_nested = false -%}
+                        {%- for link in linklists[menu_handle].links -%}
+                          {%- if link.links != blank -%}
+                            {%- assign has_nested = true -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+
+                        {%- if has_nested -%}
+                          <div class="sitemap-nested-menu">
+                            {%- for link in linklists[menu_handle].links -%}
+                              <div class="sitemap-menu-item-level-1{% if link.links != blank %} sitemap-collapsible{% endif %}">
+                                {%- if link.links != blank -%}
+                                  <button class="sitemap-toggle-btn" aria-expanded="false" type="button">
+                                    <span class="sitemap-link-level-1">{{ link.title }}</span>
+                                    <span class="sitemap-toggle-icon">
+                                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                  </button>
+                                  <div class="sitemap-level-2-wrapper">
+                                    <div class="sitemap-level-2-grid">
+                                      {%- for child_link in link.links -%}
+                                        <div class="sitemap-menu-item-level-2">
+                                          <a href="{{ child_link.url }}" class="sitemap-link-level-2">{{ child_link.title }}</a>
+                                          {%- if child_link.links != blank -%}
+                                            <div class="sitemap-level-3-list">
+                                              {%- for grandchild_link in child_link.links -%}
+                                                <a href="{{ grandchild_link.url }}" class="sitemap-link-level-3">{{ grandchild_link.title }}</a>
+                                              {%- endfor -%}
+                                            </div>
+                                          {%- endif -%}
+                                        </div>
+                                      {%- endfor -%}
+                                    </div>
+                                  </div>
+                                {%- else -%}
+                                  <a href="{{ link.url }}" class="sitemap-link-level-1">{{ link.title }}</a>
+                                {%- endif -%}
+                              </div>
+                            {%- endfor -%}
+                          </div>
+                        {%- else -%}
+                          {%- for link in linklists[menu_handle].links -%}
+                            <a href="{{ link.url }}" class="sitemap-link">
+                              <span>{{ link.title }}</span>
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                          {%- endfor -%}
+                        {%- endif -%}
+                      {%- else -%}
+                        {%- assign title_handle = block.settings.title | handle -%}
+                        {%- if title_handle == 'customer-care' -%}
+                          <a href="/pages/customer-care" class="sitemap-link"><span>Contact Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/pages/customer-care" class="sitemap-link"><span>Customer Care</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/pages/faqs" class="sitemap-link"><span>FAQs</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        {%- elsif title_handle == 'shipping-returns' -%}
+                          <a href="/pages/shipping-delivery" class="sitemap-link"><span>Shipping & Delivery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/pages/returns-and-refunds" class="sitemap-link"><span>Returns & Refunds</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        {%- elsif title_handle == 'payments' -%}
+                          <a href="/pages/payments-pricing" class="sitemap-link"><span>Payments & Pricing</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        {%- elsif title_handle == 'policies' -%}
+                          <a href="/policies/privacy-policy" class="sitemap-link"><span>Privacy Policy</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/policies/terms-of-service" class="sitemap-link"><span>Terms Of Service</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        {%- elsif title_handle == 'services' -%}
+                          <a href="/pages/personal-shopping" class="sitemap-link"><span>Personal Shopping</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        {%- elsif title_handle == 'about' -%}
+                          <a href="/pages/about-us" class="sitemap-link"><span>About Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                          <a href="/pages/sitemap" class="sitemap-link"><span>Sitemap</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        {%- endif -%}
                       {%- endif -%}
                     {%- endif -%}
                   </div>
@@ -664,6 +714,90 @@
           "type": "link_list",
           "id": "menu",
           "label": "Custom Navigation Menu (Optional)"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 1"
+        },
+        {
+          "type": "text",
+          "id": "link_1_label",
+          "label": "Link 1 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_1_url",
+          "label": "Link 1 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 2"
+        },
+        {
+          "type": "text",
+          "id": "link_2_label",
+          "label": "Link 2 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_2_url",
+          "label": "Link 2 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 3"
+        },
+        {
+          "type": "text",
+          "id": "link_3_label",
+          "label": "Link 3 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_3_url",
+          "label": "Link 3 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 4"
+        },
+        {
+          "type": "text",
+          "id": "link_4_label",
+          "label": "Link 4 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_4_url",
+          "label": "Link 4 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 5"
+        },
+        {
+          "type": "text",
+          "id": "link_5_label",
+          "label": "Link 5 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_5_url",
+          "label": "Link 5 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 6"
+        },
+        {
+          "type": "text",
+          "id": "link_6_label",
+          "label": "Link 6 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_6_url",
+          "label": "Link 6 URL"
         }
       ]
     }

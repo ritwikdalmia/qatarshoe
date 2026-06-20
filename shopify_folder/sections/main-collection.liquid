@@ -614,6 +614,9 @@
                     {%- if link_title_down contains 'home' or link_title_down contains 'الرئيسية' or link_title_down contains 'new' or link_title_down contains 'sale' or link_title_down contains 'عرض' -%}
                       {%- continue -%}
                     {%- endif -%}
+                    {%- if link_title_down contains 'explore' or link_title_down contains 'restock' -%}
+                      {%- continue -%}
+                    {%- endif -%}
                     {%- if link.url contains '/collections/' -%}
                       {%- assign col_handle = link.url | split: '/' | last -%}
                       {%- assign check_handle = '::' | append: col_handle | append: '||' -%}
@@ -627,6 +630,9 @@
                       {%- if child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
                         {%- continue -%}
                       {%- endif -%}
+                      {%- if child_title_down contains 'explore' or child_title_down contains 'restock' -%}
+                        {%- continue -%}
+                      {%- endif -%}
                       {%- if child_link.url contains '/collections/' -%}
                         {%- assign col_handle = child_link.url | split: '/' | last -%}
                         {%- assign check_handle = '::' | append: col_handle | append: '||' -%}
@@ -638,6 +644,9 @@
                       {%- for grandchild_link in child_link.links -%}
                         {%- assign grandchild_title_down = grandchild_link.title | downcase -%}
                         {%- if grandchild_title_down contains 'view all' or grandchild_title_down contains 'all collection' -%}
+                          {%- continue -%}
+                        {%- endif -%}
+                        {%- if grandchild_title_down contains 'explore' or grandchild_title_down contains 'restock' -%}
                           {%- continue -%}
                         {%- endif -%}
                         {%- if grandchild_link.url contains '/collections/' -%}
