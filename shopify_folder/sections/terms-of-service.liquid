@@ -1,6 +1,6 @@
 {%- style -%}
   .pp-main {
-      padding: 96px 150px;
+      padding: 24px 150px 48px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -80,6 +80,7 @@
       padding: 12px 20px;
       height: 48px;
       border-bottom: 1px solid #E0DCD3;
+      border-left: 3px solid transparent;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
       font-size: 16px;
@@ -97,12 +98,14 @@
 
   .pp-sidebar-item:hover {
       color: #2D1F1F;
+      background: rgba(45, 31, 31, 0.03);
   }
 
   .pp-sidebar-item.active {
       font-weight: 600;
       color: #2D1F1F;
-      background: #FAF8F5;
+      background: #ffffff;
+      border-left-color: #2D1F1F;
   }
 
   .pp-sidebar-item svg {
@@ -157,7 +160,9 @@
       gap: 24px;
   }
 
-  .pp-section-body p {
+  .pp-section-body p,
+  .pp-section-body div,
+  .pp-section-body span {
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       font-weight: 400;
@@ -318,7 +323,7 @@
 
   @media (max-width: 1023px) {
       .pp-main {
-          padding: 64px 40px;
+          padding: 24px 40px 32px;
       }
       .pp-sidebar {
           display: none;
@@ -330,7 +335,7 @@
 
   @media (max-width: 767px) {
       .pp-main {
-          padding: 48px 24px;
+          padding: 24px 24px 24px;
       }
       .pp-title {
           font-size: 32px;

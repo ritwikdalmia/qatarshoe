@@ -111,28 +111,6 @@
                             </a>
                           {%- endfor -%}
                         {%- endif -%}
-                      {%- else -%}
-                        {%- assign title_handle = block.settings.title | handle -%}
-                        {%- if title_handle == 'women' -%}
-                          <a href="/collections/new-in" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/restock" class="sitemap-link"><span>Restock</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/on-sale" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/all-bags" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/all-small-leather-goods" class="sitemap-link"><span>Small Leather Goods</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/all-shoes" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/all-jewellery" class="sitemap-link"><span>Jewellery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/all-watches" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/all-accessories" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        {%- elsif title_handle == 'men' -%}
-                          <a href="/collections/new-in-men" class="sitemap-link"><span>New In</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/on-sale-men" class="sitemap-link"><span>On Sale</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/bags-men" class="sitemap-link"><span>Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/shoes-men" class="sitemap-link"><span>Shoes</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/wallets-men" class="sitemap-link"><span>Wallets</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/watches-men" class="sitemap-link"><span>Watches</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/accessories-men" class="sitemap-link"><span>Accessories</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/collections/travel-bags-men" class="sitemap-link"><span>Travel Bags</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        {%- endif -%}
                       {%- endif -%}
                     {%- endif -%}
                   </div>
@@ -246,26 +224,6 @@
                             </a>
                           {%- endfor -%}
                         {%- endif -%}
-                      {%- else -%}
-                        {%- assign title_handle = block.settings.title | handle -%}
-                        {%- if title_handle == 'customer-care' -%}
-                          <a href="/pages/customer-care" class="sitemap-link"><span>Contact Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/pages/customer-care" class="sitemap-link"><span>Customer Care</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/pages/faqs" class="sitemap-link"><span>FAQs</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        {%- elsif title_handle == 'shipping-returns' -%}
-                          <a href="/pages/shipping-delivery" class="sitemap-link"><span>Shipping & Delivery</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/pages/returns-and-refunds" class="sitemap-link"><span>Returns & Refunds</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        {%- elsif title_handle == 'payments' -%}
-                          <a href="/pages/payments-pricing" class="sitemap-link"><span>Payments & Pricing</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        {%- elsif title_handle == 'policies' -%}
-                          <a href="/policies/privacy-policy" class="sitemap-link"><span>Privacy Policy</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/policies/terms-of-service" class="sitemap-link"><span>Terms Of Service</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        {%- elsif title_handle == 'services' -%}
-                          <a href="/pages/personal-shopping" class="sitemap-link"><span>Personal Shopping</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        {%- elsif title_handle == 'about' -%}
-                          <a href="/pages/about-us" class="sitemap-link"><span>About Us</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                          <a href="/pages/sitemap" class="sitemap-link"><span>Sitemap</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-                        {%- endif -%}
                       {%- endif -%}
                     {%- endif -%}
                   </div>
@@ -291,7 +249,7 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   .sitemap-hero {
-    padding: 96px 150px 48px;
+    padding: 24px 150px 12px;
     display: flex;
     flex-direction: column;
     gap: 48px;
@@ -322,7 +280,7 @@
     max-width: 600px;
   }
   .sitemap-content {
-    padding: 96px 150px;
+    padding: 24px 150px 96px;
     max-width: 1620px;
     margin: 0 auto;
     display: flex;
@@ -535,7 +493,7 @@
   
   @media (max-width: 767px) {
     .sitemap-hero {
-      padding: 48px 20px;
+      padding: 24px 20px 12px;
       gap: 32px;
     }
     .sitemap-hero h1 {
@@ -546,7 +504,7 @@
       line-height: 24px;
     }
     .sitemap-content {
-      padding: 16px 20px 64px;
+      padding: 24px 20px 64px;
       gap: 64px;
     }
     .sitemap-group {
@@ -597,13 +555,13 @@
   
   @media (min-width: 768px) and (max-width: 1023px) {
     .sitemap-hero {
-      padding: 64px 40px 40px;
+      padding: 24px 40px 12px;
     }
     .sitemap-hero h1 {
       font-size: 48px;
     }
     .sitemap-content {
-      padding: 48px 40px 80px;
+      padding: 24px 40px 80px;
       gap: 72px;
     }
     .sitemap-group {
