@@ -42,7 +42,7 @@
         --color-primary: {{ settings.color_primary | default: '#2d1f1f' }};
         --color-accent: {{ settings.color_accent | default: '#f25c5e' }};
         --color-border: {{ settings.color_border | default: '#e0dcd3' }};
-        --color-muted: {{ settings.color_muted | default: '#666666' }};
+        --color-muted: {{ settings.color_muted | default: '#000000' }};
         --color-dark-teal: {{ settings.color_dark_teal | default: '#304854' }};
         --color-green: {{ settings.color_green | default: '#1e3524' }};
         --color-drawer-bg: {{ settings.color_drawer_bg | default: '#ffffff' }};
@@ -452,6 +452,61 @@
         background: var(--color-primary) !important;
         color: var(--color-bg) !important;
         border-color: var(--color-primary) !important;
+      }
+
+      /* Fix layout squish & spacing of contact forms at <= 1200px (including 1024px) and mobile */
+      @media (max-width: 1200px) {
+        .contact-form-inner {
+          flex-direction: column !important;
+          gap: 32px !important;
+        }
+        .contact-form-intro {
+          flex: none !important;
+          width: 100% !important;
+        }
+      }
+
+      /* Returns page sections headings, colors, and sizes */
+      .rr-eligibility-title,
+      .rr-side-title,
+      .rr-non-returnable-title {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 28px !important;
+        font-weight: 500 !important;
+        color: var(--color-primary) !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        text-align: center !important;
+      }
+
+      .rr-side-subtitle {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 15px !important;
+        color: #000000 !important;
+        margin-top: 6px !important;
+        margin-bottom: 0 !important;
+        text-align: center !important;
+      }
+
+      .rr-eligibility-card-title,
+      .rr-side-card-title {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: var(--color-primary) !important;
+      }
+
+      .rr-non-returnable-card-title {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 15px !important;
+        font-weight: 500 !important;
+        color: #2D1F1F !important;
+        line-height: 1.5 !important;
+      }
+
+      .rr-non-returnable-icon svg path,
+      .rr-non-returnable-icon svg {
+        stroke: var(--color-primary) !important;
       }
     </style>
 
