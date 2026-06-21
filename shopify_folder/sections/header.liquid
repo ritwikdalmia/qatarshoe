@@ -1202,7 +1202,7 @@
     <button type="button" class="drawer-footer-item wishlist-trigger" style="position:relative; width:100%;">
       <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
       <span>Wishlist</span>
-      <span class="wishlist-count" style="display:none; position:static !important; margin-left:auto; background:#f25c5e; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:12px; height:20px; min-width:20px; align-items:center; justify-content:center; line-height:1;">0</span>
+      <span class="wishlist-count" style="display:none; position:static !important; margin-left:auto; background:var(--color-border); color:var(--color-primary); font-size:11px; font-weight:700; padding:2px 8px; border-radius:12px; height:20px; min-width:20px; align-items:center; justify-content:center; line-height:1;">0</span>
     </button>
     {%- if customer -%}
       <a href="{{ routes.account_url }}" class="drawer-footer-item">
@@ -2313,8 +2313,8 @@
     position: absolute !important;
     top: -5px !important;
     right: -7px !important;
-    background: #f25c5e !important;
-    color: #fff !important;
+    background: var(--color-border) !important;
+    color: var(--color-primary) !important;
     font-size: 9px !important;
     font-weight: 700 !important;
     width: 16px !important;

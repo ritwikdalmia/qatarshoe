@@ -159,7 +159,20 @@
       width: 100%;
       max-width: 200px;
       height: 200px;
-      object-fit: contain;
+      object-fit: cover;
+      border-radius: 12px;
+  }
+
+  .about-offer-card-placeholder {
+      width: 100%;
+      max-width: 200px;
+      height: 200px;
+      border-radius: 12px;
+      background: var(--color-border, #e0dcd3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
   }
 
   /* Section 4 — House of Brands */
@@ -655,18 +668,65 @@
         </div>
         
         <div class="about-offer-cards">
-            {%- for block in section.blocks -%}
-                {%- if block.type == 'offer_card' -%}
-                    <a href="{{ block.settings.url | default: '#' }}" class="about-offer-card" {{ block.shopify_attributes }}>
-                        {%- if block.settings.image != blank -%}
-                            <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.name | escape }}" loading="lazy" />
+            {%- liquid
+              assign offer_menu = section.settings.offer_menu
+              assign has_menu = false
+              if offer_menu != blank and linklists[offer_menu] != blank and linklists[offer_menu].links.size > 0
+                assign has_menu = true
+              endif
+            -%}
+
+            {%- if has_menu -%}
+                {%- comment -%} Dynamic mode: render from navigation menu {%- endcomment -%}
+                {%- for link in linklists[offer_menu].links -%}
+                    {%- liquid
+                      assign col_handle = link.url | split: '/' | last
+                      assign col = collections[col_handle]
+                    -%}
+                    <a href="{{ link.url }}" class="about-offer-card">
+                        {%- if col.image != blank -%}
+                            <img src="{{ col.image | image_url: width: 400 }}" alt="{{ link.title | escape }}" loading="lazy" />
+                        {%- elsif col.products.first.featured_image != blank -%}
+                            <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ link.title | escape }}" loading="lazy" />
                         {%- else -%}
-                            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                            <div class="about-offer-card-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.25;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            </div>
                         {%- endif -%}
-                        <span class="about-offer-card-name">{{ block.settings.name }}</span>
+                        <span class="about-offer-card-name">{{ link.title }}</span>
                     </a>
-                {%- endif -%}
-            {%- endfor -%}
+                {%- endfor -%}
+            {%- else -%}
+                {%- comment -%} Block mode: render from offer_card blocks {%- endcomment -%}
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'offer_card' -%}
+                        {%- liquid
+                          assign col = collections[block.settings.collection]
+                          assign card_url = block.settings.url
+                          if card_url == blank and col != blank
+                            assign card_url = col.url
+                          endif
+                          if card_url == blank
+                            assign card_url = '#'
+                          endif
+                        -%}
+                        <a href="{{ card_url }}" class="about-offer-card" {{ block.shopify_attributes }}>
+                            {%- if block.settings.image != blank -%}
+                                <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.name | escape }}" loading="lazy" />
+                            {%- elsif col != blank and col.image != blank -%}
+                                <img src="{{ col.image | image_url: width: 400 }}" alt="{{ block.settings.name | default: col.title | escape }}" loading="lazy" />
+                            {%- elsif col != blank and col.products.first.featured_image != blank -%}
+                                <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ block.settings.name | default: col.title | escape }}" loading="lazy" />
+                            {%- else -%}
+                                <div class="about-offer-card-placeholder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.25;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                </div>
+                            {%- endif -%}
+                            <span class="about-offer-card-name">{{ block.settings.name | default: col.title }}</span>
+                        </a>
+                    {%- endif -%}
+                {%- endfor -%}
+            {%- endif -%}
         </div>
     </section>
 
@@ -819,6 +879,19 @@
     },
     {
       "type": "header",
+      "content": "Dynamic Collections Menu"
+    },
+    {
+      "type": "paragraph",
+      "content": "Pick a navigation menu to automatically show its links as collection cards with images. If set, this overrides the manual Offer Card blocks below."
+    },
+    {
+      "type": "link_list",
+      "id": "offer_menu",
+      "label": "Collections Menu (auto-populate cards)"
+    },
+    {
+      "type": "header",
       "content": "Brands Section"
     },
     {
@@ -873,20 +946,32 @@
       "name": "Offer Card",
       "settings": [
         {
+          "type": "header",
+          "content": "Option A — Link to a Collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection (auto-fetches image & URL)"
+        },
+        {
+          "type": "header",
+          "content": "Option B — Manual Override"
+        },
+        {
           "type": "text",
           "id": "name",
-          "label": "Category Name",
-          "default": "Footwear"
+          "label": "Category Name (overrides collection title)"
         },
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Category Image"
+          "label": "Category Image (overrides collection image)"
         },
         {
           "type": "url",
           "id": "url",
-          "label": "Link URL"
+          "label": "Custom Link URL (overrides collection URL)"
         }
       ]
     },

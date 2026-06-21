@@ -4,25 +4,25 @@
   if section.settings.image_desktop != blank
     assign hero_desktop = section.settings.image_desktop | image_url: width: 2000
   else
-    assign hero_desktop = 'hero-desktop-women.png' | asset_url
+    assign hero_desktop = 'women.png' | asset_url
   endif
 
   if section.settings.image_mobile != blank
     assign hero_mobile = section.settings.image_mobile | image_url: width: 800
   else
-    assign hero_mobile = 'hero-mobile-women.png' | asset_url
+    assign hero_mobile = 'women.png' | asset_url
   endif
 
   if section.settings.image_desktop_men != blank
     assign hero_desktop_men = section.settings.image_desktop_men | image_url: width: 2000
   else
-    assign hero_desktop_men = 'hero-men.jpg' | asset_url
+    assign hero_desktop_men = 'men.png' | asset_url
   endif
 
   if section.settings.image_mobile_men != blank
     assign hero_mobile_men = section.settings.image_mobile_men | image_url: width: 800
   else
-    assign hero_mobile_men = 'hero-men.jpg' | asset_url
+    assign hero_mobile_men = 'men.png' | asset_url
   endif
 -%}
 

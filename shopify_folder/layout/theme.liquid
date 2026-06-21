@@ -101,6 +101,12 @@
         color: var(--color-primary) !important;
       }
 
+      .wishlist-count,
+      .cart-count-badge {
+        background-color: var(--color-border) !important;
+        color: var(--color-primary) !important;
+      }
+
       .site-footer-subscribe-form .wpcf7-submit:hover,
       .contact-submit-custom:hover {
         background-color: var(--color-primary) !important;
@@ -109,6 +115,343 @@
 
       .site-footer-legal {
         background-color: var(--color-primary) !important;
+      }
+
+      /* Home page section borders - use primary color */
+      .section-heading-row {
+        border: 1.5px solid var(--color-primary) !important;
+        border-bottom: none !important;
+      }
+      .product-card {
+        border: 1.5px solid var(--color-primary) !important;
+      }
+      .brands-on-amirivibes .brand-item {
+        outline: 1px solid var(--color-primary) !important;
+        border: 1px solid var(--color-primary) !important;
+      }
+
+      /* Footer border lines -> primary color */
+      .site-footer-panel-left {
+        outline: 1px solid var(--color-primary) !important;
+      }
+      .site-footer-panel-right {
+        border-top: 1px solid var(--color-primary) !important;
+        border-right: 1px solid var(--color-primary) !important;
+        border-bottom: 1px solid var(--color-primary) !important;
+      }
+      .site-footer-features {
+        border-top: 1px solid var(--color-primary) !important;
+      }
+      .site-footer-feature-item {
+        border-right: 1px solid var(--color-primary) !important;
+      }
+      @media (max-width: 767px) {
+        .site-footer-panel-left {
+          border-color: var(--color-primary) !important;
+        }
+        .site-footer-panel-right {
+          border-color: var(--color-primary) !important;
+        }
+        .site-footer-bottom-inner {
+          border-top: 1px solid var(--color-primary) !important;
+        }
+        .site-footer-feature-item {
+          border-bottom: 1px solid var(--color-primary) !important;
+        }
+      }
+
+      /* Product detail page border lines -> primary color */
+      .product-thumbnails img {
+        border-color: var(--color-primary) !important;
+      }
+      .size-option {
+        border-color: var(--color-primary) !important;
+      }
+      .quantity-controls {
+        border-color: var(--color-primary) !important;
+      }
+      .quantity-controls input {
+        border-left-color: var(--color-primary) !important;
+        border-right-color: var(--color-primary) !important;
+      }
+      .delivery-info-strip {
+        border-top-color: var(--color-primary) !important;
+        border-bottom-color: var(--color-primary) !important;
+      }
+      .product-accordions {
+        border-top-color: var(--color-primary) !important;
+      }
+      .accordion-item {
+        border-bottom-color: var(--color-primary) !important;
+      }
+
+      /* Department toggle buttons matching the brand theme */
+      .dept-toggle .dept-link.active {
+        color: #fff !important;
+        background: var(--color-primary) !important;
+        box-shadow: 0 2px 8px rgba(140, 22, 56, 0.3);
+      }
+      .dept-toggle .dept-link:hover:not(.active) {
+        color: #fff !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+      }
+
+      /* Contact Us page border overrides */
+      .contact-cards {
+        border-bottom-color: var(--color-primary) !important;
+      }
+      .contact-card {
+        border-right-color: var(--color-primary) !important;
+      }
+      .contact-card-link {
+        border-color: var(--color-primary) !important;
+        color: var(--color-primary) !important;
+      }
+      .contact-card-link:hover {
+        background: var(--color-primary) !important;
+        color: #fff !important;
+      }
+      .contact-form-wrapper input[type="text"],
+      .contact-form-wrapper input[type="email"],
+      .contact-form-wrapper input[type="tel"],
+      .contact-form-wrapper textarea {
+        border-color: var(--color-primary) !important;
+      }
+      .contact-form-wrapper input[type="text"]:focus,
+      .contact-form-wrapper input[type="email"]:focus,
+      .contact-form-wrapper input[type="tel"]:focus,
+      .contact-form-wrapper textarea:focus {
+        border-color: var(--color-primary) !important;
+      }
+      .contact-submit-custom {
+        border-color: var(--color-primary) !important;
+        color: var(--color-primary) !important;
+      }
+      .contact-submit-custom:hover {
+        background: var(--color-primary) !important;
+        color: #fff !important;
+      }
+      @media (max-width: 767px) {
+        .contact-card {
+          border-bottom-color: var(--color-primary) !important;
+        }
+      }
+
+      /* FAQs / Customer Care page border overrides */
+      .faq-sidebar-nav {
+        border-color: var(--color-primary) !important;
+      }
+      .faq-sidebar-item {
+        border-bottom-color: var(--color-primary) !important;
+      }
+      .faq-search {
+        border-color: var(--color-primary) !important;
+      }
+      .faq-items-container {
+        background: var(--color-primary) !important;
+      }
+      .faq-mobile-bar {
+        border-color: var(--color-primary) !important;
+      }
+
+      /* Internal footer pages borders - update all to theme primary color */
+      
+      /* Shipping & Delivery */
+      .sd-services,
+      .sd-services-card,
+      .sd-timeline-card,
+      .sd-timelines,
+      .sd-timeline-card::after,
+      .sd-timeline-card::before {
+        border-color: var(--color-primary) !important;
+      }
+
+      /* Returns & Refunds */
+      .rr-eligibility-card,
+      .rr-side-card,
+      .rr-non-returnable-card,
+      .rr-refund,
+      .rr-sides,
+      .rr-non-returnable {
+        border-color: var(--color-primary) !important;
+      }
+      .rr-eligibility,
+      .rr-side-card {
+        border-color: var(--color-primary) !important;
+      }
+      /* Non-returnable grid outer border and column separators */
+      .rr-non-returnable-grid {
+        border: 1.5px solid var(--color-primary) !important;
+      }
+      .rr-non-returnable-card {
+        border-right: 1.5px solid var(--color-primary) !important;
+      }
+      @media (max-width: 1023px) {
+        .rr-non-returnable-card {
+          border-right: none !important;
+          border-bottom: 1.5px solid var(--color-primary) !important;
+        }
+        .rr-non-returnable-card:last-child {
+          border-bottom: none !important;
+        }
+      }
+      /* Refund Processing section label bottom border */
+      .rr-refund-label {
+        border-bottom-color: var(--color-primary) !important;
+      }
+      /* Contact form section separator line */
+      .contact-form-section::before {
+        background: var(--color-primary) !important;
+      }
+
+      /* Payments & Pricing */
+      .payments-main,
+      .payments-card,
+      .payments-method-card,
+      .payments-grid-card {
+        border-color: var(--color-primary) !important;
+      }
+
+      /* Customer Care page */
+      .care-main,
+      .cc-quick-help-card,
+      .cc-quick-help-card-btn {
+        border-color: var(--color-primary) !important;
+        color: var(--color-primary) !important;
+      }
+      .cc-quick-help-card-btn:hover {
+        background: var(--color-primary) !important;
+        color: #fff !important;
+      }
+
+      /* About Us */
+      .about-main,
+      .about-history-card,
+      .about-value-card,
+      .about-team-card {
+        border-color: var(--color-primary) !important;
+      }
+
+      /* Sitemap */
+      .sitemap-main,
+      .sitemap-card,
+      .sitemap-col {
+        border-color: var(--color-primary) !important;
+      }
+      .sitemap-card {
+        border-color: var(--color-primary) !important;
+      }
+      .sitemap-link {
+        border-bottom-color: var(--color-primary) !important;
+        color: #2D1F1F !important;
+      }
+      .sitemap-link:hover {
+        opacity: 1 !important;
+        color: var(--color-primary) !important;
+      }
+      .sitemap-link:hover span {
+        color: var(--color-primary) !important;
+      }
+      /* Sitemap nested heading border and hover */
+      .sitemap-link-level-1 {
+        border-bottom-color: var(--color-primary) !important;
+        color: #2D1F1F !important;
+      }
+      .sitemap-link-level-1:hover {
+        opacity: 1 !important;
+        color: var(--color-primary) !important;
+      }
+      .sitemap-link-level-2:hover {
+        opacity: 1 !important;
+        color: var(--color-primary) !important;
+      }
+      .sitemap-link-level-3:hover {
+        color: var(--color-primary) !important;
+      }
+      .sitemap-toggle-btn {
+        border-bottom-color: var(--color-primary) !important;
+      }
+      .sitemap-toggle-btn:hover {
+        opacity: 1 !important;
+        color: var(--color-primary) !important;
+      }
+
+      /* Terms of Service & Privacy Policy */
+      .tos-main,
+      .privacy-main,
+      .pp-content,
+      .pp-mobile-overlay-card {
+        border-color: var(--color-primary) !important;
+      }
+
+      /* Make internal page text uniform and clean */
+      .faq-answer p, 
+      .faq-answer div,
+      .faq-subtitle,
+      .contact-page-header p,
+      .contact-card-desc,
+      .contact-form-intro-text p,
+      .cc-hero-subtitle,
+      .cc-feature-desc,
+      .cc-quick-help-desc,
+      .cc-quick-help-card-desc,
+      .cc-commitment-text,
+      .payments-desc,
+      .tos-desc,
+      .privacy-desc,
+      .sd-timeline-desc,
+      .rr-eligibility-desc {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+        color: #000000 !important;
+      }
+
+      /* Make internal page main headings uniform */
+      .faq-title,
+      .contact-page-header h1,
+      .cc-hero-title,
+      .sd-hero-title,
+      .rr-hero-title,
+      .about-hero-title,
+      .payments-hero-title,
+      .tos-hero-title,
+      .privacy-hero-title {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 48px !important;
+        font-weight: 400 !important;
+        line-height: 1.2 !important;
+        color: var(--color-primary) !important;
+      }
+      @media (max-width: 767px) {
+        .faq-title,
+        .contact-page-header h1,
+        .cc-hero-title {
+          font-size: 32px !important;
+        }
+      }
+      /* FAQ sidebar active links style to match brand primary color */
+      .faq-sidebar-item {
+        color: var(--color-primary) !important;
+      }
+      .faq-sidebar-item.active {
+        color: #fff !important;
+        background: var(--color-primary) !important;
+      }
+
+      /* Collection Filter Trigger Button - hover/active states */
+      .filter-trigger-btn:hover {
+        background: var(--color-primary) !important;
+        color: var(--color-bg) !important;
+        border-color: var(--color-primary) !important;
+      }
+
+      /* Collection Filter Pills - hover/active states */
+      .filter-pill:hover,
+      .filter-pill.active {
+        background: var(--color-primary) !important;
+        color: var(--color-bg) !important;
+        border-color: var(--color-primary) !important;
       }
     </style>
 

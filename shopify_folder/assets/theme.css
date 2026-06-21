@@ -825,7 +825,7 @@ body {
 
 
 .qtr-section {
-  background: #fff;
+  background: var(--color-bg);
   padding: 0 40px 40px 40px;
 }
 
@@ -833,7 +833,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
+  background: var(--color-bg);
   border: 1.5px solid rgba(45, 31, 31, 0.12);
   border-bottom: none;
   border-radius: 10px 10px 0 0;

@@ -424,13 +424,14 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    background: #2D1F1F;
+    background: var(--color-primary);
     color: #fff;
     cursor: pointer;
     transition: background 0.2s;
   }
   .filters-apply-btn:hover {
-    background: #1a1010;
+    background: var(--color-primary);
+    opacity: 0.9;
   }
 
   /* Custom premium checkbox styling */
@@ -595,8 +596,11 @@
               which point to the respective category collections filtered by brand vendor.
             {%- endcomment -%}
             {%- assign show_fallback = true -%}
+            {%- if collection.handle contains 'sale' or collection.handle == 'new-in' or collection.handle == 'restock' -%}
+              {%- assign show_fallback = false -%}
+            {%- endif -%}
             
-            {%- if is_brand_menu -%}
+            {%- if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' -%}
               {%- assign vendor_name = collection.title -%}
               {%- if request.locale.iso_code == 'ar' -%}
                 {%- assign all_label = 'الكل' -%}
@@ -1057,7 +1061,7 @@
           assign drawer_col_all_label = 'All'
           assign drawer_col_links_str = ''
 
-          if is_brand_menu
+          if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale'
             assign drawer_col_all_url = collection.url
             if request.locale.iso_code == 'ar'
               assign drawer_col_all_label = 'الكل'
@@ -1110,7 +1114,7 @@
 
         {%- if drawer_col_pairs.size > 0 -%}
           {%- assign drawer_all_active = false -%}
-          {%- if is_brand_menu -%}
+          {%- if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' -%}
             {%- assign drawer_all_active = true -%}
           {%- else -%}
             {%- if drawer_col_all_url == '/collections/all' and collection.handle == 'all' -%}
@@ -1129,7 +1133,7 @@
               <div class="filter-collection-links" style="display: flex; flex-direction: column; gap: 0; padding: 4px 0;">
                 <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; padding: 10px 4px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; border-bottom: 1px solid var(--color-border); margin-bottom: 0; font-weight: {% if drawer_all_active %}600{% else %}400{% endif %};">
                   <input type="checkbox"
-                         class="filter-drawer-checkbox {% if is_brand_menu %}brand-collection-nav-all{% else %}collection-nav-cb collection-nav-all{% endif %}"
+                         class="filter-drawer-checkbox {% if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' %}brand-collection-nav-all{% else %}collection-nav-cb collection-nav-all{% endif %}"
                          data-collection-url="{{ drawer_col_all_url }}"
                          data-is-all="true"
                          {% if drawer_all_active %}checked{% endif %}>
@@ -1140,7 +1144,7 @@
                   {%- assign ctitle = parts[0] -%}
                   {%- assign chandle = parts[1] -%}
                   {%- if ctitle != blank and chandle != blank -%}
-                    {%- if is_brand_menu -%}
+                    {%- if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' -%}
                       {%- liquid
                         assign types_list_str = ctitle
                       -%}
@@ -1385,7 +1389,7 @@
 
   function getActiveProductTypes() {
     const activeTypes = [];
-    const isBrandMenu = {{ is_brand_menu | default: false }};
+    const isBrandMenu = {% if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' %}true{% else %}false{% endif %};
     
     if (isBrandMenu) {
       const activePills = document.querySelectorAll('.filter-pill-category-type.active');

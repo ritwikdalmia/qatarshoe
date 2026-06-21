@@ -1,11 +1,11 @@
 {%- style -%}
   body.contact-page-body {
-      background: #F5F5F5;
+      background: var(--color-bg);
   }
 
   .contact-page-wrap {
       padding: 96px 150px 96px;
-      background: #F5F5F5;
+      background: var(--color-bg);
   }
 
   .contact-page-header {
@@ -501,9 +501,9 @@
                         <h3 class="contact-card-title">{{ section.settings.card_3_title | default: "Email Us" }}</h3>
                         <p class="contact-card-desc">{{ section.settings.card_3_desc | default: "General inquiries, documentation & follow-ups" }}</p>
                     </div>
-                    <a class="contact-card-link" href="mailto:{{ section.settings.card_3_email | default: "info@qtrshoe.com" }}">
+                    <a class="contact-card-link" href="mailto:{{ section.settings.card_3_email | default: "info@amirivibes.com" }}">
                         <svg class="contact-card-link-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
-                        <span>{{ section.settings.card_3_email | default: "info@qtrshoe.com" }}</span>
+                        <span>{{ section.settings.card_3_email | default: "info@amirivibes.com" }}</span>
                     </a>
                 </div>
             </div>
@@ -665,7 +665,7 @@
       "type": "text",
       "id": "card_3_email",
       "label": "Email Address",
-      "default": "info@qtrshoe.com"
+      "default": "info@amirivibes.com"
     },
     {
       "type": "header",
