@@ -310,6 +310,12 @@
     });
   }
 
+  function syncWishlistUI() {
+    if (typeof window.syncWishlistHearts === 'function') {
+      window.syncWishlistHearts();
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     syncWishlistUI();
     window.addEventListener('wishlistChanged', syncWishlistUI);

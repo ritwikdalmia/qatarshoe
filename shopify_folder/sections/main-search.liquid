@@ -1,0 +1,447 @@
+{%- liquid
+  assign products_per_page = section.settings.products_per_page | default: 48
+-%}
+
+<style>
+  .breadcrumbs {
+    padding: 24px 16px 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted, #888);
+    background: transparent;
+    border-bottom: none;
+    margin-top: 24px;
+  }
+  @media (max-width: 767px) {
+    .breadcrumbs {
+      margin-top: 16px;
+      padding: 16px 16px 8px 16px;
+    }
+  }
+  .breadcrumbs a {
+    color: var(--color-muted, #888);
+    transition: color 0.18s;
+    text-decoration: none;
+  }
+  .breadcrumbs a:hover {
+    color: var(--color-primary, var(--color-primary));
+  }
+  .breadcrumbs .crumb-sep {
+    opacity: 0.4;
+  }
+  .breadcrumbs .crumb-active {
+    color: var(--color-primary, var(--color-primary));
+    font-weight: 600;
+  }
+
+  .collection-header-container {
+    max-width: var(--page-width, 1600px);
+    margin: 0 auto;
+    padding: 20px 40px;
+  }
+  @media (max-width: 767px) {
+    .collection-header-container {
+      padding: 10px 16px;
+    }
+  }
+  .collection-title {
+    font-family: var(--font-serif, 'Canela Text', serif);
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--color-primary);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.01em;
+  }
+  @media (max-width: 767px) {
+    .collection-title {
+      font-size: 24px;
+    }
+  }
+  .results-count {
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 13px;
+    color: var(--color-muted, #888);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .collection-grid-container {
+    max-width: var(--page-width, 1600px);
+    margin: 0 auto;
+    padding: 0 40px 40px 40px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  @media (max-width: 767px) {
+    .collection-grid-container {
+      padding: 0 16px 32px 16px;
+    }
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 1024px) {
+    .product-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (max-width: 767px) {
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+    }
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+  }
+  .pagination-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 6px;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--buttons-radius, 4px);
+    color: var(--color-primary);
+    text-decoration: none;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    background: transparent;
+  }
+  .pagination-item:hover, .pagination-item.active {
+    background: var(--color-primary);
+    color: var(--color-bg) !important;
+  }
+  .pagination-item.disabled {
+    border-color: #ccc;
+    color: #ccc;
+    pointer-events: none;
+  }
+
+  .other-results-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 767px) {
+    .other-results-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="breadcrumbs">
+  <a href="{{ routes.root_url }}">{% if request.locale.iso_code == 'ar' %}الرئيسية{% else %}Home{% endif %}</a>
+  <span class="crumb-sep">/</span>
+  <span class="crumb-active">{% if request.locale.iso_code == 'ar' %}البحث{% else %}Search{% endif %}</span>
+</div>
+
+<div class="collection-header-container">
+  <h1 class="collection-title">
+    {% if request.locale.iso_code == 'ar' %}نتائج البحث عن: "{{ search.terms }}"{% else %}Search results for: "{{ search.terms }}"{% endif %}
+  </h1>
+  <span class="results-count">
+    {{ search.results_count }} {% if request.locale.iso_code == 'ar' %}نتائج{% else %}results{% endif %}
+  </span>
+</div>
+
+<div class="collection-grid-container">
+  {%- if search.performed and search.results_count > 0 -%}
+    {%- paginate search.results by products_per_page -%}
+      {%- assign product_count = 0 -%}
+      {%- assign other_count = 0 -%}
+      {%- for item in search.results -%}
+        {%- if item.object_type == 'product' -%}
+          {%- assign product_count = product_count | plus: 1 -%}
+        {%- else -%}
+          {%- assign other_count = other_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if product_count > 0 -%}
+        <div class="product-grid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {%- assign product = item -%}
+              <a href="{{ product.url }}" class="product-card" aria-label="{{ product.title }}">
+                <div class="product-card-img" 
+                     style="border-radius: var(--card-corner-radius) !important;"
+                     data-images="{%- if product.images.size > 1 -%}{%- for img in product.images -%}{{ img | image_url: width: 600, height: 900, crop: 'center' }}{% unless forloop.last %},{% endunless %}{%- endfor -%}{%- endif -%}">
+                  {%- if product.featured_image != blank -%}
+                    <img src="{{ product.featured_image | image_url: width: 600, height: 900, crop: 'center' }}"
+                         alt="{{ product.featured_image.alt | escape }}"
+                         width="600" height="900"
+                         style="border-radius: var(--card-corner-radius) !important;"
+                         loading="lazy">
+                  {%- else -%}
+                    <div class="product-card-placeholder" style="background:#f9f9f9;display:flex;align-items:center;justify-content:center;height:100%; border-radius: var(--card-corner-radius) !important;">
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                  {%- endif -%}
+
+                  <button type="button" class="product-wishlist-btn" aria-label="Add to wishlist"
+                          data-id="{{ product.id }}"
+                          data-title="{{ product.title | escape }}"
+                          data-image="{{ product.featured_image | image_url: width: 300 }}"
+                          data-price="{{ product.price }}"
+                          data-url="{{ product.url }}"
+                          data-vendor="{{ product.vendor | escape }}"
+                          data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                          onclick="toggleWishlist(event, '{{ product.id }}')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                  </button>
+
+                  {%- if product.compare_at_price > product.price -%}
+                    <div class="product-badge-sale-new">
+                      <span class="badge-text">SALE</span>
+                    </div>
+                  {%- else -%}
+                    <div class="product-badge-new">
+                      <span class="badge-text">NEW</span>
+                    </div>
+                  {%- endif -%}
+                </div>
+                
+                <div class="product-card-body">
+                  <div class="text-wrapper">
+                    <div class="product-brand">{{ product.vendor }}</div>
+                    <div class="product-model">{{ product.title }}</div>
+                  </div>
+                  
+                  {%- assign price_cent = product.price | modulo: 100 -%}
+                  {%- assign price_main = product.price | divided_by: 100 -%}
+                  {%- if price_cent < 10 -%}{%- assign price_cent = '0' | append: price_cent -%}{%- endif -%}
+                  {%- assign price_qar_formatted = 'QAR ' | append: price_main | append: '.' | append: price_cent -%}
+                  
+                  {%- assign compare_qar_formatted = blank -%}
+                  {%- if product.compare_at_price > product.price -%}
+                    {%- assign compare_cent = product.compare_at_price | modulo: 100 -%}
+                    {%- assign compare_main = product.compare_at_price | divided_by: 100 -%}
+                    {%- if compare_cent < 10 -%}{%- assign compare_cent = '0' | append: compare_cent -%}{%- endif -%}
+                    {%- assign compare_qar_formatted = 'QAR ' | append: compare_main | append: '.' | append: compare_cent -%}
+                  {%- endif -%}
+
+                  <div class="product-price-row"
+                    data-price-qar="{{ price_qar_formatted }}"
+                    {%- if product.compare_at_price > product.price -%}
+                    data-compare-qar="{{ compare_qar_formatted }}"
+                    {%- endif -%}
+                    {%- for curr_raw in currencies -%}
+                      {%- assign curr = curr_raw | strip | upcase -%}
+                      {%- if curr != blank and curr != 'QAR' -%}
+                        {%- assign curr_down = curr | downcase -%}
+                        {%- assign price_key = curr_down | append: '_price' -%}
+                        {%- assign compare_key = curr_down | append: '_compare' -%}
+                        {%- assign custom_price = product.metafields.pricing[price_key] -%}
+                        {%- assign custom_compare = product.metafields.pricing[compare_key] -%}
+                        
+                        {%- assign symbol = curr -%}
+                        {%- for sym_pair_raw in custom_symbols -%}
+                          {%- assign sym_pair = sym_pair_raw | split: ':' -%}
+                          {%- assign sym_code = sym_pair[0] | strip | upcase -%}
+                          {%- if sym_code == curr -%}
+                            {%- assign symbol = sym_pair[1] | strip -%}
+                            {%- break -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                        
+                        {%- if custom_price != blank -%}
+                          data-price-{{ curr_down }}="{{ symbol }} {{ custom_price }}"
+                        {%- endif -%}
+                        {%- if custom_compare != blank -%}
+                          data-compare-{{ curr_down }}="{{ symbol }} {{ custom_compare }}"
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}>
+                    
+                    {%- if product.compare_at_price > product.price -%}
+                      <span class="product-price-compare">{{ product.compare_at_price | money }}</span>
+                      <span class="product-price sale-price">{{ product.price | money }}</span>
+                    {%- else -%}
+                      <span class="product-price">{{ product.price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if other_count > 0 -%}
+        <div class="search-other-results-section" style="margin-top: 48px; border-top: 1px solid var(--color-border); padding-top: 32px; width: 100%;">
+          <h2 style="font-family: var(--font-serif, 'Canela Text', serif); font-size: 24px; font-weight: 300; color: var(--color-primary); margin-bottom: 24px; text-transform: capitalize;">
+            {% if request.locale.iso_code == 'ar' %}الصفحات والمقالات ذات الصلة{% else %}Related Pages & Articles{% endif %}
+          </h2>
+          <div class="other-results-list">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'page' or item.object_type == 'article' -%}
+                <div class="other-result-item" style="border: 1px solid var(--color-border); border-radius: var(--inputs-radius, 8px); padding: 20px; background: #fff; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                      <span style="font-family: var(--font-body, 'Inter', sans-serif); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--color-primary); color: #fff; padding: 2px 8px; border-radius: 4px;">
+                        {% if item.object_type == 'page' %}{% if request.locale.iso_code == 'ar' %}صفحة{% else %}PAGE{% endif %}{% else %}{% if request.locale.iso_code == 'ar' %}مقالة{% else %}ARTICLE{% endif %}{% endif %}
+                      </span>
+                    </div>
+                    <a href="{{ item.url }}" style="font-family: var(--font-serif, 'Canela Text', serif); font-size: 18px; font-weight: 400; color: var(--color-primary); text-decoration: none; display: block; margin-bottom: 8px;">{{ item.title }}</a>
+                    <p style="font-family: var(--font-body, 'Inter', sans-serif); font-size: 13px; line-height: 1.5; color: #555; margin: 0 0 16px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 38px;">
+                      {{ item.content | strip_html | truncate: 150 }}
+                    </p>
+                  </div>
+                  <a href="{{ item.url }}" style="font-family: var(--font-body, 'Inter', sans-serif); font-size: 12px; font-weight: 600; color: var(--color-primary); text-decoration: underline; display: inline-block;">
+                    {% if request.locale.iso_code == 'ar' %}اقرأ المزيد{% else %}Read More{% endif %} &rarr;
+                  </a>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if paginate.pages > 1 -%}
+        <div class="pagination-container">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="pagination-item">&laquo;</a>
+          {%- else -%}
+            <span class="pagination-item disabled">&laquo;</span>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}" class="pagination-item">{{ part.title }}</a>
+            {%- else -%}
+              <span class="pagination-item {% if part.title == paginate.current_page %}active{% endif %}">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="pagination-item">&raquo;</a>
+          {%- else -%}
+            <span class="pagination-item disabled">&raquo;</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  {%- else -%}
+    <div style="text-align: center; padding: 80px 20px;">
+      <p style="font-size: 16px; color: #666;">
+        {% if request.locale.iso_code == 'ar' %}لم يتم العثور على نتائج للبحث عن "{{ search.terms }}".{% else %}No results found for "{{ search.terms }}".{% endif %}
+      </p>
+      <a href="{{ routes.root_url }}" style="display: inline-block; margin-top: 20px; padding: 12px 32px; background: var(--color-primary); color: #fff; text-decoration: none; border-radius: 24px; font-weight: 600;">
+        {% if request.locale.iso_code == 'ar' %}العودة للرئيسية{% else %}Go Back Home{% endif %}
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  function initCollectionProductImageSlideshows() {
+    const cards = document.querySelectorAll('.product-card-img[data-images]');
+    cards.forEach(card => {
+      if (card.dataset.slideshowInitialized === 'true') return;
+      card.dataset.slideshowInitialized = 'true';
+
+      const imagesAttr = card.getAttribute('data-images');
+      if (!imagesAttr) return;
+      const images = imagesAttr.split(',').filter(src => src.trim() !== '');
+      if (images.length <= 1) return;
+      
+      let imgEl = card.querySelector('img');
+      if (!imgEl) return;
+      
+      card.style.position = 'relative';
+      card.style.overflow = 'hidden';
+      
+      let currentIndex = 0;
+      
+      function showNextImage() {
+        const nextIndex = (currentIndex + 1) % images.length;
+        const nextSrc = images[nextIndex];
+        
+        const nextImgEl = document.createElement('img');
+        const triggerTransition = () => {
+          nextImgEl.style.position = 'absolute';
+          nextImgEl.style.top = '0';
+          nextImgEl.style.left = '-100%';
+          nextImgEl.style.width = '100%';
+          nextImgEl.style.height = '100%';
+          nextImgEl.style.objectFit = 'cover';
+          nextImgEl.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          
+          card.appendChild(nextImgEl);
+          nextImgEl.offsetWidth;
+          
+          imgEl.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          imgEl.style.transform = 'translateX(100%)';
+          nextImgEl.style.transform = 'translateX(100%)';
+          
+          setTimeout(() => {
+            if (imgEl && imgEl.parentNode === card) {
+              card.removeChild(imgEl);
+            }
+            
+            nextImgEl.style.transition = 'none';
+            nextImgEl.style.position = 'relative';
+            nextImgEl.style.left = '0';
+            nextImgEl.style.transform = 'none';
+            
+            imgEl = nextImgEl;
+            currentIndex = nextIndex;
+            setTimeout(showNextImage, 5000);
+          }, 500);
+        };
+        
+        nextImgEl.onload = triggerTransition;
+        nextImgEl.onerror = triggerTransition;
+        nextImgEl.src = nextSrc;
+      }
+      
+      setTimeout(showNextImage, 5000);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    initCollectionProductImageSlideshows();
+    var savedCurrency = localStorage.getItem('qtr_currency') || 'QAR';
+    if (typeof window.applyStoreCurrency === 'function') {
+      window.applyStoreCurrency(savedCurrency);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Main Search",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 48,
+      "label": "Products per page"
+    }
+  ]
+}
+{% endschema %}

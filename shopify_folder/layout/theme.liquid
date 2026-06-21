@@ -44,7 +44,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
     {%- # theme-check-enable RemoteAsset -%}
 
     
-    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}&v=1.0.2" type="text/css" media="all">
     {%- if template contains 'customer' -%}
       {{ 'accounts.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
@@ -60,6 +60,53 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         --color-green: {{ settings.color_green | default: '#1e3524' }};
         --color-drawer-bg: {{ settings.color_drawer_bg | default: '#ffffff' }};
         --color-drawer-footer-bg: {{ settings.color_drawer_footer_bg | default: '#faf9f5' }};
+
+        /* Dynamic Layout spacing */
+        --logo-width: {{ settings.logo_width | default: 150 }}px;
+        --page-width: {{ settings.page_width | default: 1200 }}px;
+        --spacing-sections: {{ settings.spacing_sections | default: 32 }}px;
+        --spacing-grid-horizontal: {{ settings.spacing_grid_horizontal | default: 16 }}px;
+        --spacing-grid-vertical: {{ settings.spacing_grid_vertical | default: 16 }}px;
+
+        /* Dynamic Badges */
+        --badge-corner-radius: {{ settings.badge_corner_radius | default: 4 }}px;
+
+        /* Dynamic Buttons */
+        --buttons-border-thickness: {{ settings.buttons_border_thickness | default: 1 }}px;
+        --buttons-border-opacity: {{ settings.buttons_border_opacity | default: 100 | divided_by: 100.0 }};
+        --buttons-radius: {{ settings.buttons_radius | default: 0 }}px;
+        --buttons-shadow-opacity: {{ settings.buttons_shadow_opacity | default: 0 | divided_by: 100.0 }};
+        --buttons-shadow-horizontal-offset: {{ settings.buttons_shadow_horizontal_offset | default: 0 }}px;
+        --buttons-shadow-vertical-offset: {{ settings.buttons_shadow_vertical_offset | default: 0 }}px;
+        --buttons-shadow-blur: {{ settings.buttons_shadow_blur | default: 0 }}px;
+
+        /* Dynamic Input fields */
+        --inputs-border-thickness: {{ settings.inputs_border_thickness | default: 1 }}px;
+        --inputs-border-opacity: {{ settings.inputs_border_opacity | default: 100 | divided_by: 100.0 }};
+        --inputs-radius: {{ settings.inputs_radius | default: 8 }}px;
+        --inputs-shadow-opacity: {{ settings.inputs_shadow_opacity | default: 0 | divided_by: 100.0 }};
+        --inputs-shadow-horizontal-offset: {{ settings.inputs_shadow_horizontal_offset | default: 0 }}px;
+        --inputs-shadow-vertical-offset: {{ settings.inputs_shadow_vertical_offset | default: 0 }}px;
+        --inputs-shadow-blur: {{ settings.inputs_shadow_blur | default: 0 }}px;
+
+        /* Dynamic Popovers and Modals */
+        --popovers-border-thickness: {{ settings.popovers_border_thickness | default: 1 }}px;
+        --popovers-radius: {{ settings.popovers_radius | default: 8 }}px;
+        --popovers-shadow-opacity: {{ settings.popovers_shadow_opacity | default: 10 | divided_by: 100.0 }};
+        --popovers-shadow-horizontal-offset: {{ settings.popovers_shadow_horizontal_offset | default: 0 }}px;
+        --popovers-shadow-vertical-offset: {{ settings.popovers_shadow_vertical_offset | default: 4 }}px;
+        --popovers-shadow-blur: {{ settings.popovers_shadow_blur | default: 10 }}px;
+
+        /* Dynamic Product cards */
+        --card-image-padding: {{ settings.card_image_padding | default: 0 }}px;
+        --card-text-alignment: {{ settings.card_text_alignment | default: 'left' }};
+        --card-corner-radius: {{ settings.card_corner_radius | default: 12 }}px;
+        --card-border-thickness: {{ settings.card_border_thickness | default: 1 }}px;
+        --card-border-opacity: {{ settings.card_border_opacity | default: 100 | divided_by: 100.0 }};
+        --card-shadow-opacity: {{ settings.card_shadow_opacity | default: 0 | divided_by: 100.0 }};
+        --card-shadow-horizontal-offset: {{ settings.card_shadow_horizontal_offset | default: 0 }}px;
+        --card-shadow-vertical-offset: {{ settings.card_shadow_vertical_offset | default: 0 }}px;
+        --card-shadow-blur: {{ settings.card_shadow_blur | default: 0 }}px;
       }
 
       /* Global style overrides to enforce client background and accent colors */
@@ -143,26 +190,43 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
 
       /* Home page section borders - use primary color */
       .section-heading-row {
-        border: 1.5px solid var(--color-primary) !important;
+        border: var(--card-border-thickness) solid var(--color-primary) !important;
         border-bottom: none !important;
       }
       .product-card {
-        border: 1.5px solid var(--color-primary) !important;
+        border: var(--card-border-thickness) solid var(--color-primary) !important;
+        border-radius: var(--card-corner-radius) !important;
+        overflow: hidden !important;
+        box-shadow: var(--card-shadow-horizontal-offset) var(--card-shadow-vertical-offset) var(--card-shadow-blur) rgba(0,0,0,var(--card-shadow-opacity)) !important;
+        text-align: var(--card-text-alignment) !important;
+      }
+      .product-card-img,
+      .product-card-placeholder {
+        border-radius: var(--card-corner-radius) var(--card-corner-radius) 0 0 !important;
+      }
+      .product-card-img img {
+        padding: var(--card-image-padding) !important;
       }
       .brands-on-amirivibes .brand-item {
-        outline: 1px solid var(--color-primary) !important;
-        border: 1px solid var(--color-primary) !important;
+        outline: var(--card-border-thickness) solid var(--color-primary) !important;
+        border: var(--card-border-thickness) solid var(--color-primary) !important;
+        border-radius: var(--card-corner-radius) !important;
       }
 
       /* Footer border lines -> primary color */
       .site-footer-panel-right {
         border: 1px solid var(--color-primary) !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
       }
       .site-footer-features {
         border-top: 1px solid var(--color-primary) !important;
       }
       .site-footer-feature-item {
         border-right: 1px solid var(--color-primary) !important;
+      }
+      .site-footer-feature-item:last-child {
+        border-right: none !important;
       }
       @media (max-width: 767px) {
         .site-footer-panel-right {
@@ -173,6 +237,10 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         }
         .site-footer-feature-item {
           border-bottom: 1px solid var(--color-primary) !important;
+          border-right: none !important;
+        }
+        .site-footer-feature-item:last-child {
+          border-bottom: none !important;
         }
       }
 
@@ -182,13 +250,24 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       }
       .size-option {
         border-color: var(--color-primary) !important;
+        border-radius: 8px !important;
       }
       .quantity-controls {
         border-color: var(--color-primary) !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
       }
       .quantity-controls input {
         border-left-color: var(--color-primary) !important;
         border-right-color: var(--color-primary) !important;
+      }
+      .cta-wrapper .checkout-btn {
+        border-radius: var(--card-corner-radius) !important;
+      }
+      .est-delivery {
+        border-color: var(--color-primary) !important;
+        border-radius: var(--card-corner-radius) !important;
+        overflow: hidden !important;
       }
       .delivery-info-strip {
         border-top-color: var(--color-primary) !important;
@@ -854,6 +933,80 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       [dir="rtl"] select {
         font-family: 'Cairo', 'Inter', Arial, sans-serif !important;
       }
+
+      /* Spacing, Layout & Global Widths mapping */
+      .qtr-section, .section-heading-row {
+        margin-bottom: var(--spacing-sections) !important;
+      }
+      .product-grid {
+        gap: var(--spacing-grid-vertical) var(--spacing-grid-horizontal) !important;
+      }
+      .site-header-logo img, .site-footer-logo img {
+        max-width: var(--logo-width) !important;
+        width: var(--logo-width) !important;
+      }
+      .collection-header-container, 
+      .collection-toolbar, 
+      .collection-grid-container, 
+      .breadcrumbs {
+        max-width: var(--page-width) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+      }
+      .site-footer-panels, 
+      .site-footer-bottom {
+        max-width: 1600px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+      }
+
+      /* Global Button Styling overrides */
+      .contact-submit-custom,
+      .contact-card-link,
+      .cc-quick-help-card-btn,
+      .site-footer-subscribe-form .wpcf7-submit,
+      .footer-inline-submit,
+      .filters-clear-btn,
+      .filters-apply-btn,
+      .btn-continue-shopping,
+      .pagination-item {
+        border-width: var(--buttons-border-thickness) !important;
+        border-radius: var(--buttons-radius) !important;
+        box-shadow: var(--buttons-shadow-horizontal-offset) var(--buttons-shadow-vertical-offset) var(--buttons-shadow-blur) rgba(0,0,0,var(--buttons-shadow-opacity)) !important;
+      }
+
+      /* Global Input Field overrides */
+      .contact-form-wrapper input[type="text"],
+      .contact-form-wrapper input[type="email"],
+      .contact-form-wrapper input[type="tel"],
+      .contact-form-wrapper textarea,
+      .footer-inline-email-wrap,
+      .site-footer-subscribe-form .wpcf7-form-control-wrap,
+      .filter-search-input {
+        border-width: var(--inputs-border-thickness) !important;
+        border-radius: var(--inputs-radius) !important;
+        box-shadow: var(--inputs-shadow-horizontal-offset) var(--inputs-shadow-vertical-offset) var(--inputs-shadow-blur) rgba(0,0,0,var(--inputs-shadow-opacity)) !important;
+      }
+
+      /* Global Badge overrides */
+      .product-badge-sale-new,
+      .product-badge-new,
+      .wishlist-count,
+      .cart-count-badge {
+        border-radius: var(--badge-corner-radius) !important;
+      }
+
+      /* Popovers and Modals overrides */
+      .cs-options, .filters-drawer, .home-search-overlay-content {
+        border-width: var(--popovers-border-thickness) !important;
+        border-radius: var(--popovers-radius) !important;
+        box-shadow: var(--popovers-shadow-horizontal-offset) var(--popovers-shadow-vertical-offset) var(--popovers-shadow-blur) rgba(0,0,0,var(--popovers-shadow-opacity)) !important;
+      }
+
+      /* Merchant Custom CSS */
+      {{ settings.custom_css }}
     </style>
 
     

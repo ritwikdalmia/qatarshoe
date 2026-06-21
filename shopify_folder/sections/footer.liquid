@@ -6,6 +6,8 @@
 .site-footer {
     background: #fff;
     padding-top: 48px;
+    padding-left: 40px !important;
+    padding-right: 40px !important;
     width: 100%;
     box-sizing: border-box;
 }
@@ -545,6 +547,8 @@
 @media (max-width: 767px) {
     .site-footer {
         padding-top: 28px;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
     }
 
     .site-footer-panels {
@@ -1107,19 +1111,18 @@ footer.site-footer {
         </div>
     </div>
 
-    
-    <div class="site-footer-legal">
-        <div class="site-footer-legal-inner">
-            <p class="site-footer-legal-text">
-                {{ section.settings.legal_text | default: "AmiriVibes is not affiliated with the brand we sell. Authentication is performed independently." }}
-                <span class="site-footer-legal-year">&copy; {{ 'now' | date: '%Y' }}</span>
-                <span class="site-footer-legal-brand">{{ shop.name }}</span>
-                &ndash; All Rights Reserved.
-            </p>
-        </div>
-    </div>
-
 </footer>
+
+<div class="site-footer-legal">
+    <div class="site-footer-legal-inner">
+        <p class="site-footer-legal-text">
+            {{ section.settings.legal_text | default: "AmiriVibes is not affiliated with the brand we sell. Authentication is performed independently." }}
+            <span class="site-footer-legal-year">&copy; {{ 'now' | date: '%Y' }}</span>
+            <span class="site-footer-legal-brand">{{ shop.name }}</span>
+            &ndash; All Rights Reserved.
+        </p>
+    </div>
+</div>
 
 {% schema %}
 {
@@ -1129,6 +1132,30 @@ footer.site-footer {
       "type": "image_picker",
       "id": "logo_image",
       "label": "Footer Logo"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_text",
+      "label": "Feature 1 Text",
+      "default": "Worldwide Shipping"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_text",
+      "label": "Feature 2 Text",
+      "default": "Fast Delivery"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_text",
+      "label": "Feature 3 Text",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "text",
+      "id": "feature_4_text",
+      "label": "Feature 4 Text",
+      "default": "Customer Support"
     },
     {
       "type": "textarea",

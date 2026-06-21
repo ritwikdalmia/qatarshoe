@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "current": {
     "color_bg": "#f9f2d5",
@@ -20,11 +11,51 @@
     "color_drawer_bg": "#f9f2d5",
     "color_drawer_footer_bg": "#8c1638",
     "favicon": "",
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#f9f2d5",
+          "background_gradient": "",
+          "text": "#2d1f1f",
+          "button": "#8c1638",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#8c1638",
+          "shadow": "#000000"
+        }
+      },
+      "scheme-2": {
+        "settings": {
+          "background": "#ffffff",
+          "background_gradient": "",
+          "text": "#2d1f1f",
+          "button": "#8c1638",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#2d1f1f",
+          "shadow": "#000000"
+        }
+      }
+    },
     "settings": {
       "slideshow_enabled_homepage": true,
       "slideshow_enabled_collections": true,
       "slideshow_enabled_products": true,
-      "slideshow_interval": 5
+      "slideshow_interval": 5,
+      "sale_badge_color_scheme": "scheme-2",
+      "sold_out_badge_color_scheme": "scheme-1",
+      "drawer_color_scheme": "scheme-1",
+      "popovers_color_scheme": "scheme-1",
+      "card_color_scheme": "scheme-1",
+      "sale_price_color_scheme": "scheme-2",
+      "card_corner_radius": 12,
+      "checkout_logo_position": "left",
+      "checkout_logo_size": "medium",
+      "checkout_body_background_color": "#f9f2d5",
+      "checkout_sidebar_background_color": "#f9f2d5",
+      "checkout_heading_font": "assistant_n4",
+      "checkout_body_font": "assistant_n4",
+      "checkout_accent_color": "#8c1638",
+      "checkout_button_color": "#8c1638",
+      "checkout_error_color": "#f25c5e"
     },
     "sections": {
       "header": {

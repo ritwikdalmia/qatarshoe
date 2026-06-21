@@ -56,17 +56,20 @@
                  class="active"
                  width="120" height="180"
                  data-main-src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800"
-                 onclick="switchMainImage(this)">
+                 onclick="switchMainImage(this)"
+                 onmouseenter="switchMainImage(this)">
             <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=120&h=180&fit=crop"
                  alt="Diana 2"
                  width="120" height="180"
                  data-main-src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=800"
-                 onclick="switchMainImage(this)">
+                 onclick="switchMainImage(this)"
+                 onmouseenter="switchMainImage(this)">
             <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=120&h=180&fit=crop"
                  alt="Diana 3"
                  width="120" height="180"
                  data-main-src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=800"
-                 onclick="switchMainImage(this)">
+                 onclick="switchMainImage(this)"
+                 onmouseenter="switchMainImage(this)">
             {%- # theme-check-enable RemoteAsset -%}
           {%- else -%}
             {%- if product.images.size > 0 -%}
@@ -76,7 +79,8 @@
                      alt="{{ image.alt | escape }}"
                      class="{% if forloop.first %}active{% endif %}"
                      data-main-src="{{ image | image_url: width: 1000 }}"
-                     onclick="switchMainImage(this)">
+                     onclick="switchMainImage(this)"
+                     onmouseenter="switchMainImage(this)">
                 {%- # theme-check-enable ImgWidthAndHeight -%}
               {%- endfor -%}
             {%- endif -%}
@@ -669,6 +673,7 @@
   
   let galleryTimer = null;
   let isGalleryPaused = false;
+  let isGalleryTransitioning = false;
 
   function switchMainImage(thumbnail, fromAuto = false) {
     const mainSrc = thumbnail.getAttribute('data-main-src');
@@ -679,6 +684,7 @@
     if (!container || !currentImg) return;
     
     if (currentImg.src === mainSrc) return;
+    if (isGalleryTransitioning) return;
 
     // Ensure container has relative positioning and overflow hidden
     container.style.position = 'relative';
@@ -699,12 +705,14 @@
     nextImg.alt = currentImg.alt;
     
     const doTransition = () => {
+      isGalleryTransitioning = true;
       nextImg.style.position = 'absolute';
       nextImg.style.top = '0';
       nextImg.style.left = '100%';
       nextImg.style.width = '100%';
       nextImg.style.height = '100%';
-      nextImg.style.objectFit = 'cover';
+      nextImg.style.objectFit = 'contain';
+      nextImg.style.padding = '0';
       nextImg.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
       
       container.appendChild(nextImg);
@@ -730,6 +738,8 @@
         nextImg.style.top = '0';
         nextImg.style.left = '0';
         nextImg.style.transform = 'none';
+        
+        isGalleryTransitioning = false;
         
         if (!fromAuto) {
           {%- if settings.slideshow_enabled_products -%}
@@ -1270,11 +1280,13 @@
 
     if (mainImageContainer) {
       mainImageContainer.addEventListener('mouseenter', function() {
+        if (isGalleryTransitioning) return;
         isGalleryPaused = true;
         stopGalleryAutoSlide();
       });
 
       mainImageContainer.addEventListener('mousemove', function(e) {
+        if (isGalleryTransitioning) return;
         const rect = mainImageContainer.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -1290,6 +1302,7 @@
       });
       
       mainImageContainer.addEventListener('mouseleave', function() {
+        if (isGalleryTransitioning) return;
         const activeImageView = document.getElementById('main-image-view');
         if (activeImageView) {
           activeImageView.style.transformOrigin = 'center center';
