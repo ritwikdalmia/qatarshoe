@@ -339,6 +339,89 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    gap: 24px;
+}
+
+/* Inline newsletter in bottom bar */
+.site-footer-bottom-newsletter {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.site-footer-bottom-newsletter .footer-inline-form {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    max-width: 380px;
+}
+
+.site-footer-bottom-newsletter .footer-inline-form form {
+    display: contents;
+}
+
+.footer-inline-email-wrap {
+    flex: 1 1 0;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 900px;
+    outline: 1px solid var(--color-primary);
+    outline-offset: -1px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.footer-inline-email-wrap input[type="email"] {
+    flex: 1 1 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 11.5px;
+    color: var(--color-primary);
+    width: 100%;
+}
+
+.footer-inline-email-wrap input[type="email"]::placeholder {
+    color: var(--color-primary);
+    opacity: 0.6;
+}
+
+.footer-inline-submit {
+    height: 40px;
+    padding: 0 20px;
+    background: #ffffff;
+    border: 1px solid var(--color-primary);
+    border-radius: 900px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--color-primary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.footer-inline-submit:hover {
+    background: var(--color-primary);
+    color: #ffffff;
+}
+
+.footer-inline-disclaimer {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    color: #888;
+    line-height: 1.4;
+    text-align: center;
+    margin: 0;
 }
 
 
@@ -710,35 +793,6 @@ footer.site-footer {
                 {%- endif -%}
             </a>
 
-            <div class="site-footer-subscribe-block">
-                <h2 class="site-footer-subscribe-heading">{{ section.settings.subscribe_heading | default: "Subscribe Now<br>And Don't Miss Out On New Products!" }}</h2>
-
-                <div class="site-footer-subscribe-form">
-                    <div class="wpcf7 no-js" id="wpcf7-f653-o1" lang="en-US" dir="ltr">
-                        {%- form 'customer', class: 'wpcf7-form init' -%}
-                            <input type="hidden" name="contact[tags]" value="newsletter">
-                            <p>
-                                <span class="wpcf7-form-control-wrap" data-name="your-email">
-                                    <input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email" aria-required="true" aria-invalid="false" placeholder="Email Address" value="{{ form.email }}" type="email" name="contact[email]" required />
-                                </span>
-                                <input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Subscribe" />
-                            </p>
-                            {%- if form.posted_successfully? -%}
-                                <div style="color: #1e3524; font-family: 'Inter', sans-serif; font-size: 12.5px; margin-top: 12px; font-weight: 500;">
-                                    Thanks for subscribing! Check your email to confirm.
-                                </div>
-                            {%- elsif form.errors -%}
-                                <div style="color: #f25c5e; font-family: 'Inter', sans-serif; font-size: 12.5px; margin-top: 12px;">
-                                    {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}.
-                                </div>
-                            {%- endif -%}
-                        {%- endform -%}
-                    </div>
-                </div>
-
-                <p class="site-footer-subscribe-disclaimer">Opt out at anytime by clicking unsubscribe at the bottom of any email.<br class="site-footer-disclaimer-br">By signing up you agree with our <a href="/policies/terms-of-service">Terms and Conditions</a> and <a href="/policies/privacy-policy">Privacy Policy</a>.</p>
-            </div>
-
         </div>
 
         
@@ -907,6 +961,32 @@ footer.site-footer {
                         </a>
                     {%- endif -%}
                 </div>
+            </div>
+
+            <!-- Inline Newsletter -->
+            <div class="site-footer-bottom-newsletter">
+                <div class="footer-inline-form">
+                    {%- form 'customer', id: 'FooterInlineNewsletterForm' -%}
+                        <input type="hidden" name="contact[tags]" value="newsletter">
+                        <div class="footer-inline-email-wrap">
+                            <input
+                                type="email"
+                                name="contact[email]"
+                                placeholder="Email Address"
+                                value="{{ form.email }}"
+                                required
+                                aria-label="Email Address"
+                            />
+                        </div>
+                        <button type="submit" class="footer-inline-submit">Subscribe</button>
+                        {%- if form.posted_successfully? -%}
+                            <p style="color: #1e7a35; font-family: 'Inter', sans-serif; font-size: 11px; margin: 0;">Thanks for subscribing!</p>
+                        {%- elsif form.errors -%}
+                            <p style="color: #f25c5e; font-family: 'Inter', sans-serif; font-size: 11px; margin: 0;">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}.</p>
+                        {%- endif -%}
+                    {%- endform -%}
+                </div>
+                <p class="footer-inline-disclaimer">Opt out at anytime by clicking unsubscribe at the bottom of any email.</p>
             </div>
 
             <div class="site-footer-payments">
