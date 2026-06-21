@@ -133,6 +133,29 @@
       font-weight: 500;
     }
 
+    .brands-on-amirivibes .show-all-brands-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--color-bg, #faf9f5);
+      background: var(--color-primary, #2D1F1F);
+      border: 1px solid var(--color-primary, #2D1F1F);
+      border-radius: 4px;
+      padding: 12px 32px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-top: 16px;
+    }
+    .brands-on-amirivibes .show-all-brands-btn:hover {
+      background: color-mix(in srgb, var(--color-primary) 85%, black);
+      border-color: color-mix(in srgb, var(--color-primary) 85%, black);
+      color: var(--color-bg, #faf9f5);
+    }
+
     @media (max-width: 1023px) {
       .brands-on-amirivibes {
         padding: 40px 15px;
@@ -219,6 +242,20 @@
       {%- endfor -%}
     {%- endif -%}
   </div>
+
+  {%- if section.settings.show_all_url != blank -%}
+    {%- liquid
+      if request.locale.iso_code == 'ar'
+        assign default_text = "عرض جميع الماركات"
+      else
+        assign default_text = "Show All Brands"
+      endif
+      assign btn_text = section.settings.show_all_text | default: default_text
+    -%}
+    <a href="{{ section.settings.show_all_url }}" class="show-all-brands-btn">
+      {{ btn_text }}
+    </a>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -230,6 +267,18 @@
       "id": "title",
       "label": "Heading",
       "default": "House Of Brands"
+    },
+    {
+      "type": "text",
+      "id": "show_all_text",
+      "label": "Show All Button Text",
+      "default": "Show All Brands"
+    },
+    {
+      "type": "url",
+      "id": "show_all_url",
+      "label": "Show All Button URL",
+      "default": "/collections"
     }
   ],
   "blocks": [
