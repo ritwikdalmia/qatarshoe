@@ -220,7 +220,7 @@
         <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
           <div class="brand-image-container">
             {%- if col.image != blank -%}
-              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" loading="lazy">
+              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy">
             {%- else -%}
               <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
             {%- endif -%}
@@ -234,7 +234,7 @@
       {%- assign fallback_font_classes = "brand-font-hms,brand-font-coco,brand-font-gyd,brand-font-lp,brand-font-dr,brand-font-lvn,brand-font-crt,brand-font-msk" | split: "," -%}
       
       {%- for i in (0..7) -%}
-        <a href="/collections/{{ fallback_handles[i] }}" class="brand-item">
+        <a href="{{ routes.collections_url }}/{{ fallback_handles[i] }}" class="brand-item">
           <div class="brand-image-container">
             <span class="brand-name-text {{ fallback_font_classes[i] }}">{{ fallback_names[i] }}</span>
           </div>

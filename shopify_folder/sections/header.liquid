@@ -70,7 +70,7 @@
     <div class="desktop-header-center">
       <a href="{{ routes.root_url }}" class="desktop-header-logo" aria-label="{{ shop.name }}">
         {%- if section.settings.logo_image != blank -%}
-          <img src="{{ section.settings.logo_image | image_url: height: 52 }}" alt="{{ shop.name }}" height="26">
+          <img src="{{ section.settings.logo_image | image_url: height: 52 }}" alt="{{ shop.name }}" height="26" width="{{ 26 | times: section.settings.logo_image.aspect_ratio | default: 4 | round }}" loading="lazy">
         {%- else -%}
           <span class="logo-text-fallback">{{ section.settings.logo_text | default: shop.name }}</span>
         {%- endif -%}
@@ -222,9 +222,9 @@
         {%- endfor -%}
 
         {%- if women_menu == blank and menu_item_blocks.size == 0 -%}
-        {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in" id="nav-link-new-in"><span class="nav-link-text">New in</span></a></div>{%- endif -%}
-        {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock" id="nav-link-restock"><span class="nav-link-text">Restock</span></a></div>{%- endif -%}
-        {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale" id="nav-link-on-sale"><span class="nav-link-text">On sale</span></a></div>{%- endif -%}
+        {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/new-in" id="nav-link-new-in"><span class="nav-link-text">New in</span></a></div>{%- endif -%}
+        {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/restock" id="nav-link-restock"><span class="nav-link-text">Restock</span></a></div>{%- endif -%}
+        {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="{{ routes.collections_url }}/on-sale" id="nav-link-on-sale"><span class="nav-link-text">On sale</span></a></div>{%- endif -%}
 {%- if section.settings.menu_w_brands -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-brands"><span class="nav-link-text">Brands</span></a>
@@ -237,32 +237,32 @@
                     <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                   {%- endfor -%}
                 {%- else -%}
-                  <a class="panel-item" href="/collections/hms">HMS</a>
-                  <a class="panel-item" href="/collections/gyd">GYD</a>
-                  <a class="panel-item" href="/collections/coco">COCO</a>
-                  <a class="panel-item" href="/collections/dr">DR</a>
-                  <a class="panel-item" href="/collections/lvn">LVN</a>
-                  <a class="panel-item" href="/collections/lp">LP</a>
-                  <a class="panel-item" href="/collections/gcc">GCC</a>
-                  <a class="panel-item" href="/collections/prd">PRD</a>
-                  <a class="panel-item" href="/collections/fnd">FND</a>
-                  <a class="panel-item" href="/collections/cln">CLN</a>
-                  <a class="panel-item" href="/collections/mmu">MMU</a>
-                  <a class="panel-item" href="/collections/stl">STL</a>
-                  <a class="panel-item" href="/collections/bvg">BVG</a>
-                  <a class="panel-item" href="/collections/rlx">RLX</a>
-                  <a class="panel-item" href="/collections/msk">MSK</a>
-                  <a class="panel-item" href="/collections/crt">CRT</a>
-                  <a class="panel-item" href="/collections/vcf">VCF</a>
-                  <a class="panel-item" href="/collections/adidas">Adidas</a>
-                  <a class="panel-item" href="/collections/nike">Nike</a>
-                  <a class="panel-item" href="/collections/nb">NB</a>
-                  <a class="panel-item" href="/collections/golden-goose">Golden Goose</a>
-                  <a class="panel-item" href="/collections/onitsuka-tiger">Onitsuka Tiger</a>
-                  <a class="panel-item" href="/collections/loewe">Loewe</a>
-                  <a class="panel-item" href="/collections/tiffany-co">Tiffany &amp; Co.</a>
-                  <a class="panel-item" href="/collections/rimowa">Rimowa</a>
-                  <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/hms">HMS</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/gyd">GYD</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/coco">COCO</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/dr">DR</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/lvn">LVN</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/lp">LP</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/gcc">GCC</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/prd">PRD</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/fnd">FND</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/cln">CLN</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/mmu">MMU</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/stl">STL</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/bvg">BVG</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/rlx">RLX</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/msk">MSK</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/crt">CRT</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/vcf">VCF</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/adidas">Adidas</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/nike">Nike</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/nb">NB</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/golden-goose">Golden Goose</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/onitsuka-tiger">Onitsuka Tiger</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/loewe">Loewe</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/tiffany-co">Tiffany &amp; Co.</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/rimowa">Rimowa</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/chaumet">Chaumet</a>
                 {%- endif -%}
               </div>
             </div>
@@ -280,13 +280,13 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/bags">All Bags</a>
-                <a class="panel-item" href="/collections/handbags">Handbags</a>
-                <a class="panel-item" href="/collections/mini-bags">Mini Bags</a>
-                <a class="panel-item" href="/collections/tote-bags">Tote Bags</a>
-                <a class="panel-item" href="/collections/backpacks">Backpacks</a>
-                <a class="panel-item" href="/collections/travel-bags">Travel Bags</a>
-                <a class="panel-item" href="/collections/shoulder-bags">Shoulder Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/bags">All Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/handbags">Handbags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/mini-bags">Mini Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/tote-bags">Tote Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/backpacks">Backpacks</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/travel-bags">Travel Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/shoulder-bags">Shoulder Bags</a>
               {%- endif -%}
             </div></div>
           </div>
@@ -303,10 +303,10 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/small-leather-goods">All</a>
-                <a class="panel-item" href="/collections/wallets">Wallets</a>
-                <a class="panel-item" href="/collections/pouches">Pouches</a>
-                <a class="panel-item" href="/collections/card-holders">Card Holders</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/small-leather-goods">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/wallets">Wallets</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/pouches">Pouches</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/card-holders">Card Holders</a>
               {%- endif -%}
             </div></div>
           </div>
@@ -323,15 +323,15 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/shoes">All Shoes</a>
-                <a class="panel-item" href="/collections/sneakers">Sneakers</a>
-                <a class="panel-item" href="/collections/sandals">Sandals</a>
-                <a class="panel-item" href="/collections/boots">Boots</a>
-                <a class="panel-item" href="/collections/heels">Heels</a>
-                <a class="panel-item" href="/collections/flats">Flats</a>
-                <a class="panel-item" href="/collections/mules">Mules</a>
-                <a class="panel-item" href="/collections/loafers">Loafers</a>
-                <a class="panel-item" href="/collections/ballet-flats">Ballet Flats</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/shoes">All Shoes</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/sneakers">Sneakers</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/sandals">Sandals</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/boots">Boots</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/heels">Heels</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/flats">Flats</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/mules">Mules</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/loafers">Loafers</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/ballet-flats">Ballet Flats</a>
               {%- endif -%}
             </div></div>
           </div>
@@ -348,12 +348,12 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/jewellery">All Jewellery</a>
-                <a class="panel-item" href="/collections/necklaces">Necklaces</a>
-                <a class="panel-item" href="/collections/bracelets">Bracelets</a>
-                <a class="panel-item" href="/collections/earrings">Earrings</a>
-                <a class="panel-item" href="/collections/anklets">Anklets</a>
-                <a class="panel-item" href="/collections/rings">Rings</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/jewellery">All Jewellery</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/necklaces">Necklaces</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/bracelets">Bracelets</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/earrings">Earrings</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/anklets">Anklets</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rings">Rings</a>
               {%- endif -%}
             </div></div>
           </div>
@@ -370,13 +370,13 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/watches">All</a>
-                <a class="panel-item" href="/collections/rlx">RLX</a>
-                <a class="panel-item" href="/collections/hms">HMS</a>
-                <a class="panel-item" href="/collections/crt">CRT</a>
-                <a class="panel-item" href="/collections/vcf">VCF</a>
-                <a class="panel-item" href="/collections/dr">DR</a>
-                <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/watches">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rlx">RLX</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/hms">HMS</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/crt">CRT</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/vcf">VCF</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/dr">DR</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/chaumet">Chaumet</a>
               {%- endif -%}
             </div></div>
           </div>
@@ -393,13 +393,13 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/accessories">All</a>
-                <a class="panel-item" href="/collections/caps">Caps</a>
-                <a class="panel-item" href="/collections/belts">Belts</a>
-                <a class="panel-item" href="/collections/straps">Straps</a>
-                <a class="panel-item" href="/collections/badge-holders">Badge Holders</a>
-                <a class="panel-item" href="/collections/home-accessories">Home Accessories</a>
-                <a class="panel-item" href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/accessories">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/caps">Caps</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/belts">Belts</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/straps">Straps</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/badge-holders">Badge Holders</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/home-accessories">Home Accessories</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
               {%- endif -%}
             </div></div>
           </div>
@@ -416,9 +416,9 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/clothing">All</a>
-                <a class="panel-item" href="/collections/tops">Tops</a>
-                <a class="panel-item" href="/collections/t-shirts">T-shirts</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/clothing">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/tops">Tops</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/t-shirts">T-shirts</a>
               {%- endif -%}
             </div></div>
           </div>
@@ -476,8 +476,8 @@
         {%- endfor -%}
 
         {%- if men_menu == blank and menu_item_blocks.size == 0 -%}
-        {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}
-        {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="/collections/on-sale-men">On Sale</a></div>{%- endif -%}
+        {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/new-arrivals">New arrivals</a></div>{%- endif -%}
+        {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="{{ routes.collections_url }}/on-sale-men">On Sale</a></div>{%- endif -%}
 {%- if section.settings.menu_m_brands -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#">Brands</a>
@@ -489,18 +489,18 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/hms-men">HMS</a>
-                <a class="panel-item" href="/collections/gyd-men">GYD</a>
-                <a class="panel-item" href="/collections/lp-men">LP</a>
-                <a class="panel-item" href="/collections/lvn-men">LVN</a>
-                <a class="panel-item" href="/collections/rlx-men">RLX</a>
-                <a class="panel-item" href="/collections/crt-men">CRT</a>
-                <a class="panel-item" href="/collections/dr-men">DR</a>
-                <a class="panel-item" href="/collections/prd-men">PRD</a>
-                <a class="panel-item" href="/collections/loewe-men">Loewe</a>
-                <a class="panel-item" href="/collections/nike-men">Nike</a>
-                <a class="panel-item" href="/collections/adidas-men">Adidas</a>
-                <a class="panel-item" href="/collections/onitsuka-tiger-men">Onitsuka Tiger</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/hms-men">HMS</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/gyd-men">GYD</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/lp-men">LP</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/lvn-men">LVN</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rlx-men">RLX</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/crt-men">CRT</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/dr-men">DR</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/prd-men">PRD</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/loewe-men">Loewe</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/nike-men">Nike</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/adidas-men">Adidas</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/onitsuka-tiger-men">Onitsuka Tiger</a>
               {%- endif -%}
             </div></div>
           </div>
@@ -517,7 +517,7 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/bags-men">All Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/bags-men">All Bags</a>
               {%- endif -%}
             </div></div>
           </div>
@@ -534,16 +534,16 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/shoes-men">All Shoes</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/shoes-men">All Shoes</a>
               {%- endif -%}
             </div></div>
           </div>
         </div>
 {%- endif -%}
-{%- if section.settings.menu_m_wallets -%}        {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>{%- endif -%}{%- endif -%}
-{%- if section.settings.menu_m_watches -%}        {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>{%- endif -%}{%- endif -%}
-{%- if section.settings.menu_m_travel_bags -%}        <div class="nav-item-wrapper"><a class="nav-link" href="/collections/travel-bags-men">Travel Bags</a></div>{%- endif -%}
-{%- if section.settings.menu_m_accessories -%}        {%- if section.settings.menu_m_accessories -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/accessories-men">Accessories</a></div>{%- endif -%}{%- endif -%}
+{%- if section.settings.menu_m_wallets -%}        {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/wallets-men">Wallets</a></div>{%- endif -%}{%- endif -%}
+{%- if section.settings.menu_m_watches -%}        {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/watches-men">Watches</a></div>{%- endif -%}{%- endif -%}
+{%- if section.settings.menu_m_travel_bags -%}        <div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/travel-bags-men">Travel Bags</a></div>{%- endif -%}
+{%- if section.settings.menu_m_accessories -%}        {%- if section.settings.menu_m_accessories -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/accessories-men">Accessories</a></div>{%- endif -%}{%- endif -%}
       {%- endif -%}
       </div>
     </div>
@@ -563,7 +563,7 @@
         
         <a href="{{ routes.root_url }}" class="header-logo mobile-header-logo" aria-label="{{ shop.name }}">
           {%- if section.settings.logo_image != blank -%}
-            <img src="{{ section.settings.logo_image | image_url: height: 44 }}" alt="{{ shop.name }}" height="22" class="logo-light">
+            <img src="{{ section.settings.logo_image | image_url: height: 44 }}" alt="{{ shop.name }}" height="22" width="{{ 22 | times: section.settings.logo_image.aspect_ratio | default: 4 | round }}" class="logo-light" loading="lazy">
           {%- else -%}
             <span style="font-family:'Canela Text',Georgia,serif;font-size:22px;font-weight:300;color:#fff;">{{ section.settings.logo_text | default: shop.name }}</span>
           {%- endif -%}
@@ -583,7 +583,7 @@
       <div class="header-center">
         <a href="{{ routes.root_url }}" class="header-logo">
           {%- if section.settings.logo_image != blank -%}
-            <img src="{{ section.settings.logo_image | image_url: height: 44 }}" alt="{{ shop.name }}" height="22" class="logo-light">
+            <img src="{{ section.settings.logo_image | image_url: height: 44 }}" alt="{{ shop.name }}" height="22" width="{{ 22 | times: section.settings.logo_image.aspect_ratio | default: 4 | round }}" class="logo-light" loading="lazy">
           {%- else -%}
             <span style="font-family:'Canela Text',Georgia,serif;font-size:22px;font-weight:300;color:#fff;">{{ section.settings.logo_text | default: shop.name }}</span>
           {%- endif -%}
@@ -758,9 +758,9 @@
           {%- endfor -%}
 
           {%- if women_menu == blank and menu_item_blocks.size == 0 -%}
-          {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-in">New in</a></div>{%- endif -%}
-          {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/restock">Restock</a></div>{%- endif -%}
-          {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale">On sale</a></div>{%- endif -%}
+          {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/new-in">New in</a></div>{%- endif -%}
+          {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/restock">Restock</a></div>{%- endif -%}
+          {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/on-sale">On sale</a></div>{%- endif -%}
 {%- if section.settings.menu_w_brands -%}
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Brands</a>
@@ -772,18 +772,18 @@
                     <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                   {%- endfor -%}
                 {%- else -%}
-                  <a class="panel-item" href="/collections/hms">HMS</a>
-                  <a class="panel-item" href="/collections/gyd">GYD</a>
-                  <a class="panel-item" href="/collections/coco">COCO</a>
-                  <a class="panel-item" href="/collections/lvn">LVN</a>
-                  <a class="panel-item" href="/collections/rlx">RLX</a>
-                  <a class="panel-item" href="/collections/crt">CRT</a>
-                  <a class="panel-item" href="/collections/nike">Nike</a>
-                  <a class="panel-item" href="/collections/adidas">Adidas</a>
-                  <a class="panel-item" href="/collections/golden-goose">Golden Goose</a>
-                  <a class="panel-item" href="/collections/loewe">Loewe</a>
-                  <a class="panel-item" href="/collections/tiffany-co">Tiffany &amp; Co.</a>
-                  <a class="panel-item" href="/collections/chaumet">Chaumet</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/hms">HMS</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/gyd">GYD</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/coco">COCO</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/lvn">LVN</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/rlx">RLX</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/crt">CRT</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/nike">Nike</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/adidas">Adidas</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/golden-goose">Golden Goose</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/loewe">Loewe</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/tiffany-co">Tiffany &amp; Co.</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/chaumet">Chaumet</a>
                 {%- endif -%}
               </div></div>
             </div>
@@ -799,11 +799,11 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/bags">All Bags</a>
-                <a class="panel-item" href="/collections/handbags">Handbags</a>
-                <a class="panel-item" href="/collections/mini-bags">Mini Bags</a>
-                <a class="panel-item" href="/collections/tote-bags">Tote Bags</a>
-                <a class="panel-item" href="/collections/backpacks">Backpacks</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/bags">All Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/handbags">Handbags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/mini-bags">Mini Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/tote-bags">Tote Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/backpacks">Backpacks</a>
               {%- endif -%}
             </div></div></div>
           </div>
@@ -818,11 +818,11 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/shoes">All Shoes</a>
-                <a class="panel-item" href="/collections/sneakers">Sneakers</a>
-                <a class="panel-item" href="/collections/sandals">Sandals</a>
-                <a class="panel-item" href="/collections/heels">Heels</a>
-                <a class="panel-item" href="/collections/ballet-flats">Ballet Flats</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/shoes">All Shoes</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/sneakers">Sneakers</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/sandals">Sandals</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/heels">Heels</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/ballet-flats">Ballet Flats</a>
               {%- endif -%}
             </div></div></div>
           </div>
@@ -837,10 +837,10 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/jewellery">All Jewellery</a>
-                <a class="panel-item" href="/collections/necklaces">Necklaces</a>
-                <a class="panel-item" href="/collections/earrings">Earrings</a>
-                <a class="panel-item" href="/collections/rings">Rings</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/jewellery">All Jewellery</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/necklaces">Necklaces</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/earrings">Earrings</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rings">Rings</a>
               {%- endif -%}
             </div></div></div>
           </div>
@@ -855,9 +855,9 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/watches">All Watches</a>
-                <a class="panel-item" href="/collections/rlx">RLX</a>
-                <a class="panel-item" href="/collections/hms">HMS</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/watches">All Watches</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rlx">RLX</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/hms">HMS</a>
               {%- endif -%}
             </div></div></div>
           </div>
@@ -872,9 +872,9 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/accessories">All</a>
-                <a class="panel-item" href="/collections/caps">Caps</a>
-                <a class="panel-item" href="/collections/belts">Belts</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/accessories">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/caps">Caps</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/belts">Belts</a>
               {%- endif -%}
             </div></div></div>
           </div>
@@ -889,9 +889,9 @@
                   <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
                 {%- endfor -%}
               {%- else -%}
-                <a class="panel-item" href="/collections/clothing">All</a>
-                <a class="panel-item" href="/collections/tops">Tops</a>
-                <a class="panel-item" href="/collections/t-shirts">T-shirts</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/clothing">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/tops">Tops</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/t-shirts">T-shirts</a>
               {%- endif -%}
             </div></div></div>
           </div>
@@ -947,12 +947,12 @@
           {%- endfor -%}
 
           {%- if men_menu == blank and menu_item_blocks.size == 0 -%}
-          {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/new-arrivals">New arrivals</a></div>{%- endif -%}
-          {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/on-sale-men">On Sale</a></div>{%- endif -%}
-          {%- if section.settings.menu_m_bags -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/bags-men">Bags</a></div>{%- endif -%}
-          {%- if section.settings.menu_m_shoes -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/shoes-men">Shoes</a></div>{%- endif -%}
-          {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/wallets-men">Wallets</a></div>{%- endif -%}
-          {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="/collections/watches-men">Watches</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/new-arrivals">New arrivals</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/on-sale-men">On Sale</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_bags -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/bags-men">Bags</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_shoes -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/shoes-men">Shoes</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/wallets-men">Wallets</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/watches-men">Watches</a></div>{%- endif -%}
           {%- endif -%}
         </div>
       </div>
@@ -1010,9 +1010,9 @@
         {%- endif -%}
       {%- endfor -%}
     {%- else -%}
-      {%- if section.settings.menu_w_new_in -%}<a class="drawer-link" href="/collections/new-in">New in</a>{%- endif -%}
-      {%- if section.settings.menu_w_restock -%}<a class="drawer-link" href="/collections/restock">Restock</a>{%- endif -%}
-      {%- if section.settings.menu_w_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale">On sale</a>{%- endif -%}
+      {%- if section.settings.menu_w_new_in -%}<a class="drawer-link" href="{{ routes.collections_url }}/new-in">New in</a>{%- endif -%}
+      {%- if section.settings.menu_w_restock -%}<a class="drawer-link" href="{{ routes.collections_url }}/restock">Restock</a>{%- endif -%}
+      {%- if section.settings.menu_w_on_sale -%}<a class="drawer-link sale" href="{{ routes.collections_url }}/on-sale">On sale</a>{%- endif -%}
       {%- if section.settings.menu_w_brands -%}
       <div class="drawer-expandable">
         <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
@@ -1023,12 +1023,12 @@
               <a href="{{ link.url }}">{{ link.title }}</a>
             {%- endfor -%}
           {%- else -%}
-            <a href="/collections/hms">HMS</a><a href="/collections/gyd">GYD</a><a href="/collections/coco">COCO</a>
-            <a href="/collections/dr">DR</a><a href="/collections/lvn">LVN</a><a href="/collections/lp">LP</a>
-            <a href="/collections/gcc">GCC</a><a href="/collections/prd">PRD</a><a href="/collections/rlx">RLX</a>
-            <a href="/collections/crt">CRT</a><a href="/collections/nike">Nike</a><a href="/collections/adidas">Adidas</a>
-            <a href="/collections/golden-goose">Golden Goose</a><a href="/collections/loewe">Loewe</a>
-            <a href="/collections/tiffany-co">Tiffany &amp; Co.</a><a href="/collections/chaumet">Chaumet</a>
+            <a href="{{ routes.collections_url }}/hms">HMS</a><a href="{{ routes.collections_url }}/gyd">GYD</a><a href="{{ routes.collections_url }}/coco">COCO</a>
+            <a href="{{ routes.collections_url }}/dr">DR</a><a href="{{ routes.collections_url }}/lvn">LVN</a><a href="{{ routes.collections_url }}/lp">LP</a>
+            <a href="{{ routes.collections_url }}/gcc">GCC</a><a href="{{ routes.collections_url }}/prd">PRD</a><a href="{{ routes.collections_url }}/rlx">RLX</a>
+            <a href="{{ routes.collections_url }}/crt">CRT</a><a href="{{ routes.collections_url }}/nike">Nike</a><a href="{{ routes.collections_url }}/adidas">Adidas</a>
+            <a href="{{ routes.collections_url }}/golden-goose">Golden Goose</a><a href="{{ routes.collections_url }}/loewe">Loewe</a>
+            <a href="{{ routes.collections_url }}/tiffany-co">Tiffany &amp; Co.</a><a href="{{ routes.collections_url }}/chaumet">Chaumet</a>
           {%- endif -%}
         </div>
       </div>
@@ -1043,9 +1043,9 @@
               <a href="{{ link.url }}">{{ link.title }}</a>
             {%- endfor -%}
           {%- else -%}
-            <a href="/collections/bags">All Bags</a><a href="/collections/handbags">Handbags</a>
-            <a href="/collections/mini-bags">Mini Bags</a><a href="/collections/tote-bags">Tote Bags</a>
-            <a href="/collections/backpacks">Backpacks</a><a href="/collections/shoulder-bags">Shoulder Bags</a>
+            <a href="{{ routes.collections_url }}/bags">All Bags</a><a href="{{ routes.collections_url }}/handbags">Handbags</a>
+            <a href="{{ routes.collections_url }}/mini-bags">Mini Bags</a><a href="{{ routes.collections_url }}/tote-bags">Tote Bags</a>
+            <a href="{{ routes.collections_url }}/backpacks">Backpacks</a><a href="{{ routes.collections_url }}/shoulder-bags">Shoulder Bags</a>
           {%- endif -%}
         </div>
       </div>
@@ -1060,8 +1060,8 @@
               <a href="{{ link.url }}">{{ link.title }}</a>
             {%- endfor -%}
           {%- else -%}
-            <a href="/collections/wallets">Wallets</a><a href="/collections/pouches">Pouches</a>
-            <a href="/collections/card-holders">Card Holders</a>
+            <a href="{{ routes.collections_url }}/wallets">Wallets</a><a href="{{ routes.collections_url }}/pouches">Pouches</a>
+            <a href="{{ routes.collections_url }}/card-holders">Card Holders</a>
           {%- endif -%}
         </div>
       </div>
@@ -1076,9 +1076,9 @@
               <a href="{{ link.url }}">{{ link.title }}</a>
             {%- endfor -%}
           {%- else -%}
-            <a href="/collections/shoes">All Shoes</a><a href="/collections/sneakers">Sneakers</a>
-            <a href="/collections/sandals">Sandals</a><a href="/collections/heels">Heels</a>
-            <a href="/collections/flats">Flats</a><a href="/collections/ballet-flats">Ballet Flats</a>
+            <a href="{{ routes.collections_url }}/shoes">All Shoes</a><a href="{{ routes.collections_url }}/sneakers">Sneakers</a>
+            <a href="{{ routes.collections_url }}/sandals">Sandals</a><a href="{{ routes.collections_url }}/heels">Heels</a>
+            <a href="{{ routes.collections_url }}/flats">Flats</a><a href="{{ routes.collections_url }}/ballet-flats">Ballet Flats</a>
           {%- endif -%}
         </div>
       </div>
@@ -1093,9 +1093,9 @@
               <a href="{{ link.url }}">{{ link.title }}</a>
             {%- endfor -%}
           {%- else -%}
-            <a href="/collections/jewellery">All Jewellery</a><a href="/collections/necklaces">Necklaces</a>
-            <a href="/collections/bracelets">Bracelets</a><a href="/collections/earrings">Earrings</a>
-            <a href="/collections/rings">Rings</a>
+            <a href="{{ routes.collections_url }}/jewellery">All Jewellery</a><a href="{{ routes.collections_url }}/necklaces">Necklaces</a>
+            <a href="{{ routes.collections_url }}/bracelets">Bracelets</a><a href="{{ routes.collections_url }}/earrings">Earrings</a>
+            <a href="{{ routes.collections_url }}/rings">Rings</a>
           {%- endif -%}
         </div>
       </div>
@@ -1110,8 +1110,8 @@
               <a href="{{ link.url }}">{{ link.title }}</a>
             {%- endfor -%}
           {%- else -%}
-            <a href="/collections/watches">All</a><a href="/collections/rlx">RLX</a>
-            <a href="/collections/hms">HMS</a><a href="/collections/crt">CRT</a>
+            <a href="{{ routes.collections_url }}/watches">All</a><a href="{{ routes.collections_url }}/rlx">RLX</a>
+            <a href="{{ routes.collections_url }}/hms">HMS</a><a href="{{ routes.collections_url }}/crt">CRT</a>
           {%- endif -%}
         </div>
       </div>
@@ -1126,8 +1126,8 @@
               <a href="{{ link.url }}">{{ link.title }}</a>
             {%- endfor -%}
           {%- else -%}
-            <a href="/collections/accessories">All</a><a href="/collections/caps">Caps</a>
-            <a href="/collections/belts">Belts</a><a href="/collections/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+            <a href="{{ routes.collections_url }}/accessories">All</a><a href="{{ routes.collections_url }}/caps">Caps</a>
+            <a href="{{ routes.collections_url }}/belts">Belts</a><a href="{{ routes.collections_url }}/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
           {%- endif -%}
         </div>
       </div>
@@ -1142,7 +1142,7 @@
               <a href="{{ link.url }}">{{ link.title }}</a>
             {%- endfor -%}
           {%- else -%}
-            <a href="/collections/clothing">All</a><a href="/collections/tops">Tops</a><a href="/collections/t-shirts">T-shirts</a>
+            <a href="{{ routes.collections_url }}/clothing">All</a><a href="{{ routes.collections_url }}/tops">Tops</a><a href="{{ routes.collections_url }}/t-shirts">T-shirts</a>
           {%- endif -%}
         </div>
       </div>
@@ -1169,23 +1169,23 @@
         {%- endif -%}
       {%- endfor -%}
     {%- else -%}
-      {%- if section.settings.menu_m_new_arrivals -%}<a class="drawer-link" href="/collections/new-arrivals">New arrivals</a>{%- endif -%}
-      {%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="/collections/on-sale-men">On Sale</a>{%- endif -%}
+      {%- if section.settings.menu_m_new_arrivals -%}<a class="drawer-link" href="{{ routes.collections_url }}/new-arrivals">New arrivals</a>{%- endif -%}
+      {%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="{{ routes.collections_url }}/on-sale-men">On Sale</a>{%- endif -%}
       {%- if section.settings.menu_m_brands -%}
       <div class="drawer-expandable">
         <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
         <div class="drawer-submenu">
-          <a href="/collections/hms-men">HMS</a><a href="/collections/gyd-men">GYD</a>
-          <a href="/collections/lvn-men">LVN</a><a href="/collections/rlx-men">RLX</a>
-          <a href="/collections/nike-men">Nike</a><a href="/collections/adidas-men">Adidas</a>
+          <a href="{{ routes.collections_url }}/hms-men">HMS</a><a href="{{ routes.collections_url }}/gyd-men">GYD</a>
+          <a href="{{ routes.collections_url }}/lvn-men">LVN</a><a href="{{ routes.collections_url }}/rlx-men">RLX</a>
+          <a href="{{ routes.collections_url }}/nike-men">Nike</a><a href="{{ routes.collections_url }}/adidas-men">Adidas</a>
         </div>
       </div>
       {%- endif -%}
-      {%- if section.settings.menu_m_bags -%}<a class="drawer-link" href="/collections/bags-men">Bags</a>{%- endif -%}
-      {%- if section.settings.menu_m_shoes -%}<a class="drawer-link" href="/collections/shoes-men">Shoes</a>{%- endif -%}
-      {%- if section.settings.menu_m_wallets -%}<a class="drawer-link" href="/collections/wallets-men">Wallets</a>{%- endif -%}
-      {%- if section.settings.menu_m_watches -%}<a class="drawer-link" href="/collections/watches-men">Watches</a>{%- endif -%}
-      {%- if section.settings.menu_m_accessories -%}<a class="drawer-link" href="/collections/accessories-men">Accessories</a>{%- endif -%}
+      {%- if section.settings.menu_m_bags -%}<a class="drawer-link" href="{{ routes.collections_url }}/bags-men">Bags</a>{%- endif -%}
+      {%- if section.settings.menu_m_shoes -%}<a class="drawer-link" href="{{ routes.collections_url }}/shoes-men">Shoes</a>{%- endif -%}
+      {%- if section.settings.menu_m_wallets -%}<a class="drawer-link" href="{{ routes.collections_url }}/wallets-men">Wallets</a>{%- endif -%}
+      {%- if section.settings.menu_m_watches -%}<a class="drawer-link" href="{{ routes.collections_url }}/watches-men">Watches</a>{%- endif -%}
+      {%- if section.settings.menu_m_accessories -%}<a class="drawer-link" href="{{ routes.collections_url }}/accessories-men">Accessories</a>{%- endif -%}
     {%- endif -%}
   </nav>
 

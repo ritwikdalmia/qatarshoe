@@ -629,15 +629,15 @@
         {%- if section.settings.show_hero_hands -%}
             <div class="about-hero-hands-container">
                 {%- if section.settings.left_hand_image != blank -%}
-                    <img class="about-hero-hand-img" src="{{ section.settings.left_hand_image | image_url: width: 600 }}" alt="" loading="lazy" />
+                    <img class="about-hero-hand-img" src="{{ section.settings.left_hand_image | image_url: width: 600 }}" alt="" width="600" height="600" loading="lazy" />
                 {%- else -%}
-                    <img class="about-hero-hand-img" src="{{ 'Qtr-w-h.png' | asset_url }}" alt="" loading="lazy" />
+                    <img class="about-hero-hand-img" src="{{ 'Qtr-w-h.png' | asset_url }}" alt="" width="600" height="600" loading="lazy" />
                 {%- endif -%}
 
                 {%- if section.settings.right_hand_image != blank -%}
-                    <img class="about-hero-hand-img" src="{{ section.settings.right_hand_image | image_url: width: 600 }}" alt="" loading="lazy" />
+                    <img class="about-hero-hand-img" src="{{ section.settings.right_hand_image | image_url: width: 600 }}" alt="" width="600" height="600" loading="lazy" />
                 {%- else -%}
-                    <img class="about-hero-hand-img" src="{{ 'Dub-m-h.png' | asset_url }}" alt="" loading="lazy" />
+                    <img class="about-hero-hand-img" src="{{ 'Dub-m-h.png' | asset_url }}" alt="" width="600" height="600" loading="lazy" />
                 {%- endif -%}
             </div>
         {%- endif -%}
@@ -692,9 +692,9 @@
                 {%- for col in collection_list limit: collections_limit -%}
                     <a href="{{ col.url }}" class="about-offer-card">
                         {%- if col.image != blank -%}
-                            <img src="{{ col.image | image_url: width: 400 }}" alt="{{ col.title | escape }}" loading="lazy" />
+                            <img src="{{ col.image | image_url: width: 400 }}" alt="{{ col.title | escape }}" width="400" height="400" loading="lazy" />
                         {%- elsif col.products.first.featured_image != blank -%}
-                            <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ col.title | escape }}" loading="lazy" />
+                            <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ col.title | escape }}" width="400" height="400" loading="lazy" />
                         {%- else -%}
                             <div class="about-offer-card-placeholder">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.25;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -712,9 +712,9 @@
                     -%}
                     <a href="{{ link.url }}" class="about-offer-card">
                         {%- if col.image != blank -%}
-                            <img src="{{ col.image | image_url: width: 400 }}" alt="{{ link.title | escape }}" loading="lazy" />
+                            <img src="{{ col.image | image_url: width: 400 }}" alt="{{ link.title | escape }}" width="400" height="400" loading="lazy" />
                         {%- elsif col.products.first.featured_image != blank -%}
-                            <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ link.title | escape }}" loading="lazy" />
+                            <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ link.title | escape }}" width="400" height="400" loading="lazy" />
                         {%- else -%}
                             <div class="about-offer-card-placeholder">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.25;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -736,9 +736,9 @@
                             -%}
                             <a href="{{ card_url }}" class="about-offer-card" {{ block.shopify_attributes }}>
                                 {%- if col != blank and col.image != blank -%}
-                                    <img src="{{ col.image | image_url: width: 400 }}" alt="{{ col.title | escape }}" loading="lazy" />
+                                    <img src="{{ col.image | image_url: width: 400 }}" alt="{{ col.title | escape }}" width="400" height="400" loading="lazy" />
                                 {%- elsif col != blank and col.products.first.featured_image != blank -%}
-                                    <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ col.title | escape }}" loading="lazy" />
+                                    <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ col.title | escape }}" width="400" height="400" loading="lazy" />
                                 {%- else -%}
                                     <div class="about-offer-card-placeholder">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.25;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -771,9 +771,9 @@
                     <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
                         <div class="brand-image-container">
                             {%- if block.settings.image != blank -%}
-                                <img src="{{ block.settings.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" loading="lazy" />
+                                <img src="{{ block.settings.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy" />
                             {%- elsif col.image != blank -%}
-                                <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" loading="lazy" />
+                                <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy" />
                             {%- else -%}
                                 <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
                             {%- endif -%}

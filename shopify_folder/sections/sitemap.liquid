@@ -116,10 +116,7 @@
                   </div>
                 </div>
               </div>
-              {%- assign modulo = qatar_index | modulo: 2 -%}
-              {%- if modulo == 0 and qatar_index < qatar_blocks_count -%}
-                </div><div class="sitemap-cards-row">
-              {%- endif -%}
+
             {%- endif -%}
           {%- endfor -%}
         </div>
@@ -204,10 +201,7 @@
                   </div>
                 </div>
               </div>
-              {%- assign modulo = support_index | modulo: 2 -%}
-              {%- if modulo == 0 and support_index < support_blocks_count -%}
-                </div><div class="sitemap-cards-row">
-              {%- endif -%}
+
             {%- endif -%}
           {%- endfor -%}
         </div>
@@ -277,8 +271,8 @@
     margin: 0;
   }
   .sitemap-cards-row {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     width: 100%;
   }
@@ -489,7 +483,7 @@
       font-size: 24px;
     }
     .sitemap-cards-row {
-      flex-direction: column;
+      grid-template-columns: 1fr;
       gap: 12px;
     }
     .sitemap-card {

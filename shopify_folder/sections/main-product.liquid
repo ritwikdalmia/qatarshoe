@@ -20,7 +20,6 @@
     endif
     assign p_compare_at_price_val = 250000
     assign p_price_val = 200000
-    assign p_available = true
     assign p_id = "dummy-0"
   else
      assign p_title = product.title
@@ -30,7 +29,6 @@
     assign p_compare_price_money = product.compare_at_price | money
     assign p_compare_at_price_val = product.compare_at_price
     assign p_price_val = product.price
-    assign p_available = product.available
     assign p_id = product.id
   endif
 -%}
@@ -40,7 +38,7 @@
   <div class="breadcrumbs">
     <a href="{{ routes.root_url }}">Home</a>
     <span>/</span>
-    <a href="/collections/all">Collections</a>
+    <a href="{{ routes.all_products_collection_url }}">Collections</a>
     <span>/</span>
     <span class="current-crumb">{{ p_title }}</span>
   </div>
@@ -52,25 +50,31 @@
         
         <div class="product-thumbnails">
           {%- if is_mock -%}
+            {%- # theme-check-disable RemoteAsset -%}
             <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=120&h=180&fit=crop"
                  alt="Diana 1"
                  class="active"
+                 width="120" height="180"
                  data-main-src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800"
                  onclick="switchMainImage(this)">
             <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=120&h=180&fit=crop"
                  alt="Diana 2"
+                 width="120" height="180"
                  data-main-src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=800"
                  onclick="switchMainImage(this)">
             <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=120&h=180&fit=crop"
                  alt="Diana 3"
+                 width="120" height="180"
                  data-main-src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=800"
                  onclick="switchMainImage(this)">
+            {%- # theme-check-enable RemoteAsset -%}
           {%- else -%}
             {%- if product.images.size > 0 -%}
               {%- for image in product.images -%}
                 <img src="{{ image | image_url: width: 120, height: 180, crop: 'center' }}"
                      alt="{{ image.alt | escape }}"
                      class="{% if forloop.first %}active{% endif %}"
+                     width="120" height="180"
                      data-main-src="{{ image | image_url: width: 1000 }}"
                      onclick="switchMainImage(this)">
               {%- endfor -%}
@@ -101,10 +105,12 @@
           {%- endif -%}
 
           {%- if is_mock -%}
-            <img id="main-image-view" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800" alt="{{ p_title | escape }}">
+            {%- # theme-check-disable RemoteAsset -%}
+            <img id="main-image-view" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800" alt="{{ p_title | escape }}" width="800" height="1200" loading="lazy">
+            {%- # theme-check-enable RemoteAsset -%}
           {%- else -%}
             {%- if product.featured_image != blank -%}
-              <img id="main-image-view" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}">
+              <img id="main-image-view" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" width="800" height="{{ 800 | divided_by: product.featured_image.aspect_ratio | default: 1200 | round }}" loading="lazy">
             {%- else -%}
               <div class="product-card-placeholder" style="background:#f5f5f5;display:flex;align-items:center;justify-content:center;aspect-ratio:2/3;width:100%;">
                 <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -119,7 +125,7 @@
     <div id="product-info">
       <div class="vendor">
         {%- assign vendor_handle = p_vendor | handleize -%}
-        <a href="/collections/{{ vendor_handle }}">{{ p_vendor }}</a>
+        <a href="{{ routes.collections_url }}/{{ vendor_handle }}">{{ p_vendor }}</a>
       </div>
       <h1 class="title">{{ p_title }}</h1>
 

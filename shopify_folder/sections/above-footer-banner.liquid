@@ -468,8 +468,10 @@
 </style>
 
 <section class="above-footer-banner" id="above-footer-banner-{{ section.id }}">
+    {%- # theme-check-disable RemoteAsset -%}
     <img class="afb-img afb-img--go_women"
          src="{% if section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}{{ 'women-hand-qatar.png' | asset_url }}{% endif %}" alt=""
+         width="1072" height="599" loading="lazy"
          data-src-go_men="{% if section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}{{ 'FooterHand.png' | asset_url }}{% endif %}"
          data-src-mobile-go_men="{% if section.settings.image_mobile_go_men != blank %}{{ section.settings.image_mobile_go_men | image_url }}{% elsif section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}{{ 'Qtr-m-h.png' | asset_url }}{% endif %}"
          data-src-go_women="{% if section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}{{ 'Qtr-w-h.png' | asset_url }}{% endif %}"
@@ -478,6 +480,7 @@
          data-src-mobile-ship_women="{% if section.settings.image_mobile_ship_women != blank %}{{ section.settings.image_mobile_ship_women | image_url }}{% elsif section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}{{ 'Dub-w-h.png' | asset_url }}{% endif %}"
          data-src-ship_men="{% if section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}{{ 'men-hand-dubai.png' | asset_url }}{% endif %}"
          data-src-mobile-ship_men="{% if section.settings.image_mobile_ship_men != blank %}{{ section.settings.image_mobile_ship_men | image_url }}{% elsif section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}{{ 'Dub-m-h.png' | asset_url }}{% endif %}">
+    {%- # theme-check-enable RemoteAsset -%}
     <div class="above-footer-content">
         <div class="above-footer-heading">{{ section.settings.heading_text }}</div>
         <div class="above-footer-bullets-wrap">

@@ -582,7 +582,7 @@
       {%- if show_filters -%}
         <div class="filter-pills-scroll">
           {%- if parent_link != blank and parent_link.links.size > 0 and is_brand_menu == false -%}
-            {%- assign parent_handle = parent_link.title | handle -%}
+
             <a href="{{ parent_link.url }}" 
                class="filter-pill filter-pill-type" 
                data-parent-url="{{ parent_link.url }}" 
@@ -593,7 +593,7 @@
               {%- if child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
                 {%- continue -%}
               {%- endif -%}
-              {%- assign child_col_handle = child_link.url | split: '/' | last -%}
+
               {%- assign type_value = child_link.title -%}
               <a href="{{ child_link.url }}" 
                  class="filter-pill filter-pill-type" 
@@ -615,7 +615,7 @@
             {%- endif -%}
             
             {%- if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' -%}
-              {%- assign vendor_name = collection.title -%}
+
               {%- if request.locale.iso_code == 'ar' -%}
                 {%- assign all_label = 'الكل' -%}
               {%- else -%}
@@ -762,9 +762,9 @@
             {%- endif -%}
             
             {%- if show_fallback -%}
-              <a href="/collections/all" class="filter-pill filter-pill-general{% if collection.handle == 'all' %} active{% endif %}">All</a>
-              <a href="/collections/on-sale" class="filter-pill filter-pill-general{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
-              <a href="/collections/new-in" class="filter-pill filter-pill-general{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
+              <a href="{{ routes.all_products_collection_url }}" class="filter-pill filter-pill-general{% if collection.handle == 'all' %} active{% endif %}">All</a>
+              <a href="{{ routes.collections_url }}/on-sale" class="filter-pill filter-pill-general{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
+              <a href="{{ routes.collections_url }}/new-in" class="filter-pill filter-pill-general{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
               {%- if collection.handle == 'all' -%}
                 {%- for block in section.blocks -%}
                   {%- if block.type == 'filter_link' -%}
@@ -862,6 +862,7 @@
               {%- if product.featured_image != blank -%}
                 <img src="{{ product.featured_image | image_url: width: 600, height: 900, crop: 'center' }}"
                      alt="{{ product.featured_image.alt | escape }}"
+                     width="600" height="900"
                      loading="lazy">
               {%- else -%}
                 <div class="product-card-placeholder" style="background:#f9f9f9;display:flex;align-items:center;justify-content:center;height:100%;">
@@ -1014,7 +1015,7 @@
         {%- if is_filtered -%}
           <a href="{{ collection.url }}" class="btn-continue-shopping">Clear Filters</a>
         {%- else -%}
-          <a href="/collections/all" class="btn-continue-shopping">Continue Shopping</a>
+          <a href="{{ routes.all_products_collection_url }}" class="btn-continue-shopping">Continue Shopping</a>
         {%- endif -%}
       </div>
     {%- endif -%}
