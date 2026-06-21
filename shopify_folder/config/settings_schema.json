@@ -44,7 +44,7 @@
         "type": "color",
         "id": "color_muted",
         "label": "Muted Text Color",
-        "default": "#666666"
+        "default": "#000000"
       },
       {
         "type": "color",
