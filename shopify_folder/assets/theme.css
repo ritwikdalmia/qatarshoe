@@ -2077,23 +2077,82 @@ body.template-index .page-content {
 }
 
 @media (max-width: 360px) {
-  .product-detail-page {
-    padding: 20px 12px 40px 12px;
+  /* Prevent global horizontal overflow */
+  html {
+    max-width: 100%;
   }
+
+  /* General section padding */
+  .qtr-section {
+    padding: 0 10px 24px 10px;
+  }
+
+  /* Product detail page */
+  .product-detail-page {
+    padding: 16px 10px 40px 10px;
+  }
+
+  /* Header padding */
+  .site-header {
+    padding: 0 10px;
+  }
+
+  /* Product price */
   .price-container .price {
     font-size: 19px;
   }
+
+  /* Stock banner */
   .stock-banner {
     padding: 10px 12px;
     font-size: 12px;
   }
+
+  /* Delivery estimate */
   .est-delivery .cs-trigger {
     padding: 8px 10px;
     font-size: 12px;
   }
+
+  /* Delivery info */
   .delivery-info-strip .info-item {
     font-size: 12px;
     gap: 8px;
+  }
+
+  /* Product gallery on small screens */
+  #product-gallery {
+    gap: 10px;
+  }
+
+  .product-thumbnails {
+    width: 60px;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumbs {
+    font-size: 10px;
+    margin-bottom: 16px;
+  }
+
+  /* Section heading */
+  .section-heading {
+    font-size: 16px;
+  }
+
+  /* Product grid on homepage */
+  .product-grid {
+    gap: 1px;
+  }
+
+  /* footer global bottom margin */
+  .qtr-footer {
+    padding: 30px 12px 24px 12px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 
@@ -2230,3 +2289,227 @@ body.template-index .page-content {
   transform: translateY(0);
 }
 
+
+/* =============================================================
+   ARABIC / RTL LAYOUT OVERRIDES
+   Applied automatically when <html dir="rtl"> is set (Arabic locale)
+   ============================================================= */
+
+/* ── Mobile drawer: slide from right in RTL ── */
+[dir="rtl"] .home-mobile-drawer {
+  left: auto;
+  right: -100%;
+  transition: right 0.3s ease;
+}
+[dir="rtl"] .home-mobile-drawer.active {
+  right: 0;
+  left: auto;
+}
+
+/* ── Drawer close button border flip ── */
+[dir="rtl"] .drawer-close-btn {
+  border-left: none;
+  border-right: 1px solid #e5e5e5;
+}
+
+/* ── Drawer locale column separator flip ── */
+[dir="rtl"] .drawer-locale-col + .drawer-locale-col {
+  border-left: none;
+  border-right: 1px solid #f0f0f0;
+}
+
+/* ── Drawer locale dropdown anchor to right ── */
+[dir="rtl"] .drawer-locale-dropdown {
+  left: 0;
+  right: 0;
+}
+
+/* ── Drawer expand button text align ── */
+[dir="rtl"] .drawer-expand-btn {
+  text-align: right;
+}
+
+/* ── Drawer submenu indent flip ── */
+[dir="rtl"] .drawer-submenu a {
+  padding-left: 20px;
+  padding-right: 35px;
+}
+
+/* ── Desktop nav dropdown: default anchor ── */
+[dir="rtl"] .hover-box {
+  left: auto;
+  right: 0;
+}
+
+/* ── Desktop nav last-child overrides: flip for RTL ── */
+[dir="rtl"] .nav-item-wrapper:last-child .hover-box,
+[dir="rtl"] .nav-item-wrapper:nth-last-child(-n+3) .hover-box {
+  right: auto;
+  left: 0;
+}
+
+/* ── Language / currency / delivery dropdowns ── */
+[dir="rtl"] .lang-dropdown,
+[dir="rtl"] .currency-dropdown,
+[dir="rtl"] .delivery-mode-dropdown {
+  right: auto;
+  left: 0;
+}
+
+/* ── Desktop header logo center (stays centered) ── */
+[dir="rtl"] .desktop-header-center {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* ── Cart & wishlist badge: flip corner ── */
+[dir="rtl"] .cart-count-badge,
+[dir="rtl"] .wishlist-count {
+  right: auto;
+  left: -2px;
+}
+
+/* ── Product wishlist button: flip corner ── */
+[dir="rtl"] .product-wishlist-btn {
+  right: auto;
+  left: 16px;
+}
+@media (max-width: 767px) {
+  [dir="rtl"] .product-card .product-wishlist-btn {
+    right: auto;
+    left: 12px;
+  }
+}
+
+/* ── Footer feature items: border flip ── */
+[dir="rtl"] .site-footer-feature-item {
+  border-right: none !important;
+  border-left: 1px solid var(--color-primary) !important;
+}
+@media (max-width: 767px) {
+  [dir="rtl"] .site-footer-feature-item {
+    border-left: none !important;
+    border-bottom: 1px solid var(--color-primary) !important;
+  }
+}
+
+/* ── Contact card separator: flip ── */
+[dir="rtl"] .contact-card {
+  border-right: none !important;
+  border-left: 1px solid var(--color-primary) !important;
+}
+@media (max-width: 767px) {
+  [dir="rtl"] .contact-card {
+    border-left: none !important;
+    border-bottom: 1px solid var(--color-primary) !important;
+  }
+}
+
+/* ── Non-returnable grid card: flip ── */
+[dir="rtl"] .rr-non-returnable-card {
+  border-right: none !important;
+  border-left: 1.5px solid var(--color-primary) !important;
+}
+@media (max-width: 1023px) {
+  [dir="rtl"] .rr-non-returnable-card {
+    border-left: none !important;
+    border-bottom: 1.5px solid var(--color-primary) !important;
+  }
+  [dir="rtl"] .rr-non-returnable-card:last-child {
+    border-bottom: none !important;
+  }
+}
+
+/* ── Policy pages list indent: flip ── */
+[dir="rtl"] .shopify-policy__body ul,
+[dir="rtl"] .shopify-policy__body ol,
+[dir="rtl"] .pp-block-bullets {
+  padding-left: 0 !important;
+  padding-right: 20px !important;
+}
+
+/* ── FAQ / PP sidebar links text align ── */
+[dir="rtl"] .faq-sidebar-item,
+[dir="rtl"] .pp-sidebar-item {
+  text-align: right;
+}
+
+/* ── Sitemap panel link border: flip ── */
+[dir="rtl"] .sitemap-col {
+  border-left: 1px solid var(--color-primary) !important;
+  border-right: none !important;
+}
+
+/* ── Footer panel right border ── */
+[dir="rtl"] .site-footer-panel-right {
+  border-right: none !important;
+  border-left: 1px solid var(--color-primary) !important;
+}
+
+/* ── Text direction for all content elements ── */
+[dir="rtl"] p,
+[dir="rtl"] li,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6,
+[dir="rtl"] span,
+[dir="rtl"] label,
+[dir="rtl"] .nav-link,
+[dir="rtl"] .panel-item,
+[dir="rtl"] .drawer-link,
+[dir="rtl"] .drawer-expand-btn,
+[dir="rtl"] .drawer-footer-item {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+/* ── Promo banner text align ── */
+[dir="rtl"] .promo-banner {
+  direction: rtl;
+}
+
+/* ── Marquee ticker: reverse direction in RTL ── */
+[dir="rtl"] .marquee-track {
+  animation-direction: reverse;
+}
+
+/* ── Product page: quantity controls border flip ── */
+[dir="rtl"] .quantity-controls input {
+  border-left-color: transparent !important;
+  border-right-color: var(--color-primary) !important;
+}
+
+/* ── Product page: city dropdown options align ── */
+[dir="rtl"] .cs-trigger,
+[dir="rtl"] .cs-opt {
+  text-align: right;
+  direction: rtl;
+}
+
+/* ── Est delivery result: ensure RTL flex wraps correctly ── */
+[dir="rtl"] .est-result {
+  direction: rtl;
+}
+
+/* ── Search overlay input: RTL ── */
+[dir="rtl"] .search-overlay-input {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ── Contact form inputs: RTL ── */
+[dir="rtl"] .contact-form-wrapper input,
+[dir="rtl"] .contact-form-wrapper textarea {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ── Header nav text: ensure LTR brand names stay readable ── */
+[dir="rtl"] .nav-link-text {
+  direction: rtl;
+  display: inline-block;
+}

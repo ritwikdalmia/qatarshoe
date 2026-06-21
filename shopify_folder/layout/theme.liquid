@@ -38,6 +38,9 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {%- if request.locale.iso_code == 'ar' -%}
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {%- endif -%}
     {%- # theme-check-enable RemoteAsset -%}
 
     
@@ -841,6 +844,15 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       .rr-non-returnable-icon svg path,
       .rr-non-returnable-icon svg {
         stroke: var(--color-primary) !important;
+      }
+
+      /* ── Arabic / RTL Font Override ── */
+      [dir="rtl"] body,
+      [dir="rtl"] button,
+      [dir="rtl"] input,
+      [dir="rtl"] textarea,
+      [dir="rtl"] select {
+        font-family: 'Cairo', 'Inter', Arial, sans-serif !important;
       }
     </style>
 

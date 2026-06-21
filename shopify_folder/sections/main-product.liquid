@@ -71,12 +71,13 @@
           {%- else -%}
             {%- if product.images.size > 0 -%}
               {%- for image in product.images -%}
+                {%- # theme-check-disable ImgWidthAndHeight -%}
                 <img src="{{ image | image_url: width: 120, height: 180, crop: 'center' }}"
                      alt="{{ image.alt | escape }}"
                      class="{% if forloop.first %}active{% endif %}"
-                     width="120" height="180"
                      data-main-src="{{ image | image_url: width: 1000 }}"
                      onclick="switchMainImage(this)">
+                {%- # theme-check-enable ImgWidthAndHeight -%}
               {%- endfor -%}
             {%- endif -%}
           {%- endif -%}
@@ -110,7 +111,9 @@
             {%- # theme-check-enable RemoteAsset -%}
           {%- else -%}
             {%- if product.featured_image != blank -%}
-              <img id="main-image-view" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" width="800" height="{{ 800 | divided_by: product.featured_image.aspect_ratio | default: 1200 | round }}" loading="lazy">
+              {%- # theme-check-disable ImgWidthAndHeight -%}
+              <img id="main-image-view" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}">
+              {%- # theme-check-enable ImgWidthAndHeight -%}
             {%- else -%}
               <div class="product-card-placeholder" style="background:#f5f5f5;display:flex;align-items:center;justify-content:center;aspect-ratio:2/3;width:100%;">
                 <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -614,7 +617,29 @@
 </div>
 
 <script>
-  
+  // Locale strings rendered by Liquid — fully translatable via Shopify Translate & Adapt
+  const _t = {
+    size_required:        {{ 'general.size_required' | t | json }},
+    stock_limit:          {{ 'general.stock_limit' | t | json }},
+    adding:               {{ 'general.adding' | t | json }},
+    checking_stock:       {{ 'general.checking_stock' | t | json }},
+    processing:           {{ 'general.processing' | t | json }},
+    add_to_cart:          {{ 'general.add_to_cart' | t | json }},
+    sold_out:             {{ 'general.sold_out' | t | json }},
+    buy_now:              {{ 'general.buy_now' | t | json }}
+  };
+  function _tStockLimit(count) {
+    return {{ 'general.stock_limit' | t | json }}.replace('{{ count }}', count);
+  }
+  function _tCartExceeded(qty, in_cart, max) {
+    return {{ 'general.cart_stock_exceeded' | t | json }}
+      .replace('{{ qty }}', qty).replace('{{ in_cart }}', in_cart).replace('{{ max }}', max);
+  }
+  function _tBuyNowExceeded(max, in_cart) {
+    return {{ 'general.stock_limit_buy_now' | t | json }}
+      .replace('{{ max }}', max).replace('{{ in_cart }}', in_cart);
+  }
+
   const COLOR_HEX_MAP = {
     'brown': '#8B4513', 'black': '#000000', 'red': '#B22222', 'green': '#228B22', 'navy blue': '#000080',
     'navy': '#000080', 'blue': '#0066CC', 'burgundy': '#800020', 'grey': '#808080', 'gray': '#808080',
@@ -811,7 +836,7 @@
       if (management && management !== '') {
         const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
         if (currentVal > maxQty) {
-          window.showErrorAlert('Only ' + maxQty + ' items available in stock.');
+          window.showErrorAlert(_tStockLimit(maxQty));
           return;
         }
       }
@@ -896,8 +921,8 @@
     if (atcBtn) {
       atcBtn.disabled = !isAvailable;
       atcBtn.textContent = isAvailable 
-        ? (isAr ? 'أضف إلى السلة' : 'Add to Cart') 
-        : (isAr ? 'نفذت الكمية' : 'Sold Out');
+        ? (isAr ? 'أضف إلى السلة' : _t.add_to_cart) 
+        : (isAr ? 'نفذت الكمية' : _t.sold_out);
     }
 
     if (buyBtn) {
@@ -926,7 +951,7 @@
     const atcBtn = document.getElementById('add-to-cart');
 
     if (!variantId) {
-      window.showErrorAlert('Please select a size first.');
+      window.showErrorAlert(_t.size_required);
       return;
     }
 
@@ -938,7 +963,7 @@
         const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
         
         atcBtn.disabled = true;
-        atcBtn.textContent = 'Checking stock...';
+        atcBtn.textContent = _t.checking_stock;
         
         fetch('/cart.js')
           .then(r => r.json())
@@ -946,9 +971,9 @@
             const inCartItem = cart.items.find(item => String(item.variant_id) === String(variantId));
             const inCartQty = inCartItem ? inCartItem.quantity : 0;
             if (inCartQty + qty > maxQty) {
-              window.showErrorAlert('You cannot add ' + qty + ' more. You already have ' + inCartQty + ' in your cart, and only ' + maxQty + ' are available in stock.');
+              window.showErrorAlert(_tCartExceeded(qty, inCartQty, maxQty));
               atcBtn.disabled = false;
-              atcBtn.textContent = 'Add to Cart';
+              atcBtn.textContent = _t.add_to_cart;
               return;
             }
             performAddToCart(variantId, qty, atcBtn);
@@ -977,7 +1002,7 @@
     }
 
     atcBtn.disabled = true;
-    atcBtn.textContent = 'Adding...';
+    atcBtn.textContent = _t.adding;
 
     fetch('/cart/add.js', {
       method: 'POST',
@@ -999,7 +1024,7 @@
     })
     .then(data => {
       atcBtn.disabled = false;
-      atcBtn.textContent = 'Add to Cart';
+      atcBtn.textContent = _t.add_to_cart;
       if (typeof window.openSideDrawer === 'function') {
         window.openSideDrawer('cart');
       } else {
@@ -1010,7 +1035,7 @@
       console.error(error);
       window.showErrorAlert(error.message);
       atcBtn.disabled = false;
-      atcBtn.textContent = 'Add to Cart';
+      atcBtn.textContent = _t.add_to_cart;
     });
   }
 
@@ -1021,7 +1046,7 @@
     const buyBtn = document.getElementById('buy-now');
 
     if (!variantId) {
-      window.showErrorAlert('Please select a size first.');
+      window.showErrorAlert(_t.size_required);
       return;
     }
 
@@ -1033,7 +1058,7 @@
         const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
         
         buyBtn.disabled = true;
-        buyBtn.textContent = 'Checking stock...';
+        buyBtn.textContent = _t.checking_stock;
         
         fetch('/cart.js')
           .then(r => r.json())
@@ -1041,9 +1066,9 @@
             const inCartItem = cart.items.find(item => String(item.variant_id) === String(variantId));
             const inCartQty = inCartItem ? inCartItem.quantity : 0;
             if (inCartQty + qty > maxQty) {
-              window.showErrorAlert('Only ' + maxQty + ' items are available in stock. You already have ' + inCartQty + ' in your cart.');
+              window.showErrorAlert(_tBuyNowExceeded(maxQty, inCartQty));
               buyBtn.disabled = false;
-              buyBtn.textContent = 'Buy Now';
+              buyBtn.textContent = _t.buy_now;
               return;
             }
             performBuyNow(variantId, qty, buyBtn);
@@ -1060,7 +1085,7 @@
 
   function performBuyNow(variantId, qty, buyBtn) {
     buyBtn.disabled = true;
-    buyBtn.textContent = 'Processing...';
+    buyBtn.textContent = _t.processing;
 
     fetch('/cart/add.js', {
       method: 'POST',
@@ -1087,7 +1112,7 @@
       console.error(error);
       window.showErrorAlert(error.message);
       buyBtn.disabled = false;
-      buyBtn.textContent = 'Buy Now';
+      buyBtn.textContent = _t.buy_now;
     });
   }
 

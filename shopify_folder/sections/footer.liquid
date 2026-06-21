@@ -736,6 +736,142 @@
     }
 }
 
+/* ── Small Mobile (≤480px) — prevent overflow on narrow screens ── */
+@media (max-width: 480px) {
+    .site-footer-panel-left {
+        padding: 20px 16px;
+    }
+
+    .site-footer-subscribe-heading {
+        font-size: 20px;
+    }
+
+    .site-footer-links-area {
+        padding: 20px 16px;
+        gap: 20px;
+    }
+
+    .site-footer-links-column {
+        flex: 1 1 calc(50% - 12px);
+        min-width: 100px;
+    }
+
+    .site-footer-links-column a {
+        white-space: normal;
+        line-height: 1.6;
+        font-size: 12px;
+        padding: 4px 0;
+        display: block;
+    }
+
+    .site-footer-feature-item {
+        padding: 14px 16px;
+    }
+
+    .site-footer-bottom {
+        padding: 16px 16px;
+    }
+
+    .site-footer-legal {
+        padding: 16px 16px;
+    }
+}
+
+/* ── Extra-Small Mobile (≤360px) — tight screens like 320px ── */
+@media (max-width: 360px) {
+    .site-footer {
+        overflow-x: hidden;
+    }
+
+    .site-footer-panel-left {
+        padding: 16px 12px;
+    }
+
+    .site-footer-subscribe-heading {
+        font-size: 18px;
+    }
+
+    .site-footer-subscribe-form .wpcf7-form-control-wrap {
+        padding: 0 12px;
+    }
+
+    .site-footer-subscribe-form .wpcf7-submit {
+        padding: 0 16px;
+        min-width: auto;
+        font-size: 13px;
+    }
+
+    .site-footer-links-area {
+        padding: 16px 12px;
+        gap: 16px;
+    }
+
+    .site-footer-links-column {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+
+    .site-footer-links-column a {
+        white-space: normal;
+        line-height: 1.5;
+    }
+
+    .site-footer-feature-item {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .site-footer-feature-label {
+        font-size: 13px;
+    }
+
+    .site-footer-bottom {
+        padding: 14px 12px;
+    }
+
+    .site-footer-social {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .site-footer-social-icons {
+        gap: 8px;
+    }
+
+    .social-icon-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .footer-inline-email-wrap {
+        height: 44px;
+        padding: 0 12px;
+    }
+
+    .footer-inline-submit {
+        height: 44px;
+        padding: 0 16px;
+        font-size: 12px;
+    }
+
+    .site-footer-legal {
+        padding: 14px 12px;
+    }
+
+    .site-footer-legal-text {
+        font-size: 11px;
+    }
+
+    .site-footer-payments {
+        gap: 8px;
+    }
+
+    .site-footer-payments svg {
+        width: 32px;
+        height: 20px;
+    }
+}
+
 
 .main-footer[class*="jsx-"],
 div.main-footer[class*="jsx-"] {
