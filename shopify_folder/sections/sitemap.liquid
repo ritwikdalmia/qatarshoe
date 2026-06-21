@@ -126,46 +126,113 @@
       </div>
     {%- endif -%}
 
-    {%- liquid
-      assign support_menu = section.settings.support_menu
-      assign has_support_menu = false
-      if support_menu != blank and linklists[support_menu] != blank and linklists[support_menu].links.size > 0
-        assign has_support_menu = true
-      endif
-    -%}
+    {%- assign support_blocks_count = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'card' and block.settings.group == 'support' -%}
+        {%- assign support_blocks_count = support_blocks_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
 
-    {%- if has_support_menu -%}
+    {%- if support_blocks_count > 0 -%}
       <div class="sitemap-group">
         <h2 class="sitemap-group-title">{{ section.settings.support_title | default: "Support Pages" }}</h2>
         
         <div class="sitemap-cards-row">
-          {%- assign support_links_size = linklists[support_menu].links.size -%}
-          {%- for link in linklists[support_menu].links -%}
-            <div class="sitemap-card">
-              <div class="sitemap-card-inner">
-                <h3>{{ link.title }}</h3>
-                <div class="sitemap-card-links">
-                  {%- if link.links != blank and link.links.size > 0 -%}
-                    {%- for child_link in link.links -%}
-                      <a href="{{ child_link.url }}" class="sitemap-link">
-                        <span>{{ child_link.title }}</span>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      </a>
+          {%- assign support_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'card' and block.settings.group == 'support' -%}
+              {%- assign support_index = support_index | plus: 1 -%}
+              <div class="sitemap-card" {{ block.shopify_attributes }}>
+                <div class="sitemap-card-inner">
+                  <h3>{{ block.settings.title }}</h3>
+                  <div class="sitemap-card-links">
+                    {%- assign has_custom_links = false -%}
+                    {%- for i in (1..6) -%}
+                      {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                      {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                      {%- if block.settings[url_setting] != blank and block.settings[label_setting] != blank -%}
+                        {%- assign has_custom_links = true -%}
+                        {%- break -%}
+                      {%- endif -%}
                     {%- endfor -%}
-                  {%- else -%}
-                    <a href="{{ link.url }}" class="sitemap-link">
-                      <span>View Page</span>
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </a>
-                  {%- endif -%}
+
+                    {%- if has_custom_links -%}
+                      {%- for i in (1..6) -%}
+                        {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                        {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                        {%- assign url = block.settings[url_setting] -%}
+                        {%- assign label = block.settings[label_setting] -%}
+                        {%- if url != blank and label != blank -%}
+                          <a href="{{ url }}" class="sitemap-link">
+                            <span>{{ label }}</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </a>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- else -%}
+                      {%- assign menu_handle = block.settings.menu -%}
+                      {%- if menu_handle == blank -%}
+                        {%- assign menu_handle = block.settings.title | handle -%}
+                      {%- endif -%}
+
+                      {%- if linklists[menu_handle] != blank and linklists[menu_handle].links.size > 0 -%}
+                        {%- assign has_nested = false -%}
+                        {%- for link in linklists[menu_handle].links -%}
+                          {%- if link.links != blank -%}
+                            {%- assign has_nested = true -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+
+                        {%- if has_nested -%}
+                          <div class="sitemap-nested-menu">
+                            {%- for link in linklists[menu_handle].links -%}
+                              <div class="sitemap-menu-item-level-1{% if link.links != blank %} sitemap-collapsible{% endif %}">
+                                {%- if link.links != blank -%}
+                                  <button class="sitemap-toggle-btn" aria-expanded="false" type="button">
+                                    <span class="sitemap-link-level-1">{{ link.title }}</span>
+                                    <span class="sitemap-toggle-icon">
+                                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                  </button>
+                                  <div class="sitemap-level-2-wrapper">
+                                    <div class="sitemap-level-2-grid">
+                                      {%- for child_link in link.links -%}
+                                        <div class="sitemap-menu-item-level-2">
+                                          <a href="{{ child_link.url }}" class="sitemap-link-level-2">{{ child_link.title }}</a>
+                                          {%- if child_link.links != blank -%}
+                                            <div class="sitemap-level-3-list">
+                                              {%- for grandchild_link in child_link.links -%}
+                                                <a href="{{ grandchild_link.url }}" class="sitemap-link-level-3">{{ grandchild_link.title }}</a>
+                                              {%- endfor -%}
+                                            </div>
+                                          {%- endif -%}
+                                        </div>
+                                      {%- endfor -%}
+                                    </div>
+                                  </div>
+                                {%- else -%}
+                                  <a href="{{ link.url }}" class="sitemap-link-level-1">{{ link.title }}</a>
+                                {%- endif -%}
+                              </div>
+                            {%- endfor -%}
+                          </div>
+                        {%- else -%}
+                          {%- for link in linklists[menu_handle].links -%}
+                            <a href="{{ link.url }}" class="sitemap-link">
+                              <span>{{ link.title }}</span>
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                          {%- endfor -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            {%- assign loop_index = forloop.index -%}
-            {%- assign modulo = loop_index | modulo: 2 -%}
-            {%- if modulo == 0 and loop_index < support_links_size -%}
-              </div><div class="sitemap-cards-row">
+              {%- assign modulo = support_index | modulo: 2 -%}
+              {%- if modulo == 0 and support_index < support_blocks_count -%}
+                </div><div class="sitemap-cards-row">
+              {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
         </div>
@@ -578,12 +645,6 @@
       "id": "support_title",
       "label": "Support Section Title",
       "default": "Support Pages"
-    },
-    {
-      "type": "link_list",
-      "id": "support_menu",
-      "label": "Support Section Navigation Menu",
-      "info": "Select your footer or support menu. First-level links will become card headers, and second-level links will be listed inside."
     }
   ],
   "blocks": [
