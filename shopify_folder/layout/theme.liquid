@@ -48,16 +48,78 @@
         --color-drawer-bg: {{ settings.color_drawer_bg | default: '#ffffff' }};
         --color-drawer-footer-bg: {{ settings.color_drawer_footer_bg | default: '#faf9f5' }};
       }
+
+      /* Global style overrides to enforce client background and accent colors */
+      body {
+        background-color: var(--color-bg) !important;
+      }
+      
+      .site-footer,
+      .site-footer-panel-left,
+      .site-footer-panel-right,
+      .site-footer-links-area,
+      .site-footer-feature-item,
+      .site-footer-bottom,
+      .contact-form-section,
+      .faq-main,
+      .faq-sidebar-item,
+      .faq-search-wrap,
+      .faq-item,
+      .faq-mobile-bar,
+      .faq-mobile-overlay-item,
+      .pp-content,
+      .sd-hero,
+      .sd-services,
+      .sd-timeline-card,
+      .sd-timelines,
+      .rr-hero,
+      .rr-eligibility,
+      .rr-eligibility-card,
+      .rr-side-card,
+      .rr-non-returnable,
+      .rr-refund,
+      .rr-sides,
+      .sitemap-main,
+      .about-main,
+      .contact-main,
+      .care-main,
+      .payments-main,
+      .tos-main,
+      .privacy-main,
+      .collection-toolbar,
+      .filter-pill,
+      .cs-trigger,
+      .cs-options,
+      .filters-clear-btn {
+        background-color: var(--color-bg) !important;
+      }
+
+      .site-footer-subscribe-form .wpcf7-submit,
+      .contact-submit-custom {
+        background-color: var(--color-bg) !important;
+        border-color: var(--color-primary) !important;
+        color: var(--color-primary) !important;
+      }
+
+      .site-footer-subscribe-form .wpcf7-submit:hover,
+      .contact-submit-custom:hover {
+        background-color: var(--color-primary) !important;
+        color: var(--color-bg) !important;
+      }
+
+      .site-footer-legal {
+        background-color: var(--color-primary) !important;
+      }
     </style>
 
     
     <script>
       (function() {
         // Department sync
-        var dept = localStorage.getItem('qatarshoes_department') || 'women';
+        var dept = localStorage.getItem('amirivibes_department') || 'women';
         if (dept !== 'women' && dept !== 'men') dept = 'women';
         document.documentElement.classList.add('dept-' + dept);
-        document.cookie = 'qatarshoes_department=' + dept + '; path=/; max-age=' + (365 * 24 * 60 * 60);
+        document.cookie = 'amirivibes_department=' + dept + '; path=/; max-age=' + (365 * 24 * 60 * 60);
 
         // Language preference persistence
         var currentLang = "{{ request.locale.iso_code }}".toLowerCase();

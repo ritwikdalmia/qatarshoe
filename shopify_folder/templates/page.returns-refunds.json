@@ -4,9 +4,9 @@
       "type": "returns-refunds",
       "settings": {
         "heading": "Returns and Refunds",
-        "subheading": "At Qtrshoe, we handle returns and refunds in a clear and fair manner. Eligibility depends on the service selected and the condition of the item.",
+        "subheading": "At AmiriVibes, we handle returns and refunds in a clear and fair manner. Eligibility depends on the service selected and the condition of the item.",
         "side_left_heading": "IF THE ISSUE IS ON OUR SIDE",
-        "side_left_subheading": "In the event that an item arrives incorrect, damaged, or with a defect attributable to QTRSHOE:",
+        "side_left_subheading": "In the event that an item arrives incorrect, damaged, or with a defect attributable to AmiriVibes:",
         "side_right_heading": "IF THE RETURN IS CUSTOMER-INITIATED",
         "side_right_subheading": "For returns not resulting from an error on our part:",
         "non_returnable_heading": "NON-RETURNABLE ITEMS",
@@ -42,7 +42,7 @@
           "type": "side_card",
           "settings": {
             "side": "left",
-            "text": "All return delivery costs are covered entirely by QTRSHOE."
+            "text": "All return delivery costs are covered entirely by AmiriVibes."
           }
         },
         "side_right_item_1": {

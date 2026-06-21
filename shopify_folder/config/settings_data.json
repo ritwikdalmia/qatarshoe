@@ -9,22 +9,32 @@
  */
 {
   "current": {
+    "color_bg": "#f9f2d5",
+    "color_text": "#ffffff",
+    "color_primary": "#8c1638",
+    "color_accent": "#8c1638",
+    "color_border": "#d4c5a9",
+    "color_muted": "#6b5b4f",
+    "color_dark_teal": "#8c1638",
+    "color_green": "#8c1638",
+    "color_drawer_bg": "#f9f2d5",
+    "color_drawer_footer_bg": "#8c1638",
     "favicon": "",
-    "sections": {
-      "header": {
-        "type": "header",
-        "settings": {
-          "logo_text": "Qtrshoe",
-          "women_main_menu": "women",
-          "men_main_menu": "men"
-        }
-      }
-    },
     "settings": {
       "slideshow_enabled_homepage": true,
       "slideshow_enabled_collections": true,
       "slideshow_enabled_products": true,
       "slideshow_interval": 5
+    },
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_text": "AmiriVibes",
+          "women_main_menu": "women",
+          "men_main_menu": "men"
+        }
+      }
     },
     "content_for_index": []
   },

@@ -34,7 +34,7 @@ body {
   letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  background: #fff;
+  background: var(--color-bg, #faf9f5);
 }
 
 
@@ -473,7 +473,7 @@ body {
   align-items: center;
   height: 80px;
   padding: 0 40px;
-  background: #1a1a1a;
+  background: var(--color-primary, #1a1a1a);
 }
 .header-container {
   display: flex;
@@ -527,7 +527,7 @@ body {
 
 
 .desktop-nav {
-  background: #1a1a1a;
+  background: var(--color-primary, #1a1a1a);
   border-top: 1px solid rgba(255,255,255,0.1);
   height: 44px;
   display: flex;
@@ -541,7 +541,7 @@ body {
 
 
 .promo-banner {
-  background: #304854;
+  background: var(--color-dark-teal, #304854);
   color: #fff;
   text-align: center;
   font-size: 12px;
@@ -984,8 +984,8 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 .product-badge-new {
-  background: #1a1a1a;
-  border: 1px solid #1a1a1a;
+  background: var(--color-primary, #1a1a1a);
+  border: 1px solid var(--color-primary, #1a1a1a);
 }
 .product-badge-sale-new {
   background: #e74c3c;

@@ -35,7 +35,7 @@
     (function() {
       var heroEl = document.getElementById('hero-{{ section.id }}');
       if (heroEl) {
-        var dept = localStorage.getItem('qatarshoes_department') || 'women';
+        var dept = localStorage.getItem('amirivibes_department') || 'women';
         if (dept === 'men') {
           heroEl.style.setProperty('--bg-desktop', "url('{{ hero_desktop_men }}')");
           heroEl.style.setProperty('--bg-mobile', "url('{{ hero_mobile_men }}')");
@@ -93,7 +93,7 @@
     });
 
     
-    var initial = localStorage.getItem('qatarshoes_department') || 'women';
+    var initial = localStorage.getItem('amirivibes_department') || 'women';
     updateHeroBG(initial);
   });
 </script>

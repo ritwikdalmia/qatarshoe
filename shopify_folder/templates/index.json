@@ -29,8 +29,8 @@
       "settings": {
         "items_rtg": "FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING • FAST DELIVERY & EASY RETURNS • YOUR SAFEST SHOPPING",
         "items_rts": "Shipping to all GCC • Delivered Within 2-3 Days",
-        "bg_color": "#1a1a1a",
-        "text_color": "#ffffff"
+        "bg_color": "#8c1638",
+        "text_color": "#f9f2d5"
       }
     },
     "trending": {
@@ -69,7 +69,7 @@
     "above-footer": {
       "type": "above-footer-banner",
       "settings": {
-        "bg_color": "#2d1f1f",
+        "bg_color": "#8c1638",
         "heading_text": "A selection of designer pieces,<span class=\"afb-newline\"> chosen with purpose</span>",
         "bullet_1": "Selected For Quality, Rarity, And Design.",
         "bullet_2": "Exclusive Styles In Limited Quantities.",
