@@ -3,9 +3,10 @@
     "name": "theme_info",
     "theme_name": "Qatar Shoes Clean Replica",
     "theme_version": "1.0.0",
-    "theme_author": "AlgoGuru (Ritwik Dalmia)",
+    "theme_author": "AlgoGuru Technologies (Ritwik Dalmia)",
+    "theme_author_email": "algogurutechnologies@gmail.com",
     "theme_documentation_url": "https://qatarshoe.com",
-    "theme_support_url": "https://qatarshoe.com"
+    "theme_support_url": "mailto:algogurutechnologies@gmail.com"
   },
   {
     "name": "Colors",
