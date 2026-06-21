@@ -75,13 +75,13 @@
     transition: color 0.18s;
   }
   .breadcrumbs a:hover {
-    color: var(--color-primary, #2d1f1f);
+    color: var(--color-primary, var(--color-primary));
   }
   .breadcrumbs .crumb-sep {
     opacity: 0.4;
   }
   .breadcrumbs .crumb-active {
-    color: var(--color-primary, #2d1f1f);
+    color: var(--color-primary, var(--color-primary));
     font-weight: 600;
   }
 
@@ -467,12 +467,12 @@
     margin: 0;
   }
   .filter-drawer-checkbox:hover {
-    border-color: var(--color-primary, #2d1f1f);
+    border-color: var(--color-primary, var(--color-primary));
     box-shadow: 0 0 0 3px rgba(45, 31, 31, 0.1);
   }
   .filter-drawer-checkbox:checked {
-    background-color: var(--color-primary, #2d1f1f);
-    border-color: var(--color-primary, #2d1f1f);
+    background-color: var(--color-primary, var(--color-primary));
+    border-color: var(--color-primary, var(--color-primary));
   }
   .filter-drawer-checkbox:checked::after {
     content: '';
@@ -484,7 +484,7 @@
     transform: rotate(45deg) translate(-0.5px, -1.5px);
   }
   .filter-drawer-checkbox:focus-visible {
-    outline: 2px solid var(--color-primary, #2d1f1f);
+    outline: 2px solid var(--color-primary, var(--color-primary));
     outline-offset: 2px;
   }
   
@@ -492,10 +492,10 @@
     transition: color 0.18s ease;
   }
   .filter-checkbox-label:hover {
-    color: var(--color-primary, #2d1f1f) !important;
+    color: var(--color-primary, var(--color-primary)) !important;
   }
   .filter-checkbox-label:hover .filter-drawer-checkbox {
-    border-color: var(--color-primary, #2d1f1f);
+    border-color: var(--color-primary, var(--color-primary));
   }
   
   /* Brand search input styling */
@@ -506,14 +506,14 @@
     border-radius: 6px !important;
     font-family: inherit;
     font-size: 13.5px !important;
-    color: var(--color-primary, #2d1f1f);
+    color: var(--color-primary, var(--color-primary));
     background-color: #faf9f5 !important;
     outline: none;
     box-sizing: border-box;
     transition: all 0.2s ease !important;
   }
   .filter-search-input:focus {
-    border-color: var(--color-primary, #2d1f1f) !important;
+    border-color: var(--color-primary, var(--color-primary)) !important;
     background-color: #fff !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
@@ -1629,7 +1629,7 @@
           pagContainer.style.padding = '20px';
           pagContainer.innerHTML = `
             <div class="infinite-scroll-trigger-el" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-              <span class="spinner" style="display: inline-block; width: 24px; height: 24px; border: 3px solid rgba(0,0,0,0.1); border-radius: 50%; border-top-color: var(--color-primary, #2d1f1f); animation: spin 1s ease-in-out infinite;"></span>
+              <span class="spinner" style="display: inline-block; width: 24px; height: 24px; border: 3px solid rgba(0,0,0,0.1); border-radius: 50%; border-top-color: var(--color-primary, var(--color-primary)); animation: spin 1s ease-in-out infinite;"></span>
               <style>
                 @keyframes spin {
                   to { transform: rotate(360deg); }

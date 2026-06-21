@@ -21,7 +21,7 @@
       font-weight: 400;
       line-height: 100%;
       letter-spacing: -2%;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
       text-transform: none;
   }
@@ -80,7 +80,7 @@
       font-weight: 600;
       line-height: 100%;
       letter-spacing: -2%;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
   }
 
@@ -103,8 +103,8 @@
       height: 48px;
       padding: 0 18px;
       background: #fff;
-      color: #2D1F1F;
-      border: 1px solid #2D1F1F;
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
       border-radius: 900px;
       font-family: 'Inter', sans-serif;
       font-size: 16px;
@@ -118,7 +118,7 @@
   }
 
   .contact-card-link:hover {
-      background: #2D1F1F;
+      background: var(--color-primary);
       color: #fff;
   }
 
@@ -164,7 +164,7 @@
       line-height: 100%;
       letter-spacing: -2%;
       margin: 0;
-      color: #2D1F1F;
+      color: var(--color-primary);
       text-transform: none;
   }
 
@@ -215,7 +215,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 500;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
   }
 
@@ -232,7 +232,7 @@
       background: #fff;
       border: 1px solid rgba(45, 31, 31, 0.2);
       border-radius: 6px;
-      color: #2D1F1F;
+      color: var(--color-primary);
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       line-height: 100%;
@@ -259,7 +259,7 @@
   .contact-form-wrapper input[type="email"]:focus,
   .contact-form-wrapper input[type="tel"]:focus,
   .contact-form-wrapper textarea:focus {
-      border-color: #2D1F1F;
+      border-color: var(--color-primary);
   }
 
   .contact-form-wrapper input::placeholder,
@@ -284,8 +284,8 @@
       gap: 8px;
       padding: 0 18px;
       background: #fff;
-      color: #2D1F1F;
-      border: 1px solid #2D1F1F;
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
       border-radius: 900px;
       font-family: 'Inter', sans-serif;
       cursor: pointer;
@@ -308,7 +308,7 @@
   }
 
   .contact-submit-custom:hover {
-      background: #2D1F1F;
+      background: var(--color-primary);
       color: #fff;
   }
 
@@ -318,7 +318,7 @@
       padding: 14px 18px;
       font-size: 14px;
       border-radius: 4px;
-      color: #2D1F1F;
+      color: var(--color-primary);
       border: 1px solid rgba(45, 31, 31, 0.2);
   }
 
@@ -339,10 +339,10 @@
   }
 
   body.contact-page-body .contact-form-inner {
-      padding: 42px;
-      margin: 0;
-      max-width: none;
-      gap: 290px;
+      padding: 24px 150px;
+      margin: 0 auto;
+      max-width: 1620px;
+      gap: 80px;
   }
 
   @media (max-width: 1023px) {
@@ -350,7 +350,8 @@
           padding: 24px 40px 32px;
       }
       body.contact-page-body .contact-form-inner {
-          gap: 100px;
+          gap: 40px;
+          padding: 32px 40px;
       }
   }
 

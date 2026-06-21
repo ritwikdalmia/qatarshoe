@@ -402,6 +402,65 @@
         border-color: var(--color-primary) !important;
       }
 
+      /* Shopify default policy pages styling */
+      .shopify-policy__container {
+        max-width: 800px !important;
+        margin: 80px auto !important;
+        padding: 0 24px !important;
+        background-color: var(--color-bg) !important;
+      }
+      .shopify-policy__title {
+        margin-bottom: 40px !important;
+        text-align: center !important;
+      }
+      .shopify-policy__title h1 {
+        font-family: 'Canela Text', Georgia, serif !important;
+        font-size: 48px !important;
+        font-weight: 400 !important;
+        color: var(--color-primary) !important;
+        line-height: 1.2 !important;
+        margin: 0 !important;
+        text-transform: capitalize !important;
+      }
+      .shopify-policy__body {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+        color: #000000 !important;
+      }
+      .shopify-policy__body p {
+        margin-bottom: 12px !important;
+        color: #000000 !important;
+      }
+      .shopify-policy__body ul,
+      .shopify-policy__body ol {
+        margin-bottom: 12px !important;
+        padding-left: 20px !important;
+      }
+      .shopify-policy__body ul li,
+      .shopify-policy__body ol li {
+        margin-bottom: 6px !important;
+        color: #000000 !important;
+      }
+      .shopify-policy__body li strong,
+      .shopify-policy__body p strong {
+        display: block !important;
+        text-align: center !important;
+        color: var(--color-primary) !important;
+        font-size: 18px !important;
+        margin-top: 16px !important;
+        margin-bottom: 4px !important;
+        font-weight: 600 !important;
+      }
+      .shopify-policy__body h2,
+      .shopify-policy__body h3 {
+        font-family: 'Inter', sans-serif !important;
+        color: var(--color-primary) !important;
+        margin-top: 2em !important;
+        margin-bottom: 0.8em !important;
+        font-weight: 600 !important;
+      }
+
       /* Make internal page text uniform, solid black, and correctly sized */
       .faq-answer p, 
       .faq-answer div,
@@ -445,6 +504,11 @@
         color: #000000 !important;
       }
 
+      .about-offer-card-name {
+        color: var(--color-primary) !important;
+        font-weight: 600 !important;
+      }
+
       /* Make internal page main headings uniform */
       .faq-title,
       .pp-title,
@@ -452,21 +516,94 @@
       .cc-hero-title,
       .sd-hero-title,
       .rr-hero-title,
+      .about-hero h1,
       .about-hero-title,
       .payments-hero-title,
       .tos-hero-title,
-      .privacy-hero-title {
-        font-family: 'Inter', sans-serif !important;
+      .privacy-hero-title,
+      .ps-hero-title,
+      .sitemap-main h1,
+      .sitemap-hero-content h1,
+      .shopify-policy__title h1 {
+        font-family: 'Canela Text', Georgia, serif !important;
         font-size: 48px !important;
         font-weight: 400 !important;
         line-height: 1.2 !important;
         color: var(--color-primary) !important;
+        text-align: center !important;
+        margin-bottom: 16px !important;
+        text-transform: capitalize !important;
       }
+
+      /* Make internal page header/hero subheadings uniform and centered */
+      .contact-page-header,
+      .cc-hero-content,
+      .sd-hero-content,
+      .rr-hero-content,
+      .payments-hero-content,
+      .about-hero-content,
+      .faq-header,
+      .ps-hero-content,
+      .sitemap-header,
+      .sitemap-hero-content {
+        text-align: center !important;
+        align-items: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+      }
+
+      .contact-page-header p,
+      .cc-hero-subtitle,
+      .sd-hero-subtitle,
+      .rr-hero-subtitle,
+      .payments-desc,
+      .about-hero-content p,
+      .faq-subtitle,
+      .ps-hero-subtitle,
+      .sitemap-header p,
+      .sitemap-hero-content p,
+      .tos-desc,
+      .privacy-desc {
+        text-align: center !important;
+        max-width: 680px !important;
+        margin: 0 auto !important;
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+        color: rgba(45, 31, 31, 0.75) !important;
+      }
+
       @media (max-width: 767px) {
         .faq-title,
+        .pp-title,
         .contact-page-header h1,
-        .cc-hero-title {
+        .cc-hero-title,
+        .sd-hero-title,
+        .rr-hero-title,
+        .about-hero h1,
+        .about-hero-title,
+        .payments-hero-title,
+        .tos-hero-title,
+        .privacy-hero-title,
+        .ps-hero-title,
+        .sitemap-main h1,
+        .sitemap-hero-content h1,
+        .shopify-policy__title h1 {
           font-size: 32px !important;
+        }
+        .contact-page-header p,
+        .cc-hero-subtitle,
+        .sd-hero-subtitle,
+        .rr-hero-subtitle,
+        .payments-desc,
+        .about-hero-content p,
+        .faq-subtitle,
+        .ps-hero-subtitle,
+        .sitemap-header p,
+        .sitemap-hero-content p,
+        .tos-desc,
+        .privacy-desc {
+          font-size: 14px !important;
         }
       }
       /* Highlight all secondary headings in primary theme color */

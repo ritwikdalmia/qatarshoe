@@ -70,28 +70,28 @@
           "type": "non_returnable_card",
           "settings": {
             "title": "Watches",
-            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2D1F1F\" stroke-width=\"1.5\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>"
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--color-primary)\" stroke-width=\"1.5\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>"
           }
         },
         "non_returnable_2": {
           "type": "non_returnable_card",
           "settings": {
             "title": "Items that have been used, worn, or show any signs of use.",
-            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2D1F1F\" stroke-width=\"1.5\"><path d=\"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\"/></svg>"
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--color-primary)\" stroke-width=\"1.5\"><path d=\"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\"/></svg>"
           }
         },
         "non_returnable_3": {
           "type": "non_returnable_card",
           "settings": {
             "title": "Items returned without their original packaging, boxes, or dust bags.",
-            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2D1F1F\" stroke-width=\"1.5\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"14\" rx=\"2\" ry=\"2\"/><path d=\"M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/></svg>"
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--color-primary)\" stroke-width=\"1.5\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"14\" rx=\"2\" ry=\"2\"/><path d=\"M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/></svg>"
           }
         },
         "non_returnable_4": {
           "type": "non_returnable_card",
           "settings": {
             "title": "Items missing accessories, insoles, laces, or any included components.",
-            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2D1F1F\" stroke-width=\"1.5\"><path d=\"M18.36 6.64a9 9 0 1 1-12.73 0\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"12\"/></svg>"
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--color-primary)\" stroke-width=\"1.5\"><path d=\"M18.36 6.64a9 9 0 1 1-12.73 0\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"12\"/></svg>"
           }
         }
       },

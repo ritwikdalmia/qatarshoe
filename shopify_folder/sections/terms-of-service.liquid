@@ -23,7 +23,7 @@
       font-weight: 400;
       line-height: 100%;
       letter-spacing: 0;
-      color: #2D1F1F;
+      color: var(--color-primary);
       text-transform: capitalize;
       margin: 0;
   }
@@ -97,15 +97,15 @@
   }
 
   .pp-sidebar-item:hover {
-      color: #2D1F1F;
+      color: var(--color-primary);
       background: rgba(45, 31, 31, 0.03);
   }
 
   .pp-sidebar-item.active {
       font-weight: 600;
-      color: #2D1F1F;
+      color: var(--color-primary);
       background: #ffffff;
-      border-left-color: #2D1F1F;
+      border-left-color: var(--color-primary);
   }
 
   .pp-sidebar-item svg {
@@ -126,7 +126,7 @@
       font-weight: 400;
       line-height: 150%;
       letter-spacing: 0;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
   }
 
@@ -149,7 +149,7 @@
       font-weight: 600;
       line-height: 40px;
       letter-spacing: 0;
-      color: #2D1F1F;
+      color: var(--color-primary);
       text-transform: capitalize;
       margin: 0;
   }
@@ -168,7 +168,7 @@
       font-weight: 400;
       line-height: 150%;
       letter-spacing: 0;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
   }
 
@@ -183,7 +183,7 @@
       font-size: 20px;
       font-weight: 600;
       line-height: 24px;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
   }
 
@@ -193,7 +193,7 @@
       font-weight: 400;
       line-height: 150%;
       letter-spacing: 0;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
       padding-left: 24px;
       display: flex;
@@ -227,7 +227,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 600;
-      color: #2D1F1F;
+      color: var(--color-primary);
   }
 
   .pp-mobile-bar svg {
@@ -249,7 +249,7 @@
 
   .pp-mobile-bar-progress-fill {
       height: 100%;
-      background: #2D1F1F;
+      background: var(--color-primary);
       width: 0%;
       transition: width 0.3s ease;
   }
@@ -307,7 +307,7 @@
 
   .pp-mobile-overlay-item.active {
       font-weight: 600;
-      color: #2D1F1F;
+      color: var(--color-primary);
       pointer-events: none;
   }
 
@@ -400,7 +400,7 @@
 <!-- Mobile Sticky Navigation Bar -->
 <div class="pp-mobile-bar" id="ppMobileBar">
     <span class="pp-mobile-bar-label">Terms and Conditions</span>
-    <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7.5l5 5 5-5"/></svg>
+    <svg viewBox="0 0 20 20" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7.5l5 5 5-5"/></svg>
     <div class="pp-mobile-bar-progress">
         <div class="pp-mobile-bar-progress-fill" id="ppMobileProgressFill"></div>
     </div>
@@ -414,7 +414,7 @@
             {%- if block.type == 'terms_section' -%}
                 <div class="pp-mobile-overlay-item{% if is_first %} active{% endif %}" data-target="{{ block.settings.title | handleize }}">
                     <span>{{ block.settings.title }}</span>
-                    <svg viewBox="0 0 20 20" fill="none" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
                 {%- assign is_first = false -%}
             {%- endif -%}

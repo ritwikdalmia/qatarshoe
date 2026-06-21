@@ -4,7 +4,7 @@
       "type": "shipping-delivery",
       "settings": {
         "heading": "Shipping & Delivery",
-        "subheading": "AmiriVibes offers flexible delivery options for customers in Qatar, the UAE, the GCC, and international destinations."
+        "subheading": "AmiriVibes offers flexible delivery options for customers in Qatar."
       },
       "blocks": {
         "local_orders": {

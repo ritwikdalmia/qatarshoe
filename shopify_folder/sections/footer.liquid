@@ -95,7 +95,7 @@
     height: 48px;
     padding: 0 24px;
     background: #ffffff;
-    border: 1px solid #2D1F1F;
+    border: 1px solid var(--color-primary);
     border-radius: 900px;
     display: flex;
     align-items: center;
@@ -108,7 +108,7 @@
     line-height: 100%;
     text-transform: none;
     letter-spacing: 0;
-    color: #2D1F1F;
+    color: var(--color-primary);
     transition: background 0.2s ease, color 0.2s ease;
     box-sizing: border-box;
     position: relative;
@@ -116,7 +116,7 @@
 }
 
 .site-footer-subscribe-form .wpcf7-submit:hover {
-    background: #2D1F1F;
+    background: var(--color-primary);
     color: #ffffff;
 }
 
@@ -140,7 +140,7 @@
     width: 20px;
     height: 20px;
     border: 2.5px solid rgba(45, 31, 31, 0.3);
-    border-top-color: #2D1F1F;
+    border-top-color: var(--color-primary);
     border-radius: 50%;
     animation: footerBtnSpin 0.6s linear infinite;
 }
@@ -432,9 +432,9 @@
 }
 
 .social-icon-btn:hover {
-    background: #2D1F1F;
+    background: var(--color-primary);
     color: #ffffff;
-    border-color: #2D1F1F;
+    border-color: var(--color-primary);
     transform: translateY(-2px);
 }
 
@@ -657,7 +657,7 @@
 
     .site-footer-bottom {
         padding: 20px 24px;
-        color: #2D1F1F;
+        color: var(--color-primary);
     }
 
     .site-footer-bottom-inner {
@@ -694,7 +694,7 @@
 
 
 .site-footer-legal {
-    background: #2D1F1F;
+    background: var(--color-primary);
     padding: 20px 40px;
     width: 100%;
     box-sizing: border-box;
@@ -850,7 +850,7 @@ footer.site-footer {
                 <div class="site-footer-feature-item">
                     <div class="site-footer-feature-icon">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.6 7H18.4M1.6 13H18.4M9.5 1C7.81534 3.69961 6.9222 6.81787 6.9222 10C6.9222 13.1821 7.81534 16.3004 9.5 19M10.5 1C12.1847 3.69961 13.0778 6.81787 13.0778 10C13.0778 13.1821 12.1847 16.3004 10.5 19M1 10C1 11.1819 1.23279 12.3522 1.68508 13.4442C2.13738 14.5361 2.80031 15.5282 3.63604 16.364C4.47177 17.1997 5.46392 17.8626 6.55585 18.3149C7.64778 18.7672 8.8181 19 10 19C11.1819 19 12.3522 18.7672 13.4442 18.3149C14.5361 17.8626 15.5282 17.1997 16.364 16.364C17.1997 15.5282 17.8626 14.5361 18.3149 13.4442C18.7672 12.3522 19 11.1819 19 10C19 7.61305 18.0518 5.32387 16.364 3.63604C14.6761 1.94821 12.3869 1 10 1C7.61305 1 5.32387 1.94821 3.63604 3.63604C1.94821 5.32387 1 7.61305 1 10Z" stroke="#2D1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1.6 7H18.4M1.6 13H18.4M9.5 1C7.81534 3.69961 6.9222 6.81787 6.9222 10C6.9222 13.1821 7.81534 16.3004 9.5 19M10.5 1C12.1847 3.69961 13.0778 6.81787 13.0778 10C13.0778 13.1821 12.1847 16.3004 10.5 19M1 10C1 11.1819 1.23279 12.3522 1.68508 13.4442C2.13738 14.5361 2.80031 15.5282 3.63604 16.364C4.47177 17.1997 5.46392 17.8626 6.55585 18.3149C7.64778 18.7672 8.8181 19 10 19C11.1819 19 12.3522 18.7672 13.4442 18.3149C14.5361 17.8626 15.5282 17.1997 16.364 16.364C17.1997 15.5282 17.8626 14.5361 18.3149 13.4442C18.7672 12.3522 19 11.1819 19 10C19 7.61305 18.0518 5.32387 16.364 3.63604C14.6761 1.94821 12.3869 1 10 1C7.61305 1 5.32387 1.94821 3.63604 3.63604C1.94821 5.32387 1 7.61305 1 10Z" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <span class="site-footer-feature-label">{{ section.settings.feature_1_text | default: "Worldwide Shipping" }}</span>
@@ -859,7 +859,7 @@ footer.site-footer {
                 <div class="site-footer-feature-item">
                     <div class="site-footer-feature-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 17C5 17.5304 5.21071 18.0391 5.58579 18.4142C5.96086 18.7893 6.46957 19 7 19C7.53043 19 8.03914 18.7893 8.41421 18.4142C8.78929 18.0391 9 17.5304 9 17M5 17C5 16.4696 5.21071 15.9609 5.58579 15.5858C5.96086 15.2107 6.46957 15 7 15C7.53043 15 8.03914 15.2107 8.41421 15.5858C8.78929 15.9609 9 16.4696 9 17M5 17H3V13M9 17H15M15 17C15 17.5304 15.2107 18.0391 15.5858 18.4142C15.9609 18.7893 16.4696 19 17 19C17.5304 19 18.0391 18.7893 18.4142 18.4142C18.7893 18.0391 19 17.5304 19 17M13 6H18L21 11V17H19M2 5H13V17M21 11H13M3 9H7" stroke="#2D1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 17C5 17.5304 5.21071 18.0391 5.58579 18.4142C5.96086 18.7893 6.46957 19 7 19C7.53043 19 8.03914 18.7893 8.41421 18.4142C8.78929 18.0391 9 17.5304 9 17M5 17C5 16.4696 5.21071 15.9609 5.58579 15.5858C5.96086 15.2107 6.46957 15 7 15C7.53043 15 8.03914 15.2107 8.41421 15.5858C8.78929 15.9609 9 16.4696 9 17M5 17H3V13M9 17H15M15 17C15 17.5304 15.2107 18.0391 15.5858 18.4142C15.9609 18.7893 16.4696 19 17 19C17.5304 19 18.0391 18.7893 18.4142 18.4142C18.7893 18.0391 19 17.5304 19 17M13 6H18L21 11V17H19M2 5H13V17M21 11H13M3 9H7" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <span class="site-footer-feature-label">{{ section.settings.feature_2_text | default: "Fast Delivery" }}</span>
@@ -868,7 +868,7 @@ footer.site-footer {
                 <div class="site-footer-feature-item">
                     <div class="site-footer-feature-icon">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.44706 18.846C6.43635 17.9127 3.91372 15.8324 2.42427 13.0545C0.934827 10.2765 0.598174 7.02411 1.48706 4C4.60259 4.14257 7.65123 3.06658 9.98706 1C12.3229 3.06658 15.3715 4.14257 18.4871 4C19.1657 6.30911 19.1344 8.76894 18.3971 11.06M12.9871 17L14.9871 19L18.9871 15" stroke="#2D1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9.44706 18.846C6.43635 17.9127 3.91372 15.8324 2.42427 13.0545C0.934827 10.2765 0.598174 7.02411 1.48706 4C4.60259 4.14257 7.65123 3.06658 9.98706 1C12.3229 3.06658 15.3715 4.14257 18.4871 4C19.1657 6.30911 19.1344 8.76894 18.3971 11.06M12.9871 17L14.9871 19L18.9871 15" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <span class="site-footer-feature-label">{{ section.settings.feature_3_text | default: "Secure Checkout" }}</span>
@@ -877,7 +877,7 @@ footer.site-footer {
                 <div class="site-footer-feature-item">
                     <div class="site-footer-feature-icon">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 13V15C12 15.2652 11.8946 15.5196 11.7071 15.7071C11.5196 15.8946 11.2652 16 11 16H4L1 19V9C1 8.73478 1.10536 8.48043 1.29289 8.29289C1.48043 8.10536 1.73478 8 2 8H4M19 12L16 9H9C8.73478 9 8.48043 8.89464 8.29289 8.70711C8.10536 8.51957 8 8.26522 8 8V2C8 1.73478 8.10536 1.48043 8.29289 1.29289C8.48043 1.10536 8.73478 1 9 1H18C18.2652 1 18.5196 1.10536 18.7071 1.29289C18.8946 1.48043 19 1.73478 19 2V12Z" stroke="#2D1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13V15C12 15.2652 11.8946 15.5196 11.7071 15.7071C11.5196 15.8946 11.2652 16 11 16H4L1 19V9C1 8.73478 1.10536 8.48043 1.29289 8.29289C1.48043 8.10536 1.73478 8 2 8H4M19 12L16 9H9C8.73478 9 8.48043 8.89464 8.29289 8.70711C8.10536 8.51957 8 8.26522 8 8V2C8 1.73478 8.10536 1.48043 8.29289 1.29289C8.48043 1.10536 8.73478 1 9 1H18C18.2652 1 18.5196 1.10536 18.7071 1.29289C18.8946 1.48043 19 1.73478 19 2V12Z" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <span class="site-footer-feature-label">{{ section.settings.feature_4_text | default: "Customer Support" }}</span>
@@ -948,7 +948,7 @@ footer.site-footer {
             <div class="site-footer-payments">
                 
                 <svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="38" height="24" rx="3" fill="var(--color-primary, #2D1F1F)"/>
+                    <rect width="38" height="24" rx="3" fill="var(--color-primary, var(--color-primary))"/>
                     <path d="M19 5L8 10V11H30V10L19 5Z" fill="var(--color-bg, #ffffff)"/>
                     <rect x="10" y="12" width="3" height="6" fill="var(--color-bg, #ffffff)"/>
                     <rect x="14.5" y="12" width="3" height="6" fill="var(--color-bg, #ffffff)"/>
@@ -958,13 +958,13 @@ footer.site-footer {
                 </svg>
                 
                 <svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="38" height="24" rx="3" fill="var(--color-primary, #2D1F1F)"/>
+                    <rect width="38" height="24" rx="3" fill="var(--color-primary, var(--color-primary))"/>
                     <rect x="6" y="7" width="16" height="10" rx="1" fill="var(--color-bg, #ffffff)"/>
-                    <circle cx="14" cy="12" r="3" fill="var(--color-primary, #2D1F1F)"/>
+                    <circle cx="14" cy="12" r="3" fill="var(--color-primary, var(--color-primary))"/>
                     <path d="M13 11.5C13 11.2 13.2 11 13.5 11H14.5C14.8 11 15 11.2 15 11.5V12.5C15 12.8 14.8 13 14.5 13H13.5C13.2 13 13 12.8 13 12.5V11.5Z" fill="var(--color-bg, #ffffff)"/>
                     <rect x="24" y="9" width="8" height="10" rx="1" fill="var(--color-bg, #ffffff)"/>
-                    <rect x="25" y="15" width="6" height="3" rx="0.5" fill="var(--color-primary, #2D1F1F)"/>
-                    <circle cx="28" cy="12" r="1.5" fill="var(--color-primary, #2D1F1F)"/>
+                    <rect x="25" y="15" width="6" height="3" rx="0.5" fill="var(--color-primary, var(--color-primary))"/>
+                    <circle cx="28" cy="12" r="1.5" fill="var(--color-primary, var(--color-primary))"/>
                 </svg>
             </div>
 
