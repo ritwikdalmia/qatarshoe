@@ -430,13 +430,27 @@
           font-size: 32px !important;
         }
       }
-      /* FAQ sidebar active links style to match brand primary color */
-      .faq-sidebar-item {
+      /* FAQ and Policy pages sidebar links style to match brand primary color */
+      .faq-sidebar-item,
+      .pp-sidebar-item {
         color: var(--color-primary) !important;
       }
-      .faq-sidebar-item.active {
+      .faq-sidebar-item.active,
+      .pp-sidebar-item.active {
         color: #fff !important;
         background: var(--color-primary) !important;
+      }
+      .faq-sidebar-item svg,
+      .faq-sidebar-item svg path,
+      .pp-sidebar-item svg,
+      .pp-sidebar-item svg path {
+        stroke: var(--color-primary) !important;
+      }
+      .faq-sidebar-item.active svg,
+      .faq-sidebar-item.active svg path,
+      .pp-sidebar-item.active svg,
+      .pp-sidebar-item.active svg path {
+        stroke: #ffffff !important;
       }
 
       /* Collection Filter Trigger Button - hover/active states */
