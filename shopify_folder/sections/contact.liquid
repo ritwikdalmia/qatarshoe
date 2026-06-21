@@ -36,7 +36,7 @@
   }
 
   .contact-page-card {
-      background: #fff;
+      background: var(--color-bg);
   }
 
   .contact-mobile-br {
@@ -60,7 +60,7 @@
       justify-content: space-between;
       padding: 42px;
       gap: 104px;
-      background: #fff;
+      background: var(--color-bg);
       border-right: 1px solid #E5E5E5;
   }
 
@@ -130,7 +130,7 @@
   }
 
   .contact-form-section {
-      background: #fff;
+      background: var(--color-bg);
       padding: 42px 0;
   }
 
@@ -531,41 +531,38 @@
                             </div>
                         {%- endif -%}
 
-                        <p>
-                    <div class="contact-field-group">
-                        <label for="ContactFormFirstName">First Name <span class="required">*</span></label>
-                        <input type="text" id="ContactFormFirstName" name="contact[first_name]" placeholder="First Name" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required aria-required="true" />
-                    </div>
-                    <div class="contact-field-group">
-                        <label for="ContactFormLastName">Last Name <span class="required">*</span></label>
-                        <input type="text" id="ContactFormLastName" name="contact[last_name]" placeholder="Last Name" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required aria-required="true" />
-                    </div>
-                    <div class="contact-field-group">
-                        <label for="ContactFormEmail">Email <span class="required">*</span></label>
-                        <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required aria-required="true" />
-                    </div>
-                    <div class="contact-field-group">
-                        <label for="ContactFormPhone">Phone Number (optional)</label>
-                        <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" pattern="^[34567][0-9]{7}$" title="Please enter a valid 8-digit Qatar phone number (starting with 3, 4, 5, 6, or 7)." />
-                    </div>
-                    <div class="contact-field-group full-width">
-                        <label for="ContactFormMessage">Your Message <span class="required">*</span></label>
-                        <textarea cols="40" rows="10" id="ContactFormMessage" name="contact[body]" placeholder="Your Message" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
-                    </div>
-                    <input type="hidden" name="contact[customer_type]" value="qatar" id="contact-customer-type" />
-                    <input type="submit" class="wpcf7-submit" id="RealContactSubmit" value="Send Message" style="display:none;" />
-                </p>
+                        <div class="contact-field-group">
+                            <label for="ContactFormFirstName">First Name <span class="required">*</span></label>
+                            <input type="text" id="ContactFormFirstName" name="contact[first_name]" placeholder="First Name" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required aria-required="true" />
+                        </div>
+                        <div class="contact-field-group">
+                            <label for="ContactFormLastName">Last Name <span class="required">*</span></label>
+                            <input type="text" id="ContactFormLastName" name="contact[last_name]" placeholder="Last Name" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required aria-required="true" />
+                        </div>
+                        <div class="contact-field-group">
+                            <label for="ContactFormEmail">Email <span class="required">*</span></label>
+                            <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required aria-required="true" />
+                        </div>
+                        <div class="contact-field-group">
+                            <label for="ContactFormPhone">Phone Number (optional)</label>
+                            <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" pattern="^[34567][0-9]{7}$" title="Please enter a valid 8-digit Qatar phone number (starting with 3, 4, 5, 6, or 7)." />
+                        </div>
+                        <div class="contact-field-group full-width">
+                            <label for="ContactFormMessage">Your Message <span class="required">*</span></label>
+                            <textarea cols="40" rows="10" id="ContactFormMessage" name="contact[body]" placeholder="Your Message" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                        </div>
+                        <input type="hidden" name="contact[customer_type]" value="qatar" id="contact-customer-type" />
+                        
+                        <div class="contact-field-group full-width" style="margin-top: 12px;">
+                            <button type="submit" class="contact-submit-custom">
+                                <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M17.5 2.5L12.0833 17.5L9.16667 10.8333L2.5 7.91667L17.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>Send a Message</span>
+                            </button>
+                        </div>
                     {%- endform -%}
-
-                    <div class="contact-bottom-row">
-                        <button type="button" class="contact-submit-custom" onclick="document.getElementById('RealContactSubmit').click();">
-                            <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M17.5 2.5L12.0833 17.5L9.16667 10.8333L2.5 7.91667L17.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>Send a Message</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </section>

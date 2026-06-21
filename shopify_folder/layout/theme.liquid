@@ -63,11 +63,15 @@
       .contact-form-section,
       .faq-main,
       .faq-sidebar-item,
+      .pp-sidebar-item,
       .faq-search-wrap,
       .faq-item,
       .faq-mobile-bar,
       .faq-mobile-overlay-item,
+      .pp-mobile-overlay-item,
       .pp-content,
+      .contact-card,
+      .cc-quick-help-card,
       .sd-hero,
       .sd-services,
       .sd-timeline-card,
@@ -86,6 +90,13 @@
       .payments-main,
       .tos-main,
       .privacy-main,
+      .contact-page-wrap,
+      .contact-page-card,
+      .cc-page,
+      .rr-main,
+      .sd-main,
+      .ps-main,
+      .about-main-wrapper,
       .collection-toolbar,
       .filter-pill,
       .cs-trigger,
@@ -211,25 +222,40 @@
         background: var(--color-primary) !important;
         color: #fff !important;
       }
+      .contact-field-group label {
+        color: var(--color-primary) !important;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 500 !important;
+      }
+      .contact-field-group label .required {
+        color: var(--color-primary) !important;
+      }
       .contact-form-wrapper input[type="text"],
       .contact-form-wrapper input[type="email"],
       .contact-form-wrapper input[type="tel"],
       .contact-form-wrapper textarea {
-        border-color: var(--color-primary) !important;
+        background-color: var(--color-bg) !important;
+        border: 1.5px solid var(--color-primary) !important;
+        border-radius: 8px !important;
+        color: var(--color-primary) !important;
+        font-family: 'Inter', sans-serif !important;
+        font-size: 14px !important;
       }
       .contact-form-wrapper input[type="text"]:focus,
       .contact-form-wrapper input[type="email"]:focus,
       .contact-form-wrapper input[type="tel"]:focus,
       .contact-form-wrapper textarea:focus {
         border-color: var(--color-primary) !important;
+        outline: none !important;
       }
       .contact-submit-custom {
-        border-color: var(--color-primary) !important;
+        border: 1.5px solid var(--color-primary) !important;
         color: var(--color-primary) !important;
+        background-color: var(--color-bg) !important;
       }
       .contact-submit-custom:hover {
-        background: var(--color-primary) !important;
-        color: #fff !important;
+        background-color: var(--color-primary) !important;
+        color: var(--color-bg) !important;
       }
       @media (max-width: 767px) {
         .contact-card {
