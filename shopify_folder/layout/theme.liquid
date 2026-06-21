@@ -61,6 +61,17 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         --color-drawer-bg: {{ settings.color_drawer_bg | default: '#ffffff' }};
         --color-drawer-footer-bg: {{ settings.color_drawer_footer_bg | default: '#faf9f5' }};
 
+        /* Button Colors */
+        --color-button-primary-bg: {{ settings.color_primary | default: '#8c1638' }};
+        --color-button-primary-label: {{ settings.color_text | default: '#ffffff' }};
+        --color-button-primary-hover-bg: {{ settings.color_bg | default: '#f9f2d5' }};
+        --color-button-primary-hover-label: {{ settings.color_primary | default: '#8c1638' }};
+
+        --color-button-secondary-bg: {{ settings.color_bg | default: '#f9f2d5' }};
+        --color-button-secondary-label: {{ settings.color_primary | default: '#8c1638' }};
+        --color-button-secondary-hover-bg: {{ settings.color_primary | default: '#8c1638' }};
+        --color-button-secondary-hover-label: {{ settings.color_text | default: '#ffffff' }};
+
         /* Dynamic Layout spacing */
         --logo-width: {{ settings.logo_width | default: 150 }}px;
         --page-width: {{ settings.page_width | default: 1200 }}px;
@@ -74,7 +85,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         /* Dynamic Buttons */
         --buttons-border-thickness: {{ settings.buttons_border_thickness | default: 1 }}px;
         --buttons-border-opacity: {{ settings.buttons_border_opacity | default: 100 | divided_by: 100.0 }};
-        --buttons-radius: {{ settings.buttons_radius | default: 0 }}px;
+        --buttons-radius: {{ settings.buttons_radius | default: 8 }}px;
         --buttons-shadow-opacity: {{ settings.buttons_shadow_opacity | default: 0 | divided_by: 100.0 }};
         --buttons-shadow-horizontal-offset: {{ settings.buttons_shadow_horizontal_offset | default: 0 }}px;
         --buttons-shadow-vertical-offset: {{ settings.buttons_shadow_vertical_offset | default: 0 }}px;
@@ -167,9 +178,9 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
 
       .site-footer-subscribe-form .wpcf7-submit,
       .contact-submit-custom {
-        background-color: var(--color-bg) !important;
-        border-color: var(--color-primary) !important;
-        color: var(--color-primary) !important;
+        background-color: var(--color-button-secondary-bg) !important;
+        border-color: var(--color-button-secondary-label) !important;
+        color: var(--color-button-secondary-label) !important;
       }
 
       .wishlist-count,
@@ -180,8 +191,9 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
 
       .site-footer-subscribe-form .wpcf7-submit:hover,
       .contact-submit-custom:hover {
-        background-color: var(--color-primary) !important;
-        color: var(--color-bg) !important;
+        background-color: var(--color-button-secondary-hover-bg) !important;
+        color: var(--color-button-secondary-hover-label) !important;
+        border-color: var(--color-button-secondary-hover-bg) !important;
       }
 
       .site-footer-legal {
@@ -262,7 +274,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         border-right-color: var(--color-primary) !important;
       }
       .cta-wrapper .checkout-btn {
-        border-radius: var(--card-corner-radius) !important;
+        border-radius: var(--buttons-radius) !important;
       }
       .est-delivery {
         border-color: var(--color-primary) !important;

@@ -91,6 +91,70 @@
           "icons": "text",
           "links": "text"
         }
+      },
+      {
+        "type": "header",
+        "content": "Legacy/Global Colors Override"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Global Background Color (Cream)",
+        "default": "#f9f2d5"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color (Maroon)",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent Color",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border Color",
+        "default": "#d4c5a9"
+      },
+      {
+        "type": "color",
+        "id": "color_muted",
+        "label": "Muted Text Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_dark_teal",
+        "label": "Dark Teal Accent Color",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_green",
+        "label": "Green Accent Color",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_drawer_bg",
+        "label": "Drawer Background Color",
+        "default": "#f9f2d5"
+      },
+      {
+        "type": "color",
+        "id": "color_drawer_footer_bg",
+        "label": "Drawer Footer Background Color",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Primary Button Text Color",
+        "default": "#ffffff"
       }
     ]
   },
@@ -173,6 +237,16 @@
         "default": 16,
         "unit": "px",
         "label": "Grid vertical spacing"
+      },
+      {
+        "type": "range",
+        "id": "mobile_header_height",
+        "min": 48,
+        "max": 90,
+        "step": 2,
+        "default": 60,
+        "unit": "px",
+        "label": "Mobile header height"
       }
     ]
   },
@@ -330,6 +404,16 @@
         "default": 0,
         "unit": "px",
         "label": "Shadow Blur"
+      },
+      {
+        "type": "range",
+        "id": "product_cta_height",
+        "min": 44,
+        "max": 76,
+        "step": 2,
+        "default": 64,
+        "unit": "px",
+        "label": "Product CTA height"
       }
     ]
   },

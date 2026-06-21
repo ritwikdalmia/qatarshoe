@@ -686,6 +686,11 @@
     if (currentImg.src === mainSrc) return;
     if (isGalleryTransitioning) return;
 
+    container.classList.remove('is-zooming');
+    currentImg.style.transformOrigin = 'center center';
+    currentImg.style.objectPosition = 'center center';
+    currentImg.style.transform = 'none';
+
     // Ensure container has relative positioning and overflow hidden
     container.style.position = 'relative';
     container.style.overflow = 'hidden';
@@ -711,8 +716,10 @@
       nextImg.style.left = '100%';
       nextImg.style.width = '100%';
       nextImg.style.height = '100%';
-      nextImg.style.objectFit = 'contain';
+      nextImg.style.objectFit = 'cover';
+      nextImg.style.objectPosition = 'center center';
       nextImg.style.padding = '0';
+      nextImg.style.boxSizing = 'border-box';
       nextImg.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
       
       container.appendChild(nextImg);
@@ -737,6 +744,8 @@
         nextImg.style.position = 'absolute';
         nextImg.style.top = '0';
         nextImg.style.left = '0';
+        nextImg.style.objectFit = 'cover';
+        nextImg.style.objectPosition = 'center center';
         nextImg.style.transform = 'none';
         
         isGalleryTransitioning = false;
@@ -1282,6 +1291,7 @@
       mainImageContainer.addEventListener('mouseenter', function() {
         if (isGalleryTransitioning) return;
         isGalleryPaused = true;
+        mainImageContainer.classList.add('is-zooming');
         stopGalleryAutoSlide();
       });
 
@@ -1297,6 +1307,7 @@
         const activeImageView = document.getElementById('main-image-view');
         if (activeImageView) {
           activeImageView.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+          activeImageView.style.objectPosition = `${xPercent}% ${yPercent}%`;
           activeImageView.style.transform = 'scale(2.5)';
         }
       });
@@ -1306,8 +1317,10 @@
         const activeImageView = document.getElementById('main-image-view');
         if (activeImageView) {
           activeImageView.style.transformOrigin = 'center center';
+          activeImageView.style.objectPosition = 'center center';
           activeImageView.style.transform = 'scale(1)';
         }
+        mainImageContainer.classList.remove('is-zooming');
         isGalleryPaused = false;
         {%- if settings.slideshow_enabled_products -%}
         restartGalleryAutoSlide();

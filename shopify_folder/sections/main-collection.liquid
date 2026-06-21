@@ -726,6 +726,7 @@
                   <a href="{{ collection.url }}?{{ query_params }}" 
                      class="filter-pill filter-pill-category-type" 
                      data-type-values="{{ type_values_str | escape }}" 
+                     data-collection-handle="{{ handle }}"
                      onclick="toggleCategoryTypeFilter(this, event)">
                      {{ title }}
                   </a>
@@ -2255,10 +2256,11 @@
         targetCb.dispatchEvent(new Event('change', { bubbles: true }));
       }
     } else {
-      const labelText = pill.textContent.trim().toLowerCase();
+      const href = pill.getAttribute('href') || '';
+      const handle = href.split('/').pop().split('?')[0].toLowerCase();
       document.querySelectorAll('.collection-nav-cb:not(.collection-nav-all)').forEach(cb => {
-        const textEl = cb.closest('label').querySelector('.filter-value-text');
-        if (textEl && textEl.textContent.trim().toLowerCase() === labelText) {
+        const cbHandle = (cb.getAttribute('data-collection-handle') || '').toLowerCase();
+        if (cbHandle === handle) {
           targetCb = cb;
         }
       });
@@ -2326,10 +2328,10 @@
         targetCb.dispatchEvent(new Event('change', { bubbles: true }));
       }
     } else {
-      const labelText = pill.textContent.trim().toLowerCase();
+      const pillHandle = (pill.getAttribute('data-collection-handle') || '').toLowerCase();
       document.querySelectorAll('.brand-category-cb').forEach(cb => {
-        const textEl = cb.closest('label').querySelector('.filter-value-text');
-        if (textEl && textEl.textContent.trim().toLowerCase() === labelText) {
+        const cbHandle = (cb.getAttribute('data-collection-handle') || '').toLowerCase();
+        if (cbHandle === pillHandle) {
           targetCb = cb;
         }
       });
@@ -2445,6 +2447,9 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     syncFiltersFromURL();
+    
+    // Filter first page products instantly
+    filterProductsDOM(false);
     
     {%- if settings.slideshow_enabled_collections -%}
     initCollectionProductImageSlideshows();

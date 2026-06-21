@@ -1,16 +1,16 @@
 {
   "current": {
-    "color_bg": "#f9f2d5",
-    "color_text": "#ffffff",
-    "color_primary": "#8c1638",
-    "color_accent": "#8c1638",
-    "color_border": "#d4c5a9",
-    "color_muted": "#000000",
-    "color_dark_teal": "#8c1638",
-    "color_green": "#8c1638",
-    "color_drawer_bg": "#f9f2d5",
-    "color_drawer_footer_bg": "#8c1638",
-    "favicon": "",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_text": "AmiriVibes",
+          "women_main_menu": "women",
+          "men_main_menu": "men"
+        }
+      }
+    },
+    "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -36,13 +36,29 @@
       }
     },
     "settings": {
+      "favicon": "",
+      "animations_hover_elements": "3d-lift",
+      "cart_drawer_collection": "on-sale-mens",
+      "free_shipping_bar": false,
+      "drawer_color_scheme": "scheme-1",
+      "predictive_search_show_vendor": true,
+      "predictive_search_show_price": false,
+      "color_bg": "#f9f2d5",
+      "color_text": "#ffffff",
+      "color_primary": "#8c1638",
+      "color_accent": "#8c1638",
+      "color_border": "#d4c5a9",
+      "color_muted": "#000000",
+      "color_dark_teal": "#8c1638",
+      "color_green": "#8c1638",
+      "color_drawer_bg": "#f9f2d5",
+      "color_drawer_footer_bg": "#8c1638",
       "slideshow_enabled_homepage": true,
       "slideshow_enabled_collections": true,
       "slideshow_enabled_products": true,
       "slideshow_interval": 5,
       "sale_badge_color_scheme": "scheme-2",
       "sold_out_badge_color_scheme": "scheme-1",
-      "drawer_color_scheme": "scheme-1",
       "popovers_color_scheme": "scheme-1",
       "card_color_scheme": "scheme-1",
       "sale_price_color_scheme": "scheme-2",
@@ -56,18 +72,7 @@
       "checkout_accent_color": "#8c1638",
       "checkout_button_color": "#8c1638",
       "checkout_error_color": "#f25c5e"
-    },
-    "sections": {
-      "header": {
-        "type": "header",
-        "settings": {
-          "logo_text": "AmiriVibes",
-          "women_main_menu": "women",
-          "men_main_menu": "men"
-        }
-      }
-    },
-    "content_for_index": []
+    }
   },
   "presets": {}
 }
