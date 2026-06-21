@@ -2,11 +2,11 @@
   /* Section 1 — Hero Banner */
   .about-hero {
       position: relative;
-      background: #fff;
-      padding: 56px 150px 0;
+      background: var(--color-bg);
+      padding: 24px 150px 0;
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 24px;
   }
 
   .about-hero-hands-container {
@@ -14,7 +14,7 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      margin-top: 24px;
+      margin-top: 16px;
       gap: 20px;
   }
 
@@ -27,14 +27,14 @@
   .about-hero-content {
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 24px;
   }
 
   .about-hero-content h1 {
       font-family: 'Inter', sans-serif;
       font-size: 24px;
       font-weight: 400;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
       line-height: 100%;
   }
@@ -43,18 +43,18 @@
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       font-weight: 400;
-      color: #1A1A1A;
+      color: #000000;
       margin: 0;
       line-height: 150%;
   }
 
   /* Section 2 — About Intro */
   .about-intro {
-      padding: 56px 150px 32px;
-      background: #fff;
+      padding: 24px 150px 16px;
+      background: var(--color-bg);
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 24px;
   }
 
   .about-intro-block {
@@ -67,7 +67,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       font-weight: 500;
-      color: #2D1F1F;
+      color: var(--color-primary);
       line-height: 100%;
       text-transform: uppercase;
       letter-spacing: 0;
@@ -78,18 +78,18 @@
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       font-weight: 400;
-      color: #1A1A1A;
+      color: #000000;
       margin: 0;
       line-height: 150%;
   }
 
   /* Section 3 — What We Offer */
   .about-offer {
-      padding: 96px 150px;
-      background: #fff;
+      padding: 24px 150px;
+      background: var(--color-bg);
       display: flex;
       flex-direction: column;
-      gap: 48px;
+      gap: 24px;
   }
 
   .about-offer-header {
@@ -102,7 +102,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 24px;
       font-weight: 600;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
       line-height: 28px;
   }
@@ -113,9 +113,9 @@
       justify-content: center;
       height: 48px;
       padding: 0 24px;
-      background: #fff;
-      color: #2D1F1F;
-      border: 1px solid #2D1F1F;
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
       border-radius: 900px;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
@@ -128,8 +128,8 @@
   }
 
   .about-offer-explore:hover {
-      background: #2D1F1F;
-      color: #fff;
+      background: var(--color-primary);
+      color: var(--color-bg);
   }
 
   .about-offer-cards {
@@ -142,7 +142,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 32px;
+      gap: 24px;
       min-width: 0;
       text-decoration: none;
   }
@@ -151,7 +151,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       font-weight: 400;
-      color: #1A1A1A;
+      color: #000000;
       text-align: center;
   }
 
@@ -177,13 +177,13 @@
 
   /* Section 4 — House of Brands */
   .about-brands-section {
-      padding: 128px 40px;
-      background: #fff;
+      padding: 32px 40px;
+      background: var(--color-bg);
       max-width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 32px;
+      gap: 24px;
       position: relative;
       z-index: 1;
   }
@@ -200,7 +200,7 @@
       font-size: 32px;
       font-weight: 600;
       margin: 0;
-      color: #2D1F1F;
+      color: var(--color-primary);
       font-family: 'Inter', sans-serif;
       text-transform: capitalize;
       line-height: 28px;
@@ -220,10 +220,10 @@
   .about-brands-section .brand-item {
       flex: 1 1 0;
       aspect-ratio: 1/1;
-      background: white;
+      background: var(--color-bg);
       overflow: hidden;
       border-radius: 16px;
-      outline: 1px solid #E0DCD3;
+      outline: 1px solid var(--color-primary);
       outline-offset: -1px;
       display: flex;
       align-items: center;
@@ -235,7 +235,7 @@
   }
 
   .about-brands-section .brand-item:hover {
-      background: #f9f9f9;
+      background: rgba(0, 0, 0, 0.05);
   }
 
   .about-brands-section .brand-image-container {
@@ -255,7 +255,7 @@
   }
 
   .about-brands-section .brand-name-text {
-      color: #2D1F1F;
+      color: var(--color-primary);
       text-align: center;
   }
 
@@ -316,8 +316,8 @@
 
   /* Form partial styling */
   .contact-form-section {
-      background: #fff;
-      padding: 96px 150px;
+      background: var(--color-bg);
+      padding: 24px 150px;
       position: relative;
   }
 
@@ -336,21 +336,21 @@
       margin: 0 auto;
       display: flex;
       align-items: flex-start;
-      gap: 150px;
+      gap: 80px;
   }
 
   .contact-form-intro {
       flex: 0 0 488px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       min-width: 0;
   }
 
   .contact-form-intro-text {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
   }
 
   .contact-form-intro h2 {
@@ -360,7 +360,7 @@
       line-height: 100%;
       letter-spacing: 0;
       margin: 0;
-      color: #2D1F1F;
+      color: var(--color-primary);
       text-transform: none;
   }
 
@@ -369,7 +369,7 @@
       font-size: 16px;
       font-weight: 400;
       line-height: 150%;
-      color: rgba(45, 31, 31, 0.7);
+      color: #000000;
       margin: 0;
   }
 
@@ -385,7 +385,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       line-height: 1.6;
-      color: #2d1f1f;
+      color: #000000;
       margin-bottom: 24px;
   }
 
@@ -394,6 +394,7 @@
       font-weight: 600;
       margin-top: 24px;
       margin-bottom: 12px;
+      color: var(--color-primary);
   }
 
   .contact-form-wrapper .contact-form-text p {
@@ -421,7 +422,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 500;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
   }
 
@@ -435,10 +436,10 @@
   .contact-form-wrapper input[type="tel"],
   .contact-form-wrapper textarea {
       width: 100%;
-      background: #fff;
-      border: 1px solid rgba(45, 31, 31, 0.2);
+      background: var(--color-bg);
+      border: 1px solid rgba(0, 0, 0, 0.2);
       border-radius: 6px;
-      color: #2D1F1F;
+      color: #000000;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       box-sizing: border-box;
@@ -450,7 +451,7 @@
   .contact-form-wrapper input[type="tel"] {
       height: 44px;
       padding: 0 12px;
-  }
+    }
 
   .contact-form-wrapper textarea {
       height: 108px;
@@ -465,19 +466,20 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      background: #fff;
-      color: #2D1F1F;
-      border: 1px solid #2D1F1F;
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
       border-radius: 900px;
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
+      transition: all 0.2s ease-in-out;
   }
 
   .contact-submit-custom:hover {
-      background: #2D1F1F;
-      color: #fff;
+      background: var(--color-primary);
+      color: var(--color-bg);
   }
 
   .wpcf7-response-output {
@@ -486,8 +488,8 @@
       padding: 14px 18px;
       font-size: 14px;
       border-radius: 4px;
-      color: #2D1F1F;
-      border: 1px solid rgba(45, 31, 31, 0.2);
+      color: #000000;
+      border: 1px solid rgba(0, 0, 0, 0.2);
   }
 
   .wpcf7-response-output.sent {
@@ -511,10 +513,10 @@
           padding-right: 40px;
       }
       .contact-form-section {
-          padding: 64px 40px;
+          padding: 32px 40px;
       }
       .about-brands-section {
-          padding: 80px 24px;
+          padding: 32px 24px;
       }
       .about-brands-section .brands-grid {
           display: grid;
@@ -546,7 +548,7 @@
           padding-right: 24px;
       }
       .contact-form-section {
-          padding: 48px 24px;
+          padding: 24px 24px;
       }
       .about-hero {
           padding-top: 32px;
@@ -556,12 +558,12 @@
       }
       .about-intro {
           padding-top: 32px;
-          padding-bottom: 64px;
+          padding-bottom: 32px;
           gap: 20px;
       }
       .about-offer {
-          padding-top: 64px;
-          padding-bottom: 64px;
+          padding-top: 32px;
+          padding-bottom: 32px;
           gap: 24px;
       }
       .about-offer-header h2 {
@@ -589,7 +591,7 @@
           height: 150px;
       }
       .about-brands-section {
-          padding: 40px 15px;
+          padding: 24px 15px;
           gap: 20px;
       }
       .about-brands-section .brands-header h2 {
@@ -1024,7 +1026,7 @@
           "type": "intro_block",
           "settings": {
             "label": "WHAT WE STAND FOR",
-            "text": "We believe the experience of buying something exceptional should feel exceptional too. From the moment you discover a piece to the moment it arrives, we focus on consistency, attention to detail, and the kind of service that earns trust.\n\nQTRSHOE is not simply a destination for luxury goods. It is a place where quality, access, and experience come together — and where customers return with confidence."
+            "text": "We believe the experience of buying something exceptional should feel exceptional too. From the moment you discover a piece to the moment it arrives, we focus on consistency, attention to detail, and the kind of service that earns trust.\n\nAmiriVibes is not simply a destination for luxury goods. It is a place where quality, access, and experience come together — and where customers return with confidence."
           }
         },
         {

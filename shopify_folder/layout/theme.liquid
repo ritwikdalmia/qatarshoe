@@ -410,7 +410,7 @@
         border-color: var(--color-primary) !important;
       }
 
-      /* Make internal page text uniform and clean */
+      /* Make internal page text uniform, solid black, and correctly sized */
       .faq-answer p, 
       .faq-answer div,
       .faq-subtitle,
@@ -429,11 +429,28 @@
       .tos-desc,
       .privacy-desc,
       .sd-timeline-desc,
-      .rr-eligibility-desc {
+      .rr-eligibility-desc,
+      .pp-block-intro,
+      .pp-block-bullets,
+      .pp-block-bullets li,
+      .pp-block-richtext p,
+      .pp-block-richtext ul li,
+      .pp-method-item,
+      .rr-refund-text,
+      .sd-hero-subtitle,
+      .rr-hero-subtitle,
+      .ps-hero-subtitle,
+      .about-intro-text,
+      .about-offer-card-name,
+      .sd-service-row-desc,
+      .sd-timeline-label,
+      .sd-timeline-value,
+      .rr-eligibility-card-desc,
+      .rr-side-card-list li {
         font-family: 'Inter', sans-serif !important;
         font-size: 15px !important;
         line-height: 1.6 !important;
-        color: var(--color-muted) !important;
+        color: #000000 !important;
       }
 
       /* Make internal page main headings uniform */
@@ -460,10 +477,30 @@
           font-size: 32px !important;
         }
       }
-      /* Section and sub headings in policy & faq pages to use primary color */
+      /* Highlight all secondary headings in primary theme color */
+      .pp-block-title,
       .pp-section-title,
       .pp-sub-title,
-      .faq-section-title {
+      .faq-section-title,
+      .sd-services-title,
+      .sd-service-row-title,
+      .sd-timelines-title,
+      .sd-timeline-card-title,
+      .cc-feature-title,
+      .cc-quick-help-title,
+      .cc-quick-help-card-title,
+      .cc-commitment-label,
+      .contact-card-title,
+      .contact-form-intro h2,
+      .rr-refund-label,
+      .about-offer-header h2,
+      .brands-header h2,
+      .rr-eligibility-title,
+      .rr-side-title,
+      .rr-non-returnable-title,
+      .rr-eligibility-card-title,
+      .rr-side-card-title,
+      .about-intro-label {
         color: var(--color-primary) !important;
       }
       /* FAQ and Policy pages sidebar links style to match brand primary color */

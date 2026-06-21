@@ -1104,8 +1104,9 @@
       btn.classList.remove('active');
     } else {
       wishlist.push(productId);
-      heartSvg.setAttribute('fill', '#e74c3c');
-      heartSvg.setAttribute('stroke', '#e74c3c');
+      const activeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#e74c3c';
+      heartSvg.setAttribute('fill', activeColor);
+      heartSvg.setAttribute('stroke', activeColor);
       btn.classList.add('active');
       
       const variantId = document.getElementById('selected-variant-id').value;
@@ -1226,8 +1227,9 @@
       heartBtn.classList.add('active');
       const heartSvg = heartBtn.querySelector('svg');
       if (heartSvg) {
-        heartSvg.setAttribute('fill', '#e74c3c');
-        heartSvg.setAttribute('stroke', '#e74c3c');
+        const activeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#e74c3c';
+        heartSvg.setAttribute('fill', activeColor);
+        heartSvg.setAttribute('stroke', activeColor);
       }
     }
 

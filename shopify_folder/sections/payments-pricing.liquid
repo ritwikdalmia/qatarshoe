@@ -1,26 +1,26 @@
 {%- style -%}
   /* Shared Info-section CSS */
   .pp-content {
-    padding: 96px 150px;
-    background: #fff;
+    padding: 24px 150px;
+    background: var(--color-bg);
     display: flex;
     flex-direction: column;
-    gap: 56px;
+    gap: 24px;
   }
 
   .pp-content-block {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 12px;
   }
 
   .pp-block-title {
     font-family: "Inter", sans-serif;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 400;
     line-height: 100%;
     letter-spacing: 0;
-    color: #2d1f1f;
+    color: var(--color-primary);
     margin: 0;
   }
 
@@ -33,15 +33,15 @@
   .pp-block-body {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 8px;
   }
 
   .pp-block-intro {
     font-family: "Inter", sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 150%;
-    color: #1a1a1a;
+    color: #000000;
     margin: 0;
   }
 
@@ -53,10 +53,10 @@
 
   .pp-method-item {
     font-family: "Inter", sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 150%;
-    color: #1a1a1a;
+    color: #000000;
     margin: 0;
   }
 
@@ -70,10 +70,10 @@
     padding-inline-start: 40px;
     list-style: none;
     font-family: "Inter", sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 150%;
-    color: #1a1a1a;
+    color: #000000;
   }
 
   .pp-block-bullets li {
@@ -89,7 +89,7 @@
     top: 9px;
     width: 6px;
     height: 6px;
-    background: #1a1a1a;
+    background: #000000;
     border-radius: 50%;
   }
 
@@ -103,19 +103,19 @@
 
   /* Payments & Pricing specific hero styling */
   .payments-hero {
-      padding: 96px 150px 48px;
-      background: #fff;
+      padding: 24px 150px 12px;
+      background: var(--color-bg);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 20px;
+      gap: 12px;
   }
 
   .payments-hero-title {
       font-family: 'Inter', sans-serif;
       font-size: 64px;
       font-weight: 400;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
       line-height: 1.1;
       text-transform: capitalize;
@@ -125,15 +125,15 @@
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       font-weight: 400;
-      color: #666;
+      color: #000000;
       margin: 0;
       line-height: 1.5;
   }
 
   /* Contact Form Section */
   .contact-form-section {
-      background: #fff;
-      padding: 96px 150px;
+      background: var(--color-bg);
+      padding: 24px 150px;
       position: relative;
       width: 100%;
       box-sizing: border-box;
@@ -154,14 +154,14 @@
       margin: 0 auto;
       display: flex;
       align-items: flex-start;
-      gap: 150px;
+      gap: 80px;
   }
 
   .contact-form-intro {
       flex: 0 0 488px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
   }
 
   .contact-form-intro h2 {
@@ -170,13 +170,13 @@
       font-weight: 400;
       line-height: 100%;
       margin: 0;
-      color: #2D1F1F;
+      color: var(--color-primary);
   }
 
   .contact-form-intro p {
       font-family: 'Inter', sans-serif;
       font-size: 16px;
-      color: rgba(45, 31, 31, 0.7);
+      color: #000000;
       margin: 0;
   }
 
@@ -191,7 +191,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       line-height: 1.6;
-      color: #2d1f1f;
+      color: #000000;
       margin-bottom: 24px;
   }
 
@@ -200,6 +200,7 @@
       font-weight: 600;
       margin-top: 24px;
       margin-bottom: 12px;
+      color: var(--color-primary);
   }
 
   .contact-form-wrapper .contact-form-text p {
@@ -227,7 +228,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 500;
-      color: #2D1F1F;
+      color: var(--color-primary);
       margin: 0;
   }
 
@@ -241,10 +242,10 @@
   .contact-form-wrapper input[type="tel"],
   .contact-form-wrapper textarea {
       width: 100%;
-      background: #fff;
-      border: 1px solid rgba(45, 31, 31, 0.2);
+      background: var(--color-bg);
+      border: 1px solid rgba(0, 0, 0, 0.2);
       border-radius: 6px;
-      color: #2D1F1F;
+      color: #000000;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       box-sizing: border-box;
@@ -271,19 +272,20 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      background: #fff;
-      color: #2D1F1F;
-      border: 1px solid #2D1F1F;
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
       border-radius: 900px;
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
+      transition: all 0.2s ease-in-out;
   }
 
   .contact-submit-custom:hover {
-      background: #2D1F1F;
-      color: #fff;
+      background: var(--color-primary);
+      color: var(--color-bg);
   }
 
   .wpcf7-response-output {
@@ -292,8 +294,8 @@
       padding: 14px 18px;
       font-size: 14px;
       border-radius: 4px;
-      color: #2D1F1F;
-      border: 1px solid rgba(45, 31, 31, 0.2);
+      color: #000000;
+      border: 1px solid rgba(0, 0, 0, 0.2);
   }
 
   .wpcf7-response-output.sent {
@@ -312,7 +314,7 @@
       .payments-hero,
       .pp-content,
       .contact-form-section {
-          padding: 64px 40px;
+          padding: 32px 40px;
       }
       .contact-form-inner {
           flex-direction: column;
@@ -324,7 +326,7 @@
       .payments-hero,
       .pp-content,
       .contact-form-section {
-          padding: 48px 24px;
+          padding: 24px 24px;
       }
       .payments-hero-title {
           font-size: 32px;

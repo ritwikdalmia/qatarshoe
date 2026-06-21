@@ -1,14 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "about-us",
-      "settings": {
-        "hero_heading": "About US",
-        "hero_subheading": "At the heart of our brand is a single commitment — to make every luxury purchase effortless, trusted, and genuinely satisfying.",
-        "offer_heading": "What We Offer:",
-        "explore_label": "explore",
-        "brands_heading": "House Of Brands"
-      },
       "blocks": {
         "what_we_do": {
           "type": "intro_block",
@@ -34,79 +36,105 @@
         "offer_footwear": {
           "type": "offer_card",
           "settings": {
-            "name": "Footwear"
+            "collection": "",
+            "name": "Footwear",
+            "url": ""
           }
         },
         "offer_bags": {
           "type": "offer_card",
           "settings": {
-            "name": "Bags"
+            "collection": "",
+            "name": "Bags",
+            "url": ""
           }
         },
         "offer_jewelry": {
           "type": "offer_card",
           "settings": {
-            "name": "Jewelry"
+            "collection": "",
+            "name": "Jewelry",
+            "url": ""
           }
         },
         "offer_watches": {
           "type": "offer_card",
           "settings": {
-            "name": "Watches"
+            "collection": "",
+            "name": "Watches",
+            "url": ""
           }
         },
         "offer_accessories": {
           "type": "offer_card",
           "settings": {
-            "name": "Accessories"
+            "collection": "",
+            "name": "Accessories",
+            "url": ""
           }
         },
         "brand_hms": {
           "type": "brand",
           "settings": {
-            "custom_name": "HMS"
+            "collection_handle": "hms",
+            "custom_name": "HMS",
+            "custom_url": ""
           }
         },
         "brand_coco": {
           "type": "brand",
           "settings": {
-            "custom_name": "COCO"
+            "collection_handle": "coco",
+            "custom_name": "COCO",
+            "custom_url": ""
           }
         },
         "brand_gyd": {
           "type": "brand",
           "settings": {
-            "custom_name": "GYD"
+            "collection_handle": "gyd",
+            "custom_name": "GYD",
+            "custom_url": ""
           }
         },
         "brand_lp": {
           "type": "brand",
           "settings": {
-            "custom_name": "LP"
+            "collection_handle": "lp",
+            "custom_name": "LP",
+            "custom_url": ""
           }
         },
         "brand_dr": {
           "type": "brand",
           "settings": {
-            "custom_name": "DR"
+            "collection_handle": "dr",
+            "custom_name": "DR",
+            "custom_url": ""
           }
         },
         "brand_lvn": {
           "type": "brand",
           "settings": {
-            "custom_name": "LVN"
+            "collection_handle": "lvn",
+            "custom_name": "LVN",
+            "custom_url": ""
           }
         },
         "brand_crt": {
           "type": "brand",
           "settings": {
-            "custom_name": "CRT"
+            "collection_handle": "crt",
+            "custom_name": "CRT",
+            "custom_url": ""
           }
         },
         "brand_msk": {
           "type": "brand",
           "settings": {
-            "custom_name": "MSK"
+            "collection_handle": "msk",
+            "custom_name": "MSK",
+            "custom_url": ""
           }
         }
       },
@@ -127,7 +155,20 @@
         "brand_lvn",
         "brand_crt",
         "brand_msk"
-      ]
+      ],
+      "settings": {
+        "hero_heading": "About US",
+        "hero_subheading": "At the heart of our brand is a single commitment — to make every luxury purchase effortless, trusted, and genuinely satisfying.",
+        "show_hero_hands": true,
+        "offer_heading": "What We Offer:",
+        "explore_label": "explore",
+        "explore_url": "",
+        "offer_menu": "women",
+        "brands_heading": "House Of Brands",
+        "form_heading": "Send Us A Message",
+        "form_subheading": "Fill out the form and we'll get back to you as quickly as possible.",
+        "form_text": ""
+      }
     }
   },
   "order": [
