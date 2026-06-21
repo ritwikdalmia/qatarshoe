@@ -236,8 +236,10 @@
   /* Form partial styling */
   .contact-form-section {
       background: var(--color-bg);
-      padding: 96px 150px;
+      padding: 24px 150px;
       position: relative;
+      width: 100%;
+      box-sizing: border-box;
   }
 
   .contact-form-section::before {
@@ -255,21 +257,14 @@
       margin: 0 auto;
       display: flex;
       align-items: flex-start;
-      gap: 150px;
+      gap: 80px;
   }
 
   .contact-form-intro {
       flex: 0 0 488px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      min-width: 0;
-  }
-
-  .contact-form-intro-text {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      gap: 12px;
   }
 
   .contact-form-intro h2 {
@@ -277,24 +272,19 @@
       font-size: 38px;
       font-weight: 400;
       line-height: 100%;
-      letter-spacing: 0;
       margin: 0;
       color: var(--color-primary);
-      text-transform: none;
   }
 
-  .contact-form-intro-text p {
+  .contact-form-intro p {
       font-family: 'Inter', sans-serif;
       font-size: 16px;
-      font-weight: 400;
-      line-height: 150%;
-      color: rgba(45, 31, 31, 0.7);
+      color: #000000;
       margin: 0;
   }
 
   .contact-form-wrapper {
-      flex: 1 1 0;
-      min-width: 0;
+      flex: 1;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -303,17 +293,9 @@
   .contact-form-wrapper form {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 20px 12px;
   }
 
-  .contact-form-wrapper form p {
-      display: contents;
-      margin: 0;
-  }
-
-  .contact-form-wrapper form br {
-      display: none;
-  }
   .contact-field-group {
       display: flex;
       flex-direction: column;
@@ -343,16 +325,14 @@
   .contact-form-wrapper input[type="tel"],
   .contact-form-wrapper textarea {
       width: 100%;
-      background: #fff;
-      border: 1px solid rgba(45, 31, 31, 0.2);
+      background: var(--color-bg);
+      border: 1px solid rgba(0, 0, 0, 0.2);
       border-radius: 6px;
-      color: var(--color-primary);
+      color: #000000;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
-      line-height: 100%;
       box-sizing: border-box;
       outline: none;
-      transition: border-color 0.2s ease;
   }
 
   .contact-form-wrapper input[type="text"],
@@ -366,78 +346,36 @@
       height: 108px;
       padding: 12px;
       resize: vertical;
-      line-height: 1.5;
-  }
-
-  .contact-form-wrapper input[type="text"]:focus,
-  .contact-form-wrapper input[type="email"]:focus,
-  .contact-form-wrapper input[type="tel"]:focus,
-  .contact-form-wrapper textarea:focus {
-      border-color: var(--color-primary);
-  }
-
-  .contact-form-wrapper input::placeholder,
-  .contact-form-wrapper textarea::placeholder {
-      color: rgba(0, 0, 0, 0.5);
-      opacity: 1;
-  }
-
-  .contact-bottom-row {
-      display: flex;
-      align-items: stretch;
-      justify-content: stretch;
-  }
-
-  .contact-toggle {
-      display: none;
   }
 
   .contact-submit-custom {
-      flex: 1;
       width: 100%;
       height: 48px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 0 18px;
-      background: #fff;
+      background: var(--color-bg);
       color: var(--color-primary);
       border: 1px solid var(--color-primary);
       border-radius: 900px;
       font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease;
-  }
-
-  .contact-submit-custom span {
       font-size: 16px;
       font-weight: 600;
-      line-height: 24px;
-      letter-spacing: 0;
-      text-transform: none;
-  }
-
-  .contact-submit-icon {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-      display: block;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
   }
 
   .contact-submit-custom:hover {
       background: var(--color-primary);
-      color: #fff;
+      color: var(--color-bg);
   }
 
   .wpcf7-response-output {
-      grid-column: 1 / -1;
-      margin: 12px 0 0;
-      padding: 14px 18px;
-      font-size: 14px;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid;
       border-radius: 4px;
-      color: var(--color-primary);
-      border: 1px solid rgba(45, 31, 31, 0.2);
   }
 
   .wpcf7-response-output.sent {

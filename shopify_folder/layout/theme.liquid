@@ -545,12 +545,14 @@
       .faq-header,
       .ps-hero-content,
       .sitemap-header,
-      .sitemap-hero-content {
+      .sitemap-hero-content,
+      .shopify-policy__title {
         text-align: center !important;
         align-items: center !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
+        padding-top: 40px !important; /* Push down to avoid sticky header cropping */
       }
 
       .contact-page-header p,
@@ -570,7 +572,113 @@
         margin: 0 auto !important;
         font-size: 16px !important;
         line-height: 1.6 !important;
-        color: rgba(45, 31, 31, 0.75) !important;
+        color: #000000 !important;
+      }
+
+      /* Force uniform contact form layout on all pages except the main Contact Us page */
+      :not(.contact-page-body) .contact-form-section {
+        background: var(--color-bg) !important;
+        padding: 24px 150px !important;
+        position: relative !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      :not(.contact-page-body) .contact-form-inner {
+        max-width: 1620px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 80px !important;
+        padding: 0 !important;
+      }
+
+      /* Specific layout for the main Contact Us page (since it is inside a card) */
+      .contact-page-body .contact-form-section {
+        padding: 0 !important;
+        background: transparent !important;
+      }
+      .contact-page-body .contact-form-inner {
+        padding: 42px 64px !important;
+        max-width: 1620px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 80px !important;
+      }
+
+      @media (max-width: 1023px) {
+        :not(.contact-page-body) .contact-form-section {
+          padding: 32px 40px !important;
+        }
+        :not(.contact-page-body) .contact-form-inner {
+          flex-direction: column !important;
+          gap: 40px !important;
+        }
+        .contact-page-body .contact-form-inner {
+          flex-direction: column !important;
+          gap: 40px !important;
+          padding: 32px 40px !important;
+        }
+      }
+
+      @media (max-width: 767px) {
+        :not(.contact-page-body) .contact-form-section {
+          padding: 32px 24px !important;
+        }
+        .contact-page-body .contact-form-inner {
+          padding: 32px 24px !important;
+          gap: 32px !important;
+        }
+      }
+
+      /* Global button styles: make white/cream buttons use the brand's primary color */
+      .contact-submit-custom,
+      .contact-card-link,
+      .cc-quick-help-card-btn {
+        background: var(--color-primary) !important;
+        color: var(--color-bg) !important;
+        border: 1px solid var(--color-primary) !important;
+      }
+      .contact-submit-custom svg,
+      .contact-card-link svg,
+      .cc-quick-help-card-btn svg {
+        color: var(--color-bg) !important;
+        fill: currentColor !important;
+      }
+      .contact-submit-custom:hover,
+      .contact-card-link:hover,
+      .cc-quick-help-card-btn:hover {
+        background: #ffffff !important;
+        color: var(--color-primary) !important;
+        border-color: var(--color-primary) !important;
+      }
+      .contact-submit-custom:hover svg,
+      .contact-submit-custom:hover path,
+      .contact-card-link:hover svg,
+      .contact-card-link:hover path,
+      .cc-quick-help-card-btn:hover svg,
+      .cc-quick-help-card-btn:hover path {
+        color: var(--color-primary) !important;
+        fill: currentColor !important;
+        stroke: currentColor !important;
+      }
+      .contact-submit-custom svg path {
+        stroke: var(--color-bg) !important;
+      }
+      .contact-submit-custom:hover svg path {
+        stroke: var(--color-primary) !important;
+      }
+      .contact-card-link svg[fill="none"] path {
+        stroke: var(--color-bg) !important;
+      }
+      .contact-card-link:hover svg[fill="none"] path {
+        stroke: var(--color-primary) !important;
+      }
+      .cc-quick-help-card-btn svg[fill="none"] path {
+        stroke: var(--color-bg) !important;
+      }
+      .cc-quick-help-card-btn:hover svg[fill="none"] path {
+        stroke: var(--color-primary) !important;
       }
 
       @media (max-width: 767px) {
