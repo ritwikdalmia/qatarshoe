@@ -183,47 +183,22 @@
                           {%- endif -%}
                         {%- endfor -%}
 
-                        {%- if has_nested -%}
-                          <div class="sitemap-nested-menu">
-                            {%- for link in linklists[menu_handle].links -%}
-                              <div class="sitemap-menu-item-level-1{% if link.links != blank %} sitemap-collapsible{% endif %}">
-                                {%- if link.links != blank -%}
-                                  <button class="sitemap-toggle-btn" aria-expanded="false" type="button">
-                                    <span class="sitemap-link-level-1">{{ link.title }}</span>
-                                    <span class="sitemap-toggle-icon">
-                                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    </span>
-                                  </button>
-                                  <div class="sitemap-level-2-wrapper">
-                                    <div class="sitemap-level-2-grid">
-                                      {%- for child_link in link.links -%}
-                                        <div class="sitemap-menu-item-level-2">
-                                          <a href="{{ child_link.url }}" class="sitemap-link-level-2">{{ child_link.title }}</a>
-                                          {%- if child_link.links != blank -%}
-                                            <div class="sitemap-level-3-list">
-                                              {%- for grandchild_link in child_link.links -%}
-                                                <a href="{{ grandchild_link.url }}" class="sitemap-link-level-3">{{ grandchild_link.title }}</a>
-                                              {%- endfor -%}
-                                            </div>
-                                          {%- endif -%}
-                                        </div>
-                                      {%- endfor -%}
-                                    </div>
-                                  </div>
-                                {%- else -%}
-                                  <a href="{{ link.url }}" class="sitemap-link-level-1">{{ link.title }}</a>
-                                {%- endif -%}
-                              </div>
+                        {%- comment -%} Flatten nested links for support group to show directly {%- endcomment -%}
+                        {%- for link in linklists[menu_handle].links -%}
+                          {%- if link.links != blank -%}
+                            {%- for child_link in link.links -%}
+                              <a href="{{ child_link.url }}" class="sitemap-link">
+                                <span>{{ child_link.title }}</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                              </a>
                             {%- endfor -%}
-                          </div>
-                        {%- else -%}
-                          {%- for link in linklists[menu_handle].links -%}
+                          {%- else -%}
                             <a href="{{ link.url }}" class="sitemap-link">
                               <span>{{ link.title }}</span>
                               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="#2D1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
-                          {%- endfor -%}
-                        {%- endif -%}
+                          {%- endif -%}
+                        {%- endfor -%}
                       {%- endif -%}
                     {%- endif -%}
                   </div>

@@ -297,6 +297,20 @@
   .pagination-item:hover:not(.active) {
     background: var(--color-bg);
   }
+  .pagination-container button.pagination-item {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+  }
+  .pagination-container button.pagination-item.active {
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .pagination-container button.pagination-item:hover:not(.active) {
+    background: var(--color-bg);
+  }
 
   
   .filters-drawer-overlay {
@@ -1298,7 +1312,9 @@
   window.collectionPagination = {
     currentPage: {{ paginate.current_page | default: 1 }},
     totalPages: {{ paginate.pages | default: 1 }},
-    baseUrl: "{{ collection.url }}"
+    baseUrl: "{{ collection.url }}",
+    paginationType: "{{ section.settings.pagination_type | default: 'pagination' }}",
+    productsPerPage: {{ products_per_page | default: 16 }}
   };
 </script>
 {%- endpaginate -%}
@@ -1435,7 +1451,236 @@
     return activeColHandles;
   }
 
-  function filterProductsDOM() {
+  let currentClientPage = 1;
+
+  function paginateVisibleProducts(resetPage = false) {
+    if (resetPage) {
+      currentClientPage = 1;
+    }
+
+    const grid = document.querySelector('.product-grid');
+    if (!grid) return;
+
+    const allCards = Array.from(grid.querySelectorAll('.product-card'));
+    const matchedCards = allCards.filter(card => !card.classList.contains('filtered-out'));
+    
+    const itemsPerPage = window.collectionPagination?.productsPerPage || 16;
+    const paginationType = window.collectionPagination?.paginationType || 'pagination';
+
+    // Get or create pagination container
+    let pagContainer = document.querySelector('.pagination-container');
+    if (!pagContainer && paginationType !== 'show_all') {
+      pagContainer = document.createElement('div');
+      pagContainer.className = 'pagination-container';
+      grid.parentNode.insertBefore(pagContainer, grid.nextSibling);
+    }
+
+    if (paginationType === 'show_all') {
+      matchedCards.forEach(card => card.style.display = '');
+      allCards.forEach(card => {
+        if (card.classList.contains('filtered-out')) {
+          card.style.display = 'none';
+        }
+      });
+      if (pagContainer) pagContainer.style.display = 'none';
+      toggleEmptyState(matchedCards.length);
+      return;
+    }
+
+    const totalItems = matchedCards.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    if (currentClientPage > totalPages) {
+      currentClientPage = Math.max(1, totalPages);
+    }
+
+    if (paginationType === 'pagination') {
+      const startIdx = (currentClientPage - 1) * itemsPerPage;
+      const endIdx = currentClientPage * itemsPerPage;
+
+      matchedCards.forEach((card, idx) => {
+        if (idx >= startIdx && idx < endIdx) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      allCards.forEach(card => {
+        if (card.classList.contains('filtered-out')) {
+          card.style.display = 'none';
+        }
+      });
+
+      if (totalPages <= 1) {
+        if (pagContainer) pagContainer.style.display = 'none';
+      } else {
+        if (pagContainer) {
+          pagContainer.style.display = 'flex';
+          pagContainer.innerHTML = '';
+
+          // Prev button
+          const prevBtn = document.createElement('button');
+          prevBtn.className = 'pagination-item pagination-prev';
+          prevBtn.innerHTML = '&laquo;';
+          prevBtn.disabled = currentClientPage === 1;
+          prevBtn.style.cursor = currentClientPage === 1 ? 'not-allowed' : 'pointer';
+          prevBtn.style.opacity = currentClientPage === 1 ? '0.5' : '1';
+          prevBtn.addEventListener('click', () => {
+            if (currentClientPage > 1) {
+              currentClientPage--;
+              paginateVisibleProducts(false);
+              scrollToGridTop();
+            }
+          });
+          pagContainer.appendChild(prevBtn);
+
+          // Page numbers
+          for (let p = 1; p <= totalPages; p++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = `pagination-item ${p === currentClientPage ? 'active' : ''}`;
+            pageBtn.textContent = p;
+            pageBtn.addEventListener('click', () => {
+              currentClientPage = p;
+              paginateVisibleProducts(false);
+              scrollToGridTop();
+            });
+            pagContainer.appendChild(pageBtn);
+          }
+
+          // Next button
+          const nextBtn = document.createElement('button');
+          nextBtn.className = 'pagination-item pagination-next';
+          nextBtn.innerHTML = '&raquo;';
+          nextBtn.disabled = currentClientPage === totalPages;
+          nextBtn.style.cursor = currentClientPage === totalPages ? 'not-allowed' : 'pointer';
+          nextBtn.style.opacity = currentClientPage === totalPages ? '0.5' : '1';
+          nextBtn.addEventListener('click', () => {
+            if (currentClientPage < totalPages) {
+              currentClientPage++;
+              paginateVisibleProducts(false);
+              scrollToGridTop();
+            }
+          });
+          pagContainer.appendChild(nextBtn);
+        }
+      }
+    } else if (paginationType === 'load_more') {
+      const visibleLimit = currentClientPage * itemsPerPage;
+      matchedCards.forEach((card, idx) => {
+        if (idx < visibleLimit) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      allCards.forEach(card => {
+        if (card.classList.contains('filtered-out')) {
+          card.style.display = 'none';
+        }
+      });
+
+      if (currentClientPage >= totalPages) {
+        if (pagContainer) pagContainer.style.display = 'none';
+      } else {
+        if (pagContainer) {
+          pagContainer.style.display = 'flex';
+          pagContainer.innerHTML = '';
+
+          const loadMoreBtn = document.createElement('button');
+          loadMoreBtn.className = 'btn-continue-shopping load-more-btn-custom';
+          loadMoreBtn.style.margin = '0 auto';
+          loadMoreBtn.style.cursor = 'pointer';
+          loadMoreBtn.textContent = 'Load More';
+          loadMoreBtn.addEventListener('click', () => {
+            currentClientPage++;
+            paginateVisibleProducts(false);
+          });
+          pagContainer.appendChild(loadMoreBtn);
+        }
+      }
+    } else if (paginationType === 'infinite_scroll') {
+      const visibleLimit = currentClientPage * itemsPerPage;
+      matchedCards.forEach((card, idx) => {
+        if (idx < visibleLimit) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      allCards.forEach(card => {
+        if (card.classList.contains('filtered-out')) {
+          card.style.display = 'none';
+        }
+      });
+
+      if (currentClientPage >= totalPages) {
+        if (pagContainer) pagContainer.style.display = 'none';
+        if (window.infiniteScrollObserver) {
+          window.infiniteScrollObserver.disconnect();
+          window.infiniteScrollObserver = null;
+        }
+      } else {
+        if (pagContainer) {
+          pagContainer.style.display = 'flex';
+          pagContainer.style.justifyContent = 'center';
+          pagContainer.style.padding = '20px';
+          pagContainer.innerHTML = `
+            <div class="infinite-scroll-trigger-el" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+              <span class="spinner" style="display: inline-block; width: 24px; height: 24px; border: 3px solid rgba(0,0,0,0.1); border-radius: 50%; border-top-color: var(--color-primary, #2d1f1f); animation: spin 1s ease-in-out infinite;"></span>
+              <style>
+                @keyframes spin {
+                  to { transform: rotate(360deg); }
+                }
+              </style>
+            </div>
+          `;
+
+          const trigger = pagContainer.querySelector('.infinite-scroll-trigger-el');
+          if (trigger) {
+            if (window.infiniteScrollObserver) {
+              window.infiniteScrollObserver.disconnect();
+            }
+            window.infiniteScrollObserver = new IntersectionObserver((entries) => {
+              if (entries[0].isIntersecting) {
+                if (currentClientPage < totalPages) {
+                  currentClientPage++;
+                  paginateVisibleProducts(false);
+                }
+              }
+            }, { rootMargin: '200px' });
+            window.infiniteScrollObserver.observe(trigger);
+          }
+        }
+      }
+    }
+
+    toggleEmptyState(matchedCards.length);
+  }
+
+  function scrollToGridTop() {
+    const grid = document.querySelector('.product-grid');
+    if (grid) {
+      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function toggleEmptyState(visibleCount) {
+    const emptyMsg = document.querySelector('.filter-empty-message');
+    const grid = document.querySelector('.product-grid');
+    
+    if (visibleCount === 0) {
+      if (emptyMsg) emptyMsg.style.display = 'block';
+      if (grid) grid.style.display = 'none';
+    } else {
+      if (emptyMsg) emptyMsg.style.display = 'none';
+      if (grid) grid.style.display = 'grid';
+    }
+  }
+
+  function filterProductsDOM(resetPage = false) {
     const activeCols = getActiveCollections();
     const activeTypes = getActiveProductTypes();
     
@@ -1488,12 +1733,10 @@
     let visibleCount = 0;
     
     cards.forEach(card => {
-      // 1. Filter by collection
       const productColsAttr = card.getAttribute('data-collections') || '';
       const productCols = productColsAttr.split(',').map(c => c.trim().toLowerCase()).filter(c => c !== '');
       const matchesCol = activeCols.length === 0 || activeCols.some(col => productCols.includes(col));
       
-      // 2. Filter by type
       const type = card.getAttribute('data-product-type') || '';
       let matchesType = activeTypes.length === 0 || activeTypes.includes(type);
       if (!matchesType && activeBrandCols.length > 0) {
@@ -1501,7 +1744,7 @@
           matchesType = true;
         }
       }
-      const isBrandMenu = {{ is_brand_menu | default: false }};
+      const isBrandMenu = {% if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' %}true{% else %}false{% endif %};
       if (!isBrandMenu && !matchesType && activeTypes.length > 0) {
         const activePillHandles = [];
         document.querySelectorAll('.filter-pill-type.active:not([data-is-all="true"])').forEach(pill => {
@@ -1514,11 +1757,9 @@
         }
       }
       
-      // 3. Filter by vendor/brand
       const vendor = (card.getAttribute('data-vendor') || '').toLowerCase();
       const matchesVendor = activeVendors.length === 0 || activeVendors.includes(vendor);
       
-      // 4. Filter by availability
       const available = card.getAttribute('data-available') === 'true';
       let matchesAvailability = true;
       if (activeAvailability.length > 0) {
@@ -1527,14 +1768,12 @@
         matchesAvailability = matchesInStock || matchesOutOfStock;
       }
       
-      // 5. Filter by price
       const priceCents = parseInt(card.getAttribute('data-price-cents') || '0');
       const price = priceCents / 100;
       let matchesPrice = true;
       if (minPrice !== null && price < minPrice) matchesPrice = false;
       if (maxPrice !== null && price > maxPrice) matchesPrice = false;
       
-      // 6. Filter by options (size, color, etc.)
       let matchesOptions = true;
       for (const [optName, optValues] of Object.entries(optionFilters)) {
         const prodOptAttr = card.getAttribute(`data-opt-${optName}`) || '';
@@ -1547,31 +1786,19 @@
       }
       
       if (matchesCol && matchesType && matchesVendor && matchesAvailability && matchesPrice && matchesOptions) {
-        card.style.display = '';
+        card.classList.remove('filtered-out');
         visibleCount++;
       } else {
-        card.style.display = 'none';
+        card.classList.add('filtered-out');
       }
     });
     
-    // Update results count label
     const resultsCountEl = document.querySelector('.results-count');
     if (resultsCountEl) {
       resultsCountEl.textContent = `${visibleCount} result${visibleCount === 1 ? '' : 's'}`;
     }
     
-    // Toggle empty state message
-    const emptyMsg = document.querySelector('.filter-empty-message');
-    const grid = document.querySelector('.product-grid');
-    
-    if (visibleCount === 0) {
-      if (emptyMsg) emptyMsg.style.display = 'block';
-      if (grid) grid.style.display = 'none';
-    } else {
-      if (emptyMsg) emptyMsg.style.display = 'none';
-      if (grid) grid.style.display = 'grid';
-    }
-    
+    paginateVisibleProducts(resetPage);
     updateDrawerResultCount();
   }
 
@@ -1695,7 +1922,7 @@
     if (isFetchingBackgroundPages) return;
     const totalPages = window.collectionPagination?.totalPages || 1;
     if (totalPages <= 1) {
-      filterProductsDOM();
+      filterProductsDOM(false);
       return;
     }
     
@@ -1741,8 +1968,11 @@
           });
         }
         
-        if (paginationContainer) {
+        if (paginationContainer && window.collectionPagination?.paginationType === 'show_all') {
           paginationContainer.style.display = 'none';
+        } else if (paginationContainer) {
+          paginationContainer.style.opacity = '1';
+          paginationContainer.style.pointerEvents = 'auto';
         }
         
         if (typeof initCollectionProductImageSlideshows === 'function') {
@@ -1755,12 +1985,12 @@
         }
         
         isFetchingBackgroundPages = false;
-        filterProductsDOM();
+        filterProductsDOM(false);
       })
       .catch(err => {
         console.error('Error fetching background pages:', err);
         isFetchingBackgroundPages = false;
-        filterProductsDOM();
+        filterProductsDOM(false);
       });
   }
 
@@ -1824,7 +2054,7 @@
     const newUrl = `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
     
-    filterProductsDOM();
+    filterProductsDOM(true);
     closeFiltersDrawer();
   }
 
@@ -1967,7 +2197,7 @@
     });
     
     syncFiltersFromURL();
-    filterProductsDOM();
+    filterProductsDOM(true);
     closeFiltersDrawer();
   }
 
@@ -2144,7 +2374,7 @@
 
   window.addEventListener('popstate', function() {
     syncFiltersFromURL();
-    filterProductsDOM();
+    filterProductsDOM(true);
   });
 
   function initCollectionProductImageSlideshows() {
@@ -2237,6 +2467,30 @@
 {
   "name": "Main Collection",
   "settings": [
+    {
+      "type": "select",
+      "id": "pagination_type",
+      "label": "Pagination Type",
+      "options": [
+        {
+          "value": "pagination",
+          "label": "Standard Pagination"
+        },
+        {
+          "value": "load_more",
+          "label": "Load More Button"
+        },
+        {
+          "value": "infinite_scroll",
+          "label": "Infinite Scroll"
+        },
+        {
+          "value": "show_all",
+          "label": "Show All (Infinite Scroll / No Pagination)"
+        }
+      ],
+      "default": "pagination"
+    },
     {
       "type": "range",
       "id": "products_per_page",

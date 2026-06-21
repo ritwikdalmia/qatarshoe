@@ -36,41 +36,31 @@
         "offer_footwear": {
           "type": "offer_card",
           "settings": {
-            "collection": "",
-            "name": "Footwear",
-            "url": ""
+            "collection": ""
           }
         },
         "offer_bags": {
           "type": "offer_card",
           "settings": {
-            "collection": "",
-            "name": "Bags",
-            "url": ""
+            "collection": ""
           }
         },
         "offer_jewelry": {
           "type": "offer_card",
           "settings": {
-            "collection": "",
-            "name": "Jewelry",
-            "url": ""
+            "collection": ""
           }
         },
         "offer_watches": {
           "type": "offer_card",
           "settings": {
-            "collection": "",
-            "name": "Watches",
-            "url": ""
+            "collection": ""
           }
         },
         "offer_accessories": {
           "type": "offer_card",
           "settings": {
-            "collection": "",
-            "name": "Accessories",
-            "url": ""
+            "collection": ""
           }
         },
         "brand_hms": {
@@ -163,7 +153,7 @@
         "offer_heading": "What We Offer:",
         "explore_label": "explore",
         "explore_url": "",
-        "offer_menu": "women",
+        "offer_menu": "",
         "brands_heading": "House Of Brands",
         "form_heading": "Send Us A Message",
         "form_subheading": "Fill out the form and we'll get back to you as quickly as possible.",
