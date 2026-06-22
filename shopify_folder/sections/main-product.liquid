@@ -75,6 +75,7 @@
                 <img src="{{ image | image_url: width: 120, height: 120, crop: 'center' }}"
                      alt="{{ image.alt | escape }}"
                      class="{% if forloop.first %}active{% endif %}"
+                     width="120" height="120"
                      data-main-src="{{ image | image_url: width: 1000 }}"
                      onclick="switchMainImage(this)">
                 {%- # theme-check-enable ImgWidthAndHeight -%}
@@ -629,15 +630,15 @@
     buy_now:              {{ 'general.buy_now' | t | json }}
   };
   function _tStockLimit(count) {
-    return {{ 'general.stock_limit' | t | json }}.replace('{{ count }}', count);
+    return {{ 'general.stock_limit' | t | json }}.replace('{% raw %}{{ count }}{% endraw %}', count);
   }
   function _tCartExceeded(qty, in_cart, max) {
     return {{ 'general.cart_stock_exceeded' | t | json }}
-      .replace('{{ qty }}', qty).replace('{{ in_cart }}', in_cart).replace('{{ max }}', max);
+      .replace('{% raw %}{{ qty }}{% endraw %}', qty).replace('{% raw %}{{ in_cart }}{% endraw %}', in_cart).replace('{% raw %}{{ max }}{% endraw %}', max);
   }
   function _tBuyNowExceeded(max, in_cart) {
     return {{ 'general.stock_limit_buy_now' | t | json }}
-      .replace('{{ max }}', max).replace('{{ in_cart }}', in_cart);
+      .replace('{% raw %}{{ max }}{% endraw %}', max).replace('{% raw %}{{ in_cart }}{% endraw %}', in_cart);
   }
 
   const COLOR_HEX_MAP = {

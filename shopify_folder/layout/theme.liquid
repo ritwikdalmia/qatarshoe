@@ -50,6 +50,12 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
     {%- endif -%}
 
     <style>
+      @font-face {
+        font-family: 'Canela Text';
+        font-display: swap;
+        src: local('Canela Text'),
+             url("{{ 'CanelaText-Regular.woff2' | asset_url }}") format('woff2');
+      }
       :root {
         --color-bg: {{ settings.color_bg | default: '#faf9f5' }};
         --color-primary: {{ settings.color_primary | default: '#2d1f1f' }};

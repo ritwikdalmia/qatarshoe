@@ -1047,6 +1047,7 @@ body {
   background: transparent;
   gap: 20px;
   border: none;
+  margin-top: 24px;
 }
 
 .product-card {
@@ -1054,7 +1055,7 @@ body {
   flex-direction: column;
   background: #fff;
   border: 1.5px solid rgba(45, 31, 31, 0.18);
-  border-radius: 6px;
+  border-radius: 20px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
@@ -1894,7 +1895,7 @@ body.template-index .page-content {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  border-radius: 24px;
+  border-radius: 26px;
   transition: all 0.25s ease;
   cursor: pointer;
   box-sizing: border-box;
@@ -1905,7 +1906,7 @@ body.template-index .page-content {
   border: 1.5px solid var(--color-primary);
 }
 .cta-wrapper .atc-btn:hover:not(:disabled) {
-  background: var(--color-bg, #f9f2d5);
+  background: #ffffff;
   color: var(--color-primary);
   border-color: var(--color-primary);
 }
@@ -1914,17 +1915,18 @@ body.template-index .page-content {
   border-color: #e5e5e5;
   color: #999;
   cursor: not-allowed;
-  border-radius: 24px;
+  border-radius: 26px;
 }
 
 .cta-wrapper .buy-now-btn {
-  background: var(--color-bg, #f9f2d5);
+  background: #ffffff;
   color: var(--color-primary);
   border: 1.5px solid var(--color-primary);
 }
 .cta-wrapper .buy-now-btn:hover:not(:disabled) {
-  background: var(--color-bg, #f9f2d5);
-  color: var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
 }
 .cta-wrapper .buy-now-btn:disabled {
   display: none; 
@@ -2670,4 +2672,107 @@ body.template-index .page-content {
 [dir="rtl"] .nav-link-text {
   direction: rtl;
   display: inline-block;
+}
+
+/* ── Global button curving & styling (Red and White only) ── */
+.checkout-btn,
+.auth-submit-btn,
+.sign-out-btn,
+.empty-state-btn,
+.wishlist-card-atc,
+.filter-trigger-btn,
+.wish-to-cart-btn,
+.buy-now-btn {
+  border-radius: 26px !important;
+  transition: all 0.25s ease !important;
+}
+
+/* Primary Solid Buttons */
+.checkout-btn,
+.auth-submit-btn,
+.empty-state-btn,
+.wishlist-card-atc,
+.wish-to-cart-btn {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  border: 1.5px solid var(--color-primary) !important;
+}
+.checkout-btn:hover,
+.auth-submit-btn:hover,
+.empty-state-btn:hover,
+.wishlist-card-atc:hover,
+.wish-to-cart-btn:hover {
+  background-color: #ffffff !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Secondary Outlined Buttons */
+.sign-out-btn,
+.filter-trigger-btn {
+  background-color: #ffffff !important;
+  color: var(--color-primary) !important;
+  border: 1.5px solid var(--color-primary) !important;
+}
+.sign-out-btn:hover,
+.filter-trigger-btn:hover {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Google Translate font tag override to prevent blue text on translated buttons */
+.checkout-btn font,
+.auth-submit-btn font,
+.empty-state-btn font,
+.wishlist-card-atc font,
+.wish-to-cart-btn font {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+.buy-now-btn font,
+.sign-out-btn font,
+.filter-trigger-btn font,
+.side-drawer-footer .checkout-btn font {
+  color: var(--color-primary) !important;
+  text-decoration: none !important;
+}
+
+/* Cart Drawer Styling & Layout */
+.drawer-item-price {
+  color: var(--color-primary) !important;
+}
+.total-row {
+  color: var(--color-primary) !important;
+}
+.drawer-item-variant {
+  font-size: 11px;
+  color: rgba(45, 31, 31, 0.6);
+  margin-top: 2px;
+}
+.side-drawer-footer .checkout-btn {
+  background-color: #ffffff !important;
+  color: var(--color-primary) !important;
+  border: 1.5px solid var(--color-primary) !important;
+}
+.side-drawer-footer .checkout-btn:hover {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Disable hover transition changes for product page Add to Cart and Buy Now buttons */
+.cta-wrapper .atc-btn:hover,
+#add-to-cart:hover {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--color-primary) !important;
+  cursor: pointer;
+}
+.cta-wrapper .buy-now-btn:hover,
+#buy-now:hover {
+  background-color: #ffffff !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  cursor: pointer;
 }
