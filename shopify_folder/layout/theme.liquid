@@ -84,6 +84,16 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         --color-drawer-footer-bg: {% if settings.color_drawer_footer_bg != blank %}{{ settings.color_drawer_footer_bg }}{% else %}var(--color-bg, #faf9f5){% endif %};
         --color-white: {{ settings.color_white | default: '#ffffff' }};
 
+        --font-size-small: {{ settings.font_size_small | default: 11 }}px;
+        --font-size-body-small: {{ settings.font_size_body_small | default: 13 }}px;
+        --font-size-body: {{ settings.font_size_body | default: 15 }}px;
+        --font-size-heading-medium: {{ settings.font_size_heading_medium | default: 18 }}px;
+        --font-size-heading-large: {{ settings.font_size_heading_large | default: 24 }}px;
+
+        --radius-card: {{ settings.radius_card | default: 12 }}px;
+        --radius-large: {{ settings.radius_large | default: 20 }}px;
+        --radius-button: {{ settings.radius_button | default: 50 }}px;
+
         {%- if settings.font_body != blank -%}
         --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
         {%- endif -%}

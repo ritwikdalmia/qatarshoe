@@ -14,7 +14,7 @@
   width: 100%;
   max-width: 440px;
   padding: 40px;
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   background-color: var(--color-bg, #faf9f5);
   border: 1px solid var(--color-border, #e0dcd3);
   box-shadow: 0 4px 24px rgba(45, 31, 31, 0.03);
@@ -30,7 +30,7 @@
 }
 
 .auth-subtitle {
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   color: var(--color-muted, #666);
   margin-bottom: 24px;
   text-align: center;
@@ -49,7 +49,7 @@
   border: 1px solid var(--color-accent, #f25c5e);
   border-radius: 4px;
   color: var(--color-primary, #2d1f1f);
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
 }
 .auth-form .errors ul {
   list-style: square;
@@ -64,7 +64,7 @@
 }
 
 .form-field label {
-  font-size: 12px;
+  font-size: var(--font-size-small);
   font-weight: 600;
   color: var(--color-primary, #2d1f1f);
   text-transform: uppercase;
@@ -85,7 +85,7 @@
   height: 48px;
   padding: 0 16px;
   font-family: var(--font-body, var(--font-body));
-  font-size: 14px;
+  font-size: var(--font-size-body);
   color: var(--color-primary, #2d1f1f);
   background-color: var(--color-white);
   border: 1px solid var(--color-border, #e0dcd3);
@@ -102,7 +102,7 @@
 }
 
 .form-link {
-  font-size: 12px;
+  font-size: var(--font-size-small);
   color: var(--color-muted, #666);
   text-decoration: underline;
   transition: color 0.2s;
@@ -119,12 +119,12 @@
   height: 48px;
   background-color: var(--color-primary, #2d1f1f);
   color: var(--color-white);
-  font-size: 11px;
+  font-size: var(--font-size-small);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   border: none;
-  border-radius: 24px;
+  border-radius: var(--radius-button);
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 8px;
@@ -141,12 +141,12 @@
   justify-content: center;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   color: var(--color-muted, #666);
   margin-top: 12px;
 }
 .auth-footer .form-link {
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   font-weight: 600;
 }
 
@@ -170,7 +170,7 @@
 }
 
 .account-header p {
-  font-size: 14px;
+  font-size: var(--font-size-body);
   color: var(--color-muted, #666);
 }
 
@@ -205,7 +205,7 @@
   border: none;
   border-bottom: 2px solid transparent;
   font-family: var(--font-body, var(--font-body));
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   font-weight: 500;
   color: var(--color-muted, #666);
   cursor: pointer;
@@ -283,20 +283,20 @@
 }
 
 .card-number {
-  font-size: 32px;
+  font-size: var(--font-size-heading-large);
   font-weight: 700;
   color: var(--color-primary, #2d1f1f);
   line-height: 1.2;
 }
 
 .card-label {
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   color: var(--color-muted, #666);
   margin-top: 2px;
 }
 
 .card-link {
-  font-size: 12px;
+  font-size: var(--font-size-small);
   font-weight: 600;
   color: var(--color-primary, #2d1f1f);
   text-decoration: underline;
@@ -328,7 +328,7 @@
 .table-responsive {
   width: 100%;
   overflow-x: auto;
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   border: 1px solid var(--color-border, #e0dcd3);
   background: var(--color-white);
   margin-bottom: 40px;
@@ -338,7 +338,7 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
 }
 
 .data-table th,
@@ -351,7 +351,7 @@
   background-color: var(--color-bg, #faf9f5);
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: var(--font-size-small);
   letter-spacing: 0.05em;
   color: var(--color-primary, #2d1f1f);
 }
@@ -363,7 +363,7 @@
 .badge {
   display: inline-block;
   padding: 4px 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -386,7 +386,7 @@
   justify-content: space-between;
   padding: 16px 0;
   border-bottom: 1px solid rgba(45, 31, 31, 0.06);
-  font-size: 14px;
+  font-size: var(--font-size-body);
 }
 .details-row:last-child {
   border-bottom: none;
@@ -414,7 +414,7 @@
   color: var(--color-primary, #2d1f1f);
   font-size: 12px;
   font-weight: 600;
-  border-radius: 26px;
+  border-radius: var(--radius-button);
   cursor: pointer;
   transition: all 0.2s;
   text-decoration: none;
@@ -469,7 +469,7 @@
 }
 
 .empty-state p {
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   color: var(--color-muted, #666);
   margin-bottom: 24px;
   max-width: 300px;
@@ -481,12 +481,12 @@
   padding: 0 24px;
   background-color: var(--color-primary, #2d1f1f);
   color: var(--color-white);
-  font-size: 11px;
+  font-size: var(--font-size-small);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   border: none;
-  border-radius: 20px;
+  border-radius: var(--radius-card);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -510,7 +510,7 @@
   position: relative;
   background: var(--color-white);
   border: 1px solid rgba(45, 31, 31, 0.05);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -571,7 +571,7 @@
 }
 
 .wishlist-card-vendor {
-  font-size: 11px;
+  font-size: var(--font-size-small);
   font-weight: 500;
   text-transform: uppercase;
   color: var(--color-muted, #666);
@@ -580,7 +580,7 @@
 }
 
 .wishlist-card-title {
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   font-weight: 600;
   color: var(--color-primary, #2d1f1f);
   margin-bottom: 8px;
@@ -589,7 +589,7 @@
 }
 
 .wishlist-card-price {
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   font-weight: 700;
   color: var(--color-accent, #f25c5e);
   margin-bottom: 12px;
@@ -600,7 +600,7 @@
   background-color: var(--color-primary, #2d1f1f);
   color: var(--color-white);
   border-radius: 18px;
-  font-size: 11px;
+  font-size: var(--font-size-small);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -643,24 +643,24 @@
   position: absolute;
   top: 24px;
   right: 24px;
-  font-size: 10px;
+  font-size: var(--font-size-small);
   font-weight: 700;
   background-color: var(--color-primary, #2d1f1f);
   color: var(--color-white);
   padding: 4px 10px;
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   text-transform: uppercase;
 }
 
 .address-name {
-  font-size: 16px;
+  font-size: var(--font-size-body);
   font-weight: 600;
   color: var(--color-primary, #2d1f1f);
   margin-right: 60px; 
 }
 
 .address-details-list {
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   color: var(--color-muted, #666);
   line-height: 1.6;
 }
@@ -716,7 +716,7 @@
 .close-overlay-btn {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: var(--font-size-heading-large);
   color: #999;
   cursor: pointer;
 }
@@ -778,7 +778,7 @@
   color: var(--color-primary, #2d1f1f);
 }
 .order-title-block p {
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   color: var(--color-muted, #666);
   margin-top: 6px;
 }
@@ -787,7 +787,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   font-weight: 600;
   text-decoration: underline;
   color: var(--color-primary, #2d1f1f);
@@ -805,7 +805,7 @@
 }
 
 .meta-block h4 {
-  font-size: 11px;
+  font-size: var(--font-size-small);
   font-weight: 600;
   text-transform: uppercase;
   color: var(--color-muted, #666);
@@ -815,7 +815,7 @@
 
 .meta-block p,
 .meta-block address {
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   color: var(--color-primary, #2d1f1f);
   line-height: 1.6;
   font-style: normal;
@@ -845,7 +845,7 @@
   width: 70px;
   height: 70px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: var(--radius-card);
   background-color: var(--color-bg, #faf9f5);
 }
 
@@ -854,7 +854,7 @@
 }
 
 .order-item-vendor {
-  font-size: 10px;
+  font-size: var(--font-size-small);
   font-weight: 600;
   text-transform: uppercase;
   color: var(--color-muted, #666);
@@ -862,14 +862,14 @@
 }
 
 .order-item-title {
-  font-size: 14px;
+  font-size: var(--font-size-body);
   font-weight: 600;
   color: var(--color-primary, #2d1f1f);
   margin: 2px 0 4px 0;
 }
 
 .order-item-meta {
-  font-size: 12px;
+  font-size: var(--font-size-small);
   color: var(--color-muted, #666);
 }
 
@@ -878,13 +878,13 @@
 }
 
 .order-item-total {
-  font-size: 14px;
+  font-size: var(--font-size-body);
   font-weight: 700;
   color: var(--color-primary, #2d1f1f);
 }
 
 .order-item-qty {
-  font-size: 12px;
+  font-size: var(--font-size-small);
   color: var(--color-muted, #666);
   margin-top: 4px;
 }
@@ -902,7 +902,7 @@
 .total-summary-row {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   padding: 10px 0;
   border-bottom: 1px solid rgba(45, 31, 31, 0.06);
 }
@@ -915,7 +915,7 @@
 }
 
 .total-summary-row.grand-total {
-  font-size: 16px;
+  font-size: var(--font-size-body);
   font-weight: 700;
   color: var(--color-primary, #2d1f1f);
   border-top: 1px solid var(--color-border, #e0dcd3);
@@ -945,7 +945,7 @@
     padding: 40px 20px;
   }
   .account-header h1 {
-    font-size: 28px;
+    font-size: var(--font-size-heading-large);
   }
   .account-tabs {
     gap: 20px;

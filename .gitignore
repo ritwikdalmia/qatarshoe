@@ -19,3 +19,5 @@ shopify_folder/products_export_1_edited.csv
 shopify_folder/theme-check-results-utf8.txt
 shopify_folder/theme-check-results.txt
 shopify_folder/theme-check-results=2.txt
+*.py
+shopify_folder/scratch/

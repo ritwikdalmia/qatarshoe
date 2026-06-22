@@ -88,7 +88,20 @@
   .collection-header-container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 40px 40px 20px 40px;
+    padding: 24px 40px 16px 40px;
+  }
+  @media (max-width: 768px) {
+    .collection-header-container {
+      padding: 16px 20px 12px 20px;
+    }
+    .collection-title {
+      font-size: 28px !important;
+      margin-bottom: 8px !important;
+    }
+    .collection-description {
+      font-size: 13px !important;
+      margin-bottom: 16px !important;
+    }
   }
   .collection-title {
     font-family: var(--font-serif);

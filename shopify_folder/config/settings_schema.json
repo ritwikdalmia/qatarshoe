@@ -105,6 +105,96 @@
     ]
   },
   {
+    "name": "Font Sizes",
+    "settings": [
+      {
+        "type": "range",
+        "id": "font_size_small",
+        "label": "Small Text (Badges, Labels)",
+        "min": 10,
+        "max": 16,
+        "step": 1,
+        "default": 11,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "font_size_body_small",
+        "label": "Body Small (Prices, Meta)",
+        "min": 11,
+        "max": 18,
+        "step": 1,
+        "default": 13,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "font_size_body",
+        "label": "Base Body Text",
+        "min": 12,
+        "max": 20,
+        "step": 1,
+        "default": 15,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_medium",
+        "label": "Medium Heading",
+        "min": 14,
+        "max": 28,
+        "step": 1,
+        "default": 18,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_large",
+        "label": "Large Heading (Section Titles)",
+        "min": 18,
+        "max": 48,
+        "step": 1,
+        "default": 24,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Corner Roundness",
+    "settings": [
+      {
+        "type": "range",
+        "id": "radius_card",
+        "label": "Card Corner Radius",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "default": 12,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "radius_large",
+        "label": "Large Element Corner Radius",
+        "min": 0,
+        "max": 48,
+        "step": 2,
+        "default": 20,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "radius_button",
+        "label": "Button Corner Radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 50,
+        "unit": "px"
+      }
+    ]
+  },
+  {
     "name": "Typography",
     "settings": [
       {

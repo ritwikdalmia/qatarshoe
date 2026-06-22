@@ -19,8 +19,20 @@
   .desktop-header-logo img,
   .header-logo img {
     width: {{ settings.logo_width | default: 90 }}px !important;
+    height: {{ settings.logo_width | default: 90 }}px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    overflow: hidden !important;
     max-width: 100%;
-    height: auto !important;
+  }
+  .desktop-header-logo,
+  .header-logo {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    background: transparent !important;
   }
   .two-panel-dropdown {
     min-width: 360px !important;

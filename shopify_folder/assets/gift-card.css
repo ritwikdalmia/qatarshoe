@@ -17,7 +17,7 @@
   max-width: 620px;
   background-color: var(--color-bg);
   border: 1.5px solid var(--color-primary) !important;
-  border-radius: 12px !important;
+  border-radius: var(--radius-card) !important;
   padding: 48px 40px;
   text-align: center;
   box-shadow: 0 10px 30px rgba(45, 31, 31, 0.04);
@@ -54,7 +54,7 @@
   aspect-ratio: 1.58 / 1;
   margin: 0 auto 36px;
   background: linear-gradient(135deg, var(--color-primary) 0%, #453232 100%);
-  border-radius: 14px;
+  border-radius: var(--radius-card);
   padding: 28px;
   position: relative;
   display: flex;
@@ -109,7 +109,7 @@
   font-weight: 500;
   letter-spacing: 0.1em;
   padding: 4px 10px;
-  border-radius: 20px;
+  border-radius: var(--radius-card);
   text-transform: uppercase;
   margin-top: 8px;
   text-align: center;
@@ -127,7 +127,7 @@
 .gift-card-visual-label {
   display: block;
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--font-size-small);
   color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -166,7 +166,7 @@
   gap: 12px;
   background: rgba(255, 255, 255, 0.05);
   border: 1.5px dashed rgba(255, 255, 255, 0.25);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   padding: 8px 14px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -180,7 +180,7 @@
 
 .gift-card-visual-code {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 16px;
+  font-size: var(--font-size-body);
   font-weight: 700;
   color: var(--color-white);
   letter-spacing: 1.5px;
@@ -202,9 +202,9 @@
   display: inline-block;
   margin-bottom: 24px;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   font-weight: 500;
   letter-spacing: 0.02em;
 }
@@ -248,7 +248,7 @@
   padding: 16px;
   background-color: var(--color-white);
   border: 1.5px solid var(--color-primary);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   display: inline-block;
   box-shadow: 0 4px 15px rgba(45, 31, 31, 0.03);
   margin-bottom: 12px;
@@ -260,7 +260,7 @@
 
 .gift-card-qr-text {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--font-size-body-small);
   color: #666666;
 }
 
@@ -297,10 +297,10 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: var(--font-size-body);
   font-weight: 500;
   padding: 14px 28px;
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   cursor: pointer;
   transition: all 0.25s ease;
   text-decoration: none;
@@ -344,9 +344,9 @@
   background-color: var(--color-primary);
   color: var(--color-bg);
   padding: 12px 24px;
-  border-radius: 30px;
+  border-radius: var(--radius-button);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: var(--font-size-body);
   font-weight: 500;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   z-index: 1000;
@@ -382,7 +382,7 @@
 
 [dir="rtl"] .gift-card-visual-code {
   letter-spacing: 0;
-  font-size: 15px;
+  font-size: var(--font-size-body);
 }
 
 [dir="rtl"] .gift-card-btn {
@@ -397,19 +397,19 @@
   
   .gift-card-visual {
     padding: 20px;
-    border-radius: 10px;
+    border-radius: var(--radius-card);
   }
   
   .gift-card-visual-logo {
-    font-size: 18px;
+    font-size: var(--font-size-heading-medium);
   }
   
   .gift-card-visual-amount {
-    font-size: 30px;
+    font-size: var(--font-size-heading-large);
   }
   
   .gift-card-visual-code {
-    font-size: 14px;
+    font-size: var(--font-size-body);
     letter-spacing: 1px;
   }
   
