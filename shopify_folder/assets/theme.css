@@ -1906,8 +1906,8 @@ body.template-index .page-content {
   border: 1.5px solid var(--color-primary);
 }
 .cta-wrapper .atc-btn:hover:not(:disabled) {
-  background: #ffffff;
-  color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
   border-color: var(--color-primary);
 }
 .cta-wrapper .atc-btn:disabled {
@@ -1924,8 +1924,8 @@ body.template-index .page-content {
   border: 1.5px solid var(--color-primary);
 }
 .cta-wrapper .buy-now-btn:hover:not(:disabled) {
-  background: var(--color-primary);
-  color: #ffffff;
+  background: #ffffff;
+  color: var(--color-primary);
   border-color: var(--color-primary);
 }
 .cta-wrapper .buy-now-btn:disabled {
@@ -2709,7 +2709,9 @@ body.template-index .page-content {
 
 /* Secondary Outlined Buttons */
 .sign-out-btn,
-.filter-trigger-btn {
+.filter-trigger-btn,
+.buy-now-btn,
+#buy-now {
   background-color: #ffffff !important;
   color: var(--color-primary) !important;
   border: 1.5px solid var(--color-primary) !important;
