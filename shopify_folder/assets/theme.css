@@ -726,7 +726,7 @@ body {
 .src-compare-price {
   font-size: 11px;
   text-decoration: line-through;
-  color: #999;
+  color: #000;
 }
 .src-price {
   font-size: 12px;
@@ -1211,7 +1211,7 @@ body {
 }
 .product-price-compare {
   font-size: 12px;
-  color: #999;
+  color: #000;
   text-decoration: line-through;
   text-decoration-color: var(--color-accent, #e74c3c);
   order: -1; 
@@ -1697,7 +1697,7 @@ body.template-index .page-content {
 .price-container .compare-price {
   font-family: var(--font-body);
   font-size: 16px;
-  color: #999;
+  color: #000;
   text-decoration: line-through;
   text-decoration-color: var(--color-accent, #e74c3c);
   order: -1; 

@@ -1030,12 +1030,28 @@
     
     <div class="search-overlay-body">
       <div class="search-suggestions" id="search-suggestions">
-        <button class="suggestion-tag" onclick="useSuggestionTag('bags')">bags</button>
-        <button class="suggestion-tag" onclick="useSuggestionTag('shoes')">shoes</button>
-        <button class="suggestion-tag" onclick="useSuggestionTag('boots')">boots</button>
+        {%- assign suggestion_count = 0 -%}
+        {%- for collection in collections -%}
+          {%- unless collection.handle == 'all' or collection.handle == 'frontpage' -%}
+            {%- if suggestion_count < 3 -%}
+              <button class="suggestion-tag" onclick="useSuggestionTag('{{ collection.title | escape }}')">{{ collection.title }}</button>
+              {%- assign suggestion_count = suggestion_count | plus: 1 -%}
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        {%- if suggestion_count == 0 -%}
+          <button class="suggestion-tag" onclick="useSuggestionTag('bags')">bags</button>
+          <button class="suggestion-tag" onclick="useSuggestionTag('shoes')">shoes</button>
+          <button class="suggestion-tag" onclick="useSuggestionTag('boots')">boots</button>
+        {%- endif -%}
       </div>
       
       <div class="search-overlay-results-wrap" id="search-results-wrap" style="display:none;">
+        <div id="collections-results-wrap" style="margin-bottom: 24px; display: none;">
+          <h4 class="search-results-title">{% if request.locale.iso_code == 'ar' %}المجموعات{% else %}Collections{% endif %}</h4>
+          <div class="search-suggestions" id="home-collections-results" style="margin-bottom: 0;"></div>
+        </div>
+
         <h4 class="search-results-title">{% if request.locale.iso_code == 'ar' %}المنتجات{% else %}Products{% endif %}</h4>
         <div class="search-overlay-results" id="home-search-results"></div>
         <div class="search-overlay-view-all-wrap">
@@ -1566,27 +1582,53 @@
         clearBtn.style.display = cleanQuery.length > 0 ? 'block' : 'none';
       }
 
+      const collWrap = document.getElementById('collections-results-wrap');
+      const collContainer = document.getElementById('home-collections-results');
+
       if (!cleanQuery) {
         if (resultsWrap) resultsWrap.style.display = 'none';
         if (resultsContainer) resultsContainer.innerHTML = '';
+        if (collWrap) collWrap.style.display = 'none';
+        if (collContainer) collContainer.innerHTML = '';
         return;
       }
 
-      fetch(`/search/suggest.json?q=${encodeURIComponent(cleanQuery)}&resources[type]=product&resources[limit]=4`)
+      fetch(`/search/suggest.json?q=${encodeURIComponent(cleanQuery)}&resources[type]=product,collection&resources[limit]=12`)
         .then(res => res.json())
         .then(data => {
           const products = data.resources.results.products;
+          const collections = data.resources.results.collections;
+
+          // Render Collections
+          if (collections && collections.length > 0) {
+            let collHtml = '';
+            collections.forEach(coll => {
+              collHtml += `<a href="${coll.url}" class="suggestion-tag" style="text-decoration: none; display: inline-block;">${coll.title}</a>`;
+            });
+            if (collContainer) collContainer.innerHTML = collHtml;
+            if (collWrap) collWrap.style.display = 'block';
+          } else {
+            if (collWrap) collWrap.style.display = 'none';
+            if (collContainer) collContainer.innerHTML = '';
+          }
+
+          // Render Products
           if (products && products.length > 0) {
             let html = '';
             products.forEach(prod => {
               const priceFormatted = formatQarPrice(prod.price);
               const comparePriceFormatted = prod.compare_at_price ? formatQarPrice(prod.compare_at_price) : '';
-              const imgUrl = prod.image ? prod.image : 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_600x.png';
+              let imgUrl = 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_600x.png';
+              if (prod.image) {
+                imgUrl = prod.image;
+              } else if (prod.featured_image) {
+                imgUrl = typeof prod.featured_image === 'string' ? prod.featured_image : (prod.featured_image.url || prod.featured_image.src || imgUrl);
+              }
               
               html += `
                 <a href="${prod.url}" class="search-result-card">
                   <div class="src-img-wrap">
-                    <img src="${imgUrl}" alt="${prod.title}" loading="lazy">
+                    <img src="${imgUrl}" alt="${prod.title}" loading="lazy" onerror="this.onerror=null; this.src='https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_600x.png';">
                   </div>
                   <div class="src-title">${prod.title}</div>
                   <div class="src-price-group">
