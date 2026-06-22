@@ -563,7 +563,7 @@ body {
 }
 .home-search-overlay.active { display: flex; }
 .home-search-overlay-content {
-  background: #fff;
+  background: var(--color-bg, #f9f2d5);
   width: 100%;
   max-width: 760px;
   border-radius: 12px;
@@ -574,8 +574,8 @@ body {
 .search-overlay-header {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-  background: #fff;
+  border-bottom: 1px solid var(--color-border, rgba(140, 22, 56, 0.15));
+  background: var(--color-bg, #f9f2d5);
   height: 56px;
 }
 .search-overlay-icon {
@@ -594,7 +594,7 @@ body {
   padding: 12px 14px;
   font-size: 15px;
   font-family: inherit;
-  color: #1a1a1a;
+  color: var(--color-primary, #8c1638);
   background: transparent;
 }
 .search-overlay-clear {
@@ -636,6 +636,7 @@ body {
   padding: 20px;
   max-height: 70vh;
   overflow-y: auto;
+  background: var(--color-bg, #f9f2d5);
 }
 .search-suggestions {
   display: flex;
@@ -644,19 +645,20 @@ body {
   margin-bottom: 20px;
 }
 .suggestion-tag {
-  background: #f1f1f1;
-  border: none;
+  background: rgba(140, 22, 56, 0.08);
+  border: 1px solid rgba(140, 22, 56, 0.2);
   border-radius: 20px;
   padding: 6px 14px;
   font-size: 12px;
   font-weight: 500;
-  color: #555;
+  color: var(--color-primary, #8c1638);
   cursor: pointer;
   transition: all 0.2s;
 }
 .suggestion-tag:hover {
-  background: #e5e5e5;
-  color: #111;
+  background: var(--color-primary, #8c1638);
+  color: #fff;
+  border-color: var(--color-primary, #8c1638);
 }
 
 .search-results-title {
@@ -700,7 +702,7 @@ body {
 .src-title {
   font-size: 12.5px;
   font-weight: 600;
-  color: #222;
+  color: var(--color-primary, #8c1638);
   margin-bottom: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -730,19 +732,21 @@ body {
   margin-top: 12px;
 }
 .search-view-all-btn {
-  background: #000;
+  background: var(--color-primary, #8c1638);
   color: #fff;
-  border-radius: 30px;
+  border-radius: 24px;
   padding: 8px 24px;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   text-decoration: none;
   letter-spacing: 0.05em;
-  transition: opacity 0.2s;
+  transition: all 0.2s ease;
+  border: 1.5px solid var(--color-primary, #8c1638);
 }
 .search-view-all-btn:hover {
-  opacity: 0.85;
+  background: var(--color-bg, #f9f2d5);
+  color: var(--color-primary, #8c1638);
 }
 
 
@@ -1501,12 +1505,12 @@ body.template-index .page-content {
 }
 
 .product-thumbnails {
-  width: 80px;
+  width: 88px;
   max-height: 648px; 
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   flex-shrink: 0;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1529,11 +1533,11 @@ body.template-index .page-content {
 
 .product-thumbnails img {
   width: 100%;
-  aspect-ratio: 2/3;
+  aspect-ratio: 1/1;
   object-fit: cover;
   cursor: pointer;
   border: 1.5px solid rgba(45, 31, 31, 0.12);
-  border-radius: 4px;
+  border-radius: 6px;
   transition: all 0.25s ease;
   background: #fcfcfc;
   flex-shrink: 0;
@@ -1541,13 +1545,14 @@ body.template-index .page-content {
 .product-thumbnails img:hover,
 .product-thumbnails img.active {
   border-color: var(--color-primary);
+  border-width: 2px;
   opacity: 1;
 }
 @media (max-width: 768px) {
   .product-thumbnails img {
     width: calc((100% - 32px) / 5); 
-    min-width: 50px;
-    aspect-ratio: 2/3;
+    min-width: 56px;
+    aspect-ratio: 1/1;
   }
 }
 
@@ -1889,7 +1894,7 @@ body.template-index .page-content {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  border-radius: 4px;
+  border-radius: 24px;
   transition: all 0.25s ease;
   cursor: pointer;
   box-sizing: border-box;
@@ -1897,27 +1902,29 @@ body.template-index .page-content {
 .cta-wrapper .atc-btn {
   background: var(--color-primary);
   color: #fff;
-  border: 1px solid var(--color-primary);
+  border: 1.5px solid var(--color-primary);
 }
 .cta-wrapper .atc-btn:hover:not(:disabled) {
-  background: #1a1212;
-  border-color: #1a1212;
+  background: var(--color-bg, #f9f2d5);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 .cta-wrapper .atc-btn:disabled {
   background: #e5e5e5;
   border-color: #e5e5e5;
   color: #999;
   cursor: not-allowed;
+  border-radius: 24px;
 }
 
 .cta-wrapper .buy-now-btn {
-  background: #fbf8f3;
+  background: var(--color-bg, #f9f2d5);
   color: var(--color-primary);
   border: 1.5px solid var(--color-primary);
 }
 .cta-wrapper .buy-now-btn:hover:not(:disabled) {
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(45,31,31,0.08);
+  background: var(--color-bg, #f9f2d5);
+  color: var(--color-primary);
 }
 .cta-wrapper .buy-now-btn:disabled {
   display: none; 

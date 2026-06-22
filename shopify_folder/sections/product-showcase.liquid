@@ -10,7 +10,7 @@
     assign col = collections[collection_handle]
   endif
 -%}
-{%- if col != blank and col.products.size > 0 or request.design_mode -%}
+{%- if true -%}
 <div class="qtr-section" id="section-{{ section.id }}">
   <div class="section-heading-row">
     <h2 class="section-heading">{{ heading }}</h2>
@@ -128,7 +128,7 @@
           </div>
         </a>
       {%- endfor -%}
-    {%- elsif request.design_mode -%}
+    {%- else -%}
     
       {%- if request.locale.iso_code == 'ar' -%}
         {%- assign dummy_products = "حقيبة توت ديانا الصغيرة من جي سي سي,حقيبة جاكي 1961 الصغيرة حمراء من جي سي سي,حقيبة ليدي مايكرو سوداء من دي آر,حقيبة ليدي مايكرو بيج من دي آر,حقيبة ميني أنديامو بني من بي في جي" | split: "," -%}

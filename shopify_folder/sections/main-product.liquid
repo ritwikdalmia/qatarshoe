@@ -51,20 +51,20 @@
         <div class="product-thumbnails">
           {%- if is_mock -%}
             {%- # theme-check-disable RemoteAsset -%}
-            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=120&h=180&fit=crop"
+            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=120&h=120&fit=crop"
                  alt="Diana 1"
                  class="active"
-                 width="120" height="180"
+                 width="120" height="120"
                  data-main-src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800"
                  onclick="switchMainImage(this)">
-            <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=120&h=180&fit=crop"
+            <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=120&h=120&fit=crop"
                  alt="Diana 2"
-                 width="120" height="180"
+                 width="120" height="120"
                  data-main-src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=800"
                  onclick="switchMainImage(this)">
-            <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=120&h=180&fit=crop"
+            <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=120&h=120&fit=crop"
                  alt="Diana 3"
-                 width="120" height="180"
+                 width="120" height="120"
                  data-main-src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=800"
                  onclick="switchMainImage(this)">
             {%- # theme-check-enable RemoteAsset -%}
@@ -72,7 +72,7 @@
             {%- if product.images.size > 0 -%}
               {%- for image in product.images -%}
                 {%- # theme-check-disable ImgWidthAndHeight -%}
-                <img src="{{ image | image_url: width: 120, height: 180, crop: 'center' }}"
+                <img src="{{ image | image_url: width: 120, height: 120, crop: 'center' }}"
                      alt="{{ image.alt | escape }}"
                      class="{% if forloop.first %}active{% endif %}"
                      data-main-src="{{ image | image_url: width: 1000 }}"
