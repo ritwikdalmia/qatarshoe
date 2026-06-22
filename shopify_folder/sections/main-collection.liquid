@@ -86,7 +86,7 @@
   }
 
   .collection-header-container {
-    max-width: 1600px;
+    max-width: var(--page-width);
     margin: 0 auto;
     padding: 24px 40px 16px 40px;
   }
@@ -121,7 +121,7 @@
   
   
   .collection-toolbar {
-    max-width: 1600px;
+    max-width: var(--page-width);
     margin: 0 auto;
     padding: 20px 40px;
     display: flex;
@@ -250,7 +250,7 @@
   
   
   .collection-grid-container {
-    max-width: 1600px;
+    max-width: var(--page-width);
     margin: 0 auto;
     padding: 30px 40px 60px 40px;
   }
@@ -286,7 +286,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     margin-top: 40px;
     padding-top: 20px;
     border-top: 1px solid var(--color-border);
@@ -295,34 +295,43 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     font-size: 14px;
     font-weight: 500;
     color: var(--color-primary);
-    transition: all 0.2s;
-  }
-  .pagination-item.active {
-    background: var(--color-primary);
-    color: #fff;
-  }
-  .pagination-item:hover:not(.active) {
-    background: var(--color-bg);
-  }
-  .pagination-container button.pagination-item {
-    background: none;
-    border: none;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    transition: all 0.2s ease;
+    text-decoration: none;
     cursor: pointer;
     font-family: inherit;
     padding: 0;
+    box-sizing: border-box;
   }
-  .pagination-container button.pagination-item.active {
+  .pagination-item svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.2px;
+  }
+  .pagination-item.active {
     background: var(--color-primary);
-    color: #fff;
+    border-color: var(--color-primary);
+    color: #fff !important;
   }
-  .pagination-container button.pagination-item:hover:not(.active) {
+  .pagination-item:hover:not(.active) {
     background: var(--color-bg);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+  .pagination-item:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: var(--color-border);
+    background: #fff;
+    color: var(--color-primary);
   }
 
   
@@ -331,7 +340,7 @@
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.5);
-    z-index: 2000;
+    z-index: 200000;
     justify-content: flex-end;
   }
   .filters-drawer-overlay.active {
@@ -553,6 +562,121 @@
     background-color: #f5f5f5 !important;
     border-color: #e0e0e0 !important;
   }
+
+  /* Brands collection page grid layout styles */
+  .collections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 30px;
+  }
+  .collection-card {
+    position: relative;
+    border-radius: var(--col-card-corner-radius, 14px) !important;
+    border-width: var(--col-card-border-thickness, 2px) !important;
+    border-style: solid !important;
+    border-color: color-mix(in srgb, var(--color-primary) {{ settings.col_card_border_opacity | default: 100 }}%, transparent) !important;
+    box-shadow: var(--col-card-shadow-horizontal-offset) var(--col-card-shadow-vertical-offset) var(--col-card-shadow-blur) rgba(0, 0, 0, var(--col-card-shadow-opacity)) !important;
+    overflow: hidden !important;
+    background: #fff;
+    text-decoration: none;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+  }
+  .collection-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(140, 22, 56, 0.08);
+  }
+  .collection-card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #fdfcf7;
+  }
+  .collection-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .collection-card:hover .collection-card-image img {
+    transform: scale(1.08);
+  }
+  .collection-card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+  }
+  .collection-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.03) 100%);
+    pointer-events: none;
+  }
+  .collection-card-info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+  }
+  .collection-card-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--color-primary);
+    margin: 0;
+    transition: color 0.2s;
+  }
+  .collection-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+  .collection-card-count {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #777;
+    font-weight: 500;
+  }
+  .collection-card-link {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  html.dept-women .collection-card[data-gender="men"] {
+    display: none !important;
+  }
+  html.dept-men .collection-card[data-gender="women"] {
+    display: none !important;
+  }
+  @media (max-width: 1023px) {
+    .collections-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+  }
+  @media (max-width: 767px) {
+    .collections-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .collection-card-title {
+      font-size: 20px;
+    }
+  }
 </style>
 
 {%- if show_breadcrumbs -%}
@@ -572,6 +696,7 @@
 
 {%- paginate collection.products by 50 -%}
   {%- comment -%} Menu calculations shifted to the top of the section {%- endcomment -%}
+  {%- if collection.handle != 'brands' -%}
   <div class="collection-toolbar">
     <div class="toolbar-left" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; flex: 1; min-width: 0;">
       <span class="results-count">{{ collection.products_count }} results</span>
@@ -829,6 +954,7 @@
       </div>
     </div>
   </div>
+  {%- endif -%}
 
   {%- liquid
     assign has_active_filters = false
@@ -839,8 +965,8 @@
     endfor
   -%}
 
-  {%- if has_active_filters -%}
-    <div class="active-filters-row" style="max-width: 1600px; margin: 0 auto; padding: 0 40px 15px 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 15px;">
+  {%- if has_active_filters and collection.handle != 'brands' -%}
+    <div class="active-filters-row" style="max-width: var(--page-width); margin: 0 auto; padding: 0 40px 15px 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 15px;">
       {%- for filter in collection.filters -%}
         {%- for value in filter.active_values -%}
           <a href="{{ value.url_to_remove }}" class="active-filter-tag" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--color-bg); border: 1.5px solid var(--color-border); border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-primary);">
@@ -854,7 +980,108 @@
   {%- endif -%}
 
   <div class="collection-grid-container">
-    {%- if collection.products.size > 0 -%}
+    {%- if collection.handle == 'brands' -%}
+      <div class="collections-grid">
+        {%- liquid
+          assign brand_blocks = section.blocks | where: "type", "brand_collection"
+        -%}
+        {%- if brand_blocks.size > 0 -%}
+          {%- for block in brand_blocks -%}
+            {%- assign b_col = collections[block.settings.collection_handle] -%}
+            {%- if b_col != blank -%}
+              <a href="{{ b_col.url }}" class="collection-card" data-gender="{{ block.settings.gender }}" {{ block.shopify_attributes }}>
+                <div class="collection-card-image">
+                  {%- if b_col.featured_image != blank -%}
+                    <img src="{{ b_col.featured_image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ b_col.title | escape }}" loading="lazy" width="600" height="600">
+                  {%- elsif b_col.products.first.featured_image != blank -%}
+                    <img src="{{ b_col.products.first.featured_image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ b_col.title | escape }}" loading="lazy" width="600" height="600">
+                  {%- else -%}
+                    <div class="collection-card-placeholder">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                  {%- endif -%}
+                  <div class="collection-card-overlay"></div>
+                </div>
+                <div class="collection-card-info">
+                  <h2 class="collection-card-title">{{ b_col.title }}</h2>
+                  <div class="collection-card-meta">
+                    <span class="collection-card-count">{{ b_col.all_products_count }} {% if request.locale.iso_code == 'ar' %}منتج{% else %}{{ b_col.all_products_count | pluralize: 'product', 'products' }}{% endif %}</span>
+                    <span class="collection-card-link">
+                      {% if request.locale.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- liquid
+            # Fallback to hardcoded brand collections if no custom blocks are configured
+            assign w_brand_handles = 'hms,coco,gyd,lp,dr,lvn,crt,msk,gcc,prd,fnd,cln,mmu,stl,bvg,rlx,vcf,adidas,nike,nb,golden-goose,onitsuka-tiger,loewe,tiffany-co,rimowa,chaumet' | split: ','
+            assign m_brand_handles = 'hms-men,gyd-men,lp-men,lvn-men,rlx-men,crt-men,dr-men,prd-men,loewe-men,nike-men,adidas-men,onitsuka-tiger-men' | split: ','
+          -%}
+          {%- for b_handle in w_brand_handles -%}
+            {%- assign b_col = collections[b_handle] -%}
+            {%- if b_col != blank -%}
+              <a href="{{ b_col.url }}" class="collection-card" data-gender="women">
+                <div class="collection-card-image">
+                  {%- if b_col.featured_image != blank -%}
+                    <img src="{{ b_col.featured_image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ b_col.title | escape }}" loading="lazy" width="600" height="600">
+                  {%- elsif b_col.products.first.featured_image != blank -%}
+                    <img src="{{ b_col.products.first.featured_image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ b_col.title | escape }}" loading="lazy" width="600" height="600">
+                  {%- else -%}
+                    <div class="collection-card-placeholder">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                  {%- endif -%}
+                  <div class="collection-card-overlay"></div>
+                </div>
+                <div class="collection-card-info">
+                  <h2 class="collection-card-title">{{ b_col.title }}</h2>
+                  <div class="collection-card-meta">
+                    <span class="collection-card-count">{{ b_col.all_products_count }} {% if request.locale.iso_code == 'ar' %}منتج{% else %}{{ b_col.all_products_count | pluralize: 'product', 'products' }}{% endif %}</span>
+                    <span class="collection-card-link">
+                      {% if request.locale.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- for b_handle in m_brand_handles -%}
+            {%- assign b_col = collections[b_handle] -%}
+            {%- if b_col != blank -%}
+              <a href="{{ b_col.url }}" class="collection-card" data-gender="men">
+                <div class="collection-card-image">
+                  {%- if b_col.featured_image != blank -%}
+                    <img src="{{ b_col.featured_image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ b_col.title | escape }}" loading="lazy" width="600" height="600">
+                  {%- elsif b_col.products.first.featured_image != blank -%}
+                    <img src="{{ b_col.products.first.featured_image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ b_col.title | escape }}" loading="lazy" width="600" height="600">
+                  {%- else -%}
+                    <div class="collection-card-placeholder">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                  {%- endif -%}
+                  <div class="collection-card-overlay"></div>
+                </div>
+                <div class="collection-card-info">
+                  <h2 class="collection-card-title">{{ b_col.title }}</h2>
+                  <div class="collection-card-meta">
+                    <span class="collection-card-count">{{ b_col.all_products_count }} {% if request.locale.iso_code == 'ar' %}منتج{% else %}{{ b_col.all_products_count | pluralize: 'product', 'products' }}{% endif %}</span>
+                    <span class="collection-card-link">
+                      {% if request.locale.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    {%- elsif collection.products.size > 0 -%}
       <div class="product-grid">
         {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
         {%- assign currency_data_parts = currency_data | split: '|||' -%}
@@ -982,7 +1209,9 @@
       {%- if paginate.pages > 1 -%}
         <div class="pagination-container">
           {%- if paginate.previous -%}
-            <a href="{{ paginate.previous.url }}" class="pagination-item">&laquo;</a>
+            <a href="{{ paginate.previous.url }}" class="pagination-item" aria-label="Previous Page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
           {%- endif -%}
 
           {%- for part in paginate.parts -%}
@@ -994,7 +1223,9 @@
           {%- endfor -%}
 
           {%- if paginate.next -%}
-            <a href="{{ paginate.next.url }}" class="pagination-item">&raquo;</a>
+            <a href="{{ paginate.next.url }}" class="pagination-item" aria-label="Next Page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -1536,10 +1767,8 @@
           // Prev button
           const prevBtn = document.createElement('button');
           prevBtn.className = 'pagination-item pagination-prev';
-          prevBtn.innerHTML = '&laquo;';
+          prevBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>';
           prevBtn.disabled = currentClientPage === 1;
-          prevBtn.style.cursor = currentClientPage === 1 ? 'not-allowed' : 'pointer';
-          prevBtn.style.opacity = currentClientPage === 1 ? '0.5' : '1';
           prevBtn.addEventListener('click', () => {
             if (currentClientPage > 1) {
               currentClientPage--;
@@ -1565,10 +1794,8 @@
           // Next button
           const nextBtn = document.createElement('button');
           nextBtn.className = 'pagination-item pagination-next';
-          nextBtn.innerHTML = '&raquo;';
+          nextBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>';
           nextBtn.disabled = currentClientPage === totalPages;
-          nextBtn.style.cursor = currentClientPage === totalPages ? 'not-allowed' : 'pointer';
-          nextBtn.style.opacity = currentClientPage === totalPages ? '0.5' : '1';
           nextBtn.addEventListener('click', () => {
             if (currentClientPage < totalPages) {
               currentClientPage++;

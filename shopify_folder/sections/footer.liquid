@@ -509,14 +509,20 @@
     <div class="site-footer-main">
         <!-- Brand column -->
         <div class="site-footer-brand-col">
-            {%- assign footer_logo = settings.logo | default: section.settings.logo_image -%}
-            {%- if footer_logo != blank -%}
-                <img src="{{ footer_logo | image_url: width: 240 }}" class="footer-logo" alt="{{ shop.name }}" loading="lazy" width="240" height="{{ 240 | divided_by: footer_logo.aspect_ratio | round }}">
+            {%- assign brand_logo = settings.brand_image | default: settings.logo | default: section.settings.logo_image -%}
+            {%- if brand_logo != blank -%}
+                <img src="{{ brand_logo | image_url: width: settings.brand_image_width | default: 240 }}" class="footer-logo" alt="{{ shop.name }}" loading="lazy" style="max-width: {{ settings.brand_image_width | default: 240 }}px; width: 100%; height: auto;">
+            {%- elsif settings.brand_headline != blank -%}
+                <h3 class="footer-brand-title">{{ settings.brand_headline }}</h3>
             {%- else -%}
                 <h3 class="footer-brand-title">{{ shop.name }}</h3>
             {%- endif -%}
             
-            <p class="footer-brand-tagline">Authentic luxury curation. We connect you with carefully vetted styles from the world's most prestigious designers.</p>
+            {%- if settings.brand_description != blank -%}
+                <div class="footer-brand-tagline rte">{{ settings.brand_description }}</div>
+            {%- else -%}
+                <p class="footer-brand-tagline">Authentic luxury curation. We connect you with carefully vetted styles from the world's most prestigious designers.</p>
+            {%- endif -%}
 
             <div class="footer-subscribe-box">
                 {%- form 'customer', id: 'FooterNewsletterForm' -%}
@@ -544,23 +550,42 @@
             <div class="footer-social-section">
                 <span class="footer-social-title">Follow Us</span>
                 <div class="footer-social-icons-row">
-                    {%- if section.settings.tiktok_url != blank -%}
-                        <a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="TikTok">
+                    {%- if settings.social_facebook_link != blank -%}
+                        <a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="Facebook">
+                            <svg viewBox="0 0 320 512" fill="currentColor"><path d="M80 299.3V512H196V299.3h86.5l13.6-108.1H196V121.2c0-31.3 8.7-52.7 53.7-52.7h57.3V.2C297.1.1 262.5 0 221.9 0 137.4 0 79.7 51.5 79.7 146.5v44.7H0v108.1h79.7z"/></svg>
+                        </a>
+                    {%- endif -%}
+                    {%- assign tiktok_link = section.settings.tiktok_url | default: settings.social_tiktok_link -%}
+                    {%- if tiktok_link != blank -%}
+                        <a href="{{ tiktok_link }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="TikTok">
                             <svg viewBox="0 0 448 512" fill="currentColor"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.17h0A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14Z"/></svg>
                         </a>
                     {%- endif -%}
-                    {%- if section.settings.instagram_url != blank -%}
-                        <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="Instagram">
+                    {%- assign instagram_link = section.settings.instagram_url | default: settings.social_instagram_link -%}
+                    {%- if instagram_link != blank -%}
+                        <a href="{{ instagram_link }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="Instagram">
                             <svg viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.9 1.7-67.7 9.9-93.9 36.2C13.4 94 5.2 125.8 3.5 161.7c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9 26.2 26.2 58 34.4 93.9 36.2 37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zm-42.6 248.4c-7.7 19.3-22.5 34.1-41.9 41.9-30 11.9-101.2 9.2-135.7 9.2s-105.7 2.6-135.7-9.2c-19.4-7.7-34.1-22.5-41.9-41.9-11.9-30-9.2-101.2-9.2-135.7s-2.6-105.7 9.2-135.7c7.7-19.3 22.5-34.1 41.9-41.9 30-11.9 101.2-9.2 135.7-9.2s105.7-2.6 135.7 9.2c19.4 7.7 34.1 22.5 41.9 41.9 11.9 30 9.2 101.2 9.2 135.7s2.7 105.7-9.2 135.7z"/></svg>
                         </a>
                     {%- endif -%}
-                    {%- if section.settings.pinterest_url != blank -%}
-                        <a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="Pinterest">
+                    {%- if settings.social_youtube_link != blank -%}
+                        <a href="{{ settings.social_youtube_link }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="YouTube">
+                            <svg viewBox="0 0 576 512" fill="currentColor"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.537V174.38L379.7 255.77l-147.555 81.85z"/></svg>
+                        </a>
+                    {%- endif -%}
+                    {%- if settings.social_twitter_link != blank -%}
+                        <a href="{{ settings.social_twitter_link }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="X / Twitter">
+                            <svg viewBox="0 0 512 512" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+                        </a>
+                    {%- endif -%}
+                    {%- assign pinterest_link = section.settings.pinterest_url | default: settings.social_pinterest_link -%}
+                    {%- if pinterest_link != blank -%}
+                        <a href="{{ pinterest_link }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="Pinterest">
                             <svg viewBox="0 0 384 512" fill="currentColor"><path d="M204 6.5C101.4 6.5 0 74.9 0 185.6 0 256 39.6 296 57.6 296c25.1 0 15.6-61.2 23.2-80 5.4-13.3-21-41.2-21-69.3 0-77.7 55.6-141 138.8-141 72.8 0 131 49.9 131 122.9 0 92.7-44.5 169.1-115.3 169.1-39.1 0-68.3-32.3-58.9-71.9 11.2-47.2 33-98.1 33-132.2 0-30.4-16.3-55.8-50.1-55.8-39.7 0-71.6 41.1-71.6 96.2 0 35.1 11.9 58.8 11.9 58.8S96 409.7 90.1 435c-10.4 44.6-5.3 99-2.9 103.3 1 1.7 2.5 1.5 3.4-.3 3.6-7.3 50.4-62.5 66.4-122.3 4.5-16.8 26-101.8 26-101.8 12.9 24.6 50.7 46.3 90.6 46.3 119.3 0 205.8-109.1 205.8-245.4C384.8 83 298.2 6.5 204 6.5z"/></svg>
                         </a>
                     {%- endif -%}
-                    {%- if section.settings.snapchat_url != blank -%}
-                        <a href="{{ section.settings.snapchat_url }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="Snapchat">
+                    {%- assign snapchat_link = section.settings.snapchat_url | default: settings.social_snapchat_link -%}
+                    {%- if snapchat_link != blank -%}
+                        <a href="{{ snapchat_link }}" target="_blank" rel="noopener" class="footer-social-icon-link" aria-label="Snapchat">
                             <svg viewBox="0 0 512 512" fill="currentColor"><path d="M411.3 358.4c-6.8-6.1-11.8-13.8-15.3-22.1-4.8-11.3-7.2-23.4-7.2-35.6 0-3.3.4-6.6 1.1-9.9 2-8.9 5.6-17.5 10.7-25.2 7.7-11.7 13.9-24.9 18.5-38.9 4.3-13.3 5.4-27.4 3.2-41.2-3-19-12.7-36.4-27.1-49-18.7-16.3-43.1-26-68.5-27.1-8.5-.4-17.1-1.5-25.5-3.3-12.7-2.7-25.6-4.1-38.5-4.1s-25.8 1.4-38.5 4.1c-8.4 1.8-16.9 2.9-25.5 3.3-25.4 1.1-49.8 10.8-68.5 27.1-14.4 12.6-24.1 30-27.1 49-2.2 13.8-1.1 27.9 3.2 41.2 4.6 14 10.8 27.2 18.5 38.9 5.1 7.7 8.7 16.3 10.7 25.2.7 3.3 1.1 6.6 1.1 9.9 0 12.2-2.4 24.3-7.2 35.6-3.5 8.3-8.5 16-15.3 22.1-12.6 11.3-28.7 17.6-45.3 17.6-3.8 0-7.6-.3-11.3-1-12.8-2.3-23.1 7.5-23.1 19.5 0 9.1 6 17 14.8 19.2 11.1 2.8 22.5 4.2 34 4.1 7.4.1 14.8-.4 22.2-1.5 10.4-1.6 20.8-1.9 31.3-.9 11.5 1.1 22.8 3.8 33.9 8.1 26.6 10.2 55 15.6 83.6 15.7 28.6-.1 57-5.5 83.6-15.7 11.1-4.3 22.4-7 33.9-8.1 10.5-1 20.9-.7 31.3.9 7.4 1.1 14.8 1.6 22.2 1.5 11.5.1 22.9-1.3 34-4.1 8.8-2.2 14.8-10.1 14.8-19.2 0-12-10.3-21.8-23.1-19.5-3.7.7-7.5 1-11.3 1-16.6 0-32.7-6.3-45.3-17.6z"/></svg>
                         </a>
                     {%- endif -%}

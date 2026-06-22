@@ -42,6 +42,13 @@ body {
   --header-height:   108px;
 }
 
+.shopify-section {
+  margin-bottom: var(--spacing-sections);
+}
+.shopify-section:last-child {
+  margin-bottom: 0;
+}
+
 
 .homepage-desktop-header {
   position: fixed;
@@ -553,7 +560,7 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.55);
-  z-index: 9990;
+  z-index: 100001 !important;
   align-items: flex-start;
   justify-content: center;
   padding: 80px 16px 40px 16px;
@@ -1043,7 +1050,8 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   background: transparent;
-  gap: 20px;
+  column-gap: var(--grid-horizontal-space);
+  row-gap: var(--grid-vertical-space);
   border: none;
   margin-top: 24px;
 }
@@ -1257,7 +1265,7 @@ body {
   display: flex;
   align-items: center;
   gap: 60px;
-  max-width: 1440px;
+  max-width: var(--page-width);
   margin: 0 auto;
 }
 .luxury-text-area {
@@ -1307,7 +1315,7 @@ body {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr 1fr;
   gap: 40px;
-  max-width: 1440px;
+  max-width: var(--page-width);
   margin: 0 auto 40px auto;
 }
 .footer-brand-logo {
@@ -1347,7 +1355,7 @@ body {
   align-items: center;
   font-size: var(--font-size-small);
   color: rgba(255,255,255,0.4);
-  max-width: 1440px;
+  max-width: var(--page-width);
   margin: 0 auto;
 }
 .footer-social {
@@ -1358,9 +1366,17 @@ body {
   color: rgba(255,255,255,0.5);
   display: flex;
   align-items: center;
-  transition: color 0.2s;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-button);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.2s;
 }
-.footer-social a:hover { color: #fff; }
+.footer-social a:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.3);
+}
 .footer-social svg { width: 18px; height: 18px; fill: currentColor; }
 
 
@@ -2805,4 +2821,165 @@ body.template-index .page-content {
   color: var(--color-primary) !important;
   border-color: var(--color-primary) !important;
   cursor: pointer;
+}
+
+/* Blog Card Settings & Styling */
+.blog-card,
+.article-card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  text-align: var(--blog-card-text-alignment, left);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  background: var(--color-white);
+  
+  /* Border settings */
+  border: var(--blog-card-border-thickness, 0px) solid rgba(45, 31, 31, var(--blog-card-border-opacity, 0.1));
+  border-radius: var(--blog-card-corner-radius, 0px);
+  
+  /* Shadow settings */
+  box-shadow: var(--blog-card-shadow-horizontal-offset, 0px) 
+              var(--blog-card-shadow-vertical-offset, 4px) 
+              var(--blog-card-shadow-blur, 5px) 
+              rgba(0, 0, 0, var(--blog-card-shadow-opacity, 0));
+}
+
+.blog-card--card,
+.article-card--card {
+  padding: 15px;
+}
+
+/* Image container / Media inside blog card */
+.blog-card__image-wrapper,
+.article-card__image-wrapper {
+  padding: var(--blog-card-image-padding, 0px);
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+}
+
+.blog-card__image,
+.article-card__image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.blog-card:hover .blog-card__image,
+.article-card:hover .article-card__image {
+  transform: scale(1.04);
+}
+
+/* Metadata, title, info alignment */
+.blog-card__info,
+.article-card__info {
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: var(--blog-card-text-alignment, left);
+}
+
+.blog-card__title,
+.article-card__title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: var(--color-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.blog-card__meta,
+.article-card__meta {
+  font-size: var(--font-size-small, 11px);
+  color: var(--color-muted, #777);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.blog-card__excerpt,
+.article-card__excerpt {
+  font-size: var(--font-size-body-small, 13px);
+  color: rgba(45, 31, 31, 0.7);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.blog-card__link,
+.article-card__link {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  text-decoration: underline;
+  margin-top: 5px;
+}
+
+/* Media styling (applicable globally to images, videos, maps, banners, etc.) */
+.media,
+.media-container,
+.video-media {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  
+  /* Border settings */
+  border: var(--media-border-thickness, 1px) solid rgba(45, 31, 31, var(--media-border-opacity, 0.05));
+  border-radius: var(--media-corner-radius, 0px);
+  
+  /* Shadow settings */
+  box-shadow: var(--media-shadow-horizontal-offset, 0px) 
+              var(--media-shadow-vertical-offset, 4px) 
+              var(--media-shadow-blur, 5px) 
+              rgba(0, 0, 0, var(--media-shadow-opacity, 0));
+}
+
+/* Content Containers styling (applicable to boxes, text blocks, details container, cards wrapper) */
+.content-container,
+.container-box,
+.collapsible-content-wrapper {
+  box-sizing: border-box;
+  
+  /* Border settings */
+  border: var(--container-border-thickness, 0px) solid rgba(45, 31, 31, var(--container-border-opacity, 0.1));
+  border-radius: var(--container-corner-radius, 0px);
+  
+  /* Shadow settings */
+  box-shadow: var(--container-shadow-horizontal-offset, 0px) 
+              var(--container-shadow-vertical-offset, 4px) 
+              var(--container-shadow-blur, 5px) 
+              rgba(0, 0, 0, var(--container-shadow-opacity, 0));
+}
+
+/* Dropdowns and Pop-ups Settings & Styling */
+.cs-options,
+.header-submenu,
+.submenu,
+.quick-view-modal,
+.cart-notification-popup,
+.popup-modal {
+  /* Border settings */
+  border: var(--popup-border-thickness, 1px) solid rgba(45, 31, 31, var(--popup-border-opacity, 0.1)) !important;
+  border-radius: var(--popup-corner-radius, 0px) !important;
+  
+  /* Shadow settings */
+  box-shadow: var(--popup-shadow-horizontal-offset, 0px) 
+              var(--popup-shadow-vertical-offset, 4px) 
+              var(--popup-shadow-blur, 5px) 
+              rgba(0, 0, 0, var(--popup-shadow-opacity, 0.05)) !important;
+}
+
+/* Drawers Settings & Styling */
+.side-drawer,
+.filters-drawer {
+  /* Border settings */
+  border: var(--drawer-border-thickness, 1px) solid rgba(45, 31, 31, var(--drawer-border-opacity, 0.1)) !important;
+  
+  /* Shadow settings */
+  box-shadow: var(--drawer-shadow-horizontal-offset, 0px) 
+              var(--drawer-shadow-vertical-offset, 4px) 
+              var(--drawer-shadow-blur, 5px) 
+              rgba(0, 0, 0, var(--drawer-shadow-opacity, 0)) !important;
 }

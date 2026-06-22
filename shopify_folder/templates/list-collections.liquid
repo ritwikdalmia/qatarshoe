@@ -1,0 +1,199 @@
+<div class="collections-list-page">
+  <div class="collections-header">
+    <h1 class="collections-title">{% if request.locale.iso_code == 'ar' %}مجموعاتنا{% else %}Our Collections{% endif %}</h1>
+    <p class="collections-subtitle">{% if request.locale.iso_code == 'ar' %}تصفح مجموعاتنا الفاخرة المنسقة من الأحذية والحقائب والإكسسوارات.{% else %}Explore our curated luxury collections of footwear, bags, and accessories.{% endif %}</p>
+  </div>
+
+  <div class="collections-grid">
+    {% for col in collections %}
+      {% unless col.handle == 'frontpage' %}
+        <a href="{{ col.url }}" class="collection-card scroll-reveal">
+          <div class="collection-card-image">
+            {% if col.image != blank %}
+              <img src="{{ col.image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ col.title | escape }}" loading="lazy">
+            {% elsif col.products.first.featured_image != blank %}
+              <img src="{{ col.products.first.featured_image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ col.title | escape }}" loading="lazy">
+            {% else %}
+              <div class="collection-card-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+            {% endif %}
+            <div class="collection-card-overlay"></div>
+          </div>
+          <div class="collection-card-info">
+            <h2 class="collection-card-title">{{ col.title }}</h2>
+            <div class="collection-card-meta">
+              <span class="collection-card-count">{{ col.all_products_count }} {% if request.locale.iso_code == 'ar' %}منتج{% else %}{{ col.all_products_count | pluralize: 'product', 'products' }}{% endif %}</span>
+              <span class="collection-card-link">
+                {% if request.locale.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </div>
+          </div>
+        </a>
+      {% endunless %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .collections-list-page {
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+    padding: 120px 40px 80px 40px;
+    background: var(--color-bg);
+  }
+  .collections-header {
+    text-align: center;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .collections-title {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+  .collections-subtitle {
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: #555;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  .collections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .collection-card {
+    position: relative;
+    border-radius: var(--radius-card, 12px);
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+  }
+  .collection-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(140, 22, 56, 0.08);
+    border-color: var(--color-primary);
+  }
+  .collection-card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #fdfcf7;
+  }
+  .collection-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .collection-card:hover .collection-card-image img {
+    transform: scale(1.08);
+  }
+  .collection-card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+  }
+  .collection-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.03) 100%);
+    pointer-events: none;
+  }
+  .collection-card-info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+  }
+  .collection-card-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--color-primary);
+    margin: 0;
+    transition: color 0.2s;
+  }
+  .collection-card:hover .collection-card-title {
+    color: var(--color-accent);
+  }
+  .collection-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+  .collection-card-count {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #777;
+    font-weight: 500;
+  }
+  .collection-card-link {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: gap 0.2s;
+  }
+  .collection-card-link svg {
+    transition: transform 0.2s;
+  }
+  .collection-card:hover .collection-card-link {
+    color: var(--color-accent);
+    gap: 10px;
+  }
+  .collection-card:hover .collection-card-link svg {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 1023px) {
+    .collections-list-page {
+      padding: 100px 24px 60px 24px;
+    }
+    .collections-title {
+      font-size: 36px;
+    }
+    .collections-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+  }
+  @media (max-width: 767px) {
+    .collections-list-page {
+      padding: 80px 16px 40px 16px;
+    }
+    .collections-title {
+      font-size: 28px;
+    }
+    .collections-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .collection-card-title {
+      font-size: 20px;
+    }
+  }
+</style>

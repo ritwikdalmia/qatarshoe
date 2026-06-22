@@ -321,6 +321,16 @@
           gap: 8px;
       }
   }
+  {%- if section.settings.override_button_style -%}
+    .contact-card-link,
+    .contact-submit-custom {
+      border-width: {{ section.settings.btn_thickness }}px !important;
+      border-style: solid !important;
+      border-color: color-mix(in srgb, var(--color-primary) {{ section.settings.btn_opacity }}%, transparent) !important;
+      border-radius: {{ section.settings.btn_radius }}px !important;
+      box-shadow: {{ section.settings.btn_shadow_h }}px {{ section.settings.btn_shadow_v }}px {{ section.settings.btn_shadow_blur }}px rgba(0, 0, 0, {{ section.settings.btn_shadow_opacity | divided_by: 100.0 }}) !important;
+    }
+  {%- endif -%}
 {%- endstyle -%}
 
 <script>
@@ -536,6 +546,86 @@
       "id": "form_subheading",
       "label": "Form Subheading",
       "default": "Fill out the form and we'll get back to you as quickly as possible."
+    },
+    {
+      "type": "header",
+      "content": "Button Style Override"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_button_style",
+      "label": "Override global button style",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "btn_thickness",
+      "label": "Border Thickness",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_opacity",
+      "label": "Border Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "label": "Corner Radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_opacity",
+      "label": "Shadow Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_h",
+      "label": "Shadow Horizontal Offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_v",
+      "label": "Shadow Vertical Offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_blur",
+      "label": "Shadow Blur",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 5,
+      "unit": "px"
     }
   ]
 }

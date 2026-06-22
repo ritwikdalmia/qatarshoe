@@ -63,7 +63,8 @@
     "brands": {
       "type": "brands-grid",
       "settings": {
-        "title": "House Of Brands"
+        "title": "House Of Brands",
+        "show_all_url": "/collections/brands"
       }
     },
     "above-footer": {

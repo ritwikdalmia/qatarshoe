@@ -243,5 +243,1034 @@
         "unit": "s"
       }
     ]
+  },
+  {
+    "name": "Layout Settings",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Page width",
+        "min": 1000,
+        "max": 1600,
+        "step": 10,
+        "default": 1400,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "spacing_sections",
+        "label": "Space between template sections",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "grid_horizontal_space",
+        "label": "Horizontal space",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "default": 8,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "grid_vertical_space",
+        "label": "Vertical space",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "default": 8,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Animations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_reveal_animations",
+        "label": "Reveal sections on scroll",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "hover_effect",
+        "label": "Hover effect",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "vertical",
+            "label": "Vertical lift"
+          },
+          {
+            "value": "3d",
+            "label": "3D lift"
+          }
+        ],
+        "default": "3d",
+        "info": "Affects cards and buttons"
+      }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "btn_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "btn_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 100,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "btn_corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 50,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "btn_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "btn_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "btn_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "btn_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Variant pills",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Variant pills are one way of displaying your product variants"
+      },
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "pill_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pill_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 55,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "pill_corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 40,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "pill_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "pill_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pill_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pill_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Inputs",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "input_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "input_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 100,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "input_corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 24,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "input_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "input_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "input_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "input_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "card_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 2,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "card_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 100,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "card_corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 12,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "card_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "card_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "card_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "card_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Collection cards",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "col_card_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 2,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "col_card_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 100,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "col_card_corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 14,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "col_card_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "col_card_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "col_card_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "col_card_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Blog cards",
+    "settings": [
+      {
+        "type": "select",
+        "id": "blog_card_style",
+        "label": "Style",
+        "options": [
+          { "value": "standard", "label": "Standard" },
+          { "value": "card", "label": "Card" }
+        ],
+        "default": "standard"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_image_padding",
+        "label": "Image padding",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "select",
+        "id": "blog_card_text_alignment",
+        "label": "Text alignment",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 10,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "media_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "media_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 5,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "media_corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "media_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "media_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "media_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "media_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Content containers",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "container_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "container_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 10,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "container_corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "container_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "container_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "container_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "container_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Dropdowns and pop-ups",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Affects areas like navigation dropdowns, pop-up modals, and cart pop-ups"
+      },
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "popup_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "popup_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 10,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "popup_corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 2,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "popup_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 5,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "popup_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "popup_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "popup_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Drawers",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "drawer_border_thickness",
+        "label": "Thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "drawer_border_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 10,
+        "unit": "%"
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "drawer_shadow_opacity",
+        "label": "Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "drawer_shadow_horizontal_offset",
+        "label": "Horizontal offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "drawer_shadow_vertical_offset",
+        "label": "Vertical offset",
+        "min": -20,
+        "max": 20,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "drawer_shadow_blur",
+        "label": "Blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Brand information",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Displays in the footer's brand information block"
+      },
+      {
+        "type": "text",
+        "id": "brand_headline",
+        "label": "Headline"
+      },
+      {
+        "type": "richtext",
+        "id": "brand_description",
+        "label": "Description"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_image",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "brand_image_width",
+        "label": "Image width",
+        "min": 50,
+        "max": 350,
+        "step": 5,
+        "default": 100,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "default": "https://facebook.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "default": "http://instagram.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "default": "https://www.youtube.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok",
+        "default": "https://tiktok.com/@shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "X / Twitter",
+        "default": "https://x.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat",
+        "default": "https://www.snapchat.com/add/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "default": "https://pinterest.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr",
+        "default": "https://shopify.tumblr.com"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo",
+        "default": "https://vimeo.com/shopify"
+      }
+    ]
   }
 ]
