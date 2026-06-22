@@ -27,9 +27,9 @@ button { cursor: pointer; font-family: inherit; }
 img { max-width: 100%; display: block; }
 
 body {
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: var(--font-body);
   font-size: 14px;
-  color: #2d1f1f;
+  color: var(--color-primary, #2d1f1f);
   line-height: 24px;
   letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
@@ -39,16 +39,6 @@ body {
 
 
 :root {
-  --color-primary:   #2d1f1f;
-  --color-accent:    #f25c5e;
-  --color-bg:        #faf9f5;
-  --color-white:     #ffffff;
-  --color-border:    #e0dcd3;
-  --color-muted:     #666666;
-  --color-dark-teal: #304854;
-  --color-green:     #1e3524;
-  --font-body:       'Inter', Arial, sans-serif;
-  --font-serif:      'Canela Text', Georgia, serif;
   --header-height:   108px;
 }
 
@@ -576,7 +566,7 @@ body {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0,0,0,0.18);
-  font-family: var(--font-body, 'Inter', sans-serif);
+  font-family: var(--font-body, var(--font-body));
 }
 .search-overlay-header {
   display: flex;
@@ -726,7 +716,7 @@ body {
 .src-compare-price {
   font-size: 11px;
   text-decoration: line-through;
-  color: #000;
+  color: var(--color-muted);
 }
 .src-price {
   font-size: 12px;
@@ -818,7 +808,7 @@ body {
   line-height: 1;
   transition: color 0.2s;
 }
-.drawer-close-btn:hover { color: #2d1f1f; }
+.drawer-close-btn:hover { color: var(--color-primary, #2d1f1f); }
 .drawer-tab {
   flex: 1;
   height: 48px;
@@ -959,7 +949,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #2d1f1f;
+  background-color: var(--color-primary, #2d1f1f);
 }
 .hero-image-mask {
   display: none;
@@ -1009,7 +999,7 @@ body {
 }
 
 .section-heading {
-  font-family: 'Canela Text', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 20px;
   font-weight: 400;
   letter-spacing: 1.2px;
@@ -1115,7 +1105,7 @@ body {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--color-white);
   border: 1px solid rgba(45, 31, 31, 0.08);
   display: flex;
   align-items: center;
@@ -1134,7 +1124,7 @@ body {
 }
 .product-wishlist-btn.active {
   color: var(--color-accent, #e74c3c);
-  background: #ffffff;
+  background: var(--color-white);
   border-color: var(--color-accent, #e74c3c);
 }
 .product-wishlist-btn svg {
@@ -1167,11 +1157,11 @@ body {
 }
 .product-badge-new .badge-text,
 .product-badge-sale-new .badge-text {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.8px;
-  color: #ffffff;
+  color: var(--color-white);
   text-transform: uppercase;
   line-height: 1;
 }
@@ -1211,7 +1201,7 @@ body {
 }
 .product-price-compare {
   font-size: 12px;
-  color: #000;
+  color: var(--color-muted);
   text-decoration: line-through;
   text-decoration-color: var(--color-accent, #e74c3c);
   order: -1; 
@@ -1384,7 +1374,7 @@ body {
     top: 0;
     transform: none;
     pointer-events: auto;
-    background: #2d1f1f;
+    background: var(--color-primary, #2d1f1f);
   }
 
   .site-header { height: 60px; padding: 0 14px; }
@@ -1587,7 +1577,7 @@ body.template-index .page-content {
 .product-main-image {
   flex: 1;
   position: relative;
-  background: #ffffff;
+  background: var(--color-white);
   border-radius: 8px;
   overflow: hidden;
   display: flex;
@@ -1697,7 +1687,7 @@ body.template-index .page-content {
 .price-container .compare-price {
   font-family: var(--font-body);
   font-size: 16px;
-  color: #000;
+  color: var(--color-muted);
   text-decoration: line-through;
   text-decoration-color: var(--color-accent, #e74c3c);
   order: -1; 
@@ -1953,12 +1943,12 @@ body.template-index .page-content {
 }
 
 .cta-wrapper .buy-now-btn {
-  background: #ffffff;
+  background: var(--color-white);
   color: var(--color-primary);
   border: 1.5px solid var(--color-primary);
 }
 .cta-wrapper .buy-now-btn:hover:not(:disabled) {
-  background: #ffffff;
+  background: var(--color-white);
   color: var(--color-primary);
   border-color: var(--color-primary);
 }
@@ -2732,7 +2722,7 @@ body.template-index .page-content {
 .wishlist-card-atc,
 .wish-to-cart-btn {
   background-color: var(--color-primary) !important;
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   border: 1.5px solid var(--color-primary) !important;
 }
 .checkout-btn:hover,
@@ -2740,7 +2730,7 @@ body.template-index .page-content {
 .empty-state-btn:hover,
 .wishlist-card-atc:hover,
 .wish-to-cart-btn:hover {
-  background-color: #ffffff !important;
+  background-color: var(--color-white) !important;
   color: var(--color-primary) !important;
   border-color: var(--color-primary) !important;
 }
@@ -2750,14 +2740,14 @@ body.template-index .page-content {
 .filter-trigger-btn,
 .buy-now-btn,
 #buy-now {
-  background-color: #ffffff !important;
+  background-color: var(--color-white) !important;
   color: var(--color-primary) !important;
   border: 1.5px solid var(--color-primary) !important;
 }
 .sign-out-btn:hover,
 .filter-trigger-btn:hover {
   background-color: var(--color-primary) !important;
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   border-color: var(--color-primary) !important;
 }
 
@@ -2767,7 +2757,7 @@ body.template-index .page-content {
 .empty-state-btn font,
 .wishlist-card-atc font,
 .wish-to-cart-btn font {
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   text-decoration: none !important;
 }
 .buy-now-btn font,
@@ -2791,13 +2781,13 @@ body.template-index .page-content {
   margin-top: 2px;
 }
 .side-drawer-footer .checkout-btn {
-  background-color: #ffffff !important;
+  background-color: var(--color-white) !important;
   color: var(--color-primary) !important;
   border: 1.5px solid var(--color-primary) !important;
 }
 .side-drawer-footer .checkout-btn:hover {
   background-color: var(--color-primary) !important;
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   border-color: var(--color-primary) !important;
 }
 
@@ -2805,13 +2795,13 @@ body.template-index .page-content {
 .cta-wrapper .atc-btn:hover,
 #add-to-cart:hover {
   background-color: var(--color-primary) !important;
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   border-color: var(--color-primary) !important;
   cursor: pointer;
 }
 .cta-wrapper .buy-now-btn:hover,
 #buy-now:hover {
-  background-color: #ffffff !important;
+  background-color: var(--color-white) !important;
   color: var(--color-primary) !important;
   border-color: var(--color-primary) !important;
   cursor: pointer;

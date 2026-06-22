@@ -8,6 +8,32 @@
     "theme_support_url": "https://www.algogurutechnologies.com"
   },
   {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Width",
+        "min": 50,
+        "max": 250,
+        "step": 10,
+        "default": 90,
+        "unit": "px"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Displayed at 32 x 32px"
+      }
+    ]
+  },
+  {
     "name": "Colors",
     "settings": [
       {
@@ -69,6 +95,29 @@
         "id": "color_drawer_footer_bg",
         "label": "Drawer Footer Background Color",
         "default": "#faf9f5"
+      },
+      {
+        "type": "color",
+        "id": "color_white",
+        "label": "White / Light Accent",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body Font",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading Font",
+        "default": "assistant_n4"
       }
     ]
   },

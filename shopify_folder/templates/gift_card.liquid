@@ -173,7 +173,7 @@
         width: 120,
         height: 120,
         colorDark: '#2d1f1f',
-        colorLight: '#ffffff',
+        colorLight: 'var(--color-white)',
         correctLevel: QRCode.CorrectLevel.H
       });
     }
@@ -231,7 +231,7 @@
     // Scale up for high quality image and set background color to match the cream styling
     html2canvas(element, {
       scale: 3,
-      backgroundColor: '#faf9f5',
+      backgroundColor: 'var(--color-bg)',
       useCORS: true,
       logging: false
     }).then(function(canvas) {

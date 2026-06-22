@@ -16,6 +16,12 @@
 {%- endif -%}
 
 <style>
+  .desktop-header-logo img,
+  .header-logo img {
+    width: {{ settings.logo_width | default: 90 }}px !important;
+    max-width: 100%;
+    height: auto !important;
+  }
   .two-panel-dropdown {
     min-width: 360px !important;
   }
@@ -98,8 +104,9 @@
     
     <div class="desktop-header-center">
       <a href="{{ routes.root_url }}" class="desktop-header-logo" aria-label="{{ shop.name }}">
-        {%- if section.settings.logo_image != blank -%}
-          <img src="{{ section.settings.logo_image | image_url: height: 52 }}" alt="{{ shop.name }}" height="26" width="{{ 26 | times: section.settings.logo_image.aspect_ratio | default: 4 | round }}" loading="lazy">
+        {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
+        {%- if header_logo != blank -%}
+          <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" loading="lazy">
         {%- else -%}
           <span class="logo-text-fallback">{{ section.settings.logo_text | default: shop.name }}</span>
         {%- endif -%}
@@ -593,10 +600,11 @@
       <div class="header-left">
         
         <a href="{{ routes.root_url }}" class="header-logo mobile-header-logo" aria-label="{{ shop.name }}">
-          {%- if section.settings.logo_image != blank -%}
-            <img src="{{ section.settings.logo_image | image_url: height: 44 }}" alt="{{ shop.name }}" height="22" width="{{ 22 | times: section.settings.logo_image.aspect_ratio | default: 4 | round }}" class="logo-light" loading="lazy">
+          {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
+          {%- if header_logo != blank -%}
+            <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="logo-light" loading="lazy">
           {%- else -%}
-            <span style="font-family:'Canela Text',Georgia,serif;font-size:22px;font-weight:300;color:#fff;">{{ section.settings.logo_text | default: shop.name }}</span>
+            <span style="font-family:var(--font-serif);font-size:22px;font-weight:300;color:var(--color-white);">{{ section.settings.logo_text | default: shop.name }}</span>
           {%- endif -%}
         </a>
         
@@ -613,10 +621,11 @@
       
       <div class="header-center">
         <a href="{{ routes.root_url }}" class="header-logo">
-          {%- if section.settings.logo_image != blank -%}
-            <img src="{{ section.settings.logo_image | image_url: height: 44 }}" alt="{{ shop.name }}" height="22" width="{{ 22 | times: section.settings.logo_image.aspect_ratio | default: 4 | round }}" class="logo-light" loading="lazy">
+          {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
+          {%- if header_logo != blank -%}
+            <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="logo-light" loading="lazy">
           {%- else -%}
-            <span style="font-family:'Canela Text',Georgia,serif;font-size:22px;font-weight:300;color:#fff;">{{ section.settings.logo_text | default: shop.name }}</span>
+            <span style="font-family:var(--font-serif);font-size:22px;font-weight:300;color:var(--color-white);">{{ section.settings.logo_text | default: shop.name }}</span>
           {%- endif -%}
         </a>
         
@@ -1055,7 +1064,7 @@
         <h4 class="search-results-title">{% if request.locale.iso_code == 'ar' %}المنتجات{% else %}Products{% endif %}</h4>
         <div class="search-overlay-results" id="home-search-results"></div>
         <div class="search-overlay-view-all-wrap">
-          <a href="/search?q=" class="search-view-all-btn" id="search-view-all-btn">
+          <a href="{{ routes.search_url }}?q=" class="search-view-all-btn" id="search-view-all-btn">
             {%- if request.locale.iso_code == 'ar' -%}عرض الكل{%- else -%}View all{%- endif -%}
           </a>
         </div>
@@ -1331,8 +1340,8 @@
       document.body.appendChild(container);
     }
     var toast = document.createElement('div');
-    toast.style.cssText = 'background: #fff5f5; border-left: 4px solid #f25c5e; color: var(--color-primary); padding: 14px 18px; border-radius: 8px; box-shadow: 0 4px 12px rgba(242,92,94,0.12), 0 2px 4px rgba(0,0,0,0.05); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 12px; transform: translateY(-20px); opacity: 0; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease; pointer-events: auto; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;';
-    var iconSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f25c5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+    toast.style.cssText = 'background: #fff5f5; border-left: 4px solid var(--color-accent); color: var(--color-primary); padding: 14px 18px; border-radius: 8px; box-shadow: 0 4px 12px rgba(242,92,94,0.12), 0 2px 4px rgba(0,0,0,0.05); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 12px; transform: translateY(-20px); opacity: 0; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease; pointer-events: auto; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;';
+    var iconSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
     var closeBtn = '<button style="background: none; border: none; font-size: 16px; font-weight: 600; color: #888; cursor: pointer; margin-left: auto; padding: 0 4px; line-height: 1;">&times;</button>';
     toast.innerHTML = iconSvg + '<div style="flex: 1; line-height: 1.4;">' + message + '</div>' + closeBtn;
     toast.querySelector('button').addEventListener('click', function() { removeToast(toast); });
@@ -2513,9 +2522,9 @@
     transition: all 0.2s;
   }
   .checkout-btn:hover {
-    background: #ffffff;
+    background: var(--color-white);
     color: var(--color-primary, #8c1638);
-    border-color: #ffffff;
+    border-color: var(--color-white);
     box-shadow: 0 4px 14px rgba(0,0,0,0.18);
   }
   .wish-to-cart-btn {

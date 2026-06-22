@@ -54,6 +54,17 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
     {%- endif -%}
 
     <style>
+      {%- if settings.font_body != blank -%}
+        {{ settings.font_body | font_face: font_display: 'swap' }}
+        {%- assign font_body_bold = settings.font_body | font_modify: 'weight', 'bold' -%}
+        {%- if font_body_bold -%}
+          {{ font_body_bold | font_face: font_display: 'swap' }}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if settings.font_heading != blank -%}
+        {{ settings.font_heading | font_face: font_display: 'swap' }}
+      {%- endif -%}
+
       @font-face {
         font-family: 'Canela Text';
         font-display: swap;
@@ -62,14 +73,23 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       }
       :root {
         --color-bg: {{ settings.color_bg | default: '#faf9f5' }};
+        --color-text: {% if settings.color_text != blank %}{{ settings.color_text }}{% else %}var(--color-primary, #2d1f1f){% endif %};
         --color-primary: {{ settings.color_primary | default: '#2d1f1f' }};
-        --color-accent: {{ settings.color_accent | default: '#f25c5e' }};
+        --color-accent: {% if settings.color_accent != blank %}{{ settings.color_accent }}{% else %}var(--color-primary, #2d1f1f){% endif %};
         --color-border: {{ settings.color_border | default: '#e0dcd3' }};
-        --color-muted: {{ settings.color_muted | default: '#000000' }};
-        --color-dark-teal: {{ settings.color_dark_teal | default: '#304854' }};
-        --color-green: {{ settings.color_green | default: '#1e3524' }};
-        --color-drawer-bg: {{ settings.color_drawer_bg | default: '#ffffff' }};
-        --color-drawer-footer-bg: {{ settings.color_drawer_footer_bg | default: '#faf9f5' }};
+        --color-muted: {% if settings.color_muted != blank %}{{ settings.color_muted }}{% else %}var(--color-text, #000000){% endif %};
+        --color-dark-teal: {% if settings.color_dark_teal != blank %}{{ settings.color_dark_teal }}{% else %}var(--color-primary, #304854){% endif %};
+        --color-green: {% if settings.color_green != blank %}{{ settings.color_green }}{% else %}var(--color-primary, #1e3524){% endif %};
+        --color-drawer-bg: {% if settings.color_drawer_bg != blank %}{{ settings.color_drawer_bg }}{% else %}var(--color-bg, #ffffff){% endif %};
+        --color-drawer-footer-bg: {% if settings.color_drawer_footer_bg != blank %}{{ settings.color_drawer_footer_bg }}{% else %}var(--color-bg, #faf9f5){% endif %};
+        --color-white: {{ settings.color_white | default: '#ffffff' }};
+
+        {%- if settings.font_body != blank -%}
+        --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+        {%- endif -%}
+        {%- if settings.font_heading != blank -%}
+        --font-serif: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+        {%- endif -%}
       }
 
       /* Global style overrides to enforce client background and accent colors */
@@ -240,7 +260,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       }
       .contact-field-group label {
         color: var(--color-primary) !important;
-        font-family: 'Inter', sans-serif !important;
+        font-family: var(--font-body) !important;
         font-weight: 500 !important;
       }
       .contact-field-group label .required {
@@ -254,7 +274,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         border: 1.5px solid var(--color-primary) !important;
         border-radius: 8px !important;
         color: var(--color-primary) !important;
-        font-family: 'Inter', sans-serif !important;
+        font-family: var(--font-body) !important;
         font-size: 14px !important;
       }
       .contact-form-wrapper input[type="text"]:focus,
@@ -385,7 +405,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       }
       .sitemap-link {
         border-bottom-color: var(--color-primary) !important;
-        color: #2D1F1F !important;
+        color: var(--color-primary) !important;
       }
       .sitemap-link:hover {
         opacity: 1 !important;
@@ -397,7 +417,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       /* Sitemap nested heading border and hover */
       .sitemap-link-level-1 {
         border-bottom-color: var(--color-primary) !important;
-        color: #2D1F1F !important;
+        color: var(--color-primary) !important;
       }
       .sitemap-link-level-1:hover {
         opacity: 1 !important;
@@ -438,7 +458,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         text-align: center !important;
       }
       .shopify-policy__title h1 {
-        font-family: 'Canela Text', Georgia, serif !important;
+        font-family: var(--font-serif) !important;
         font-size: 48px !important;
         font-weight: 400 !important;
         color: var(--color-primary) !important;
@@ -447,7 +467,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         text-transform: capitalize !important;
       }
       .shopify-policy__body {
-        font-family: 'Inter', sans-serif !important;
+        font-family: var(--font-body) !important;
         font-size: 16px !important;
         line-height: 1.6 !important;
         color: #000000 !important;
@@ -478,7 +498,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       }
       .shopify-policy__body h2,
       .shopify-policy__body h3 {
-        font-family: 'Inter', sans-serif !important;
+        font-family: var(--font-body) !important;
         color: var(--color-primary) !important;
         margin-top: 2em !important;
         margin-bottom: 0.8em !important;
@@ -522,7 +542,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       .sd-timeline-value,
       .rr-eligibility-card-desc,
       .rr-side-card-list li {
-        font-family: 'Inter', sans-serif !important;
+        font-family: var(--font-body) !important;
         font-size: 15px !important;
         line-height: 1.6 !important;
         color: #000000 !important;
@@ -549,7 +569,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       .sitemap-main h1,
       .sitemap-hero-content h1,
       .shopify-policy__title h1 {
-        font-family: 'Canela Text', Georgia, serif !important;
+        font-family: var(--font-serif) !important;
         font-size: 48px !important;
         font-weight: 400 !important;
         line-height: 1.2 !important;
@@ -672,7 +692,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       .contact-submit-custom:hover,
       .contact-card-link:hover,
       .cc-quick-help-card-btn:hover {
-        background: #ffffff !important;
+        background: var(--color-white) !important;
         color: var(--color-primary) !important;
         border-color: var(--color-primary) !important;
       }
@@ -784,7 +804,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       .faq-sidebar-item.active svg path,
       .pp-sidebar-item.active svg,
       .pp-sidebar-item.active svg path {
-        stroke: #ffffff !important;
+        stroke: var(--color-white) !important;
       }
 
       /* Collection Filter Trigger Button - hover/active states */
@@ -818,7 +838,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       .rr-eligibility-title,
       .rr-side-title,
       .rr-non-returnable-title {
-        font-family: 'Inter', sans-serif !important;
+        font-family: var(--font-body) !important;
         font-size: 28px !important;
         font-weight: 500 !important;
         color: var(--color-primary) !important;
@@ -828,7 +848,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       }
 
       .rr-side-subtitle {
-        font-family: 'Inter', sans-serif !important;
+        font-family: var(--font-body) !important;
         font-size: 15px !important;
         color: #000000 !important;
         margin-top: 6px !important;
@@ -838,17 +858,17 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
 
       .rr-eligibility-card-title,
       .rr-side-card-title {
-        font-family: 'Inter', sans-serif !important;
+        font-family: var(--font-body) !important;
         font-size: 18px !important;
         font-weight: 600 !important;
         color: var(--color-primary) !important;
       }
 
       .rr-non-returnable-card-title {
-        font-family: 'Inter', sans-serif !important;
+        font-family: var(--font-body) !important;
         font-size: 15px !important;
         font-weight: 500 !important;
-        color: #2D1F1F !important;
+        color: var(--color-primary) !important;
         line-height: 1.5 !important;
       }
 
@@ -863,7 +883,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       [dir="rtl"] input,
       [dir="rtl"] textarea,
       [dir="rtl"] select {
-        font-family: 'Cairo', 'Inter', Arial, sans-serif !important;
+        font-family: 'Cairo', var(--font-body) !important;
       }
     </style>
 

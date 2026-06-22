@@ -5,11 +5,11 @@
 
 <style>
   #marquee-{{ section.id }} {
-    background: {{ section.settings.bg_color | default: '#1a1a1a' }};
-    color: {{ section.settings.text_color | default: '#ffffff' }};
+    background: {% if section.settings.bg_color != blank %}{{ section.settings.bg_color }}{% else %}var(--color-dark-teal){% endif %};
+    color: {% if section.settings.text_color != blank %}{{ section.settings.text_color }}{% else %}var(--color-white){% endif %};
   }
   #marquee-{{ section.id }} .marquee-sep {
-    color: {{ section.settings.text_color | default: '#ffffff' }};
+    color: {% if section.settings.text_color != blank %}{{ section.settings.text_color }}{% else %}var(--color-white){% endif %};
     opacity: 0.4;
   }
 </style>
@@ -78,14 +78,12 @@
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Background Color",
-      "default": "#1a1a1a"
+      "label": "Background Color"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text Color",
-      "default": "#ffffff"
+      "label": "Text Color"
     }
   ],
   "presets": [
