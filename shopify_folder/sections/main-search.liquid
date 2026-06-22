@@ -1,0 +1,726 @@
+{%- liquid
+  assign show_breadcrumbs = section.settings.show_breadcrumbs | default: true
+  assign products_per_page = 24
+-%}
+
+<style>
+  .search-breadcrumbs {
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted, #888);
+    background: #faf9f5;
+    border-bottom: 1px solid var(--color-border, #e0dcd3);
+  }
+  .search-breadcrumbs a {
+    color: var(--color-muted, #888);
+    transition: color 0.18s;
+  }
+  .search-breadcrumbs a:hover {
+    color: var(--color-primary, #8c1638);
+  }
+  .search-breadcrumbs .crumb-sep {
+    opacity: 0.4;
+  }
+  .search-breadcrumbs .crumb-active {
+    color: var(--color-primary, #8c1638);
+    font-weight: 600;
+  }
+
+  .search-header-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 40px 40px 20px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .search-title {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--color-primary, #8c1638);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+
+  .search-page-form {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 30px;
+  }
+  .search-page-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1.5px solid var(--color-border, #e0dcd3);
+    border-radius: 50px;
+    overflow: hidden;
+    padding: 4px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .search-page-input-wrapper:focus-within {
+    border-color: var(--color-primary, #8c1638);
+    box-shadow: 0 4px 12px rgba(140, 22, 56, 0.08);
+  }
+  .search-page-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 12px 24px;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 15px;
+    color: var(--color-primary, #8c1638);
+    background: transparent;
+  }
+  .search-page-submit-btn {
+    background: var(--color-primary, #8c1638);
+    color: #fff;
+    border: none;
+    outline: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+  }
+  .search-page-submit-btn:hover {
+    opacity: 0.9;
+  }
+  .search-page-submit-btn:active {
+    transform: scale(0.95);
+  }
+
+  .search-toolbar {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--color-border, #e0dcd3);
+    border-bottom: 1px solid var(--color-border, #e0dcd3);
+    background: #fff;
+  }
+  .search-results-count {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--color-muted, #888);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .search-grid-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 40px 60px 40px;
+  }
+
+  .search-section-header-wrap {
+    max-width: 1600px;
+    margin: 40px auto 20px auto;
+    border-bottom: 1.5px solid var(--color-border, #e0dcd3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+  }
+  .search-section-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--color-primary, #8c1638);
+    margin: 0;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .search-empty {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .search-empty-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    color: var(--color-primary, #8c1638);
+    margin-bottom: 15px;
+  }
+  .btn-continue-shopping {
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--color-primary, #8c1638);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 50px;
+    margin-top: 20px;
+    transition: background 0.2s;
+  }
+  .btn-continue-shopping:hover {
+    background: #1a1010;
+  }
+
+  .collection-card-item {
+    position: relative;
+    overflow: hidden;
+  }
+  .collection-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--color-primary, #8c1638);
+    color: #fff;
+    padding: 6px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border-radius: 4px;
+    text-transform: uppercase;
+    z-index: 10;
+  }
+  [dir="rtl"] .collection-badge {
+    left: auto;
+    right: 15px;
+  }
+
+  .collection-card-view-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-primary, #8c1638);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+    display: inline-block;
+  }
+
+  /* Informational Pages Cards */
+  .search-pages-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 30px;
+  }
+  @media (max-width: 991px) {
+    .search-pages-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 575px) {
+    .search-pages-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .page-card {
+    background: #fff;
+    border: 1.5px solid var(--color-border, #e0dcd3);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.24s ease;
+    text-decoration: none;
+    color: inherit;
+    min-height: 180px;
+  }
+  .page-card:hover {
+    border-color: var(--color-primary, #8c1638);
+    box-shadow: 0 6px 20px rgba(140, 22, 56, 0.06);
+    transform: translateY(-2px);
+  }
+  .page-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .page-badge {
+    background: #faf9f5;
+    border: 1.5px solid var(--color-border, #e0dcd3);
+    color: var(--color-muted, #888);
+    padding: 4px 10px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .page-card-icon {
+    color: var(--color-muted, #888);
+    display: flex;
+    align-items: center;
+  }
+  .page-card-title {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--color-primary, #8c1638);
+    margin: 0 0 8px 0;
+    line-height: 1.35;
+  }
+  .page-card-excerpt {
+    font-size: 13px;
+    color: var(--color-muted, #888);
+    line-height: 1.55;
+    margin-bottom: 15px;
+    flex-grow: 1;
+  }
+  .page-card-link {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--color-primary, #8c1638);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Pagination */
+  .search-pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border, #e0dcd3);
+  }
+  .search-pagination-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-primary, #8c1638);
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .search-pagination-item.active {
+    background: var(--color-primary, #8c1638);
+    color: #fff;
+  }
+  .search-pagination-item:hover:not(.active) {
+    background: var(--color-bg, #faf9f5);
+  }
+
+  /* RTL / Arabic layout styles */
+  [dir="rtl"] .search-page-input {
+    padding: 12px 24px 12px 12px;
+    text-align: right;
+  }
+  [dir="rtl"] .search-breadcrumbs {
+    direction: rtl;
+  }
+  [dir="rtl"] .search-toolbar {
+    direction: rtl;
+  }
+  [dir="rtl"] .search-section-header-wrap {
+    direction: rtl;
+  }
+  [dir="rtl"] .search-pages-list {
+    direction: rtl;
+  }
+  [dir="rtl"] .page-card {
+    text-align: right;
+  }
+  [dir="rtl"] .page-card-link svg {
+    transform: scaleX(-1);
+  }
+</style>
+
+{%- if show_breadcrumbs -%}
+  <div class="search-breadcrumbs">
+    <a href="{{ routes.root_url }}">{% if request.locale.iso_code == 'ar' %}الرئيسية{% else %}Home{% endif %}</a>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-active">{% if request.locale.iso_code == 'ar' %}البحث{% else %}Search{% endif %}</span>
+  </div>
+{%- endif -%}
+
+<div class="search-header-container">
+  <h1 class="search-title">
+    {%- if search.performed -%}
+      {%- if request.locale.iso_code == 'ar' -%}نتائج البحث{%- else -%}Search Results{%- endif -%}
+    {%- else -%}
+      {%- if request.locale.iso_code == 'ar' -%}البحث في المتجر{%- else -%}Search Our Store{%- endif -%}
+    {%- endif -%}
+  </h1>
+
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page-form">
+    <div class="search-page-input-wrapper">
+      <input type="text" name="q" value="{{ search.terms | escape }}" 
+             placeholder="{% if request.locale.iso_code == 'ar' %}ابحث عن المنتجات أو المجموعات...{% else %}Search products or collections...{% endif %}" 
+             class="search-page-input" autocomplete="off">
+      <button type="submit" class="search-page-submit-btn" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </div>
+  </form>
+</div>
+
+{%- if search.performed -%}
+  {%- liquid
+    comment
+      CUSTOM COLLECTIONS MATCHING LOOP
+    endcomment
+    assign search_terms_down = search.terms | downcase | strip
+    assign matching_collections_count = 0
+  -%}
+
+  {%- capture collections_markup -%}
+    {%- if search_terms_down != blank -%}
+      {%- for col in collections -%}
+        {%- assign col_title_down = col.title | downcase -%}
+        {%- assign col_handle_down = col.handle | downcase -%}
+        {%- if col_title_down contains search_terms_down or col_handle_down contains search_terms_down -%}
+          {%- assign matching_collections_count = matching_collections_count | plus: 1 -%}
+          <a href="{{ col.url }}" class="product-card collection-card-item" aria-label="{{ col.title }}">
+            <div class="product-card-img">
+              <div class="collection-badge">
+                <span class="badge-text">{% if request.locale.iso_code == 'ar' %}مجموعة{% else %}Collection{% endif %}</span>
+              </div>
+              {%- if col.featured_image != blank -%}
+                <img src="{{ col.featured_image | image_url: width: 600, height: 900, crop: 'center' }}"
+                     alt="{{ col.title | escape }}"
+                     width="600" height="900"
+                     loading="lazy">
+              {%- elsif col.products[0].featured_image != blank -%}
+                <img src="{{ col.products[0].featured_image | image_url: width: 600, height: 900, crop: 'center' }}"
+                     alt="{{ col.title | escape }}"
+                     width="600" height="900"
+                     loading="lazy">
+              {%- else -%}
+                <div class="product-card-placeholder" style="background:#f9f9f9;display:flex;align-items:center;justify-content:center;height:100%;">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+              {%- endif -%}
+            </div>
+            
+            <div class="product-card-body">
+              <div class="text-wrapper">
+                <div class="product-brand">{% if request.locale.iso_code == 'ar' %}مجموعات أميري فايبس{% else %}AmiriVibes Collections{% endif %}</div>
+                <div class="product-model">{{ col.title }}</div>
+              </div>
+              <div class="collection-card-view-text">
+                {% if request.locale.iso_code == 'ar' %}عرض المجموعة &rarr;{% else %}View Collection &rarr;{% endif %}
+              </div>
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endcapture -%}
+
+  {%- paginate search.results by products_per_page -%}
+    
+    {%- comment -%}
+      Group result types present on this page
+    {%- endcomment -%}
+    {%- liquid
+      assign product_count = 0
+      assign page_count = 0
+
+      for item in search.results
+        if item.object_type == 'product'
+          assign product_count = product_count | plus: 1
+        elsif item.object_type == 'page' or item.object_type == 'article'
+          assign page_count = page_count | plus: 1
+        endif
+      endfor
+    -%}
+
+    <div class="search-toolbar">
+      <span class="search-results-count">
+        {%- if request.locale.iso_code == 'ar' -%}
+          تم العثور على {{ paginate.items | plus: matching_collections_count }} نتيجة لـ "{{ search.terms }}"
+        {%- else -%}
+          {{ paginate.items | plus: matching_collections_count }} result{% if paginate.items != 1 or matching_collections_count > 0 %}s{% endif %} found for "{{ search.terms }}"
+        {%- endif -%}
+      </span>
+    </div>
+
+    <div class="search-grid-container">
+      {%- if search.results.size > 0 or matching_collections_count > 0 -%}
+        
+        {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
+        {%- assign currency_data_parts = currency_data | split: '|||' -%}
+        {%- assign currencies = currency_data_parts[0] | split: ',' -%}
+        {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
+
+        {%- comment -%}
+          1. PRODUCTS GROUP
+        {%- endcomment -%}
+        {%- if product_count > 0 -%}
+          <div class="search-section-header-wrap">
+            <h2 class="search-section-title">
+              {%- if request.locale.iso_code == 'ar' -%}المنتجات{%- else -%}Products{%- endif -%}
+            </h2>
+          </div>
+          <div class="product-grid" style="margin-bottom: 50px;">
+            {%- for product in search.results -%}
+              {%- if product.object_type == 'product' -%}
+                <a href="{{ product.url }}" class="product-card" aria-label="{{ product.title }}"
+                   data-product-type="{{ product.type | downcase | escape }}"
+                   data-vendor="{{ product.vendor | downcase | escape }}"
+                   data-collections="{%- for col in product.collections -%}{{ col.handle }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}"
+                   data-available="{{ product.available }}"
+                   data-price-cents="{{ product.price }}"
+                   {%- for option in product.options_with_values -%}
+                     data-opt-{{ option.name | handle }}="{%- for val in option.values -%}{{ val | downcase | escape }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}"
+                   {%- endfor -%}>
+                  <div class="product-card-img" 
+                       data-images="{%- if product.images.size > 1 -%}{%- for img in product.images -%}{{ img | image_url: width: 600, height: 900, crop: 'center' }}{% unless forloop.last %},{% endunless %}{%- endfor -%}{%- endif -%}">
+                    {%- if product.featured_image != blank -%}
+                      <img src="{{ product.featured_image | image_url: width: 600, height: 900, crop: 'center' }}"
+                           alt="{{ product.featured_image.alt | escape }}"
+                           width="600" height="900"
+                           loading="lazy">
+                    {%- else -%}
+                      <div class="product-card-placeholder" style="background:#f9f9f9;display:flex;align-items:center;justify-content:center;height:100%;">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      </div>
+                    {%- endif -%}
+
+                    <button type="button" class="product-wishlist-btn" aria-label="Add to wishlist"
+                            data-id="{{ product.id }}"
+                            data-title="{{ product.title | escape }}"
+                            data-image="{{ product.featured_image | image_url: width: 300 }}"
+                            data-price="{{ product.price }}"
+                            data-url="{{ product.url }}"
+                            data-vendor="{{ product.vendor | escape }}"
+                            data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                            onclick="toggleWishlist(event, '{{ product.id }}')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                      </svg>
+                    </button>
+                    
+                    {%- if product.compare_at_price > product.price -%}
+                      <div class="product-badge-sale-new">
+                        <span class="badge-text">SALE</span>
+                      </div>
+                    {%- else -%}
+                      <div class="product-badge-new">
+                        <span class="badge-text">NEW</span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                  
+                  <div class="product-card-body">
+                    <div class="text-wrapper">
+                      <div class="product-brand">{{ product.vendor }}</div>
+                      <div class="product-model">{{ product.title }}</div>
+                    </div>
+                    
+                    {%- assign price_cent = product.price | modulo: 100 -%}
+                    {%- assign price_main = product.price | divided_by: 100 -%}
+                    {%- if price_cent < 10 -%}{%- assign price_cent = '0' | append: price_cent -%}{%- endif -%}
+                    {%- assign price_qar_formatted = 'QAR ' | append: price_main | append: '.' | append: price_cent -%}
+                    
+                    {%- assign compare_qar_formatted = blank -%}
+                    {%- if product.compare_at_price > product.price -%}
+                      {%- assign compare_cent = product.compare_at_price | modulo: 100 -%}
+                      {%- assign compare_main = product.compare_at_price | divided_by: 100 -%}
+                      {%- if compare_cent < 10 -%}{%- assign compare_cent = '0' | append: compare_cent -%}{%- endif -%}
+                      {%- assign compare_qar_formatted = 'QAR ' | append: compare_main | append: '.' | append: compare_cent -%}
+                    {%- endif -%}
+
+                    <div class="product-price-row"
+                      data-price-qar="{{ price_qar_formatted }}"
+                      {%- if product.compare_at_price > product.price -%}
+                      data-compare-qar="{{ compare_qar_formatted }}"
+                      {%- endif -%}
+                      {%- for curr_raw in currencies -%}
+                        {%- assign curr = curr_raw | strip | upcase -%}
+                        {%- if curr != blank and curr != 'QAR' -%}
+                          {%- assign curr_down = curr | downcase -%}
+                          {%- assign price_key = curr_down | append: '_price' -%}
+                          {%- assign compare_key = curr_down | append: '_compare' -%}
+                          {%- assign custom_price = product.metafields.pricing[price_key] -%}
+                          {%- assign custom_compare = product.metafields.pricing[compare_key] -%}
+                          
+                          {%- assign symbol = curr -%}
+                          {%- for sym_pair_raw in custom_symbols -%}
+                            {%- assign sym_pair = sym_pair_raw | split: ':' -%}
+                            {%- assign sym_code = sym_pair[0] | strip | upcase -%}
+                            {%- if sym_code == curr -%}
+                              {%- assign symbol = sym_pair[1] | strip -%}
+                              {%- break -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                          
+                          {%- if custom_price != blank -%}
+                            data-price-{{ curr_down }}="{{ symbol }} {{ custom_price }}"
+                          {%- endif -%}
+                          {%- if custom_compare != blank -%}
+                            data-compare-{{ curr_down }}="{{ symbol }} {{ custom_compare }}"
+                          {%- endif -%}
+                        {%- endif -%}
+                      {%- endfor -%}>
+                      {%- if product.compare_at_price > product.price -%}
+                        <span class="product-price-compare">{{ product.compare_at_price | money }}</span>
+                        <span class="product-price sale-price">{{ product.price | money }}</span>
+                      {%- else -%}
+                        <span class="product-price">{{ product.price | money }}</span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          2. COLLECTIONS GROUP (CUSTOM LOOP RESULTS)
+        {%- endcomment -%}
+        {%- if matching_collections_count > 0 -%}
+          <div class="search-section-header-wrap">
+            <h2 class="search-section-title">
+              {%- if request.locale.iso_code == 'ar' -%}المجموعات{%- else -%}Collections{%- endif -%}
+            </h2>
+          </div>
+          <div class="product-grid" style="margin-bottom: 50px;">
+            {{ collections_markup }}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          3. PAGES / ARTICLES GROUP
+        {%- endcomment -%}
+        {%- if page_count > 0 -%}
+          <div class="search-section-header-wrap">
+            <h2 class="search-section-title">
+              {%- if request.locale.iso_code == 'ar' -%}الصفحات والمقالات{%- else -%}Pages & Articles{%- endif -%}
+            </h2>
+          </div>
+          <div class="search-pages-list">
+            {%- for page_item in search.results -%}
+              {%- if page_item.object_type == 'page' or page_item.object_type == 'article' -%}
+                <a href="{{ page_item.url }}" class="page-card">
+                  <div class="page-card-top">
+                    <div class="page-card-header">
+                      <span class="page-badge">
+                        {%- if page_item.object_type == 'article' -%}
+                          {%- if request.locale.iso_code == 'ar' -%}مقالة{%- else -%}Article{%- endif -%}
+                        {%- else -%}
+                          {%- if request.locale.iso_code == 'ar' -%}صفحة{%- else -%}Page{%- endif -%}
+                        {%- endif -%}
+                      </span>
+                      <span class="page-card-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                          <polyline points="14 2 14 8 20 8"></polyline>
+                          <line x1="16" y1="13" x2="8" y2="13"></line>
+                          <line x1="16" y1="17" x2="8" y2="17"></line>
+                          <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                      </span>
+                    </div>
+                    <h3 class="page-card-title">{{ page_item.title }}</h3>
+                    <div class="page-card-excerpt">
+                      {{ page_item.content | strip_html | truncate: 120 }}
+                    </div>
+                  </div>
+                  <div class="page-card-link">
+                    {%- if request.locale.iso_code == 'ar' -%}عرض المزيد{%- else -%}Read More{%- endif -%}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </div>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- if paginate.pages > 1 -%}
+          <div class="search-pagination-container">
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="search-pagination-item">&laquo;</a>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="search-pagination-item">{{ part.title }}</a>
+              {%- else -%}
+                <span class="search-pagination-item {% if part.title == paginate.current_page %}active{% endif %}">{{ part.title }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="search-pagination-item">&raquo;</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+      {%- else -%}
+        <div class="search-empty">
+          <h2 class="search-empty-title">
+            {%- if request.locale.iso_code == 'ar' -%}
+              لم يتم العثور على نتائج للبحث عن "{{ search.terms }}"
+            {%- else -%}
+              No results found for "{{ search.terms }}"
+            {%- endif -%}
+          </h2>
+          <p style="color:var(--color-muted); font-size:14px;">
+            {%- if request.locale.iso_code == 'ar' -%}
+              يرجى التحقق من الإملاء أو المحاولة بكلمات بحث أخرى.
+            {%- else -%}
+              Please check your spelling or try using more general search terms.
+            {%- endif -%}
+          </p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn-continue-shopping">
+            {%- if request.locale.iso_code == 'ar' -%}مواصلة التسوق{%- else -%}Continue Shopping{%- endif -%}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endpaginate -%}
+{%- else -%}
+  <div class="search-grid-container">
+    <div class="search-empty">
+      <h2 class="search-empty-title">
+        {%- if request.locale.iso_code == 'ar' -%}يرجى كتابة كلمة للبحث{%- else -%}Please enter a search term{%- endif -%}
+      </h2>
+      <a href="{{ routes.all_products_collection_url }}" class="btn-continue-shopping">
+        {%- if request.locale.iso_code == 'ar' -%}مواصلة التسوق{%- else -%}Continue Shopping{%- endif -%}
+      </a>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Search Results",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show Breadcrumbs",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

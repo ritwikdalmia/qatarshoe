@@ -30,17 +30,46 @@
     page-break-inside: avoid !important;
     margin-bottom: 10px !important;
   }
+
+  .three-panel-dropdown {
+    min-width: 540px !important;
+  }
+  .three-panel-dropdown .panel-left {
+    display: block !important;
+    column-count: 3 !important;
+    column-gap: 32px !important;
+  }
+  .three-panel-dropdown .panel-left .panel-item {
+    display: block !important;
+    break-inside: avoid-column !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
+  }
   
-  
-  .hover-box:has(.panel-left *:nth-child(3)) {
+  .hover-box:has(.panel-left *:nth-child(2)) {
     min-width: 360px !important;
   }
-  .hover-box:has(.panel-left *:nth-child(3)) .panel-left {
+  .hover-box:has(.panel-left *:nth-child(2)) .panel-left {
     display: block !important;
     column-count: 2 !important;
     column-gap: 32px !important;
   }
-  .hover-box:has(.panel-left *:nth-child(3)) .panel-left .panel-item {
+  .hover-box:has(.panel-left *:nth-child(2)) .panel-left .panel-item {
+    display: block !important;
+    break-inside: avoid-column !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hover-box:has(.panel-left *:nth-child(13)) {
+    min-width: 540px !important;
+  }
+  .hover-box:has(.panel-left *:nth-child(13)) .panel-left {
+    display: block !important;
+    column-count: 3 !important;
+    column-gap: 32px !important;
+  }
+  .hover-box:has(.panel-left *:nth-child(13)) .panel-left .panel-item {
     display: block !important;
     break-inside: avoid-column !important;
     page-break-inside: avoid !important;
@@ -185,7 +214,7 @@
                 <span class="nav-link-text">{{ link.title }}</span>
               </a>
               {%- if link.links.size > 0 -%}
-                <div class="hover-box{% if link.links.size >= 3 %} two-panel-dropdown{% endif %}">
+                <div class="hover-box{% if link.links.size >= 2 and link.links.size <= 12 %} two-panel-dropdown{% elsif link.links.size > 12 %} three-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in link.links -%}
@@ -207,7 +236,8 @@
               </a>
               {%- assign sub_menu = block.settings.dropdown_menu -%}
               {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                <div class="hover-box{% if linklists[sub_menu].links.size >= 3 %} two-panel-dropdown{% endif %}">
+                {%- assign sub_menu_size = linklists[sub_menu].links.size -%}
+                <div class="hover-box{% if sub_menu_size >= 2 and sub_menu_size <= 12 %} two-panel-dropdown{% elsif sub_menu_size > 12 %} three-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in linklists[sub_menu].links -%}
@@ -228,7 +258,7 @@
 {%- if section.settings.menu_w_brands -%}
         <div class="nav-item-wrapper">
           <a class="nav-link" href="#" id="nav-link-brands"><span class="nav-link-text">Brands</span></a>
-          <div class="hover-box two-panel-dropdown">
+          <div class="hover-box three-panel-dropdown">
             <div class="panel-container">
               <div class="panel-left">
                 {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
@@ -439,7 +469,7 @@
                 <span class="nav-link-text">{{ link.title }}</span>
               </a>
               {%- if link.links.size > 0 -%}
-                <div class="hover-box{% if link.links.size >= 3 %} two-panel-dropdown{% endif %}">
+                <div class="hover-box{% if link.links.size >= 2 and link.links.size <= 12 %} two-panel-dropdown{% elsif link.links.size > 12 %} three-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in link.links -%}
@@ -461,7 +491,8 @@
               </a>
               {%- assign sub_menu = block.settings.dropdown_menu -%}
               {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                <div class="hover-box{% if linklists[sub_menu].links.size >= 3 %} two-panel-dropdown{% endif %}">
+                {%- assign sub_menu_size = linklists[sub_menu].links.size -%}
+                <div class="hover-box{% if sub_menu_size >= 2 and sub_menu_size <= 12 %} two-panel-dropdown{% elsif sub_menu_size > 12 %} three-panel-dropdown{% endif %}">
                   <div class="panel-container">
                     <div class="panel-left">
                       {%- for child_link in linklists[sub_menu].links -%}
@@ -731,7 +762,7 @@
                   <span class="nav-link-text">{{ link.title }}</span>
                 </a>
                 {%- if link.links.size > 0 -%}
-                  <div class="hover-box{% if link.links.size >= 3 %} two-panel-dropdown{% endif %}">
+                  <div class="hover-box{% if link.links.size >= 2 and link.links.size <= 12 %} two-panel-dropdown{% elsif link.links.size > 12 %} three-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in link.links -%}
@@ -753,7 +784,8 @@
                 </a>
                 {%- assign sub_menu = block.settings.dropdown_menu -%}
                 {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                  <div class="hover-box{% if linklists[sub_menu].links.size >= 3 %} two-panel-dropdown{% endif %}">
+                  {%- assign sub_menu_size = linklists[sub_menu].links.size -%}
+                  <div class="hover-box{% if sub_menu_size >= 2 and sub_menu_size <= 12 %} two-panel-dropdown{% elsif sub_menu_size > 12 %} three-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in linklists[sub_menu].links -%}
@@ -774,7 +806,7 @@
 {%- if section.settings.menu_w_brands -%}
           <div class="nav-item-wrapper">
             <a class="nav-link" href="#">Brands</a>
-            <div class="hover-box two-panel-dropdown">
+            <div class="hover-box three-panel-dropdown">
               <div class="panel-container"><div class="panel-left">
                 {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
                 {%- if w_brands.links.size > 0 -%}
@@ -920,7 +952,7 @@
                   <span class="nav-link-text">{{ link.title }}</span>
                 </a>
                 {%- if link.links.size > 0 -%}
-                  <div class="hover-box{% if link.links.size >= 3 %} two-panel-dropdown{% endif %}">
+                  <div class="hover-box{% if link.links.size >= 2 and link.links.size <= 12 %} two-panel-dropdown{% elsif link.links.size > 12 %} three-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in link.links -%}
@@ -942,7 +974,8 @@
                 </a>
                 {%- assign sub_menu = block.settings.dropdown_menu -%}
                 {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
-                  <div class="hover-box{% if linklists[sub_menu].links.size >= 3 %} two-panel-dropdown{% endif %}">
+                  {%- assign sub_menu_size = linklists[sub_menu].links.size -%}
+                  <div class="hover-box{% if sub_menu_size >= 2 and sub_menu_size <= 12 %} two-panel-dropdown{% elsif sub_menu_size > 12 %} three-panel-dropdown{% endif %}">
                     <div class="panel-container">
                       <div class="panel-left">
                         {%- for child_link in linklists[sub_menu].links -%}

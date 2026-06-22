@@ -311,8 +311,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    syncWishlistUI();
-    window.addEventListener('wishlistChanged', syncWishlistUI);
+    var syncUI = window.syncWishlistUI || window.syncWishlistHearts || function() {};
+    syncUI();
+    window.addEventListener('wishlistChanged', syncUI);
     {%- if settings.slideshow_enabled_homepage -%}
     initCollectionProductImageSlideshows();
     {%- endif -%}
