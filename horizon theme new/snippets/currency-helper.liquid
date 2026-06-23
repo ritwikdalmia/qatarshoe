@@ -1,0 +1,68 @@
+{%- liquid
+  assign enabled_currencies = ""
+  assign custom_symbols = ""
+
+  if settings.currency_qar_enable
+    assign enabled_currencies = enabled_currencies | append: "QAR,"
+    assign qtr_sym = settings.currency_qar_symbol | default: "QR"
+    assign custom_symbols = custom_symbols | append: "QAR:" | append: qtr_sym | append: ","
+  endif
+  if settings.currency_usd_enable
+    assign enabled_currencies = enabled_currencies | append: "USD,"
+    assign usd_sym = settings.currency_usd_symbol | default: "$"
+    assign custom_symbols = custom_symbols | append: "USD:" | append: usd_sym | append: ","
+  endif
+  if settings.currency_eur_enable
+    assign enabled_currencies = enabled_currencies | append: "EUR,"
+    assign eur_sym = settings.currency_eur_symbol | default: "€"
+    assign custom_symbols = custom_symbols | append: "EUR:" | append: eur_sym | append: ","
+  endif
+  if settings.currency_aed_enable
+    assign enabled_currencies = enabled_currencies | append: "AED,"
+    assign aed_sym = settings.currency_aed_symbol | default: "د.إ"
+    assign custom_symbols = custom_symbols | append: "AED:" | append: aed_sym | append: ","
+  endif
+  if settings.currency_sar_enable
+    assign enabled_currencies = enabled_currencies | append: "SAR,"
+    assign sar_sym = settings.currency_sar_symbol | default: "SR"
+    assign custom_symbols = custom_symbols | append: "SAR:" | append: sar_sym | append: ","
+  endif
+  if settings.currency_bhd_enable
+    assign enabled_currencies = enabled_currencies | append: "BHD,"
+    assign bhd_sym = settings.currency_bhd_symbol | default: "BD"
+    assign custom_symbols = custom_symbols | append: "BHD:" | append: bhd_sym | append: ","
+  endif
+  if settings.currency_kwd_enable
+    assign enabled_currencies = enabled_currencies | append: "KWD,"
+    assign kwd_sym = settings.currency_kwd_symbol | default: "KD"
+    assign custom_symbols = custom_symbols | append: "KWD:" | append: kwd_sym | append: ","
+  endif
+  if settings.currency_omr_enable
+    assign enabled_currencies = enabled_currencies | append: "OMR,"
+    assign omr_sym = settings.currency_omr_symbol | default: "RO"
+    assign custom_symbols = custom_symbols | append: "OMR:" | append: omr_sym | append: ","
+  endif
+  if settings.currency_gbp_enable
+    assign enabled_currencies = enabled_currencies | append: "GBP,"
+    assign gbp_sym = settings.currency_gbp_symbol | default: "£"
+    assign custom_symbols = custom_symbols | append: "GBP:" | append: gbp_sym | append: ","
+  endif
+  if settings.currency_inr_enable
+    assign enabled_currencies = enabled_currencies | append: "INR,"
+    assign inr_sym = settings.currency_inr_symbol | default: "₹"
+    assign custom_symbols = custom_symbols | append: "INR:" | append: inr_sym | append: ","
+  endif
+
+  # strip trailing commas
+  assign enabled_currencies_len = enabled_currencies | size | minus: 1
+  assign custom_symbols_len = custom_symbols | size | minus: 1
+  
+  if enabled_currencies_len >= 0
+    assign enabled_currencies = enabled_currencies | slice: 0, enabled_currencies_len
+  endif
+  if custom_symbols_len >= 0
+    assign custom_symbols = custom_symbols | slice: 0, custom_symbols_len
+  endif
+
+  echo enabled_currencies | append: "|||" | append: custom_symbols
+-%}

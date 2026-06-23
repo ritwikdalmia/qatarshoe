@@ -1,0 +1,136 @@
+
+
+{%- liquid
+  if section.settings.image_desktop != blank
+    assign hero_desktop = section.settings.image_desktop | image_url: width: 2000
+  else
+    assign hero_desktop = 'women.png' | asset_url
+  endif
+
+  if section.settings.image_mobile != blank
+    assign hero_mobile = section.settings.image_mobile | image_url: width: 800
+  else
+    assign hero_mobile = 'women.png' | asset_url
+  endif
+
+  if section.settings.image_desktop_men != blank
+    assign hero_desktop_men = section.settings.image_desktop_men | image_url: width: 2000
+  else
+    assign hero_desktop_men = 'men.png' | asset_url
+  endif
+
+  if section.settings.image_mobile_men != blank
+    assign hero_mobile_men = section.settings.image_mobile_men | image_url: width: 800
+  else
+    assign hero_mobile_men = 'men.png' | asset_url
+  endif
+-%}
+
+<div class="qtr-hero home-hero-content" id="hero-{{ section.id }}" style="
+  --bg-desktop: url('{{ hero_desktop }}');
+  --bg-mobile: url('{{ hero_mobile }}');
+  background-image: var(--bg-desktop);
+">
+  <script>
+    (function() {
+      var heroEl = document.getElementById('hero-{{ section.id }}');
+      if (heroEl) {
+        var dept = localStorage.getItem('amirivibes_department') || 'women';
+        if (dept === 'men') {
+          heroEl.style.setProperty('--bg-desktop', "url('{{ hero_desktop_men }}')");
+          heroEl.style.setProperty('--bg-mobile', "url('{{ hero_mobile_men }}')");
+        }
+      }
+    })();
+  </script>
+  <div class="hero-image-mask"></div>
+
+  {%- if section.settings.fomo_text != blank -%}
+    <div class="hero-fomo">
+      <span>🔥</span>
+      <span class="fomo-message">{{ section.settings.fomo_text }}</span>
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  @media (max-width: 1023px) {
+    .qtr-hero { background-image: var(--bg-mobile) !important; }
+  }
+  
+  @media (min-width: 1024px) {
+    .qtr-hero { margin-top: 0; }
+  }
+  
+  @media (max-width: 1023px) {
+    .qtr-hero { margin-top: 60px; }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var heroEl = document.getElementById('hero-{{ section.id }}');
+    if (!heroEl) return;
+
+    var bgWomenDesktop = 'url({{ hero_desktop }})';
+    var bgWomenMobile  = 'url({{ hero_mobile }})';
+    var bgMenDesktop   = 'url({{ hero_desktop_men }})';
+    var bgMenMobile    = 'url({{ hero_mobile_men }})';
+
+    function updateHeroBG(dept) {
+      if (dept === 'men') {
+        heroEl.style.setProperty('--bg-desktop', bgMenDesktop);
+        heroEl.style.setProperty('--bg-mobile', bgMenMobile);
+      } else {
+        heroEl.style.setProperty('--bg-desktop', bgWomenDesktop);
+        heroEl.style.setProperty('--bg-mobile', bgWomenMobile);
+      }
+    }
+
+    
+    window.addEventListener('departmentChanged', function(e) {
+      updateHeroBG(e.detail.department);
+    });
+
+    
+    var initial = localStorage.getItem('amirivibes_department') || 'women';
+    updateHeroBG(initial);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Hero Fullscreen",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Women Desktop Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Women Mobile Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop_men",
+      "label": "Men Desktop Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile_men",
+      "label": "Men Mobile Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "fomo_text",
+      "label": "FOMO Badge Text",
+      "default": "🔥 Most loved today"
+    }
+  ],
+  "presets": [
+    { "name": "Hero Fullscreen" }
+  ]
+}
+{% endschema %}

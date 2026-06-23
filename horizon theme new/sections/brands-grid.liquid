@@ -1,0 +1,404 @@
+
+
+<section class="brands-on-amirivibes homepage-section" data-section="featured-brands" data-has-women="true" data-has-men="true">
+  <style>
+    .brands-on-amirivibes {
+      padding: 128px 40px;
+      background: var(--color-bg);
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .brands-on-amirivibes .brands-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    .brands-on-amirivibes .brands-header h2 {
+      font-size: 32px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--color-primary);
+      font-family: var(--font-body);
+      text-transform: capitalize;
+      line-height: 28px;
+      text-align: center;
+    }
+    .brands-on-amirivibes .brands-grid {
+      align-self: stretch;
+      padding: 1px;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .brands-on-amirivibes .brand-item {
+      width: 130px;
+      height: 130px;
+      flex: 0 0 auto;
+      background: white;
+      overflow: hidden;
+      border-radius: 16px;
+      outline: 1px solid var(--color-border);
+      outline-offset: -1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+    .brands-on-amirivibes .brand-item:hover {
+      background: #f9f9f9;
+    }
+    .brands-on-amirivibes .brand-image-container {
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+    .brands-on-amirivibes .brand-image-container img {
+      max-width: 120%;
+      max-height: 120%;
+      object-fit: contain;
+    }
+    .brands-on-amirivibes .brand-name-text {
+      color: var(--color-primary);
+      text-align: center;
+    }
+    
+    
+    .brand-font-hms {
+      font-family: var(--font-serif);
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+    .brand-font-coco {
+      font-family: var(--font-body);
+      text-transform: lowercase;
+      font-weight: 800;
+      font-size: 25px;
+      letter-spacing: -1px;
+    }
+    .brand-font-gyd {
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.5px;
+    }
+    .brand-font-lp {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 32px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .brand-font-dr {
+      font-family: var(--font-serif);
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+    }
+    .brand-font-lvn {
+      font-family: var(--font-serif);
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+    }
+    .brand-font-crt {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 30px;
+      text-transform: capitalize;
+    }
+    .brand-font-msk {
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    .brands-on-amirivibes .show-all-brands-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--color-bg, #faf9f5);
+      background: var(--color-primary, var(--color-primary));
+      border: 1px solid var(--color-primary, var(--color-primary));
+      border-radius: 4px;
+      padding: 12px 32px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-top: 16px;
+    }
+    .brands-on-amirivibes .show-all-brands-btn:hover {
+      background: color-mix(in srgb, var(--color-primary) 85%, black);
+      border-color: color-mix(in srgb, var(--color-primary) 85%, black);
+      color: var(--color-bg, #faf9f5);
+    }
+
+    @media (max-width: 1023px) {
+      .brands-on-amirivibes {
+        padding: 40px 15px;
+        gap: 20px;
+      }
+      .brands-on-amirivibes .brands-header h2 {
+        font-size: 22px;
+      }
+      .brands-on-amirivibes .brands-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .brands-on-amirivibes .brand-item {
+        flex: unset;
+        width: auto;
+        height: auto;
+        aspect-ratio: 1/1;
+        border-radius: 7.48px;
+        outline: none;
+        border: 1px solid #e5e5e5;
+        min-width: 0;
+        max-width: none;
+      }
+      .brand-font-lp { font-size: 26px; }
+      .brand-font-crt { font-size: 24px; }
+      .brand-font-hms, .brand-font-coco, .brand-font-dr, .brand-font-lvn, .brand-font-msk { font-size: 20px; }
+      .brand-font-gyd { font-size: 18px; }
+    }
+    
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .brands-on-amirivibes {
+        padding: 80px 24px;
+      }
+      .brands-on-amirivibes .brands-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+      .brands-on-amirivibes .brand-item {
+        flex: unset;
+        height: auto;
+        aspect-ratio: 1/1;
+        max-width: none;
+      }
+    }
+  </style>
+
+  {%- if section.settings.override_button_style -%}
+    <style>
+      .brands-on-amirivibes .show-all-brands-btn {
+        border-width: {{ section.settings.btn_thickness }}px !important;
+        border-style: solid !important;
+        border-color: color-mix(in srgb, var(--color-primary) {{ section.settings.btn_opacity }}%, transparent) !important;
+        border-radius: {{ section.settings.btn_radius }}px !important;
+        box-shadow: {{ section.settings.btn_shadow_h }}px {{ section.settings.btn_shadow_v }}px {{ section.settings.btn_shadow_blur }}px rgba(0, 0, 0, {{ section.settings.btn_shadow_opacity | divided_by: 100.0 }}) !important;
+      }
+    </style>
+  {%- endif -%}
+
+  <div class="brands-header">
+    <h2>{{ section.settings.title | default: "House Of Brands" }}</h2>
+  </div>
+  
+  <div class="brands-grid">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign col = collections[block.settings.collection_handle]
+          assign brand_name = block.settings.custom_name | default: col.title
+          assign brand_url = block.settings.custom_url | default: col.url | default: "#"
+          assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-'
+        -%}
+        <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
+          <div class="brand-image-container">
+            {%- if col.image != blank -%}
+              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy">
+            {%- else -%}
+              <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- else -%}
+      
+      {%- assign fallback_names = "HMS,coco,GYD,L P,DR,LVN,Crt,MSK" | split: "," -%}
+      {%- assign fallback_handles = "hms,coco,gyd,lp,dr,lvn,crt,msk" | split: "," -%}
+      {%- assign fallback_font_classes = "brand-font-hms,brand-font-coco,brand-font-gyd,brand-font-lp,brand-font-dr,brand-font-lvn,brand-font-crt,brand-font-msk" | split: "," -%}
+      
+      {%- for i in (0..7) -%}
+        <a href="{{ routes.collections_url }}/{{ fallback_handles[i] }}" class="brand-item">
+          <div class="brand-image-container">
+            <span class="brand-name-text {{ fallback_font_classes[i] }}">{{ fallback_names[i] }}</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  {%- assign show_all_link = section.settings.show_all_url | default: "/collections/brands" -%}
+  {%- if show_all_link != blank -%}
+    {%- liquid
+      if request.locale.iso_code == 'ar'
+        assign default_text = "عرض جميع الماركات"
+      else
+        assign default_text = "Show All Brands"
+      endif
+      assign btn_text = section.settings.show_all_text | default: default_text
+    -%}
+    <a href="{{ show_all_link }}" class="show-all-brands-btn">
+      {{ btn_text }}
+    </a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "House Of Brands",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "House Of Brands"
+    },
+    {
+      "type": "text",
+      "id": "show_all_text",
+      "label": "Show All Button Text",
+      "default": "Show All Brands"
+    },
+    {
+      "type": "url",
+      "id": "show_all_url",
+      "label": "Show All Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Button Style Override"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_button_style",
+      "label": "Override global button style",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "btn_thickness",
+      "label": "Border Thickness",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_opacity",
+      "label": "Border Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "label": "Corner Radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_opacity",
+      "label": "Shadow Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_h",
+      "label": "Shadow Horizontal Offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_v",
+      "label": "Shadow Vertical Offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_blur",
+      "label": "Shadow Blur",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 5,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand Link",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection_handle",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "custom_name",
+          "label": "Custom Name (Fallback)"
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom URL (Fallback)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "House Of Brands"
+    }
+  ]
+}
+{% endschema %}
