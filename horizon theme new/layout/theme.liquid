@@ -48,8 +48,10 @@
         --color-drawer-footer-bg: {{ settings.color_drawer_footer_bg }};
         --color-white: {{ settings.color_white }};
 
-        --font-body: 'Canela Text', Georgia, serif;
-        --font-serif: 'Canela Text', Georgia, serif;
+        --font-body: var(--font-body--family), 'Canela Text', Georgia, serif;
+        --font-serif: var(--font-heading--family), 'Canela Text', Georgia, serif;
+        --products-per-row: {{ settings.products_per_row | default: 4 }};
+        --collections-per-row: {{ settings.collections_per_row | default: 3 }};
         --font-size-small: {{ settings.font_size_small }}px;
         --font-size-body-small: {{ settings.font_size_body_small }}px;
         --font-size-body: {{ settings.font_size_body }}px;

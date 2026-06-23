@@ -1062,7 +1062,7 @@ body {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(var(--products-per-row, 4), 1fr);
   background: transparent;
   column-gap: var(--grid-horizontal-space, 24px);
   row-gap: var(--grid-vertical-space, 24px);

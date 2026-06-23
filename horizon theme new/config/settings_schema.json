@@ -1329,6 +1329,24 @@
         "step": 1,
         "unit": "s",
         "default": 5
+      },
+      {
+        "type": "range",
+        "id": "products_per_row",
+        "label": "Products per row (Desktop)",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "collections_per_row",
+        "label": "Collections per row (Desktop)",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
       }
     ]
   },
