@@ -34,6 +34,7 @@
     {%- comment -%} Custom theme CSS variables — editable from Theme Editor {%- endcomment -%}
     <style>
       :root {
+        /* ─── Brand Colors ─── */
         --color-bg: {{ settings.color_bg }};
         --color-text: {{ settings.color_text }};
         --color-primary: {{ settings.color_primary }};
@@ -48,38 +49,31 @@
         --color-drawer-footer-bg: {{ settings.color_drawer_footer_bg }};
         --color-white: {{ settings.color_white }};
 
-        --font-body: var(--font-body--family), 'Canela Text', Georgia, serif;
-        --font-serif: var(--font-heading--family), 'Canela Text', Georgia, serif;
-        --products-per-row: {{ settings.products_per_row | default: 4 }};
-        --collections-per-row: {{ settings.collections_per_row | default: 3 }};
+        /* ─── Font Tokens ─── */
+        --font-body: var(--font-body--family), 'Inter', sans-serif;
+        --font-serif: var(--font-heading--family), 'Inter', sans-serif;
         --font-size-small: {{ settings.font_size_small }}px;
         --font-size-body-small: {{ settings.font_size_body_small }}px;
         --font-size-body: {{ settings.font_size_body }}px;
         --font-size-heading-medium: {{ settings.font_size_heading_medium }}px;
         --font-size-heading-large: {{ settings.font_size_heading_large }}px;
 
+        /* ─── Layout Tokens ─── */
+        --products-per-row: {{ settings.products_per_row | default: 4 }};
+        --collections-per-row: {{ settings.collections_per_row | default: 3 }};
         --radius-card: {{ settings.radius_card }}px;
         --radius-large: {{ settings.radius_large }}px;
         --radius-button: {{ settings.radius_button }}px;
         --page-width: {{ settings.custom_page_width }}px;
         --spacing-sections: {{ settings.spacing_sections }}px;
 
-        /* ─── Horizon Native system bridge ─── */
-        --color-background: var(--color-bg);
-        --color-foreground: var(--color-text);
-        --color-border: var(--color-border);
-        --color-input-border: var(--color-border);
-        --color-primary-button-background: var(--color-primary);
-        --color-primary-button-border: var(--color-primary);
-        --color-primary-button-text: var(--color-white);
-        
+        /* ─── Horizon Style-Variable Bridges ─── */
         --style-border-radius-buttons-primary: var(--radius-button);
         --style-border-radius-buttons-secondary: var(--radius-button);
         --style-border-radius-pills: var(--radius-button);
         --style-border-radius-inputs: var(--radius-button);
         --style-border-radius-popover: var(--radius-large);
         --style-border-radius-drawer: var(--radius-large);
-        
         --font-paragraph--size: var(--font-size-body);
         --font-h1--size: var(--font-size-heading-large);
         --font-h2--size: var(--font-size-heading-medium);
