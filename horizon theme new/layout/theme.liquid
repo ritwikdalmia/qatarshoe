@@ -84,6 +84,23 @@
         --font-h1--size: var(--font-size-heading-large);
         --font-h2--size: var(--font-size-heading-medium);
       }
+
+      /* Card Hover Animations Bridge */
+      {% if settings.card_hover_effect == 'lift' %}
+        .product-card {
+          transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        }
+        .product-card:hover {
+          transform: translateY(-8px) !important;
+        }
+      {% elsif settings.card_hover_effect == 'scale' %}
+        .product-card {
+          transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        }
+        .product-card:hover {
+          transform: scale(1.03) !important;
+        }
+      {% endif %}
     </style>
     {{ 'theme.css' | asset_url | stylesheet_tag }}
 
