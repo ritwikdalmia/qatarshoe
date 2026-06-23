@@ -61,10 +61,12 @@ body {
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: auto;
 }
-.homepage-desktop-header.hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-10px);
+.homepage-desktop-header.hidden,
+#homepage-desktop-header.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-10px) !important;
 }
 
 
@@ -466,9 +468,13 @@ body {
   transition: transform 0.3s ease;
   pointer-events: none;
 }
-.homepage-sticky-wrapper.visible {
-  transform: translateY(0);
-  pointer-events: auto;
+.homepage-sticky-wrapper.visible,
+#homepage-sticky-header.visible {
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  background: var(--color-primary, #8c1638) !important;
 }
 
 
