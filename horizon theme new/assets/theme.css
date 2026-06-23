@@ -623,7 +623,7 @@ body {
 .search-overlay-divider {
   width: 1px;
   height: 24px;
-  background: rgba(0,0,0,0.08);
+  background: var(--color-primary, #8c1638);
   display: block;
 }
 .search-overlay-close {
@@ -1073,7 +1073,7 @@ body {
   display: flex;
   flex-direction: column;
   background: #fff;
-  border: 1.5px solid rgba(45, 31, 31, 0.18);
+  border: 1.5px solid var(--color-primary, #8c1638);
   border-radius: var(--radius-card);
   overflow: hidden;
   text-decoration: none;
@@ -1085,7 +1085,7 @@ body {
 .product-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 24px rgba(45, 31, 31, 0.06);
-  border-color: rgba(45, 31, 31, 0.3);
+  border-color: var(--color-primary, #8c1638);
 }
 
 .product-card-img {
