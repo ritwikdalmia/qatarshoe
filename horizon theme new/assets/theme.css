@@ -605,7 +605,8 @@ body {
   font-size: var(--font-size-body);
   font-family: inherit;
   color: var(--color-primary, #8c1638);
-  background: transparent;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 .search-overlay-clear {
   background: none;
@@ -3004,4 +3005,38 @@ body.template-index .page-content {
               var(--drawer-shadow-vertical-offset, 4px) 
               var(--drawer-shadow-blur, 5px) 
               rgba(0, 0, 0, var(--drawer-shadow-opacity, 0)) !important;
+}
+
+/* Quantity Selector Premium Layout */
+.product-details .quantity-selector,
+.quick-add-modal .quantity-selector,
+.quantity-selector {
+  border: 1.5px solid var(--color-primary, #8c1638) !important;
+  border-radius: 50px !important;
+  background: #fff !important;
+  overflow: hidden;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+.quantity-selector input[type='number'] {
+  border-left: 1.5px solid var(--color-primary, #8c1638) !important;
+  border-right: 1.5px solid var(--color-primary, #8c1638) !important;
+  border-radius: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  padding: 0 10px !important;
+}
+
+.quantity-selector :is(.quantity-minus, .quantity-plus) {
+  color: var(--color-primary, #8c1638) !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
