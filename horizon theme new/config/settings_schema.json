@@ -1321,6 +1321,12 @@
         "default": true
       },
       {
+        "type": "checkbox",
+        "id": "slideshow_enabled_collections",
+        "label": "Enable Image Slideshow on Collection Cards",
+        "default": true
+      },
+      {
         "type": "range",
         "id": "slideshow_interval",
         "label": "Slideshow Interval",

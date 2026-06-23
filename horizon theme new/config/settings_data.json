@@ -129,6 +129,7 @@
     "spacing_sections": 0,
     "slideshow_enabled_homepage": true,
     "slideshow_enabled_products": true,
+    "slideshow_enabled_collections": true,
     "slideshow_interval": 5,
     "brand_headline": "",
     "brand_description": "",
