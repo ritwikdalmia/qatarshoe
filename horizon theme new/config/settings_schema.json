@@ -68,74 +68,10 @@
         }
       },
       {
-        "type": "header",
-        "content": "Theme Primary Colors"
-      },
-      {
-        "type": "color",
-        "id": "color_bg",
-        "label": "Background Color",
-        "default": "#f9f2d5"
-      },
-      {
-        "type": "color",
-        "id": "color_text",
-        "label": "Text Color",
-        "default": "#ffffff"
-      },
-      {
         "type": "color",
         "id": "color_primary",
         "label": "Primary Color",
         "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_accent",
-        "label": "Accent Color",
-        "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_border",
-        "label": "Border Color",
-        "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_muted",
-        "label": "Muted Text Color",
-        "default": "#000000"
-      },
-      {
-        "type": "color",
-        "id": "color_dark_teal",
-        "label": "Dark Teal / Secondary",
-        "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_green",
-        "label": "Success / Green",
-        "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_drawer_bg",
-        "label": "Drawer Background",
-        "default": "#f9f2d5"
-      },
-      {
-        "type": "color",
-        "id": "color_drawer_footer_bg",
-        "label": "Drawer Footer Background",
-        "default": "#f9f2d5"
-      },
-      {
-        "type": "color",
-        "id": "color_white",
-        "label": "White Override",
-        "default": "#ffffff"
       }
     ]
   },

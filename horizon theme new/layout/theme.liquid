@@ -35,19 +35,19 @@
     <style>
       :root {
         /* ─── Brand Colors ─── */
-        --color-bg: {{ settings.color_bg }};
-        --color-text: {{ settings.color_text }};
+        --color-bg: {{ settings.color_palette.background }};
+        --color-text: {{ settings.color_palette.foreground }};
         --color-primary: {{ settings.color_primary }};
-        --color-accent: {{ settings.color_accent }};
-        --color-border: {{ settings.color_border }};
-        --color-border-rgb: {{ settings.color_border | color_extract: 'red' }}, {{ settings.color_border | color_extract: 'green' }}, {{ settings.color_border | color_extract: 'blue' }};
-        --color-input-border: {{ settings.color_border }};
-        --color-muted: {{ settings.color_muted }};
-        --color-dark-teal: {{ settings.color_dark_teal }};
-        --color-green: {{ settings.color_green }};
-        --color-drawer-bg: {{ settings.color_drawer_bg }};
-        --color-drawer-footer-bg: {{ settings.color_drawer_footer_bg }};
-        --color-white: {{ settings.color_white }};
+        --color-accent: {{ settings.color_primary }};
+        --color-border: {{ settings.color_primary }};
+        --color-border-rgb: {{ settings.color_primary | color_extract: 'red' }}, {{ settings.color_primary | color_extract: 'green' }}, {{ settings.color_primary | color_extract: 'blue' }};
+        --color-input-border: {{ settings.color_primary }};
+        --color-muted: {{ settings.color_palette.foreground }};
+        --color-dark-teal: {{ settings.color_primary }};
+        --color-green: {{ settings.color_primary }};
+        --color-drawer-bg: {{ settings.color_palette.background }};
+        --color-drawer-footer-bg: {{ settings.color_palette.background }};
+        --color-white: #ffffff;
 
         /* ─── Font Tokens ─── */
         --font-body: var(--font-body--family), 'Inter', sans-serif;
