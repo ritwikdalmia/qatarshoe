@@ -248,7 +248,7 @@
 
 .overview-card {
   background-color: var(--color-bg, #faf9f5);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -375,7 +375,7 @@
 
 .details-card {
   background: var(--color-bg, #faf9f5);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   border: 1px solid var(--color-border, #e0dcd3);
   padding: 24px;
   margin-bottom: 40px;
@@ -438,7 +438,7 @@
   text-align: center;
   padding: 60px 24px;
   background-color: var(--color-bg, #faf9f5);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   border: 1px dashed var(--color-border, #e0dcd3);
 }
 
@@ -486,7 +486,7 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   border: none;
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-button);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -624,8 +624,8 @@
 }
 
 .address-card {
-  background: var(--color-bg, #faf9f5);
-  border-radius: 8px;
+  background: var(--bg-card, var(--color-bg, #faf9f5));
+  border-radius: var(--radius-card);
   border: 1px solid var(--color-border, #e0dcd3);
   padding: 24px;
   position: relative;
@@ -690,7 +690,7 @@
 
 .address-form-card {
   background: var(--color-white);
-  border-radius: 8px;
+  border-radius: var(--radius-large);
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
@@ -799,7 +799,7 @@
   gap: 24px;
   background-color: var(--color-bg, #faf9f5);
   border: 1px solid var(--color-border, #e0dcd3);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   padding: 24px;
   margin-bottom: 40px;
 }
@@ -824,7 +824,7 @@
 
 .order-items-table {
   border: 1px solid var(--color-border, #e0dcd3);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   overflow: hidden;
   background: var(--color-white);
   margin-bottom: 40px;
@@ -893,7 +893,7 @@
 .order-totals-card {
   background: var(--color-bg, #faf9f5);
   border: 1px solid var(--color-border, #e0dcd3);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   padding: 24px;
   max-width: 440px;
   margin-left: auto;

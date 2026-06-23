@@ -120,7 +120,7 @@
       <a href="{{ routes.root_url }}" class="desktop-header-logo{% if settings.logo != blank or section.settings.logo_image != blank %} logo-circle-layout{% endif %}" aria-label="{{ shop.name }}">
         {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
         {%- if header_logo != blank -%}
-          <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" loading="lazy">
+          <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" loading="lazy" width="200" height="200">
         {%- else -%}
           <span class="logo-text-fallback">{{ section.settings.logo_text | default: shop.name }}</span>
         {%- endif -%}
@@ -616,7 +616,7 @@
         <a href="{{ routes.root_url }}" class="header-logo mobile-header-logo{% if settings.logo != blank or section.settings.logo_image != blank %} logo-circle-layout{% endif %}" aria-label="{{ shop.name }}">
           {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
           {%- if header_logo != blank -%}
-            <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="logo-light" loading="lazy">
+            <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="logo-light" loading="lazy" width="200" height="200">
           {%- else -%}
             <span style="font-family:var(--font-serif);font-size:22px;font-weight:300;color:var(--color-white);">{{ section.settings.logo_text | default: shop.name }}</span>
           {%- endif -%}
@@ -637,7 +637,7 @@
         <a href="{{ routes.root_url }}" class="header-logo{% if settings.logo != blank or section.settings.logo_image != blank %} logo-circle-layout{% endif %}">
           {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
           {%- if header_logo != blank -%}
-            <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="logo-light" loading="lazy">
+            <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="logo-light" loading="lazy" width="200" height="200">
           {%- else -%}
             <span style="font-family:var(--font-serif);font-size:22px;font-weight:300;color:var(--color-white);">{{ section.settings.logo_text | default: shop.name }}</span>
           {%- endif -%}
@@ -1028,7 +1028,9 @@
 
 
 
-<div class="home-search-overlay" id="home-search-overlay" onclick="closeSearch()">
+<div class="home-search-overlay" id="home-search-overlay" onclick="closeSearch()"
+     data-show-vendor="{{ settings.show_search_vendor | default: false }}"
+     data-show-price="{{ settings.show_search_price | default: true }}">
   <div class="home-search-overlay-content" onclick="event.stopPropagation()">
     <div class="search-overlay-header">
       <span class="search-overlay-icon">
@@ -1052,22 +1054,24 @@
     </div>
     
     <div class="search-overlay-body">
-      <div class="search-suggestions" id="search-suggestions">
-        {%- assign suggestion_count = 0 -%}
-        {%- for collection in collections -%}
-          {%- unless collection.handle == 'all' or collection.handle == 'frontpage' -%}
-            {%- if suggestion_count < 3 -%}
-              <button class="suggestion-tag" onclick="useSuggestionTag('{{ collection.title | escape }}')">{{ collection.title }}</button>
-              {%- assign suggestion_count = suggestion_count | plus: 1 -%}
-            {%- endif -%}
-          {%- endunless -%}
-        {%- endfor -%}
-        {%- if suggestion_count == 0 -%}
-          <button class="suggestion-tag" onclick="useSuggestionTag('bags')">bags</button>
-          <button class="suggestion-tag" onclick="useSuggestionTag('shoes')">shoes</button>
-          <button class="suggestion-tag" onclick="useSuggestionTag('boots')">boots</button>
-        {%- endif -%}
-      </div>
+      {%- if settings.enable_search_suggestions -%}
+        <div class="search-suggestions" id="search-suggestions">
+          {%- assign suggestion_count = 0 -%}
+          {%- for collection in collections -%}
+            {%- unless collection.handle == 'all' or collection.handle == 'frontpage' -%}
+              {%- if suggestion_count < 3 -%}
+                <button class="suggestion-tag" onclick="useSuggestionTag('{{ collection.title | escape }}')">{{ collection.title }}</button>
+                {%- assign suggestion_count = suggestion_count | plus: 1 -%}
+              {%- endif -%}
+            {%- endunless -%}
+          {%- endfor -%}
+          {%- if suggestion_count == 0 -%}
+            <button class="suggestion-tag" onclick="useSuggestionTag('bags')">bags</button>
+            <button class="suggestion-tag" onclick="useSuggestionTag('shoes')">shoes</button>
+            <button class="suggestion-tag" onclick="useSuggestionTag('boots')">boots</button>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
       
       <div class="search-overlay-results-wrap" id="search-results-wrap" style="display:none;">
         <div id="collections-results-wrap" style="margin-bottom: 24px; display: none;">
@@ -1638,6 +1642,10 @@
           // Render Products
           if (products && products.length > 0) {
             let html = '';
+            const searchOverlayEl = document.getElementById('home-search-overlay');
+            const showVendor = searchOverlayEl ? searchOverlayEl.getAttribute('data-show-vendor') === 'true' : false;
+            const showPrice = searchOverlayEl ? searchOverlayEl.getAttribute('data-show-price') === 'true' : true;
+
             products.forEach(prod => {
               const priceFormatted = formatQarPrice(prod.price);
               const comparePriceFormatted = prod.compare_at_price ? formatQarPrice(prod.compare_at_price) : '';
@@ -1648,16 +1656,29 @@
                 imgUrl = typeof prod.featured_image === 'string' ? prod.featured_image : (prod.featured_image.url || prod.featured_image.src || imgUrl);
               }
               
+              let vendorHtml = '';
+              if (showVendor && prod.vendor) {
+                vendorHtml = `<div class="src-vendor">${prod.vendor}</div>`;
+              }
+
+              let priceHtml = '';
+              if (showPrice && prod.price) {
+                priceHtml = `
+                  <div class="src-price-group">
+                    ${comparePriceFormatted ? `<span class="src-compare-price">${comparePriceFormatted}</span>` : ''}
+                    <span class="src-price">${priceFormatted}</span>
+                  </div>
+                `;
+              }
+
               html += `
                 <a href="${prod.url}" class="search-result-card">
                   <div class="src-img-wrap">
                     <img src="${imgUrl}" alt="${prod.title}" loading="lazy" onerror="this.onerror=null; this.src='https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_600x.png';">
                   </div>
+                  ${vendorHtml}
                   <div class="src-title">${prod.title}</div>
-                  <div class="src-price-group">
-                    ${comparePriceFormatted ? `<span class="src-compare-price">${comparePriceFormatted}</span>` : ''}
-                    <span class="src-price">${priceFormatted}</span>
-                  </div>
+                  ${priceHtml}
                 </a>
               `;
             });
@@ -1982,12 +2003,37 @@
       var rate = FALLBACK_RATES[currency] || 1.0;
       val = val * rate;
       
-      symbol = window.CURRENCY_SYMBOLS[currency] || currency;
+      const showCurrencyCodes = document.getElementById('side-drawer')?.getAttribute('data-show-currency-codes') === 'true';
+      if (showCurrencyCodes) {
+        symbol = currency;
+      } else {
+        symbol = window.CURRENCY_SYMBOLS[currency] || currency;
+      }
       
       return symbol + ' ' + val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
     window.openSideDrawer = function(type, noLoading) {
+      if (type === 'cart') {
+        const cartType = document.getElementById('side-drawer')?.getAttribute('data-cart-type') || 'drawer';
+        if (cartType === 'page') {
+          window.location.href = '/cart';
+          return;
+        } else if (cartType === 'notification') {
+          fetch('/cart.js')
+            .then(function(r) { return r.json(); })
+            .then(function(cart) {
+              updateCartBadge(cart.item_count);
+              if (window.showToastAlert) {
+                window.showToastAlert('Item added to cart!');
+              } else {
+                alert('Item added to cart!');
+              }
+            });
+          return;
+        }
+      }
+
       drawer.classList.add('active');
       overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -2039,21 +2085,29 @@
           footerEl.innerHTML = '';
         }
 
+        const showVendor = document.getElementById('side-drawer')?.getAttribute('data-show-vendor') === 'true';
+        const showNote = document.getElementById('side-drawer')?.getAttribute('data-show-note') === 'true';
+
         fetch('/cart.js')
           .then(function(r) { return r.json(); })
           .then(function(cart) {
             updateCartBadge(cart.item_count);
             if (cart.items.length === 0) {
-              bodyEl.innerHTML = `
-                <div class="empty-drawer-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; color:#888; gap:16px; text-align:center;">
-                  <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.2" fill="none" style="opacity:0.6;">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                    <line x1="3" y1="6" x2="21" y2="6"/>
-                    <path d="M16 10a4 4 0 0 1-8 0"/>
-                  </svg>
-                  <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your cart is empty.</span>
-                </div>
-              `;
+              const templateEl = document.getElementById('drawer-empty-collection-template');
+              if (templateEl) {
+                bodyEl.innerHTML = templateEl.innerHTML;
+              } else {
+                bodyEl.innerHTML = `
+                  <div class="empty-drawer-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; color:#888; gap:16px; text-align:center;">
+                    <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.2" fill="none" style="opacity:0.6;">
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                      <line x1="3" y1="6" x2="21" y2="6"/>
+                      <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your cart is empty.</span>
+                  </div>
+                `;
+              }
               footerEl.innerHTML = '';
             } else {
               var html = '';
@@ -2063,6 +2117,7 @@
                     <img src="${item.image}" class="drawer-item-img">
                     <div class="drawer-item-info">
                       <div>
+                        ${showVendor && item.vendor ? `<div style="font-size: 10px; text-transform: uppercase; color: #888; letter-spacing: 0.05em; margin-bottom: 2px;">${item.vendor}</div>` : ''}
                         <div class="drawer-item-title">${item.product_title}</div>
                         ${item.variant_title ? `<div style="font-size: 11px; color: #888;">${item.variant_title}</div>` : ''}
                         <div class="drawer-item-price">${formatStorePrice(item.price, curCurrency)}</div>
@@ -2080,12 +2135,37 @@
                 `;
               });
               bodyEl.innerHTML = html;
+
+              window.proceedToCheckout = function(e) {
+                e.preventDefault();
+                const noteEl = document.getElementById('drawer-cart-note');
+                if (noteEl) {
+                  const noteVal = noteEl.value;
+                  fetch('/cart/update.js', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ note: noteVal })
+                  }).then(function() {
+                    window.location.href = '/checkout';
+                  }).catch(function() {
+                    window.location.href = '/checkout';
+                  });
+                } else {
+                  window.location.href = '/checkout';
+                }
+              };
+
               footerEl.innerHTML = `
+                ${showNote ? `
+                  <div class="drawer-note-wrap" style="padding: 12px 0;">
+                    <textarea id="drawer-cart-note" placeholder="Add order note..." style="width: 100%; min-height: 50px; padding: 8px; border-radius: var(--radius-card); border: 1px solid var(--color-border); font-size: 11px; resize: vertical; outline: none;">${cart.note || ''}</textarea>
+                  </div>
+                ` : ''}
                 <div class="total-row">
                   <span>Subtotal</span>
                   <span>${formatStorePrice(cart.total_price, curCurrency)}</span>
                 </div>
-                <button class="checkout-btn" onclick="window.location.href='/checkout'">Proceed to Checkout</button>
+                <button class="checkout-btn" onclick="window.proceedToCheckout(event)">Proceed to Checkout</button>
               `;
             }
           });
@@ -2360,13 +2440,41 @@
 
 
 <div class="side-drawer-overlay" id="side-drawer-overlay"></div>
-<div class="side-drawer" id="side-drawer">
+<div class="side-drawer" id="side-drawer"
+     data-cart-type="{{ settings.cart_type | default: 'drawer' }}"
+     data-show-vendor="{{ settings.show_cart_vendor | default: false }}"
+     data-show-note="{{ settings.show_cart_note | default: false }}"
+     data-show-currency-codes="{{ settings.show_currency_codes | default: false }}">
   <div class="side-drawer-header">
     <h2 id="side-drawer-title">Shopping Cart</h2>
     <button class="side-drawer-close" id="side-drawer-close-btn">&times;</button>
   </div>
   <div class="side-drawer-body" id="side-drawer-body"></div>
   <div class="side-drawer-footer" id="side-drawer-footer"></div>
+  {%- if settings.empty_cart_collection != blank -%}
+    {%- assign empty_collection = collections[settings.empty_cart_collection] -%}
+    {%- if empty_collection and empty_collection.products.size > 0 -%}
+      <div id="drawer-empty-collection-template" style="display: none;">
+        <div class="empty-drawer-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px 20px 10px 20px; color:#888; gap:12px; text-align:center;">
+          <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your cart is empty.</span>
+        </div>
+        <div class="empty-cart-featured" style="padding: 0 20px 20px 20px;">
+          <h4 style="font-family: var(--font-serif); font-size: 16px; font-weight: 300; margin-bottom: 12px; color: var(--color-primary);">{% if request.locale.iso_code == 'ar' %}المنتجات المقترحة{% else %}Featured Items{% endif %}</h4>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+            {%- for product in empty_collection.products limit: 4 -%}
+              <a href="{{ product.url }}" class="empty-cart-prod-card" style="text-decoration: none; color: inherit; display: block; text-align: center;">
+                <div style="aspect-ratio: 1; border-radius: var(--radius-card); overflow: hidden; background: #fafafa; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 6px;">
+                  <img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title | escape }}" loading="lazy" width="200" height="200" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div style="font-size: 11px; font-weight: 600; color: var(--color-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ product.title }}</div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--color-primary);">{{ product.price | money }}</div>
+              </a>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
 </div>
 
 <style>

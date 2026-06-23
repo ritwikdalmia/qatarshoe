@@ -1,7 +1,11 @@
 {%- style -%}
   /* Info section shared styles */
   .pp-content {
-    padding: 24px 150px;
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+    padding: 24px var(--grid-horizontal-space, 40px);
+    width: 100%;
+    box-sizing: border-box;
     background: var(--color-bg);
     display: flex;
     flex-direction: column;
@@ -15,7 +19,7 @@
   }
 
   .pp-block-title {
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-body);
     font-size: 20px;
     font-weight: 400;
     line-height: 100%;
@@ -37,11 +41,11 @@
   }
 
   .pp-block-intro {
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-body);
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
-    color: #000000;
+    color: var(--color-text);
     margin: 0;
   }
 
@@ -49,11 +53,11 @@
     margin: 0;
     padding-inline-start: 40px;
     list-style: none;
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-body);
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
-    color: #000000;
+    color: var(--color-text);
   }
 
   .pp-block-bullets li {
@@ -69,7 +73,7 @@
     top: 9px;
     width: 6px;
     height: 6px;
-    background: #000000;
+    background: var(--color-text);
     border-radius: 50%;
   }
 
@@ -83,7 +87,11 @@
 
   /* Returns specific styles */
   .rr-hero {
-      padding: 24px 150px 12px;
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px) 12px;
+      width: 100%;
+      box-sizing: border-box;
       background: var(--color-bg);
       display: flex;
       flex-direction: column;
@@ -105,13 +113,17 @@
       font-family: var(--font-body);
       font-size: 16px;
       font-weight: 400;
-      color: #000000;
+      color: var(--color-text);
       margin: 0;
       line-height: 1.5;
   }
 
   .rr-eligibility {
-      padding: 24px 150px;
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
       background: var(--color-bg);
       display: flex;
       flex-direction: column;
@@ -208,13 +220,17 @@
       font-family: var(--font-body);
       font-size: 16px;
       font-weight: 400;
-      color: #000000;
+      color: var(--color-text);
       margin: 0;
       line-height: 1.6;
   }
 
   .rr-sides {
-      padding: 24px 150px;
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
       background: var(--color-bg);
       display: flex;
       gap: 24px;
@@ -243,7 +259,7 @@
       font-family: var(--font-body);
       font-size: 16px;
       font-weight: 400;
-      color: #000000;
+      color: var(--color-text);
       margin: 0;
       text-align: center;
       line-height: 1.6;
@@ -285,12 +301,16 @@
       font-family: var(--font-body);
       font-size: 16px;
       font-weight: 400;
-      color: #000000;
+      color: var(--color-text);
       line-height: 1.6;
   }
 
   .rr-non-returnable {
-      padding: 24px 150px;
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
       background: var(--color-bg);
       display: flex;
       flex-direction: column;
@@ -349,7 +369,11 @@
   }
 
   .rr-refund {
-      padding: 24px 150px;
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
       background: var(--color-bg);
       display: flex;
       flex-direction: column;
@@ -376,18 +400,20 @@
   }
 
   .rr-refund-text {
-      font-family: "Inter", sans-serif;
+      font-family: var(--font-body);
       font-size: 15px;
       font-weight: 400;
-      color: #000000;
+      color: var(--color-text);
       margin: 0;
       line-height: 1.6;
   }
 
   /* Contact form on the Returns page */
   .contact-form-section {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
       background: var(--color-bg);
-      padding: 24px 150px;
+      padding: 24px var(--grid-horizontal-space, 40px);
       position: relative;
       width: 100%;
       box-sizing: border-box;
@@ -400,7 +426,7 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: #e5e5e5;
+      background: var(--color-border);
   }
 
   .contact-form-inner {
@@ -430,7 +456,7 @@
   .contact-form-intro p {
       font-family: var(--font-body);
       font-size: 16px;
-      color: #000000;
+      color: var(--color-text);
       margin: 0;
   }
 
@@ -445,7 +471,7 @@
       font-family: var(--font-body);
       font-size: 14px;
       line-height: 1.6;
-      color: #000000;
+      color: var(--color-text);
       margin-bottom: 24px;
   }
 
@@ -497,9 +523,9 @@
   .contact-form-wrapper textarea {
       width: 100%;
       background: var(--color-bg);
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 6px;
-      color: #000000;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-button, 6px);
+      color: var(--color-text);
       font-family: var(--font-body);
       font-size: 14px;
       box-sizing: border-box;
@@ -547,9 +573,9 @@
       margin: 12px 0 0;
       padding: 14px 18px;
       font-size: 14px;
-      border-radius: 4px;
-      color: #000000;
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-card, 4px);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
   }
 
   .wpcf7-response-output.sent {

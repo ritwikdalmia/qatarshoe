@@ -313,7 +313,7 @@
 }
 
 .site-footer-copyright-text {
-    font-family: Georgia, 'Canela Text', serif;
+    font-family: var(--font-serif);
     font-size: 13px;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.65);
@@ -511,7 +511,7 @@
         <div class="site-footer-brand-col">
             {%- assign brand_logo = settings.brand_image | default: settings.logo | default: section.settings.logo_image -%}
             {%- if brand_logo != blank -%}
-                <img src="{{ brand_logo | image_url: width: settings.brand_image_width | default: 240 }}" class="footer-logo" alt="{{ shop.name }}" loading="lazy" style="max-width: {{ settings.brand_image_width | default: 240 }}px; width: 100%; height: auto;">
+                <img src="{{ brand_logo | image_url: width: settings.brand_image_width | default: 240 }}" class="footer-logo" alt="{{ shop.name }}" loading="lazy" width="{{ settings.brand_image_width | default: 240 }}" height="{{ settings.brand_image_width | default: 240 }}" style="max-width: {{ settings.brand_image_width | default: 240 }}px; width: 100%; height: auto;">
             {%- elsif settings.brand_headline != blank -%}
                 <h3 class="footer-brand-title">{{ settings.brand_headline }}</h3>
             {%- else -%}

@@ -99,12 +99,8 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         --grid-horizontal-space: {{ settings.grid_horizontal_space | default: 8 }}px;
         --grid-vertical-space: {{ settings.grid_vertical_space | default: 8 }}px;
 
-        {%- if settings.font_body != blank -%}
-        --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
-        {%- endif -%}
-        {%- if settings.font_heading != blank -%}
-        --font-serif: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
-        {%- endif -%}
+        --font-body: {% if settings.font_body != blank %}{{ settings.font_body.family }}, {{ settings.font_body.fallback_families }}{% else %}'Inter', sans-serif{% endif %};
+        --font-serif: {% if settings.font_heading != blank %}{{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }}{% else %}'Canela Text', Georgia, serif{% endif %};
 
         /* Buttons Settings */
         --btn-border-thickness: {{ settings.btn_border_thickness | default: 1 }}px;
@@ -136,7 +132,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         /* Product Cards Settings */
         --card-border-thickness: {{ settings.card_border_thickness | default: 0 }}px;
         --card-border-opacity: {{ settings.card_border_opacity | default: 10 | divided_by: 100.0 }};
-        --card-corner-radius: {{ settings.card_corner_radius | default: 0 }}px;
+        --card-corner-radius: {{ settings.card_corner_radius | default: settings.radius_card | default: 12 }}px;
         --card-shadow-opacity: {{ settings.card_shadow_opacity | default: 0 | divided_by: 100.0 }};
         --card-shadow-horizontal-offset: {{ settings.card_shadow_horizontal_offset | default: 0 }}px;
         --card-shadow-vertical-offset: {{ settings.card_shadow_vertical_offset | default: 4 }}px;
@@ -145,7 +141,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         /* Collection Cards Settings */
         --col-card-border-thickness: {{ settings.col_card_border_thickness | default: 0 }}px;
         --col-card-border-opacity: {{ settings.col_card_border_opacity | default: 10 | divided_by: 100.0 }};
-        --col-card-corner-radius: {{ settings.col_card_corner_radius | default: 14 }}px;
+        --col-card-corner-radius: {{ settings.col_card_corner_radius | default: settings.radius_card | default: 14 }}px;
         --col-card-shadow-opacity: {{ settings.col_card_shadow_opacity | default: 0 | divided_by: 100.0 }};
         --col-card-shadow-horizontal-offset: {{ settings.col_card_shadow_horizontal_offset | default: 0 }}px;
         --col-card-shadow-vertical-offset: {{ settings.col_card_shadow_vertical_offset | default: 4 }}px;
@@ -157,7 +153,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         --blog-card-text-alignment: {{ settings.blog_card_text_alignment | default: 'left' }};
         --blog-card-border-thickness: {{ settings.blog_card_border_thickness | default: 0 }}px;
         --blog-card-border-opacity: {{ settings.blog_card_border_opacity | default: 10 | divided_by: 100.0 }};
-        --blog-card-corner-radius: {{ settings.blog_card_corner_radius | default: 0 }}px;
+        --blog-card-corner-radius: {{ settings.blog_card_corner_radius | default: settings.radius_card | default: 0 }}px;
         --blog-card-shadow-opacity: {{ settings.blog_card_shadow_opacity | default: 0 | divided_by: 100.0 }};
         --blog-card-shadow-horizontal-offset: {{ settings.blog_card_shadow_horizontal_offset | default: 0 }}px;
         --blog-card-shadow-vertical-offset: {{ settings.blog_card_shadow_vertical_offset | default: 4 }}px;
@@ -166,7 +162,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         /* Media Settings */
         --media-border-thickness: {{ settings.media_border_thickness | default: 1 }}px;
         --media-border-opacity: {{ settings.media_border_opacity | default: 5 | divided_by: 100.0 }};
-        --media-corner-radius: {{ settings.media_corner_radius | default: 0 }}px;
+        --media-corner-radius: {{ settings.media_corner_radius | default: settings.radius_card | default: 0 }}px;
         --media-shadow-opacity: {{ settings.media_shadow_opacity | default: 0 | divided_by: 100.0 }};
         --media-shadow-horizontal-offset: {{ settings.media_shadow_horizontal_offset | default: 0 }}px;
         --media-shadow-vertical-offset: {{ settings.media_shadow_vertical_offset | default: 4 }}px;
@@ -175,7 +171,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         /* Content Containers Settings */
         --container-border-thickness: {{ settings.container_border_thickness | default: 0 }}px;
         --container-border-opacity: {{ settings.container_border_opacity | default: 10 | divided_by: 100.0 }};
-        --container-corner-radius: {{ settings.container_corner_radius | default: 0 }}px;
+        --container-corner-radius: {{ settings.container_corner_radius | default: settings.radius_card | default: 0 }}px;
         --container-shadow-opacity: {{ settings.container_shadow_opacity | default: 0 | divided_by: 100.0 }};
         --container-shadow-horizontal-offset: {{ settings.container_shadow_horizontal_offset | default: 0 }}px;
         --container-shadow-vertical-offset: {{ settings.container_shadow_vertical_offset | default: 4 }}px;
@@ -184,7 +180,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
         /* Dropdowns and Pop-ups Settings */
         --popup-border-thickness: {{ settings.popup_border_thickness | default: 1 }}px;
         --popup-border-opacity: {{ settings.popup_border_opacity | default: 10 | divided_by: 100.0 }};
-        --popup-corner-radius: {{ settings.popup_corner_radius | default: 0 }}px;
+        --popup-corner-radius: {{ settings.popup_corner_radius | default: settings.radius_large | default: 0 }}px;
         --popup-shadow-opacity: {{ settings.popup_shadow_opacity | default: 5 | divided_by: 100.0 }};
         --popup-shadow-horizontal-offset: {{ settings.popup_shadow_horizontal_offset | default: 0 }}px;
         --popup-shadow-vertical-offset: {{ settings.popup_shadow_vertical_offset | default: 4 }}px;
@@ -281,7 +277,7 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       /* Home page section borders - use primary color */
       .section-heading-row {
         border: 1.5px solid var(--color-primary) !important;
-        border-radius: 12px !important;
+        border-radius: var(--radius-card) !important;
         margin-bottom: 20px !important;
       }
       .brands-on-amirivibes .brand-item {
@@ -1174,7 +1170,18 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
             '.testimonial-section',
             '.image-with-text',
             '.luxury-showcase',
-            '.above-footer-banner'
+            '.above-footer-banner',
+            '.collection-card',
+            '.sitemap-card',
+            '.overview-card',
+            '.details-card',
+            '.address-card',
+            '.pp-sidebar-nav',
+            '.pp-content',
+            '.contact-form-wrapper',
+            '.faq-section',
+            '.order-meta-grid',
+            '.order-items-table'
           ];
 
           selectors.forEach(selector => {
@@ -1206,6 +1213,11 @@ All rights reserved. Unauthorized duplication or distribution is prohibited.
       } else {
         initScrollReveal();
       }
+
+      // Re-initialize scroll reveal in the Shopify theme editor when sections are added/updated
+      document.addEventListener('shopify:section:load', function() {
+        initScrollReveal();
+      });
     </script>
   </body>
 </html>

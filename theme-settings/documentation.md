@@ -16,7 +16,10 @@ Welcome to the custom theme documentation for the **Qatar Shoes** Shopify Theme.
 8. [Inputs Customizer Settings](#8-inputs-customizer-settings)
 9. [Product Cards Customizer Settings](#9-product-cards-customizer-settings)
 10. [Collection Cards Customizer Settings](#10-collection-cards-customizer-settings)
-11. [Section-Level Design Overrides](#11-section-level-design-overrides)
+11. [Search Behavior Settings](#11-search-behavior-settings)
+12. [Currency Format Settings](#12-currency-format-settings)
+13. [Cart & Drawer Settings](#13-cart--drawer-settings)
+14. [Section-Level Design Overrides](#14-section-level-design-overrides)
 
 ---
 
@@ -142,6 +145,38 @@ Adjust visual parameters for category preview blocks on collection list director
 
 ---
 
-## 11. Section-Level Design Overrides
+## 11. Search Behavior Settings
+
+Controls how search overlay and predictive search results act and display on the storefront:
+
+- **Search suggestions**: Enable/disable search query recommendation tags when the search overlay is loaded.
+- **Product vendor**: Show or hide the brand/vendor metadata on product cards in search query results.
+- **Product price**: Toggle the visibility of product prices in the predictive search results menu.
+
+---
+
+## 12. Currency Format Settings
+
+Allows configurations regarding store prices display:
+
+- **Currency codes**: If checked, cart and checkout prices will always append and display currency codes (e.g. `QAR`) in place of symbols (`ر.ق` or `$`) for explicit transparency.
+
+---
+
+## 13. Cart & Drawer Settings
+
+Granularly controls the merchant's checkout and shopping cart drawer layout:
+
+- **Type**:
+  - `Drawer`: Opens a modern right-side sliding drawer overlay containing cart item updates.
+  - `Page`: Disables drawer overlay and redirects users directly to `/cart` upon clicks.
+  - `Popup notification`: Keeps users on the same page and triggers a clean toast popup banner confirming the item addition.
+- **Vendor**: Toggles the display of vendor/brand name labels for items inside the cart drawer.
+- **Cart note**: Toggles an order instructions note textarea in the cart drawer. Updates are stored dynamically via AJAX when checkout is triggered.
+- **Collection recommendation**: Displays a product recommendation grid (up to 4 products) from a custom collection of choice when the cart drawer is empty.
+
+---
+
+## 14. Section-Level Design Overrides
 
 While settings are globally configured in **Theme Settings**, sections (such as Header, Footer, and Above Footer Banner) allow local design overrides (e.g. customized logo text alignment, custom menus, text/image combinations, and brand sizing offsets) to achieve tailored custom layouts on specific templates.

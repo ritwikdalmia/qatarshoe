@@ -1272,5 +1272,80 @@
         "default": "https://vimeo.com/shopify"
       }
     ]
+  },
+  {
+    "name": "Search behavior",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_search_suggestions",
+        "label": "Search suggestions",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search_vendor",
+        "label": "Product vendor",
+        "info": "Shown when search suggestions enabled",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search_price",
+        "label": "Product price",
+        "info": "Shown when search suggestions enabled",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Currency format",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_currency_codes",
+        "label": "Currency codes",
+        "info": "Cart and checkout prices always show currency codes",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Type",
+        "options": [
+          { "value": "drawer", "label": "Drawer" },
+          { "value": "page", "label": "Page" },
+          { "value": "notification", "label": "Popup notification" }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_cart_vendor",
+        "label": "Vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_cart_note",
+        "label": "Cart note",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Cart drawer"
+      },
+      {
+        "type": "collection",
+        "id": "empty_cart_collection",
+        "label": "Collection",
+        "info": "Shown when cart drawer is empty"
+      }
+    ]
   }
 ]
