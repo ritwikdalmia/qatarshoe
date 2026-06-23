@@ -1,0 +1,905 @@
+{%- style -%}
+  body.customer-care-page-body {
+    background: var(--color-bg);
+  }
+
+  .cc-page {
+    padding: 24px 150px 48px;
+    background: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cc-page > section + section {
+    position: relative;
+    padding-top: 97.5px;
+    margin-top: 96px;
+  }
+
+  .cc-page > section + section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150px;
+    right: -150px;
+    height: 1px;
+    background: #e5e5e5;
+  }
+
+  .cc-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .cc-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cc-hero-title {
+    font-family: "Inter", sans-serif;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: var(--color-primary);
+    margin: 0;
+    text-transform: none;
+  }
+
+  .cc-hero-subtitle {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 150%;
+    color: rgba(45, 31, 31, 0.7);
+    margin: 0;
+    padding: 16px;
+    background: var(--color-bg);
+  }
+
+  .cc-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .cc-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .cc-feature-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cc-feature-icon > svg {
+    display: block;
+  }
+
+  .cc-feature-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cc-feature-title {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -2%;
+    color: #000000;
+    margin: 0;
+  }
+
+  .cc-feature-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0;
+    color: var(--color-primary);
+    margin: 0;
+  }
+
+  .cc-quick-help {
+    display: grid;
+    grid-template-columns: minmax(0, 434px) 1fr;
+    gap: 76px;
+    align-items: start;
+  }
+
+  .cc-quick-help-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 16px;
+  }
+
+  .cc-quick-help-title {
+    font-family: "Inter", sans-serif;
+    font-size: 38px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--color-primary);
+    margin: 0;
+    text-transform: none;
+  }
+
+  .cc-quick-help-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    color: #000000;
+    margin: 0;
+  }
+
+  .cc-quick-help-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 64px;
+  }
+
+  .cc-quick-help-card {
+    display: flex;
+    flex-direction: column;
+    margin-top: 23.5px;
+  }
+
+  .cc-quick-help-card-title {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -2%;
+    color: #000000;
+    margin: 0;
+  }
+
+  .cc-quick-help-card-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0;
+    color: #000000;
+    margin: 8px 0 0;
+  }
+
+  .cc-quick-help-card-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 32px;
+    height: 48px;
+    padding: 0 24px;
+    background: #fff;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    border-radius: 900px;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: 0;
+    text-transform: none;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .cc-quick-help-card-btn:hover {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .cc-commitment {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .cc-commitment-label {
+    font-family: "Inter", sans-serif;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: 0;
+    color: var(--color-primary);
+    margin: 0;
+    text-transform: none;
+  }
+
+  .cc-commitment-text {
+    font-family: "Inter", sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 136%;
+    letter-spacing: 0;
+    color: var(--color-primary);
+    margin: 0;
+    max-width: 1085px;
+    text-transform: none;
+  }
+
+  /* Form partial styling */
+  .contact-form-section {
+      background: var(--color-bg);
+      padding: 24px 150px;
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .contact-form-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e5e5e5;
+  }
+
+  .contact-form-inner {
+      max-width: 1620px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 80px;
+  }
+
+  .contact-form-intro {
+      flex: 0 0 488px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-intro h2 {
+      font-family: var(--font-body);
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 100%;
+      margin: 0;
+      color: var(--color-primary);
+  }
+
+  .contact-form-intro p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: #000000;
+      margin: 0;
+  }
+
+  .contact-form-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-wrapper form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 12px;
+  }
+
+  .contact-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+  }
+
+  .contact-field-group.full-width {
+      grid-column: 1 / -1;
+  }
+
+  .contact-field-group label {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-primary);
+      margin: 0;
+  }
+
+  .contact-field-group label .required {
+      color: #FF0000;
+      margin-left: 2px;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"],
+  .contact-form-wrapper textarea {
+      width: 100%;
+      background: var(--color-bg);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      color: #000000;
+      font-family: var(--font-body);
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"] {
+      height: 44px;
+      padding: 0 12px;
+  }
+
+  .contact-form-wrapper textarea {
+      height: 108px;
+      padding: 12px;
+      resize: vertical;
+  }
+
+  .contact-submit-custom {
+      width: 100%;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      border-radius: 900px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+  }
+
+  .contact-submit-custom:hover {
+      background: var(--color-primary);
+      color: var(--color-bg);
+  }
+
+  .wpcf7-response-output {
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid;
+      border-radius: 4px;
+  }
+
+  .wpcf7-response-output.sent {
+      border-color: #28a745;
+      color: #1e7a35;
+      background-color: rgba(40, 167, 69, 0.05);
+  }
+
+  .wpcf7-response-output.invalid {
+      border-color: #d93b3d;
+      color: #b1282a;
+      background-color: rgba(217, 59, 61, 0.05);
+  }
+
+  @media (max-width: 1023px) {
+    .cc-page {
+      padding: 24px 40px 32px;
+    }
+    .contact-form-section {
+      padding: 64px 40px;
+    }
+
+    .cc-page > section + section {
+      padding-top: 64px;
+      margin-top: 64px;
+    }
+
+    .cc-page > section + section::before {
+      left: -40px;
+      right: -40px;
+    }
+
+    .cc-hero-title,
+    .cc-quick-help-title,
+    .contact-form-intro h2 {
+      font-size: 48px;
+    }
+
+    .cc-intro {
+      gap: 48px;
+    }
+
+    .cc-features {
+      gap: 40px 48px;
+    }
+
+    .cc-quick-help {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .cc-commitment-text {
+      font-size: 24px;
+    }
+
+    .contact-form-inner {
+        gap: 80px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .cc-page {
+      padding: 24px 24px 24px;
+    }
+    .contact-form-section {
+      padding: 48px 24px;
+    }
+
+    .cc-page > section + section {
+      padding-top: 48px;
+      margin-top: 48px;
+    }
+
+    .cc-page > section + section::before {
+      left: -24px;
+      right: -24px;
+    }
+
+    .cc-hero {
+      gap: 20px;
+    }
+
+    .cc-hero-title,
+    .cc-quick-help-title,
+    .contact-form-intro h2 {
+      font-size: 32px;
+    }
+
+    .cc-intro {
+      gap: 32px;
+    }
+
+    .cc-features {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .cc-feature {
+      gap: 24px;
+    }
+
+    .cc-feature-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .cc-quick-help {
+      gap: 32px;
+    }
+
+    .cc-quick-help-cards {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .cc-quick-help-card {
+      margin-top: 0;
+    }
+
+    .cc-quick-help-card + .cc-quick-help-card {
+      position: relative;
+      margin-top: 32px;
+      padding-top: 32px;
+    }
+
+    .cc-quick-help-card + .cc-quick-help-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -24px;
+      right: -24px;
+      height: 1px;
+      background: #E5E5E5;
+    }
+
+    .cc-commitment {
+      gap: 24px;
+    }
+
+    .cc-commitment-label {
+      font-size: 32px;
+      line-height: 100%;
+    }
+
+    .cc-commitment-text {
+      font-size: 16px;
+    }
+
+    .cc-hero-subtitle {
+      font-size: 12px;
+    }
+
+    .contact-form-inner {
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .contact-form-intro {
+        flex: none;
+        width: 100%;
+    }
+
+    .contact-form-intro h2 {
+        font-size: 32px;
+        line-height: 100%;
+    }
+
+    .contact-form-intro-text p {
+        font-size: 13.5px;
+        line-height: 150%;
+    }
+
+    .contact-form-wrapper {
+        flex: none;
+        width: 100%;
+    }
+
+    .contact-form-wrapper form {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .contact-form-wrapper form span.full-width {
+        grid-column: 1;
+    }
+
+    .contact-form-wrapper textarea {
+        height: 132px;
+    }
+
+    .contact-submit-custom {
+        width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<script>
+  // Add body class for Customer Care page
+  document.body.classList.add('customer-care-page-body');
+</script>
+
+<main class="cc-page">
+    <!-- Section 1 — Hero (title + gray description box) + Feature grid -->
+    <section class="cc-intro">
+        <header class="cc-hero">
+            <h1 class="cc-hero-title">{{ section.settings.heading | default: page.title }}</h1>
+            <p class="cc-hero-subtitle">{{ section.settings.subheading | default: "Our customer care team is dedicated to providing clear, reliable, and responsive support at every stage of your shopping experience. Whether you have a question before placing an order or need assistance after delivery, we're here to help." }}</p>
+        </header>
+
+        <div class="cc-features">
+            <!-- Feature 1 -->
+            <div class="cc-feature">
+                <div class="cc-feature-icon">
+                    <svg width="23.33" height="30" viewBox="0 0 26 33" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M7.86589 7.86979H17.8659M7.86589 14.5365H17.8659M14.5326 21.2031H17.8659M1.19922 31.2031V4.53646C1.19922 3.6524 1.55041 2.80456 2.17553 2.17944C2.80065 1.55431 3.6485 1.20313 4.53255 1.20312H21.1992C22.0833 1.20313 22.9311 1.55431 23.5562 2.17944C24.1814 2.80456 24.5326 3.6524 24.5326 4.53646V31.2031L19.5326 27.8698L16.1992 31.2031L12.8659 27.8698L9.53255 31.2031L6.19922 27.8698L1.19922 31.2031Z" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="cc-feature-text">
+                    <h3 class="cc-feature-title">{{ section.settings.feat_1_title | default: "Order Inquiries and Updates" }}</h3>
+                    <p class="cc-feature-desc">{{ section.settings.feat_1_desc | default: "Help with order-related questions and updates." }}</p>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="cc-feature">
+                <div class="cc-feature-icon">
+                    <svg width="23.33" height="30" viewBox="0 0 26 33" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M17.8659 19.5365V16.2031C17.8659 15.3191 17.5147 14.4712 16.8896 13.8461C16.2645 13.221 15.4166 12.8698 14.5326 12.8698H7.86589M11.1992 16.2031L7.86589 12.8698L11.1992 9.53646M1.19922 31.2031V4.53646C1.19922 3.6524 1.55041 2.80456 2.17553 2.17944C2.80065 1.55431 3.6485 1.20313 4.53255 1.20312H21.1992C22.0833 1.20313 22.9311 1.55431 23.5562 2.17944C24.1814 2.80456 24.5326 3.6524 24.5326 4.53646V31.2031L19.5326 27.8698L16.1992 31.2031L12.8659 27.8698L9.53255 31.2031L6.19922 27.8698L1.19922 31.2031Z" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="cc-feature-text">
+                    <h3 class="cc-feature-title">{{ section.settings.feat_2_title | default: "Returns and Refund Guidance" }}</h3>
+                    <p class="cc-feature-desc">{{ section.settings.feat_2_desc | default: "Clear assistance with returns and the refund process." }}</p>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="cc-feature">
+                <div class="cc-feature-icon">
+                    <svg width="31.67" height="23.33" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6.19922 21.2031C6.19922 22.0872 6.55041 22.935 7.17553 23.5601C7.80065 24.1853 8.6485 24.5365 9.53255 24.5365C10.4166 24.5365 11.2645 24.1853 11.8896 23.5601C12.5147 22.935 12.8659 22.0872 12.8659 21.2031M6.19922 21.2031C6.19922 20.3191 6.55041 19.4712 7.17553 18.8461C7.80065 18.221 8.6485 17.8698 9.53255 17.8698C10.4166 17.8698 11.2645 18.221 11.8896 18.8461C12.5147 19.4712 12.8659 20.3191 12.8659 21.2031M6.19922 21.2031H2.86589V14.5365M12.8659 21.2031H22.8659M22.8659 21.2031C22.8659 22.0872 23.2171 22.935 23.8422 23.5601C24.4673 24.1853 25.3152 24.5365 26.1992 24.5365C27.0833 24.5365 27.9311 24.1853 28.5562 23.5601C29.1814 22.935 29.5326 22.0872 29.5326 21.2031M22.8659 21.2031C22.8659 20.3191 23.2171 19.4712 23.8422 18.8461C24.4673 18.221 25.3152 17.8698 26.1992 17.8698C27.0833 17.8698 27.9311 18.221 28.5562 18.8461C29.1814 19.4712 29.5326 20.3191 29.5326 21.2031M19.5326 2.86979H27.8659L32.8659 11.2031V21.2031H29.5326M1.19922 1.20312H19.5326V21.2031M32.8659 11.2031H19.5326M2.86589 7.86979H9.53255" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="cc-feature-text">
+                    <h3 class="cc-feature-title">{{ section.settings.feat_3_title | default: "Delivery and Shipping Assistance" }}</h3>
+                    <p class="cc-feature-desc">{{ section.settings.feat_3_desc | default: "Support with shipping-related questions and delivery guidance." }}</p>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="cc-feature">
+                <div class="cc-feature-icon">
+                    <svg width="26.67" height="30" viewBox="0 0 30 33" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M1.19922 8.70312V23.7031L14.5326 31.2031L27.8659 23.7031V8.70312L14.5326 1.20312L1.19922 8.70312ZM27.8659 8.70312L14.5326 16.2031M14.5326 31.2031V16.2031M1.19922 8.70312L14.5326 16.2031M8.19924 12.5365L20.8659 4.86979" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="cc-feature-text">
+                    <h3 class="cc-feature-title">{{ section.settings.feat_4_title | default: "Product and Service Information" }}</h3>
+                    <p class="cc-feature-desc">{{ section.settings.feat_4_desc | default: "Support with understanding products and available services." }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2 — Quick Help -->
+    <section class="cc-quick-help">
+        <div class="cc-quick-help-intro">
+            <h2 class="cc-quick-help-title">{{ section.settings.qh_title | default: "Quick Help" }}</h2>
+            <p class="cc-quick-help-desc">{{ section.settings.qh_desc | default: "Find the most relevant support page for detailed information on common questions, delivery timelines, and return conditions." }}</p>
+        </div>
+        <div class="cc-quick-help-cards">
+            <!-- Card 1 -->
+            <div class="cc-quick-help-card">
+                <h3 class="cc-quick-help-card-title">{{ section.settings.card_1_title | default: "FAQs" }}</h3>
+                <p class="cc-quick-help-card-desc">{{ section.settings.card_1_desc | default: "Common questions and quick answers." }}</p>
+                <a href="{{ section.settings.card_1_url | default: "/pages/faqs" }}" class="cc-quick-help-card-btn">Learn more</a>
+            </div>
+            <!-- Card 2 -->
+            <div class="cc-quick-help-card">
+                <h3 class="cc-quick-help-card-title">{{ section.settings.card_2_title | default: "Shipping & Delivery" }}</h3>
+                <p class="cc-quick-help-card-desc">{{ section.settings.card_2_desc | default: "Delivery timelines and coverage." }}</p>
+                <a href="{{ section.settings.card_2_url | default: "/pages/shipping-delivery" }}" class="cc-quick-help-card-btn">Learn more</a>
+            </div>
+            <!-- Card 3 -->
+            <div class="cc-quick-help-card">
+                <h3 class="cc-quick-help-card-title">{{ section.settings.card_3_title | default: "Returns & Refunds" }}</h3>
+                <p class="cc-quick-help-card-desc">{{ section.settings.card_3_desc | default: "Return conditions and refund process." }}</p>
+                <a href="{{ section.settings.card_3_url | default: "/pages/returns-and-refunds" }}" class="cc-quick-help-card-btn">Learn more</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3 — Our Commitment -->
+    <section class="cc-commitment">
+        <h2 class="cc-commitment-label">{{ section.settings.commit_label | default: "Our Commitment" }}</h2>
+        <p class="cc-commitment-text">{{ section.settings.commit_text | default: "We aim to respond as quickly as possible and provide accurate, transparent support to ensure a smooth and confident shopping experience." }}</p>
+    </section>
+</main>
+
+<!-- Section 4 — Contact Form -->
+<section class="contact-form-section">
+    <div class="contact-form-inner">
+        <div class="contact-form-intro">
+            <div class="contact-form-intro-text">
+                <h2>{{ section.settings.form_heading | default: "Send Us A Message" }}</h2>
+                <p>{{ section.settings.form_subheading | default: "Fill out the form and we'll get back to you as quickly as possible." }}</p>
+            </div>
+        </div>
+
+        <div class="contact-form-wrapper">
+            {%- form 'contact', id: 'ContactForm' -%}
+                {%- if form.posted_successfully? -%}
+                    <div class="wpcf7-response-output sent" role="status">
+                        Thanks for contacting us! We'll get back to you as soon as possible.
+                    </div>
+                {%- elsif form.errors -%}
+                    <div class="wpcf7-response-output invalid" role="alert">
+                        {{ form.errors | default_errors }}
+                    </div>
+                {%- endif -%}
+
+                    <div class="contact-field-group">
+                        <label for="ContactFormFirstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="ContactFormFirstName" name="contact[first_name]" placeholder="First Name" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormLastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="ContactFormLastName" name="contact[last_name]" placeholder="Last Name" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormEmail">Email <span class="required">*</span></label>
+                        <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormPhone">Phone Number (optional)</label>
+                        <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" pattern="^[34567][0-9]{7}$" title="Please enter a valid 8-digit Qatar phone number (starting with 3, 4, 5, 6, or 7)." />
+                    </div>
+                    <div class="contact-field-group full-width">
+                        <label for="ContactFormMessage">Your Message <span class="required">*</span></label>
+                        <textarea cols="40" rows="10" id="ContactFormMessage" name="contact[body]" placeholder="Your Message" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                    </div>
+                    <input type="hidden" name="contact[customer_type]" value="qatar" id="contact-customer-type" />
+                    
+                    <div class="contact-field-group full-width" style="margin-top: 12px;">
+                        <button type="submit" class="contact-submit-custom">
+                            <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17.5 2.5L12.0833 17.5L9.16667 10.8333L2.5 7.91667L17.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Send a Message</span>
+                        </button>
+                    </div>
+                {%- endform -%}
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer Care",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Care"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our customer care team is dedicated to providing clear, reliable, and responsive support at every stage of your shopping experience. Whether you have a question before placing an order or need assistance after delivery, we're here to help."
+    },
+    {
+      "type": "header",
+      "content": "Features Grid"
+    },
+    {
+      "type": "text",
+      "id": "feat_1_title",
+      "label": "Feature 1 Title",
+      "default": "Order Inquiries and Updates"
+    },
+    {
+      "type": "text",
+      "id": "feat_1_desc",
+      "label": "Feature 1 Description",
+      "default": "Help with order-related questions and updates."
+    },
+    {
+      "type": "text",
+      "id": "feat_2_title",
+      "label": "Feature 2 Title",
+      "default": "Returns and Refund Guidance"
+    },
+    {
+      "type": "text",
+      "id": "feat_2_desc",
+      "label": "Feature 2 Description",
+      "default": "Clear assistance with returns and the refund process."
+    },
+    {
+      "type": "text",
+      "id": "feat_3_title",
+      "label": "Feature 3 Title",
+      "default": "Delivery and Shipping Assistance"
+    },
+    {
+      "type": "text",
+      "id": "feat_3_desc",
+      "label": "Feature 3 Description",
+      "default": "Support with shipping-related questions and delivery guidance."
+    },
+    {
+      "type": "text",
+      "id": "feat_4_title",
+      "label": "Feature 4 Title",
+      "default": "Product and Service Information"
+    },
+    {
+      "type": "text",
+      "id": "feat_4_desc",
+      "label": "Feature 4 Description",
+      "default": "Support with understanding products and available services."
+    },
+    {
+      "type": "header",
+      "content": "Quick Help"
+    },
+    {
+      "type": "text",
+      "id": "qh_title",
+      "label": "Quick Help Section Title",
+      "default": "Quick Help"
+    },
+    {
+      "type": "textarea",
+      "id": "qh_desc",
+      "label": "Quick Help Section Description",
+      "default": "Find the most relevant support page for detailed information on common questions, delivery timelines, and return conditions."
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Quick Help Card 1 Title",
+      "default": "FAQs"
+    },
+    {
+      "type": "text",
+      "id": "card_1_desc",
+      "label": "Quick Help Card 1 Description",
+      "default": "Common questions and quick answers."
+    },
+    {
+      "type": "url",
+      "id": "card_1_url",
+      "label": "Quick Help Card 1 Link"
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Quick Help Card 2 Title",
+      "default": "Shipping & Delivery"
+    },
+    {
+      "type": "text",
+      "id": "card_2_desc",
+      "label": "Quick Help Card 2 Description",
+      "default": "Delivery timelines and coverage."
+    },
+    {
+      "type": "url",
+      "id": "card_2_url",
+      "label": "Quick Help Card 2 Link"
+    },
+    {
+      "type": "text",
+      "id": "card_3_title",
+      "label": "Quick Help Card 3 Title",
+      "default": "Returns & Refunds"
+    },
+    {
+      "type": "text",
+      "id": "card_3_desc",
+      "label": "Quick Help Card 3 Description",
+      "default": "Return conditions and refund process."
+    },
+    {
+      "type": "url",
+      "id": "card_3_url",
+      "label": "Quick Help Card 3 Link"
+    },
+    {
+      "type": "header",
+      "content": "Commitment"
+    },
+    {
+      "type": "text",
+      "id": "commit_label",
+      "label": "Commitment Section Title",
+      "default": "Our Commitment"
+    },
+    {
+      "type": "textarea",
+      "id": "commit_text",
+      "label": "Commitment Section Text",
+      "default": "We aim to respond as quickly as possible and provide accurate, transparent support to ensure a smooth and confident shopping experience."
+    },
+    {
+      "type": "header",
+      "content": "Form Settings"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form Heading",
+      "default": "Send Us A Message"
+    },
+    {
+      "type": "text",
+      "id": "form_subheading",
+      "label": "Form Subheading",
+      "default": "Fill out the form and we'll get back to you as quickly as possible."
+    }
+  ]
+}
+{% endschema %}

@@ -31,6 +31,38 @@
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-palette' -%}
 
+    {%- comment -%} Custom theme CSS variables — editable from Theme Editor {%- endcomment -%}
+    <style>
+      :root {
+        --color-bg: {{ settings.color_bg }};
+        --color-text: {{ settings.color_text }};
+        --color-primary: {{ settings.color_primary }};
+        --color-accent: {{ settings.color_accent }};
+        --color-border: {{ settings.color_border }};
+        --color-muted: {{ settings.color_muted }};
+        --color-dark-teal: {{ settings.color_dark_teal }};
+        --color-green: {{ settings.color_green }};
+        --color-drawer-bg: {{ settings.color_drawer_bg }};
+        --color-drawer-footer-bg: {{ settings.color_drawer_footer_bg }};
+        --color-white: {{ settings.color_white }};
+
+        --font-body: 'Canela Text', Georgia, serif;
+        --font-serif: 'Canela Text', Georgia, serif;
+        --font-size-small: {{ settings.font_size_small }}px;
+        --font-size-body-small: {{ settings.font_size_body_small }}px;
+        --font-size-body: {{ settings.font_size_body }}px;
+        --font-size-heading-medium: {{ settings.font_size_heading_medium }}px;
+        --font-size-heading-large: {{ settings.font_size_heading_large }}px;
+
+        --radius-card: {{ settings.radius_card }}px;
+        --radius-large: {{ settings.radius_large }}px;
+        --radius-button: {{ settings.radius_button }}px;
+        --page-width: {{ settings.custom_page_width }}px;
+        --spacing-sections: {{ settings.spacing_sections }}px;
+      }
+    </style>
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
     {% endif %}

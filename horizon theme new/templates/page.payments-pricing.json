@@ -1,0 +1,38 @@
+{
+  "sections": {
+    "main": {
+      "type": "payments-pricing",
+      "settings": {
+        "heading": "Payments & Pricing",
+        "subheading": "We offer secure, convenient payment options tailored for you."
+      },
+      "blocks": {
+        "methods": {
+          "type": "methods_block",
+          "settings": {
+            "title": "Payment Methods",
+            "intro": "We offer three convenient ways to pay for your order within Qatar.",
+            "method_1": "<u>Cash on Delivery</u> — Pay at the moment your order arrives. Our courier will collect payment in cash at your door — no advance payment required.",
+            "method_2": "<u>Bank Transfer</u> — For clients who prefer to settle in advance. Transfer details are shared promptly upon order confirmation, and your order is processed as soon as payment is received.",
+            "method_3": "<u>POS</u> — Point-of-sale payment is available for in-person transactions where applicable."
+          }
+        },
+        "pricing": {
+          "type": "content_block",
+          "settings": {
+            "title": "PRICING",
+            "uppercase": true,
+            "bullets": "All product prices are displayed clearly on the website. The price you see is the price you pay — no hidden charges are added to listed items.||Shipping fees are calculated at checkout based on your delivery destination. The exact cost is shown before you confirm your order.||Any customs duties or import taxes applicable to your order are not included in the displayed price. These remain the sole responsibility of the customer.||Prices are subject to change. The price confirmed at checkout is the final price for your order."
+          }
+        }
+      },
+      "block_order": [
+        "methods",
+        "pricing"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

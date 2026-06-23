@@ -1,0 +1,796 @@
+
+
+<main class="sitemap-page">
+  
+  <section class="sitemap-hero">
+    <div class="sitemap-hero-content">
+      <h1>{{ section.settings.title | default: page.title }}</h1>
+      {%- if section.settings.description != blank -%}
+        <p>{{ section.settings.description }}</p>
+      {%- endif -%}
+    </div>
+  </section>
+
+  
+  <section class="sitemap-content">
+
+    {%- assign qatar_blocks_count = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'card' and block.settings.group == 'qatar' -%}
+        {%- assign qatar_blocks_count = qatar_blocks_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if qatar_blocks_count > 0 -%}
+      <div class="sitemap-group">
+        <h2 class="sitemap-group-title">{{ section.settings.qatar_title | default: "Qatar Collection" }}</h2>
+        <div class="sitemap-cards-row">
+          {%- assign qatar_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'card' and block.settings.group == 'qatar' -%}
+              {%- assign qatar_index = qatar_index | plus: 1 -%}
+              <div class="sitemap-card" {{ block.shopify_attributes }}>
+                <div class="sitemap-card-inner">
+                  <h3>{{ block.settings.title }}</h3>
+                  <div class="sitemap-card-links">
+                    {%- assign has_custom_links = false -%}
+                    {%- for i in (1..6) -%}
+                      {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                      {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                      {%- if block.settings[url_setting] != blank and block.settings[label_setting] != blank -%}
+                        {%- assign has_custom_links = true -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+
+                    {%- if has_custom_links -%}
+                      {%- for i in (1..6) -%}
+                        {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                        {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                        {%- assign url = block.settings[url_setting] -%}
+                        {%- assign label = block.settings[label_setting] -%}
+                        {%- if url != blank and label != blank -%}
+                          <a href="{{ url }}" class="sitemap-link">
+                            <span>{{ label }}</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </a>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- else -%}
+                      {%- assign menu_handle = block.settings.menu -%}
+                      {%- if menu_handle == blank -%}
+                        {%- assign menu_handle = block.settings.title | handle -%}
+                      {%- endif -%}
+
+                      {%- if linklists[menu_handle] != blank and linklists[menu_handle].links.size > 0 -%}
+                        {%- assign has_nested = false -%}
+                        {%- for link in linklists[menu_handle].links -%}
+                          {%- if link.links != blank -%}
+                            {%- assign has_nested = true -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+
+                        {%- if has_nested -%}
+                          <div class="sitemap-nested-menu">
+                            {%- for link in linklists[menu_handle].links -%}
+                              <div class="sitemap-menu-item-level-1{% if link.links != blank %} sitemap-collapsible{% endif %}">
+                                {%- if link.links != blank -%}
+                                  <button class="sitemap-toggle-btn" aria-expanded="false" type="button">
+                                    <span class="sitemap-link-level-1">{{ link.title }}</span>
+                                    <span class="sitemap-toggle-icon">
+                                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                  </button>
+                                  <div class="sitemap-level-2-wrapper">
+                                    <div class="sitemap-level-2-grid">
+                                      {%- for child_link in link.links -%}
+                                        <div class="sitemap-menu-item-level-2">
+                                          <a href="{{ child_link.url }}" class="sitemap-link-level-2">{{ child_link.title }}</a>
+                                          {%- if child_link.links != blank -%}
+                                            <div class="sitemap-level-3-list">
+                                              {%- for grandchild_link in child_link.links -%}
+                                                <a href="{{ grandchild_link.url }}" class="sitemap-link-level-3">{{ grandchild_link.title }}</a>
+                                              {%- endfor -%}
+                                            </div>
+                                          {%- endif -%}
+                                        </div>
+                                      {%- endfor -%}
+                                    </div>
+                                  </div>
+                                {%- else -%}
+                                  <a href="{{ link.url }}" class="sitemap-link-level-1">{{ link.title }}</a>
+                                {%- endif -%}
+                              </div>
+                            {%- endfor -%}
+                          </div>
+                        {%- else -%}
+                          {%- for link in linklists[menu_handle].links -%}
+                            <a href="{{ link.url }}" class="sitemap-link">
+                              <span>{{ link.title }}</span>
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                          {%- endfor -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- assign support_blocks_count = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'card' and block.settings.group == 'support' -%}
+        {%- assign support_blocks_count = support_blocks_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if support_blocks_count > 0 -%}
+      <div class="sitemap-group">
+        <h2 class="sitemap-group-title">{{ section.settings.support_title | default: "Support Pages" }}</h2>
+        
+        <div class="sitemap-cards-row">
+          {%- assign support_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'card' and block.settings.group == 'support' -%}
+              {%- assign support_index = support_index | plus: 1 -%}
+              <div class="sitemap-card" {{ block.shopify_attributes }}>
+                <div class="sitemap-card-inner">
+                  <h3>{{ block.settings.title }}</h3>
+                  <div class="sitemap-card-links">
+                    {%- assign has_custom_links = false -%}
+                    {%- for i in (1..6) -%}
+                      {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                      {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                      {%- if block.settings[url_setting] != blank and block.settings[label_setting] != blank -%}
+                        {%- assign has_custom_links = true -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+
+                    {%- if has_custom_links -%}
+                      {%- for i in (1..6) -%}
+                        {%- assign url_setting = 'link_' | append: i | append: '_url' -%}
+                        {%- assign label_setting = 'link_' | append: i | append: '_label' -%}
+                        {%- assign url = block.settings[url_setting] -%}
+                        {%- assign label = block.settings[label_setting] -%}
+                        {%- if url != blank and label != blank -%}
+                          <a href="{{ url }}" class="sitemap-link">
+                            <span>{{ label }}</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </a>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- else -%}
+                      {%- assign menu_handle = block.settings.menu -%}
+                      {%- if menu_handle == blank -%}
+                        {%- assign menu_handle = block.settings.title | handle -%}
+                      {%- endif -%}
+
+                      {%- if linklists[menu_handle] != blank and linklists[menu_handle].links.size > 0 -%}
+                        {%- assign has_nested = false -%}
+                        {%- for link in linklists[menu_handle].links -%}
+                          {%- if link.links != blank -%}
+                            {%- assign has_nested = true -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+
+                        {%- comment -%} Flatten nested links for support group to show directly {%- endcomment -%}
+                        {%- for link in linklists[menu_handle].links -%}
+                          {%- if link.links != blank -%}
+                            {%- for child_link in link.links -%}
+                              <a href="{{ child_link.url }}" class="sitemap-link">
+                                <span>{{ child_link.title }}</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                              </a>
+                            {%- endfor -%}
+                          {%- else -%}
+                            <a href="{{ link.url }}" class="sitemap-link">
+                              <span>{{ link.title }}</span>
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </section>
+</main>
+
+<style>
+  .sitemap-page {
+    background: #fff;
+    color: var(--color-primary);
+    font-family: var(--font-body);
+  }
+  .sitemap-hero {
+    padding: 24px 150px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .sitemap-hero-content {
+    max-width: 1620px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .sitemap-hero h1 {
+    font-family: var(--font-serif);
+    font-size: 64px;
+    font-weight: 400;
+    color: var(--color-primary);
+    text-transform: capitalize;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .sitemap-hero p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #666;
+    margin: 0;
+    max-width: 600px;
+  }
+  .sitemap-content {
+    padding: 24px 150px 96px;
+    max-width: 1620px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+    box-sizing: border-box;
+  }
+  .sitemap-group {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    align-items: center;
+  }
+  .sitemap-group-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-align: center;
+    margin: 0;
+  }
+  .sitemap-cards-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+  }
+  .sitemap-card {
+    flex: 1;
+    border: 1px solid var(--color-border);
+    border-radius: 24px;
+    padding: 32px 32px 16px;
+    box-sizing: border-box;
+    background: #fff;
+  }
+  .sitemap-card-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .sitemap-card h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0;
+  }
+  .sitemap-card-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px 24px;
+  }
+  .sitemap-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none;
+    width: calc(50% - 12px);
+    box-sizing: border-box;
+    transition: opacity 0.2s;
+    color: inherit;
+  }
+  .sitemap-link:hover {
+    opacity: 0.6;
+  }
+  .sitemap-card-links .sitemap-link:nth-last-child(1),
+  .sitemap-card-links .sitemap-link:nth-last-child(2):nth-child(odd) {
+    border-bottom: none;
+  }
+  .sitemap-link span {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-primary);
+    line-height: 1;
+  }
+  .sitemap-link svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .sitemap-nested-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+  }
+
+  .sitemap-menu-item-level-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sitemap-link-level-1 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--color-primary);
+    display: block;
+    transition: opacity 0.2s;
+  }
+
+  .sitemap-link-level-1:hover {
+    opacity: 0.6;
+  }
+
+  .sitemap-level-2-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding-top: 4px;
+  }
+
+  .sitemap-menu-item-level-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sitemap-link-level-2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
+  }
+
+  .sitemap-link-level-2:hover {
+    opacity: 0.6;
+  }
+
+  .sitemap-level-3-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sitemap-link-level-3 {
+    font-size: 13px;
+    font-weight: 400;
+    color: #666;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .sitemap-link-level-3:hover {
+    color: var(--color-primary);
+  }
+
+  /* Collapsible Accordion Styles */
+  .sitemap-toggle-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--color-primary);
+    outline: none;
+    transition: opacity 0.2s;
+  }
+
+  .sitemap-toggle-btn:hover {
+    opacity: 0.7;
+  }
+
+  .sitemap-toggle-btn .sitemap-link-level-1 {
+    border-bottom: none;
+    padding-bottom: 0;
+    flex-grow: 1;
+  }
+
+  .sitemap-toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+    width: 24px;
+    height: 24px;
+  }
+
+  .sitemap-collapsible.active .sitemap-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .sitemap-level-2-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+    opacity: 0;
+  }
+
+  .sitemap-collapsible.active .sitemap-level-2-wrapper {
+    opacity: 1;
+    margin-top: 12px;
+  }
+
+  
+  @media (max-width: 767px) {
+    .sitemap-hero {
+      padding: 24px 20px 12px;
+      gap: 32px;
+    }
+    .sitemap-hero h1 {
+      font-size: 32px;
+    }
+    .sitemap-hero p {
+      font-size: 14px;
+      line-height: 24px;
+    }
+    .sitemap-content {
+      padding: 24px 20px 64px;
+      gap: 64px;
+    }
+    .sitemap-group {
+      gap: 32px;
+    }
+    .sitemap-group-title {
+      font-size: 24px;
+    }
+    .sitemap-cards-row {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .sitemap-card {
+      border-radius: 16px;
+      background: var(--color-border);
+      padding: 1px;
+      border: none;
+    }
+    .sitemap-card-inner {
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px 20px 12px;
+      gap: 12px;
+    }
+    .sitemap-card h3 {
+      font-size: 16px;
+    }
+    .sitemap-card-links {
+      gap: 0px 20px;
+    }
+    .sitemap-link {
+      padding: 12px 0;
+      width: calc(50% - 10px);
+    }
+    .sitemap-link span {
+      font-size: 12px;
+    }
+    .sitemap-link svg {
+      width: 16px;
+      height: 16px;
+    }
+    .sitemap-level-2-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .sitemap-hero {
+      padding: 24px 40px 12px;
+    }
+    .sitemap-hero h1 {
+      font-size: 48px;
+    }
+    .sitemap-content {
+      padding: 24px 40px 80px;
+      gap: 72px;
+    }
+    .sitemap-group {
+      gap: 36px;
+    }
+    .sitemap-group-title {
+      font-size: 28px;
+    }
+    .sitemap-card {
+      padding: 24px 24px 12px;
+      border-radius: 20px;
+    }
+    .sitemap-card h3 {
+      font-size: 20px;
+    }
+  }
+</style>
+
+<script>
+  function initSitemapAccordions() {
+    document.querySelectorAll('.sitemap-toggle-btn').forEach(button => {
+      const newButton = button.cloneNode(true);
+      button.parentNode.replaceChild(newButton, button);
+    });
+
+    document.querySelectorAll('.sitemap-toggle-btn').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parent = button.closest('.sitemap-collapsible');
+        const wrapper = parent.querySelector('.sitemap-level-2-wrapper');
+        const isActive = parent.classList.contains('active');
+        
+        if (isActive) {
+          parent.classList.remove('active');
+          wrapper.style.maxHeight = '0px';
+        } else {
+          parent.classList.add('active');
+          wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+        }
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSitemapAccordions);
+  } else {
+    initSitemapAccordions();
+  }
+
+  document.addEventListener('shopify:section:load', (e) => {
+    if (e.target.querySelector('.sitemap-page')) {
+      initSitemapAccordions();
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Sitemap",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Hero Title",
+      "default": "Sitemap"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Hero Description",
+      "default": "Browse the full QTRSHOE website structure. Find direct links to all collections, categories, and pages organized for easy navigation."
+    },
+    {
+      "type": "text",
+      "id": "qatar_title",
+      "label": "Collections Section Title",
+      "default": "Qatar Collection"
+    },
+    {
+      "type": "text",
+      "id": "support_title",
+      "label": "Support Section Title",
+      "default": "Support Pages"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Sitemap Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "Women"
+        },
+        {
+          "type": "select",
+          "id": "group",
+          "label": "Sitemap Group",
+          "options": [
+            { "value": "qatar", "label": "Qatar Collection" },
+            { "value": "support", "label": "Support Pages" }
+          ],
+          "default": "qatar"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Custom Navigation Menu (Optional)"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 1"
+        },
+        {
+          "type": "text",
+          "id": "link_1_label",
+          "label": "Link 1 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_1_url",
+          "label": "Link 1 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 2"
+        },
+        {
+          "type": "text",
+          "id": "link_2_label",
+          "label": "Link 2 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_2_url",
+          "label": "Link 2 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 3"
+        },
+        {
+          "type": "text",
+          "id": "link_3_label",
+          "label": "Link 3 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_3_url",
+          "label": "Link 3 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 4"
+        },
+        {
+          "type": "text",
+          "id": "link_4_label",
+          "label": "Link 4 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_4_url",
+          "label": "Link 4 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 5"
+        },
+        {
+          "type": "text",
+          "id": "link_5_label",
+          "label": "Link 5 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_5_url",
+          "label": "Link 5 URL"
+        },
+        {
+          "type": "header",
+          "content": "Custom Link 6"
+        },
+        {
+          "type": "text",
+          "id": "link_6_label",
+          "label": "Link 6 Label"
+        },
+        {
+          "type": "url",
+          "id": "link_6_url",
+          "label": "Link 6 URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sitemap",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "title": "Women",
+            "group": "qatar"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Men",
+            "group": "qatar"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Customer Care",
+            "group": "support"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Shipping & Returns",
+            "group": "support"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Payments",
+            "group": "support"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Policies",
+            "group": "support"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Services",
+            "group": "support"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "About",
+            "group": "support"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

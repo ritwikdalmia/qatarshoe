@@ -1,0 +1,988 @@
+{%- style -%}
+  .faq-main {
+      padding: 24px 150px 48px;
+      background: #fff;
+      max-width: 1620px;
+      margin: 0 auto;
+      box-sizing: border-box;
+  }
+
+  .faq-header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 56px;
+  }
+
+  .faq-title {
+      font-family: var(--font-body);
+      font-size: 64px;
+      font-weight: 400;
+      line-height: 100%;
+      letter-spacing: -2%;
+      color: var(--color-primary);
+      margin: 0;
+      text-transform: none;
+  }
+
+  .faq-subtitle {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      color: rgba(45, 31, 31, 0.7);
+      margin: 0;
+      max-width: 600px;
+  }
+
+  .faq-columns {
+      display: flex;
+      flex-direction: row;
+      gap: 150px;
+  }
+
+  .faq-sidebar {
+      flex: 0 0 280px;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .faq-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      min-width: 0;
+  }
+
+  .faq-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+  }
+
+  .faq-sidebar-nav {
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      overflow: hidden;
+      position: sticky;
+      top: 120px;
+  }
+
+  .faq-sidebar-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      height: 48px;
+      border-bottom: 1px solid var(--color-border);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(45, 31, 31, 0.7);
+      background: #fff;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+      user-select: none;
+  }
+
+  .faq-sidebar-item:last-child {
+      border-bottom: none;
+  }
+
+  .faq-sidebar-item:hover {
+      color: var(--color-primary);
+  }
+
+  .faq-sidebar-item.active {
+      font-weight: 600;
+      color: var(--color-primary);
+      background: #FAF8F5;
+  }
+
+  .faq-sidebar-item svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+  }
+
+  .faq-search-wrap {
+      flex-shrink: 0;
+      background: #fff;
+      padding-bottom: 4px;
+  }
+
+  .faq-search-wrap--header {
+      display: none;
+  }
+
+  .faq-search {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(45, 31, 31, 0.1);
+      border-radius: 8px;
+      padding: 8px 12px;
+      height: 48px;
+      box-sizing: border-box;
+  }
+
+  .faq-search svg {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+  }
+
+  .faq-search input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-primary);
+      background: transparent;
+  }
+
+  .faq-search input::placeholder {
+      color: rgba(26, 26, 26, 0.4);
+  }
+
+  .faq-section-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-margin-top: 140px;
+  }
+
+  .faq-section-title {
+      font-family: var(--font-body);
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 29px;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      letter-spacing: -0.02em;
+      margin: 0;
+  }
+
+  .faq-items-container {
+      background: var(--color-border);
+      border-radius: 16px;
+      padding: 1px;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      overflow: hidden;
+  }
+
+  .faq-item {
+      background: #fff;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .faq-item:first-child {
+      border-radius: 15px 15px 0 0;
+  }
+
+  .faq-item:last-child {
+      border-radius: 0 0 15px 15px;
+  }
+
+  .faq-item:only-child {
+      border-radius: 15px;
+  }
+
+  .faq-question {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 24px;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--color-primary);
+      text-align: left;
+      padding: 0;
+      line-height: 24px;
+  }
+
+  .faq-question-text {
+      flex: 1;
+  }
+
+  .faq-chevron {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+  }
+
+  .faq-item.active .faq-chevron {
+      transform: rotate(180deg);
+  }
+
+  .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+  }
+
+  .faq-item.active .faq-answer {
+      max-height: 1000px;
+  }
+
+  .faq-answer-inner {
+      padding-top: 16px;
+  }
+
+  .faq-answer p, .faq-answer div {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+      color: var(--color-primary);
+      margin: 0;
+      max-width: 751px;
+  }
+
+  .faq-answer p + p {
+      margin-top: 12px;
+  }
+
+  .faq-section-group.faq-hidden,
+  .faq-item.faq-hidden {
+      display: none;
+  }
+
+  .faq-no-results {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 24px;
+      gap: 8px;
+  }
+
+  .faq-no-results-title {
+      font-family: var(--font-body);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+  }
+
+  .faq-no-results-text {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #000000;
+      margin: 0;
+      max-width: 320px;
+  }
+
+  .faq-mobile-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 16px;
+      right: 16px;
+      z-index: 100;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px 16px;
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .faq-mobile-bar-label {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-primary);
+  }
+
+  .faq-mobile-bar svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+  }
+
+  .faq-mobile-bar-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(45, 31, 31, 0.1);
+      border-radius: 0 0 7px 7px;
+      overflow: hidden;
+  }
+
+  .faq-mobile-bar-progress-fill {
+      height: 100%;
+      background: var(--color-primary);
+      width: 0%;
+      transition: width 0.3s ease;
+  }
+
+  .faq-mobile-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px;
+  }
+
+  .faq-mobile-overlay.active {
+      display: flex;
+  }
+
+  .faq-mobile-overlay-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 400px;
+      max-height: 70vh;
+      overflow-y: auto;
+      margin-bottom: 58px;
+  }
+
+  .faq-mobile-overlay-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      min-height: 48px;
+      height: auto;
+      border-bottom: 1px solid var(--color-border);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(45, 31, 31, 0.7);
+      background: #fff;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+  }
+
+  .faq-mobile-overlay-item:last-child {
+      border-bottom: none;
+  }
+
+  .faq-mobile-overlay-item.active {
+      font-weight: 600;
+      color: var(--color-primary);
+      pointer-events: none;
+  }
+
+  .faq-mobile-overlay-item.active svg {
+      display: none;
+  }
+
+  .faq-mobile-overlay-item svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+  }
+
+  /* Contact form on the FAQ page */
+  .contact-form-section {
+      background: #fff;
+      padding: 96px 150px;
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .contact-form-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e5e5e5;
+  }
+
+  .contact-form-inner {
+      max-width: 1620px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 150px;
+  }
+
+  .contact-form-intro {
+      flex: 0 0 488px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  .contact-form-intro h2 {
+      font-family: var(--font-body);
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 100%;
+      margin: 0;
+      color: var(--color-primary);
+  }
+
+  .contact-form-intro p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: rgba(45, 31, 31, 0.7);
+      margin: 0;
+  }
+
+  .contact-form-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-wrapper form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+  }
+  .contact-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+  }
+
+  .contact-field-group.full-width {
+      grid-column: 1 / -1;
+  }
+
+  .contact-field-group label {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-primary);
+      margin: 0;
+  }
+
+  .contact-field-group label .required {
+      color: #FF0000;
+      margin-left: 2px;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"],
+  .contact-form-wrapper textarea {
+      width: 100%;
+      background: #fff;
+      border: 1px solid rgba(45, 31, 31, 0.2);
+      border-radius: 6px;
+      color: var(--color-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"] {
+      height: 44px;
+      padding: 0 12px;
+  }
+
+  .contact-form-wrapper textarea {
+      height: 108px;
+      padding: 12px;
+      resize: vertical;
+  }
+
+  .contact-submit-custom {
+      width: 100%;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #fff;
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      border-radius: 900px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+  }
+
+  .contact-submit-custom:hover {
+      background: var(--color-primary);
+      color: #fff;
+  }
+
+  @media (max-width: 1023px) {
+      .faq-main {
+          padding: 24px 40px 32px;
+      }
+      .faq-columns {
+          flex-direction: column;
+          gap: 32px;
+      }
+      .faq-sidebar {
+          display: none;
+      }
+      .faq-mobile-bar {
+          display: flex;
+      }
+      .contact-form-section {
+          padding: 64px 40px;
+      }
+      .contact-form-inner {
+          flex-direction: column;
+          gap: 40px;
+      }
+  }
+
+  @media (max-width: 767px) {
+      .faq-main {
+          padding: 24px 24px 24px;
+      }
+      .faq-title {
+          font-size: 32px;
+      }
+      .faq-search-wrap--header {
+          display: block;
+      }
+      .faq-content > .faq-search-wrap {
+          display: none;
+      }
+      .contact-form-section {
+          padding: 48px 24px;
+      }
+      .contact-form-wrapper form {
+          grid-template-columns: 1fr;
+      }
+  }
+{%- endstyle -%}
+
+<script>
+  document.body.classList.add('faq-page-body');
+</script>
+
+<main class="faq-main">
+    <div class="faq-header">
+        <h1 class="faq-title">{{ section.settings.heading | default: "FAQs" }}</h1>
+        <p class="faq-subtitle">{{ section.settings.subheading | default: "Clear answers to common questions about shopping, delivery timelines, payment methods, returns, and product availability." }}</p>
+        
+        <div class="faq-search-wrap faq-search-wrap--header">
+            <div class="faq-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" placeholder="Search..." />
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-columns">
+        <!-- Sidebar -->
+        <aside class="faq-sidebar">
+            <nav class="faq-sidebar-nav">
+                {%- assign first_category = true -%}
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'category' -%}
+                        <div class="faq-sidebar-item{% if first_category %} active{% endif %}" data-target="{{ block.settings.id }}" {{ block.shopify_attributes }}>
+                            <span>{{ block.settings.title }}</span>
+                            <svg viewBox="0 0 20 20" fill="none" stroke="rgba(26,26,26,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5l5 5-5 5"/></svg>
+                        </div>
+                        {%- assign first_category = false -%}
+                    {%- endif -%}
+                {%- endfor -%}
+            </nav>
+        </aside>
+
+        <!-- Content -->
+        <div class="faq-content">
+            <div class="faq-search-wrap">
+                <div class="faq-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    <input type="text" placeholder="Search..." />
+                </div>
+            </div>
+
+            <div class="faq-sections">
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'category' -%}
+                        {%- assign cat_id = block.settings.id -%}
+                        <div class="faq-section-group" data-category="{{ cat_id }}" {{ block.shopify_attributes }}>
+                            <h2 class="faq-section-title">{{ block.settings.title }}</h2>
+                            <div class="faq-items-container">
+                                {%- assign index_num = 1 -%}
+                                {%- for faq in section.blocks -%}
+                                    {%- if faq.type == 'faq_item' and faq.settings.category_id == cat_id -%}
+                                        <div class="faq-item" {{ faq.shopify_attributes }}>
+                                            <button class="faq-question" aria-expanded="false">
+                                                <span class="faq-question-text">{{ index_num }}. {{ faq.settings.question }}</span>
+                                                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                                            </button>
+                                            <div class="faq-answer">
+                                                <div class="faq-answer-inner">
+                                                    <div>
+                                                        {{ faq.settings.answer }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {%- assign index_num = index_num | plus: 1 -%}
+                                    {%- endif -%}{%- endfor -%}
+                            </div>
+                        </div>
+                    {%- endif -%}{%- endfor -%}
+
+                <!-- No Results -->
+                <div class="faq-no-results" id="faqNoResults" style="display:none;">
+                    <h3 class="faq-no-results-title">No results found</h3>
+                    <p class="faq-no-results-text">We couldn't find any match for your search. Try checking your spelling or search for another term.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Bottom Form -->
+<section class="contact-form-section">
+    <div class="contact-form-inner">
+        <div class="contact-form-intro">
+            <h2>{{ section.settings.form_heading | default: "Send Us A Message" }}</h2>
+            <p>{{ section.settings.form_subheading | default: "Fill out the form and we'll get back to you as quickly as possible." }}</p>
+        </div>
+
+        <div class="contact-form-wrapper">
+            {%- form 'contact', id: 'ContactForm' -%}
+                {%- if form.posted_successfully? -%}
+                    <div class="wpcf7-response-output sent" role="status">
+                        Thanks for contacting us! We'll get back to you as soon as possible.
+                    </div>
+                {%- elsif form.errors -%}
+                    <div class="wpcf7-response-output invalid" role="alert">
+                        {{ form.errors | default_errors }}
+                    </div>
+                {%- endif -%}
+
+                    <div class="contact-field-group">
+                        <label for="ContactFormFirstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="ContactFormFirstName" name="contact[first_name]" placeholder="First Name" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormLastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="ContactFormLastName" name="contact[last_name]" placeholder="Last Name" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormEmail">Email <span class="required">*</span></label>
+                        <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormPhone">Phone Number (optional)</label>
+                        <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" pattern="^[34567][0-9]{7}$" title="Please enter a valid 8-digit Qatar phone number (starting with 3, 4, 5, 6, or 7)." />
+                    </div>
+                    <div class="contact-field-group full-width">
+                        <label for="ContactFormMessage">Your Message <span class="required">*</span></label>
+                        <textarea cols="40" rows="10" id="ContactFormMessage" name="contact[body]" placeholder="Your Message" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                    </div>
+                    <input type="hidden" name="contact[customer_type]" value="qatar" id="contact-customer-type" />
+                    
+                    <div class="contact-field-group full-width" style="margin-top: 12px;">
+                        <button type="submit" class="contact-submit-custom">
+                            <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17.5 2.5L12.0833 17.5L9.16667 10.8333L2.5 7.91667L17.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Send a Message</span>
+                        </button>
+                    </div>
+                {%- endform -%}
+        </div>
+    </div>
+</section>
+
+<!-- Mobile Bottom Navigation Sheet -->
+<div class="faq-mobile-bar" id="faqMobileBar">
+    <span class="faq-mobile-bar-label">General</span>
+    <svg viewBox="0 0 20 20" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7.5l5 5 5-5"/></svg>
+    <div class="faq-mobile-bar-progress">
+        <div class="faq-mobile-bar-progress-fill" id="faqMobileProgressFill"></div>
+    </div>
+</div>
+
+<div class="faq-mobile-overlay" id="faqMobileOverlay">
+    <div class="faq-mobile-overlay-card">
+        {%- assign first_category = true -%}
+        {%- for block in section.blocks -%}
+            {%- if block.type == 'category' -%}
+                <div class="faq-mobile-overlay-item{% if first_category %} active{% endif %}" data-target="{{ block.settings.id }}">
+                    <span>{{ block.settings.title }}</span>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                {%- assign first_category = false -%}
+            {%- endif -%}
+        {%- endfor -%}
+    </div>
+</div>
+
+<script>
+  (function() {
+      // ── Accordion toggle ──
+      var questions = document.querySelectorAll('.faq-question');
+      questions.forEach(function(q) {
+          q.addEventListener('click', function() {
+              var item = this.parentElement;
+              var isActive = item.classList.contains('active');
+              
+              // Close other items in the same section
+              var container = item.parentElement;
+              container.querySelectorAll('.faq-item').forEach(function(other) {
+                  other.classList.remove('active');
+                  other.querySelector('.faq-answer').style.maxHeight = null;
+              });
+
+              if (!isActive) {
+                  item.classList.add('active');
+                  var ans = item.querySelector('.faq-answer');
+                  ans.style.maxHeight = ans.scrollHeight + "px";
+              }
+          });
+      });
+
+      // ── Navigation Categories Active Styling on Scroll ──
+      var sections = document.querySelectorAll('.faq-section-group');
+      var sidebarItems = document.querySelectorAll('.faq-sidebar-item');
+      var barLabel = document.querySelector('.faq-mobile-bar-label');
+      
+      function getCategoryKeys() {
+          return Array.from(document.querySelectorAll('.faq-sidebar-item')).map(function(item) { 
+              return item.getAttribute('data-target'); 
+          });
+      }
+
+      function onScroll() {
+          var categoryKeys = getCategoryKeys();
+          if (categoryKeys.length === 0) return;
+          var scrollY = window.scrollY || window.pageYOffset;
+          var activeCat = categoryKeys[0];
+          
+          sections.forEach(function(sec) {
+              var rect = sec.getBoundingClientRect();
+              if (rect.top <= 160) {
+                  activeCat = sec.getAttribute('data-category');
+              }
+          });
+          setActiveCategory(activeCat);
+      }
+
+      // Listen to main window scroll for both desktop and mobile
+      window.addEventListener('scroll', onScroll);
+      // Run once at start to highlight initial section
+      onScroll();
+
+      function setActiveCategory(cat) {
+          var sidebarItems = document.querySelectorAll('.faq-sidebar-item');
+          sidebarItems.forEach(function(item) {
+              item.classList.toggle('active', item.getAttribute('data-target') === cat);
+          });
+          if (barLabel) {
+              var section = document.querySelector('.faq-section-group[data-category="' + cat + '"]');
+              if (section) {
+                  var titleEl = section.querySelector('.faq-section-title');
+                  if (titleEl) barLabel.textContent = titleEl.textContent;
+              }
+          }
+          document.querySelectorAll('.faq-mobile-overlay-item').forEach(function(oi) {
+              oi.classList.toggle('active', oi.getAttribute('data-target') === cat);
+          });
+          updateMobileProgress(cat);
+      }
+
+      function updateMobileProgress(cat) {
+          var categoryKeys = getCategoryKeys();
+          var idx = categoryKeys.indexOf(cat);
+          var fill = document.getElementById('faqMobileProgressFill');
+          if (fill && idx >= 0 && categoryKeys.length > 0) {
+              var pct = ((idx + 1) / categoryKeys.length) * 100;
+              fill.style.width = pct + '%';
+          }
+      }
+
+      // ── Sidebar click scroll ──
+      document.addEventListener('click', function(e) {
+          var si = e.target.closest('.faq-sidebar-item');
+          if (si) {
+              var target = si.getAttribute('data-target');
+              var section = document.querySelector('.faq-section-group[data-category="' + target + '"]');
+              if (section) {
+                  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  setActiveCategory(target);
+              }
+          }
+      });
+
+      // ── Search filtering ──
+      var searchInputs = document.querySelectorAll('.faq-search input');
+      var debounceTimer;
+      searchInputs.forEach(function(input) {
+          input.addEventListener('input', function() {
+              searchInputs.forEach(function(other) {
+                  if (other !== input) other.value = input.value;
+              });
+              clearTimeout(debounceTimer);
+              debounceTimer = setTimeout(function() {
+                  filterFaq(input.value.trim().toLowerCase());
+              }, 200);
+          });
+      });
+
+      function filterFaq(query) {
+          var totalVisible = 0;
+          var faqSections = document.querySelectorAll('.faq-section-group');
+          faqSections.forEach(function(sec) {
+              var items = sec.querySelectorAll('.faq-item');
+              var visibleCount = 0;
+              items.forEach(function(item) {
+                  var qText = item.querySelector('.faq-question-text').textContent.toLowerCase();
+                  var aText = item.querySelector('.faq-answer').textContent.toLowerCase();
+                  var match = !query || qText.indexOf(query) !== -1 || aText.indexOf(query) !== -1;
+                  item.classList.toggle('faq-hidden', !match);
+                  if (match) visibleCount++;
+              });
+              sec.classList.toggle('faq-hidden', visibleCount === 0);
+              totalVisible += visibleCount;
+          });
+          var noResults = document.getElementById('faqNoResults');
+          if (noResults) {
+              noResults.style.display = (query && totalVisible === 0) ? '' : 'none';
+          }
+      }
+
+      // ── Mobile bottom sheet ──
+      var mobileBar = document.getElementById('faqMobileBar');
+      var mobileOverlay = document.getElementById('faqMobileOverlay');
+
+      if (mobileBar && mobileOverlay) {
+          mobileBar.addEventListener('click', function() {
+              mobileOverlay.classList.add('active');
+          });
+
+          mobileOverlay.addEventListener('click', function(e) {
+              if (e.target === mobileOverlay) {
+                  mobileOverlay.classList.remove('active');
+              }
+          });
+
+          document.addEventListener('click', function(e) {
+              var oi = e.target.closest('.faq-mobile-overlay-item');
+              if (oi) {
+                  var target = oi.getAttribute('data-target');
+                  var section = document.querySelector('.faq-section-group[data-category="' + target + '"]');
+                  if (section) {
+                      mobileOverlay.classList.remove('active');
+                      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      setActiveCategory(target);
+                  }
+              }
+          });
+      }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FAQs Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FAQs"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Clear answers to common questions about shopping, delivery timelines, payment methods, returns, and product availability."
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form Heading",
+      "default": "Send Us A Message"
+    },
+    {
+      "type": "text",
+      "id": "form_subheading",
+      "label": "Form Subheading",
+      "default": "Fill out the form and we'll get back to you as quickly as possible."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "FAQ Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title"
+        },
+        {
+          "type": "text",
+          "id": "id",
+          "label": "Category ID (lowercase, no spaces, e.g., general)"
+        }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_id",
+          "label": "Category ID (must match a Category ID above)"
+        },
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

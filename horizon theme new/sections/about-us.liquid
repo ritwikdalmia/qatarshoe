@@ -1,0 +1,1061 @@
+{%- style -%}
+  /* Section 1 — Hero Banner */
+  .about-hero {
+      position: relative;
+      background: var(--color-bg);
+      padding: 24px 150px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+  }
+
+  .about-hero-hands-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 16px;
+      gap: 20px;
+  }
+
+  .about-hero-hand-img {
+      max-height: 250px;
+      object-fit: contain;
+      width: 45%;
+  }
+
+  .about-hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+  }
+
+  .about-hero-content h1 {
+      font-family: var(--font-body);
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--color-primary);
+      margin: 0;
+      line-height: 100%;
+  }
+
+  .about-hero-content p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: #000000;
+      margin: 0;
+      line-height: 150%;
+  }
+
+  /* Section 2 — About Intro */
+  .about-intro {
+      padding: 24px 150px 16px;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+  }
+
+  .about-intro-block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .about-intro-label {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--color-primary);
+      line-height: 100%;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin: 0;
+  }
+
+  .about-intro-text {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: #000000;
+      margin: 0;
+      line-height: 150%;
+  }
+
+  /* Section 3 — What We Offer */
+  .about-offer {
+      padding: 24px 150px;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+  }
+
+  .about-offer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  }
+
+  .about-offer-header h2 {
+      font-family: var(--font-body);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+      line-height: 28px;
+  }
+
+  .about-offer-explore {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      padding: 0 24px;
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      border-radius: 900px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 100%;
+      letter-spacing: 0;
+      text-transform: none;
+      text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .about-offer-explore:hover {
+      background: var(--color-primary);
+      color: var(--color-bg);
+  }
+
+  .about-offer-cards {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.collections_per_row | default: 5 }}, 1fr);
+      gap: 24px;
+  }
+
+  .about-offer-card {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      min-width: 0;
+      text-decoration: none;
+  }
+
+  .about-offer-card-name {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-primary);
+      text-align: center;
+  }
+
+  .about-offer-card img {
+      width: 100%;
+      max-width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+  }
+
+  .about-offer-card-placeholder {
+      width: 100%;
+      max-width: 200px;
+      height: 200px;
+      border-radius: 12px;
+      background: var(--color-border, #e0dcd3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+  }
+
+  /* Section 4 — House of Brands */
+  .about-brands-section {
+      padding: 32px 40px;
+      background: var(--color-bg);
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+  }
+
+  .about-brands-section .brands-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+  }
+
+  .about-brands-section .brands-header h2 {
+      font-size: 32px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--color-primary);
+      font-family: var(--font-body);
+      text-transform: capitalize;
+      line-height: 28px;
+      text-align: center;
+  }
+
+  .about-brands-section .brands-grid {
+      align-self: stretch;
+      padding: 1px;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+  }
+
+  .about-brands-section .brand-item {
+      width: 130px;
+      height: 130px;
+      flex: 0 0 auto;
+      background: var(--color-bg);
+      overflow: hidden;
+      border-radius: 16px;
+      outline: 1px solid var(--color-primary);
+      outline-offset: -1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+  }
+
+  .about-brands-section .brand-item:hover {
+      background: rgba(0, 0, 0, 0.05);
+  }
+
+  .about-brands-section .brand-image-container {
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+  }
+
+  .about-brands-section .brand-image-container img {
+      max-width: 120%;
+      max-height: 120%;
+      object-fit: contain;
+  }
+
+  .about-brands-section .brand-name-text {
+      color: var(--color-primary);
+      text-align: center;
+  }
+
+  .brand-font-hms {
+      font-family: var(--font-serif);
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+  }
+  .brand-font-coco {
+      font-family: var(--font-body);
+      text-transform: lowercase;
+      font-weight: 800;
+      font-size: 25px;
+      letter-spacing: -1px;
+  }
+  .brand-font-gyd {
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.5px;
+  }
+  .brand-font-lp {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 32px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+  }
+  .brand-font-dr {
+      font-family: var(--font-serif);
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+  }
+  .brand-font-lvn {
+      font-family: var(--font-serif);
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 400;
+  }
+  .brand-font-crt {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 30px;
+      text-transform: capitalize;
+  }
+  .brand-font-msk {
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      font-size: 24px;
+      font-weight: 500;
+  }
+
+  /* Form partial styling */
+  .contact-form-section {
+      background: var(--color-bg);
+      padding: 24px 150px;
+      position: relative;
+  }
+
+  .contact-form-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e5e5e5;
+  }
+
+  .contact-form-inner {
+      max-width: 1620px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 80px;
+  }
+
+  .contact-form-intro {
+      flex: 0 0 488px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+  }
+
+  .contact-form-intro-text {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-intro h2 {
+      font-family: var(--font-body);
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 100%;
+      letter-spacing: 0;
+      margin: 0;
+      color: var(--color-primary);
+      text-transform: none;
+  }
+
+  .contact-form-intro-text p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      color: #000000;
+      margin: 0;
+  }
+
+  .contact-form-wrapper {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-wrapper .contact-form-text {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      color: #000000;
+      margin-bottom: 24px;
+  }
+
+  .contact-form-wrapper .contact-form-text h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: var(--color-primary);
+  }
+
+  .contact-form-wrapper .contact-form-text p {
+      margin-bottom: 12px;
+  }
+
+  .contact-form-wrapper form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 12px;
+  }
+
+  .contact-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+  }
+
+  .contact-field-group.full-width {
+      grid-column: 1 / -1;
+  }
+
+  .contact-field-group label {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-primary);
+      margin: 0;
+  }
+
+  .contact-field-group label .required {
+      color: #FF0000;
+      margin-left: 2px;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"],
+  .contact-form-wrapper textarea {
+      width: 100%;
+      background: var(--color-bg);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      color: #000000;
+      font-family: var(--font-body);
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"] {
+      height: 44px;
+      padding: 0 12px;
+    }
+
+  .contact-form-wrapper textarea {
+      height: 108px;
+      padding: 12px;
+      resize: vertical;
+  }
+
+  .contact-submit-custom {
+      width: 100%;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      border-radius: 900px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+  }
+
+  .contact-submit-custom:hover {
+      background: var(--color-primary);
+      color: var(--color-bg);
+  }
+
+  .wpcf7-response-output {
+      grid-column: 1 / -1;
+      margin: 12px 0 0;
+      padding: 14px 18px;
+      font-size: 14px;
+      border-radius: 4px;
+      color: #000000;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .wpcf7-response-output.sent {
+      border-color: #28a745;
+      color: #1e7a35;
+      background-color: rgba(40, 167, 69, 0.05);
+  }
+
+  .wpcf7-response-output.invalid {
+      border-color: #d93b3d;
+      color: #b1282a;
+      background-color: rgba(217, 59, 61, 0.05);
+  }
+
+  @media (max-width: 1023px) {
+      .about-hero,
+      .about-intro,
+      .about-offer,
+      .contact-form-section {
+          padding-left: 40px;
+          padding-right: 40px;
+      }
+      .contact-form-section {
+          padding: 32px 40px;
+      }
+      .about-brands-section {
+          padding: 32px 24px;
+      }
+      .about-brands-section .brands-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+      }
+      .about-brands-section .brand-item {
+          flex: unset;
+          height: auto;
+          aspect-ratio: 1/1;
+          max-width: none;
+      }
+      .brand-font-lp { font-size: 26px; }
+      .brand-font-crt { font-size: 24px; }
+      .brand-font-hms, .brand-font-coco, .brand-font-dr, .brand-font-lvn, .brand-font-msk { font-size: 20px; }
+      .brand-font-gyd { font-size: 18px; }
+      .contact-form-inner {
+          flex-direction: column;
+          gap: 40px;
+      }
+  }
+
+  @media (max-width: 767px) {
+      .about-hero,
+      .about-intro,
+      .about-offer,
+      .contact-form-section {
+          padding-left: 24px;
+          padding-right: 24px;
+      }
+      .contact-form-section {
+          padding: 24px 24px;
+      }
+      .about-hero {
+          padding-top: 24px;
+      }
+      .about-hero-content {
+          gap: 20px;
+      }
+      .about-intro {
+          padding-top: 32px;
+          padding-bottom: 32px;
+          gap: 20px;
+      }
+      .about-offer {
+          padding-top: 32px;
+          padding-bottom: 32px;
+          gap: 24px;
+      }
+      .about-offer-header h2 {
+          font-size: 24px;
+          line-height: 100%;
+      }
+      .about-offer-cards {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scroll-snap-type: x mandatory;
+          gap: 12px;
+          padding-bottom: 8px;
+          scrollbar-width: none;
+      }
+      .about-offer-cards::-webkit-scrollbar {
+          display: none;
+      }
+      .about-offer-card {
+          flex: 0 0 160px;
+          scroll-snap-align: start;
+          gap: 16px;
+      }
+      .about-offer-card img {
+          max-width: 150px;
+          height: 150px;
+      }
+      .about-brands-section {
+          padding: 24px 15px;
+          gap: 20px;
+      }
+      .about-brands-section .brands-header h2 {
+          font-size: 24px;
+          line-height: 28px;
+      }
+      .about-brands-section .brands-grid {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 8px;
+      }
+      .about-brands-section .brand-item {
+          border-radius: 7.48px;
+          outline: none;
+          border: 0.47px solid #E5E5E5;
+      }
+      .contact-form-wrapper form {
+          grid-template-columns: 1fr;
+      }
+      .contact-bottom-row {
+          flex-direction: column;
+          align-items: stretch;
+      }
+  }
+{%- endstyle -%}
+
+<main class="about-main-wrapper">
+    <!-- Section 1 — Hero Banner -->
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <h1>{{ section.settings.hero_heading | default: "About US" }}</h1>
+            <p>{{ section.settings.hero_subheading | default: "At the heart of our brand is a single commitment — to make every luxury purchase effortless, trusted, and genuinely satisfying." }}</p>
+        </div>
+        
+        {%- if section.settings.show_hero_hands -%}
+            <div class="about-hero-hands-container">
+                {%- if section.settings.left_hand_image != blank -%}
+                    <img class="about-hero-hand-img" src="{{ section.settings.left_hand_image | image_url: width: 600 }}" alt="" width="600" height="600" loading="lazy" />
+                {%- else -%}
+                    <img class="about-hero-hand-img" src="{{ 'Qtr-w-h.png' | asset_url }}" alt="" width="600" height="600" loading="lazy" />
+                {%- endif -%}
+
+                {%- if section.settings.right_hand_image != blank -%}
+                    <img class="about-hero-hand-img" src="{{ section.settings.right_hand_image | image_url: width: 600 }}" alt="" width="600" height="600" loading="lazy" />
+                {%- else -%}
+                    <img class="about-hero-hand-img" src="{{ 'Dub-m-h.png' | asset_url }}" alt="" width="600" height="600" loading="lazy" />
+                {%- endif -%}
+            </div>
+        {%- endif -%}
+    </section>
+
+    <!-- Section 2 — About Intro -->
+    <section class="about-intro">
+        {%- for block in section.blocks -%}
+            {%- if block.type == 'intro_block' -%}
+                <div class="about-intro-block" {{ block.shopify_attributes }}>
+                    {%- if block.settings.label != blank -%}
+                        <span class="about-intro-label">{{ block.settings.label }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.text != blank -%}
+                        <p class="about-intro-text">{{ block.settings.text | newline_to_br }}</p>
+                    {%- endif -%}
+                </div>
+            {%- endif -%}
+        {%- endfor -%}
+    </section>
+
+    <!-- Section 3 — What We Offer -->
+    <section class="about-offer">
+        <div class="about-offer-header">
+            <h2>{{ section.settings.offer_heading | default: "What We Offer:" }}</h2>
+            {%- if section.settings.explore_url != blank -%}
+                <a href="{{ section.settings.explore_url }}" class="about-offer-explore">
+                    {{ section.settings.explore_label | default: "explore" }}
+                </a>
+            {%- endif -%}
+        </div>
+        
+        <div class="about-offer-cards">
+            {%- liquid
+              assign collection_list = section.settings.collection_list
+              assign collections_limit = section.settings.collections_limit | default: 5
+              assign offer_menu = section.settings.offer_menu
+              
+              assign has_collection_list = false
+              if collection_list != blank and collection_list.count > 0
+                assign has_collection_list = true
+              endif
+
+              assign has_menu = false
+              if offer_menu != blank and linklists[offer_menu] != blank and linklists[offer_menu].links.size > 0
+                assign has_menu = true
+              endif
+            -%}
+
+            {%- if has_collection_list -%}
+                {%- comment -%} Collection List mode: render from settings {%- endcomment -%}
+                {%- for col in collection_list limit: collections_limit -%}
+                    <a href="{{ col.url }}" class="about-offer-card">
+                        {%- if col.image != blank -%}
+                            <img src="{{ col.image | image_url: width: 400 }}" alt="{{ col.title | escape }}" width="400" height="400" loading="lazy" />
+                        {%- elsif col.products.first.featured_image != blank -%}
+                            <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ col.title | escape }}" width="400" height="400" loading="lazy" />
+                        {%- else -%}
+                            <div class="about-offer-card-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.25;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            </div>
+                        {%- endif -%}
+                        <span class="about-offer-card-name">{{ col.title }}</span>
+                    </a>
+                {%- endfor -%}
+            {%- elsif has_menu -%}
+                {%- comment -%} Dynamic mode: render from navigation menu {%- endcomment -%}
+                {%- for link in linklists[offer_menu].links limit: collections_limit -%}
+                    {%- liquid
+                      assign col_handle = link.url | split: '/' | last
+                      assign col = collections[col_handle]
+                    -%}
+                    <a href="{{ link.url }}" class="about-offer-card">
+                        {%- if col.image != blank -%}
+                            <img src="{{ col.image | image_url: width: 400 }}" alt="{{ link.title | escape }}" width="400" height="400" loading="lazy" />
+                        {%- elsif col.products.first.featured_image != blank -%}
+                            <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ link.title | escape }}" width="400" height="400" loading="lazy" />
+                        {%- else -%}
+                            <div class="about-offer-card-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.25;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            </div>
+                        {%- endif -%}
+                        <span class="about-offer-card-name">{{ link.title }}</span>
+                    </a>
+                {%- endfor -%}
+            {%- else -%}
+                {%- comment -%} Block mode: render from offer_card blocks {%- endcomment -%}
+                {%- assign offer_card_count = 0 -%}
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'offer_card' -%}
+                        {%- assign offer_card_count = offer_card_count | plus: 1 -%}
+                        {%- if offer_card_count <= collections_limit -%}
+                            {%- liquid
+                              assign col = collections[block.settings.collection]
+                              assign card_url = col.url | default: '#'
+                            -%}
+                            <a href="{{ card_url }}" class="about-offer-card" {{ block.shopify_attributes }}>
+                                {%- if col != blank and col.image != blank -%}
+                                    <img src="{{ col.image | image_url: width: 400 }}" alt="{{ col.title | escape }}" width="400" height="400" loading="lazy" />
+                                {%- elsif col != blank and col.products.first.featured_image != blank -%}
+                                    <img src="{{ col.products.first.featured_image | image_url: width: 400 }}" alt="{{ col.title | escape }}" width="400" height="400" loading="lazy" />
+                                {%- else -%}
+                                    <div class="about-offer-card-placeholder">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.25;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                    </div>
+                                {%- endif -%}
+                                <span class="about-offer-card-name">{{ col.title }}</span>
+                            </a>
+                        {%- endif -%}
+                    {%- endif -%}
+                {%- endfor -%}
+            {%- endif -%}
+        </div>
+    </section>
+
+    <!-- Section 4 — House of Brands -->
+    <section class="about-brands-section">
+        <div class="brands-header">
+            <h2>{{ section.settings.brands_heading | default: "House Of Brands" }}</h2>
+        </div>
+        
+        <div class="brands-grid">
+            {%- for block in section.blocks -%}
+                {%- if block.type == 'brand' -%}
+                    {%- liquid
+                      assign col = collections[block.settings.collection_handle]
+                      assign brand_name = block.settings.custom_name | default: col.title
+                      assign brand_url = block.settings.custom_url | default: col.url | default: "#"
+                      assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-'
+                    -%}
+                    <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
+                        <div class="brand-image-container">
+                            {%- if block.settings.image != blank -%}
+                                <img src="{{ block.settings.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy" />
+                            {%- elsif col.image != blank -%}
+                                <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy" />
+                            {%- else -%}
+                                <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
+                            {%- endif -%}
+                        </div>
+                    </a>
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+    </section>
+</main>
+
+<!-- Section 5 — Contact Form -->
+<section class="contact-form-section">
+    <div class="contact-form-inner">
+        <div class="contact-form-intro">
+            <div class="contact-form-intro-text">
+                <h2>{{ section.settings.form_heading | default: "Send Us A Message" }}</h2>
+                <p>{{ section.settings.form_subheading | default: "Fill out the form and we'll get back to you as quickly as possible." }}</p>
+            </div>
+        </div>
+
+        <div class="contact-form-wrapper">
+            {%- form 'contact', id: 'ContactForm' -%}
+                {%- if form.posted_successfully? -%}
+                    <div class="wpcf7-response-output sent" role="status">
+                        Thanks for contacting us! We'll get back to you as soon as possible.
+                    </div>
+                {%- elsif form.errors -%}
+                    <div class="wpcf7-response-output invalid" role="alert">
+                        {{ form.errors | default_errors }}
+                    </div>
+                {%- endif -%}
+
+                <div class="contact-field-group">
+                    <label for="ContactFormFirstName">First Name <span class="required">*</span></label>
+                    <input type="text" id="ContactFormFirstName" name="contact[first_name]" placeholder="First Name" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required aria-required="true" />
+                </div>
+                <div class="contact-field-group">
+                    <label for="ContactFormLastName">Last Name <span class="required">*</span></label>
+                    <input type="text" id="ContactFormLastName" name="contact[last_name]" placeholder="Last Name" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required aria-required="true" />
+                </div>
+                <div class="contact-field-group">
+                    <label for="ContactFormEmail">Email <span class="required">*</span></label>
+                    <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required aria-required="true" />
+                </div>
+                <div class="contact-field-group">
+                    <label for="ContactFormPhone">Phone Number (optional)</label>
+                    <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" pattern="^[34567][0-9]{7}$" title="Please enter a valid 8-digit Qatar phone number (starting with 3, 4, 5, 6, or 7)." />
+                </div>
+                <div class="contact-field-group full-width">
+                    <label for="ContactFormMessage">Your Message <span class="required">*</span></label>
+                    <textarea cols="40" rows="10" id="ContactFormMessage" name="contact[body]" placeholder="Your Message" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                </div>
+                
+                <div class="contact-field-group full-width" style="margin-top: 12px;">
+                    <button type="submit" class="contact-submit-custom">
+                        <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17.5 2.5L12.0833 17.5L9.16667 10.8333L2.5 7.91667L17.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Send a Message</span>
+                    </button>
+                </div>
+            {%- endform -%}
+        </div>
+    </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "About Us Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Hero Heading",
+      "default": "About US"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subheading",
+      "label": "Hero Subheading",
+      "default": "At the heart of our brand is a single commitment — to make every luxury purchase effortless, trusted, and genuinely satisfying."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hero_hands",
+      "label": "Show Hands Banner",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "left_hand_image",
+      "label": "Left Hand Image (Fallback: Qtr-w-h.png)"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_hand_image",
+      "label": "Right Hand Image (Fallback: Dub-m-h.png)"
+    },
+    {
+      "type": "header",
+      "content": "What We Offer Section"
+    },
+    {
+      "type": "text",
+      "id": "offer_heading",
+      "label": "Offer Heading",
+      "default": "What We Offer:"
+    },
+    {
+      "type": "text",
+      "id": "explore_label",
+      "label": "Explore Link Label",
+      "default": "explore"
+    },
+    {
+      "type": "url",
+      "id": "explore_url",
+      "label": "Explore Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Dynamic Collections Menu"
+    },
+    {
+      "type": "paragraph",
+      "content": "Select a list of collections to show here, or pick a navigation menu, or use the manual Offer Card blocks below."
+    },
+    {
+      "type": "collection_list",
+      "id": "collection_list",
+      "label": "Select Collections (Max 5)",
+      "limit": 5
+    },
+    {
+      "type": "range",
+      "id": "collections_per_row",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Collections Per Row",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "collections_limit",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Number of Collections to Show",
+      "default": 5
+    },
+    {
+      "type": "link_list",
+      "id": "offer_menu",
+      "label": "Collections Menu (Fallback)"
+    },
+    {
+      "type": "header",
+      "content": "Brands Section"
+    },
+    {
+      "type": "text",
+      "id": "brands_heading",
+      "label": "Brands Heading",
+      "default": "House Of Brands"
+    },
+    {
+      "type": "header",
+      "content": "Contact Form Settings"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form Heading",
+      "default": "Send Us A Message"
+    },
+    {
+      "type": "text",
+      "id": "form_subheading",
+      "label": "Form Subheading",
+      "default": "Fill out the form and we'll get back to you as quickly as possible."
+    },
+    {
+      "type": "richtext",
+      "id": "form_text",
+      "label": "Form Descriptive Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "intro_block",
+      "name": "Intro Text Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label (Uppercase)",
+          "default": "WHAT WE DO"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Block Text",
+          "default": "We curate a refined selection of fashion, footwear, bags, and accessories..."
+        }
+      ]
+    },
+    {
+      "type": "offer_card",
+      "name": "Offer Card",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Option A — Link to a Collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection (auto-fetches image & URL)"
+        }
+      ]
+    },
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection_handle",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Brand Logo Image"
+        },
+        {
+          "type": "text",
+          "id": "custom_name",
+          "label": "Custom Name (Fallback)"
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom URL (Fallback)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us Page",
+      "blocks": [
+        {
+          "type": "intro_block",
+          "settings": {
+            "label": "WHAT WE DO",
+            "text": "We curate a refined selection of fashion, footwear, bags, and accessories from globally recognised brands. Every piece is chosen for its craftsmanship, desirability, and lasting appeal — nothing reaches our edit without first meeting the standard our customers expect."
+          }
+        },
+        {
+          "type": "intro_block",
+          "settings": {
+            "label": "HOW WE OPERATE",
+            "text": "Our service is built around clarity and reliability. Immediate delivery within Qatar and Dubai. Seamless shipping across the GCC and worldwide. Exclusive access to sought-after pieces through our Personal Shopping service. Every part of the journey is considered, so the experience feels as good as the product."
+          }
+        },
+        {
+          "type": "intro_block",
+          "settings": {
+            "label": "WHAT WE STAND FOR",
+            "text": "We believe the experience of buying something exceptional should feel exceptional too. From the moment you discover a piece to the moment it arrives, we focus on consistency, attention to detail, and the kind of service that earns trust.\n\nAmiriVibes is not simply a destination for luxury goods. It is a place where quality, access, and experience come together — and where customers return with confidence."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1081 @@
+{%- style -%}
+  /* Info section shared styles */
+  .pp-content {
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+    padding: 24px var(--grid-horizontal-space, 40px);
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .pp-content-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pp-block-title {
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: var(--color-primary);
+    margin: 0;
+  }
+
+  .pp-block-title--upper {
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .pp-block-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pp-block-intro {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .pp-block-bullets {
+    margin: 0;
+    padding-inline-start: 40px;
+    list-style: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    color: var(--color-text);
+  }
+
+  .pp-block-bullets li {
+    position: relative;
+    margin: 0;
+    padding-inline-start: 18px;
+  }
+
+  .pp-block-bullets li::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    background: var(--color-text);
+    border-radius: 50%;
+  }
+
+  .pp-block-bullets li + li {
+    margin-top: 2px;
+  }
+
+  .pp-block-intro + .pp-block-bullets {
+    margin-top: -8px;
+  }
+
+  /* Returns specific styles */
+  .rr-hero {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px) 12px;
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+  }
+
+  .rr-hero-title {
+      font-family: var(--font-body);
+      font-size: 64px;
+      font-weight: 400;
+      color: var(--color-primary);
+      margin: 0;
+      line-height: 1.1;
+      text-transform: capitalize;
+  }
+
+  .rr-hero-subtitle {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text);
+      margin: 0;
+      line-height: 1.5;
+  }
+
+  .rr-eligibility {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+  }
+
+  .rr-eligibility-title {
+      font-family: var(--font-body);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+      text-align: center;
+      line-height: 1.2;
+  }
+
+  .rr-eligibility-grid {
+      display: flex;
+      flex-direction: row;
+      background: var(--color-primary);
+      border-radius: 24px;
+      gap: 1px;
+      padding: 1px;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .rr-eligibility-card {
+      background: var(--color-bg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+  }
+
+  .rr-eligibility-card:first-child {
+      border-radius: 23px 0 0 23px;
+  }
+
+  .rr-eligibility-card:last-child {
+      border-radius: 0 23px 23px 0;
+  }
+
+  .rr-eligibility-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      position: relative;
+      margin-bottom: 24px;
+  }
+
+  .rr-eligibility-card-icon svg {
+      width: 24px;
+      height: 24px;
+  }
+
+  .rr-eligibility-card-icon .flag-svg {
+      position: absolute;
+      width: auto;
+      height: 100%;
+      top: 0;
+  }
+
+  .rr-eligibility-card-icon--plain {
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+  }
+
+  .rr-eligibility-card-icon--plain svg {
+      width: 100%;
+      height: 100%;
+  }
+
+  .rr-eligibility-card-title {
+      font-family: var(--font-body);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0 0 12px 0;
+      line-height: 1.3;
+  }
+
+  .rr-eligibility-card-desc {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text);
+      margin: 0;
+      line-height: 1.6;
+  }
+
+  .rr-sides {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--color-bg);
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+  }
+
+  .rr-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+  }
+
+  .rr-side-title {
+      font-family: var(--font-body);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+      text-align: center;
+      line-height: 1.2;
+  }
+
+  .rr-side-subtitle {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text);
+      margin: 0;
+      text-align: center;
+      line-height: 1.6;
+  }
+
+  .rr-side-card-wrapper {
+      background: var(--color-primary);
+      border-radius: 24px;
+      padding: 1px;
+  }
+
+  .rr-side-card {
+      background: var(--color-bg);
+      border-radius: 23px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+  }
+
+  .rr-side-card-title {
+      font-family: var(--font-body);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+      line-height: 1.3;
+  }
+
+  .rr-side-card-list {
+      margin: 0;
+      padding: 0 0 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .rr-side-card-list li {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text);
+      line-height: 1.6;
+  }
+
+  .rr-non-returnable {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+  }
+
+  .rr-non-returnable-title {
+      font-family: var(--font-body);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+      text-align: center;
+      line-height: 1.2;
+  }
+
+  .rr-non-returnable-grid {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      border: 1.5px solid var(--color-primary);
+      border-radius: 16px;
+      overflow: hidden;
+      box-sizing: border-box;
+  }
+
+  .rr-non-returnable-card {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      border-right: 1.5px solid var(--color-primary);
+      min-width: 0;
+  }
+
+  .rr-non-returnable-card:last-child {
+      border-right: none;
+  }
+
+  .rr-non-returnable-icon {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+  }
+
+  .rr-non-returnable-card-title {
+      font-family: var(--font-body);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+      line-height: 1.3;
+  }
+
+  .rr-refund {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+  }
+
+  .rr-refund-label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      line-height: 1.2;
+      padding-bottom: 16px;
+      border-bottom: 1.5px solid var(--color-primary);
+  }
+
+  .rr-refund-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 1174px;
+  }
+
+  .rr-refund-text {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--color-text);
+      margin: 0;
+      line-height: 1.6;
+  }
+
+  /* Contact form on the Returns page */
+  .contact-form-section {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      background: var(--color-bg);
+      padding: 24px var(--grid-horizontal-space, 40px);
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .contact-form-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--color-border);
+  }
+
+  .contact-form-inner {
+      max-width: 1620px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 80px;
+  }
+
+  .contact-form-intro {
+      flex: 0 0 488px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-intro h2 {
+      font-family: var(--font-body);
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 100%;
+      margin: 0;
+      color: var(--color-primary);
+  }
+
+  .contact-form-intro p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--color-text);
+      margin: 0;
+  }
+
+  .contact-form-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-wrapper .contact-form-text {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--color-text);
+      margin-bottom: 24px;
+  }
+
+  .contact-form-wrapper .contact-form-text h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: var(--color-primary);
+  }
+
+  .contact-form-wrapper .contact-form-text p {
+      margin-bottom: 12px;
+  }
+
+  .contact-form-wrapper form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 12px;
+  }
+
+  .contact-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+  }
+
+  .contact-field-group.full-width {
+      grid-column: 1 / -1;
+  }
+
+  .contact-field-group label {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-primary);
+      margin: 0;
+  }
+
+  .contact-field-group label .required {
+      color: #FF0000;
+      margin-left: 2px;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"],
+  .contact-form-wrapper textarea {
+      width: 100%;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-button, 6px);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"] {
+      height: 44px;
+      padding: 0 12px;
+  }
+
+  .contact-form-wrapper textarea {
+      height: 108px;
+      padding: 12px;
+      resize: vertical;
+  }
+
+  .contact-submit-custom {
+      width: 100%;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      border-radius: 900px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+  }
+
+  .contact-submit-custom:hover {
+      background: var(--color-primary);
+      color: var(--color-bg);
+  }
+
+  .wpcf7-response-output {
+      grid-column: 1 / -1;
+      margin: 12px 0 0;
+      padding: 14px 18px;
+      font-size: 14px;
+      border-radius: var(--radius-card, 4px);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+  }
+
+  .wpcf7-response-output.sent {
+      border-color: #28a745;
+      color: #1e7a35;
+      background-color: rgba(40, 167, 69, 0.05);
+  }
+
+  .wpcf7-response-output.invalid {
+      border-color: #d93b3d;
+      color: #b1282a;
+      background-color: rgba(217, 59, 61, 0.05);
+  }
+
+  @media (max-width: 1023px) {
+      .rr-hero {
+          padding: 24px 40px 12px;
+      }
+      .rr-eligibility,
+      .rr-sides,
+      .rr-non-returnable,
+      .rr-refund,
+      .pp-content,
+      .contact-form-section {
+          padding: 32px 40px;
+      }
+      .rr-eligibility-grid {
+          flex-direction: column;
+      }
+      .rr-eligibility-card:first-child {
+          border-radius: 23px 23px 0 0;
+      }
+      .rr-eligibility-card:last-child {
+          border-radius: 0 0 23px 23px;
+      }
+      .rr-sides {
+          flex-direction: column;
+          gap: 32px;
+      }
+      .rr-non-returnable-grid {
+          flex-direction: column;
+      }
+      .rr-non-returnable-card {
+          border-right: none;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      }
+      .rr-non-returnable-card:last-child {
+          border-bottom: none;
+      }
+      .contact-form-inner {
+          flex-direction: column;
+          gap: 40px;
+      }
+  }
+
+  @media (max-width: 767px) {
+      .rr-hero {
+          padding: 24px 24px 12px;
+      }
+      .rr-eligibility,
+      .rr-sides,
+      .rr-non-returnable,
+      .rr-refund,
+      .pp-content,
+      .contact-form-section {
+          padding: 24px 24px;
+      }
+      .rr-hero-title {
+          font-size: 32px;
+      }
+      .rr-eligibility-title,
+      .rr-side-title,
+      .rr-non-returnable-title,
+      .rr-refund-text {
+          font-size: 24px;
+      }
+      .contact-form-wrapper form {
+          grid-template-columns: 1fr;
+      }
+      .contact-bottom-row {
+          flex-direction: column;
+          align-items: stretch;
+      }
+      .contact-toggle {
+          justify-content: center;
+      }
+  }
+{%- endstyle -%}
+
+<script>
+  document.body.classList.add('returns-refunds-page-body');
+</script>
+
+<main class="rr-main">
+    <!-- Hero Section -->
+    <header class="rr-hero">
+        <h1 class="rr-hero-title">{{ section.settings.heading | default: page.title }}</h1>
+        <p class="rr-hero-subtitle">{{ section.settings.subheading | default: "At AmiriVibes, we handle returns and refunds in a clear and fair manner. Eligibility depends on the service selected and the condition of the item." }}</p>
+    </header>
+
+    <!-- Content Blocks (Text First) -->
+    <section class="pp-content">
+        {%- for block in section.blocks -%}
+            {%- if block.type == 'content_block' -%}
+                <div class="pp-content-block" {{ block.shopify_attributes }}>
+                    {%- if block.settings.title != blank -%}
+                        <h2 class="pp-block-title{% if block.settings.uppercase %} pp-block-title--upper{% endif %}">
+                            {{ block.settings.title }}
+                        </h2>
+                    {%- endif -%}
+                    
+                    {%- if block.settings.intro != blank or block.settings.bullets != blank -%}
+                        <div class="pp-block-body">
+                            {%- if block.settings.intro != blank -%}
+                                <p class="pp-block-intro">{{ block.settings.intro | newline_to_br }}</p>
+                            {%- endif -%}
+                            
+                            {%- if block.settings.bullets != blank -%}
+                                <ul class="pp-block-bullets">
+                                    {%- assign bullet_items = block.settings.bullets | split: '||' -%}
+                                    {%- for item in bullet_items -%}
+                                        {%- if item != blank -%}
+                                            <li>{{ item | strip }}</li>
+                                        {%- endif -%}
+                                    {%- endfor -%}
+                                </ul>
+                            {%- endif -%}
+                        </div>
+                    {%- endif -%}
+                </div>
+            {%- endif -%}
+        {%- endfor -%}
+    </section>
+
+    <!-- Eligibility Section -->
+    {%- assign has_eligibility = false -%}
+    {%- for block in section.blocks -%}{%- if block.type == 'eligibility_card' -%}{%- assign has_eligibility = true -%}{%- endif -%}{%- endfor -%}
+    
+    {%- if has_eligibility -%}
+        <section class="rr-eligibility">
+            <h2 class="rr-eligibility-title">{{ section.settings.eligibility_heading | default: "Return Eligibility By Service" }}</h2>
+            <div class="rr-eligibility-grid">
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'eligibility_card' -%}
+                        <div class="rr-eligibility-card" {{ block.shopify_attributes }}>
+                            <div class="rr-eligibility-card-icon{% if block.settings.icon_type == 'plain_svg' %} rr-eligibility-card-icon--plain{% endif %}">
+                                {%- if block.settings.icon_type == 'qatar' -%}
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar"><rect width="40" height="28" fill="#fff"/><path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/></svg>
+                                {%- elsif block.settings.icon_type == 'uae' -%}
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="2 0 28 28" class="flag-svg flag-uae"><rect width="40" height="9.333" fill="#00732F"/><rect y="9.333" width="40" height="9.333" fill="#fff"/><rect y="18.667" width="40" height="9.334" fill="#000"/><rect width="10" height="28" fill="#FF0000"/></svg>
+                                {%- else -%}
+                                    {{ block.settings.icon_svg }}
+                                {%- endif -%}
+                            </div>
+                            <h3 class="rr-eligibility-card-title">{{ block.settings.title }}</h3>
+                            <p class="rr-eligibility-card-desc">{{ block.settings.description | newline_to_br }}</p>
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        </section>
+    {%- endif -%}
+
+    <!-- Sides / Grid Section -->
+    {%- assign has_sides = false -%}
+    {%- for block in section.blocks -%}{%- if block.type == 'side_card' -%}{%- assign has_sides = true -%}{%- endif -%}{%- endfor -%}
+    
+    {%- if has_sides -%}
+        <section class="rr-sides">
+            <!-- Left Side -->
+            <div class="rr-side">
+                <h2 class="rr-side-title">{{ section.settings.side_left_heading | default: "If the issue is on Qtrshoe's side" }}</h2>
+                <p class="rr-side-subtitle">{{ section.settings.side_left_subheading | default: "Wrong item, defect, or order error" }}</p>
+                <div class="rr-side-card-wrapper">
+                    <div class="rr-side-card">
+                        <ul class="rr-side-card-list">
+                            {%- for block in section.blocks -%}
+                                {%- if block.type == 'side_card' and block.settings.side == 'left' -%}
+                                    <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+                                {%- endif -%}
+                            {%- endfor -%}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side -->
+            <div class="rr-side">
+                <h2 class="rr-side-title">{{ section.settings.side_right_heading | default: "If the return is from the customer's side" }}</h2>
+                <p class="rr-side-subtitle">{{ section.settings.side_right_subheading | default: "Size issue, preference, or change of mind" }}</p>
+                <div class="rr-side-card-wrapper">
+                    <div class="rr-side-card">
+                        <ul class="rr-side-card-list">
+                            {%- for block in section.blocks -%}
+                                {%- if block.type == 'side_card' and block.settings.side == 'right' -%}
+                                    <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+                                {%- endif -%}
+                            {%- endfor -%}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {%- endif -%}
+
+    <!-- Non-Returnable Items Section -->
+    {%- assign has_non_returnable = false -%}
+    {%- for block in section.blocks -%}{%- if block.type == 'non_returnable_card' -%}{%- assign has_non_returnable = true -%}{%- endif -%}{%- endfor -%}
+    
+    {%- if has_non_returnable -%}
+        <section class="rr-non-returnable">
+            <h2 class="rr-non-returnable-title">{{ section.settings.non_returnable_heading | default: "Non-Returnable Items" }}</h2>
+            <div class="rr-non-returnable-grid">
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'non_returnable_card' -%}
+                        <div class="rr-non-returnable-card" {{ block.shopify_attributes }}>
+                            <div class="rr-non-returnable-icon">
+                                {{ block.settings.icon_svg }}
+                            </div>
+                            <h3 class="rr-non-returnable-card-title">{{ block.settings.title }}</h3>
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        </section>
+    {%- endif -%}
+
+    <!-- Refund Processing Section -->
+    {%- if section.settings.refund_text != blank -%}
+        <section class="rr-refund">
+            <div class="rr-refund-label">{{ section.settings.refund_label | default: "Refund Processing" }}</div>
+            <div class="rr-refund-body">
+                <p class="rr-refund-text">{{ section.settings.refund_text }}</p>
+            </div>
+        </section>
+    {%- endif -%}
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+        <div class="contact-form-inner">
+            <div class="contact-form-intro">
+                <h2>{{ section.settings.form_heading | default: "Send Us A Message" }}</h2>
+                <p>{{ section.settings.form_subheading | default: "Fill out the form and we'll get back to you as quickly as possible." }}</p>
+            </div>
+
+            <div class="contact-form-wrapper">
+                {%- form 'contact', id: 'ContactForm' -%}
+                    {%- if form.posted_successfully? -%}
+                        <div class="wpcf7-response-output sent" role="status">
+                            Thanks for contacting us! We'll get back to you as soon as possible.
+                        </div>
+                    {%- elsif form.errors -%}
+                        <div class="wpcf7-response-output invalid" role="alert">
+                            {{ form.errors | default_errors }}
+                        </div>
+                    {%- endif -%}
+
+                    <div class="contact-field-group">
+                        <label for="ContactFormFirstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="ContactFormFirstName" name="contact[first_name]" placeholder="First Name" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormLastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="ContactFormLastName" name="contact[last_name]" placeholder="Last Name" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormEmail">Email <span class="required">*</span></label>
+                        <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormPhone">Phone Number (optional)</label>
+                        <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" pattern="^[34567][0-9]{7}$" title="Please enter a valid 8-digit Qatar phone number (starting with 3, 4, 5, 6, or 7)." />
+                    </div>
+                    <div class="contact-field-group full-width">
+                        <label for="ContactFormMessage">Your Message <span class="required">*</span></label>
+                        <textarea cols="40" rows="10" id="ContactFormMessage" name="contact[body]" placeholder="Your Message" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                    </div>
+                    
+                    <div class="contact-field-group full-width" style="margin-top: 12px;">
+                        <button type="submit" class="contact-submit-custom">
+                            <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17.5 2.5L12.0833 17.5L9.16667 10.8333L2.5 7.91667L17.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Send a Message</span>
+                        </button>
+                    </div>
+                {%- endform -%}
+            </div>
+        </div>
+    </section>
+</main>
+
+{% schema %}
+{
+  "name": "Returns & Refunds",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Returns and Refunds"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "At AmiriVibes, we handle returns and refunds in a clear and fair manner. Eligibility depends on the service selected and the condition of the item."
+    },
+    {
+      "type": "header",
+      "content": "Eligibility Grid Settings"
+    },
+    {
+      "type": "text",
+      "id": "eligibility_heading",
+      "label": "Eligibility Heading",
+      "default": "Return Eligibility By Service"
+    },
+    {
+      "type": "header",
+      "content": "Sides Section Settings"
+    },
+    {
+      "type": "text",
+      "id": "side_left_heading",
+      "label": "Left Side Heading",
+      "default": "If the issue is on AmiriVibes's side"
+    },
+    {
+      "type": "text",
+      "id": "side_left_subheading",
+      "label": "Left Side Subheading",
+      "default": "Wrong item, defect, or order error"
+    },
+    {
+      "type": "text",
+      "id": "side_right_heading",
+      "label": "Right Side Heading",
+      "default": "If the return is from the customer's side"
+    },
+    {
+      "type": "text",
+      "id": "side_right_subheading",
+      "label": "Right Side Subheading",
+      "default": "Size issue, preference, or change of mind"
+    },
+    {
+      "type": "header",
+      "content": "Non-Returnable Items Settings"
+    },
+    {
+      "type": "text",
+      "id": "non_returnable_heading",
+      "label": "Non-Returnable Section Heading",
+      "default": "Non-Returnable Items"
+    },
+    {
+      "type": "header",
+      "content": "Refund Processing Settings"
+    },
+    {
+      "type": "text",
+      "id": "refund_label",
+      "label": "Refund Section Label",
+      "default": "Refund Processing"
+    },
+    {
+      "type": "textarea",
+      "id": "refund_text",
+      "label": "Refund Section Text",
+      "default": "Approved refunds are processed within 10 business days. Your bank may take additional time to reflect the amount."
+    },
+    {
+      "type": "header",
+      "content": "Contact Form Settings"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form Heading",
+      "default": "Send Us A Message"
+    },
+    {
+      "type": "text",
+      "id": "form_subheading",
+      "label": "Form Subheading",
+      "default": "Fill out the form and we'll get back to you as quickly as possible."
+    },
+    {
+      "type": "richtext",
+      "id": "form_text",
+      "label": "Form Descriptive Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content_block",
+      "name": "Content Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Block Title",
+          "default": "Return Eligibility"
+        },
+        {
+          "type": "checkbox",
+          "id": "uppercase",
+          "label": "Uppercase Heading",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "intro",
+          "label": "Intro Paragraph",
+          "default": "We want every purchase to be right. If something is not, we are here to make it easy."
+        },
+        {
+          "type": "textarea",
+          "id": "bullets",
+          "label": "Bullet Items (separated by ||)",
+          "default": "Returns are accepted within 10 days of the confirmed delivery date.||Items must be unused, unworn, and returned in their original packaging with all accessories, tags, and branded materials intact.||Requests made outside the 10-day window will not be eligible."
+        }
+      ]
+    },
+    {
+      "type": "eligibility_card",
+      "name": "Eligibility Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "Qatar Collection"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "Returns are accepted within 10 days of the delivery date. Items must be unused, unworn, and returned in original packaging."
+        },
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon Type",
+          "options": [
+            { "value": "qatar", "label": "Qatar Flag" },
+            { "value": "uae", "label": "UAE Flag" },
+            { "value": "plain_svg", "label": "Custom SVG" }
+          ],
+          "default": "qatar"
+        },
+        {
+          "type": "textarea",
+          "id": "icon_svg",
+          "label": "Custom Icon SVG"
+        }
+      ]
+    },
+    {
+      "type": "side_card",
+      "name": "Sides List Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "side",
+          "label": "Side",
+          "options": [
+            { "value": "left", "label": "Left Side" },
+            { "value": "right", "label": "Right Side" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Bullet Text",
+          "default": "Full refund will be issued"
+        }
+      ]
+    },
+    {
+      "type": "non_returnable_card",
+      "name": "Non-Returnable Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Item Name",
+          "default": "Watches"
+        },
+        {
+          "type": "textarea",
+          "id": "icon_svg",
+          "label": "Icon SVG",
+          "default": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,117 @@
+<div class="customer-auth-container">
+  
+  
+  <div class="auth-card" id="login-card">
+    <h1 class="auth-title">Sign In</h1>
+    
+    {%- form 'customer_login', class: 'auth-form' -%}
+      {%- if form.errors -%}
+        <div class="errors">
+          {{ form.errors | default_errors }}
+        </div>
+      {%- endif -%}
+
+      <div class="form-field">
+        <label for="CustomerEmail">Email</label>
+        <input type="email" 
+               name="customer[email]" 
+               id="CustomerEmail" 
+               autocomplete="email" 
+               placeholder="Enter your email"
+               required>
+      </div>
+
+      {%- if form.password_needed -%}
+        <div class="form-field">
+          <div class="field-header">
+            <label for="CustomerPassword">Password</label>
+            <button type="button" 
+                    id="RecoverPasswordBtn" 
+                    class="form-link"
+                    onclick="toggleRecoverForm(true); return false;">
+              Forgot password?
+            </button>
+          </div>
+          <input type="password" 
+                 name="customer[password]" 
+                 id="CustomerPassword" 
+                 autocomplete="current-password" 
+                 placeholder="Enter your password"
+                 required>
+        </div>
+      {%- endif -%}
+
+      <button type="submit" class="auth-submit-btn">Sign In</button>
+
+      <div class="auth-footer">
+        <span>New to AmiriVibes?</span>
+        <a href="{{ routes.account_register_url }}" class="form-link">Create account</a>
+      </div>
+    {%- endform -%}
+  </div>
+
+  
+  <div class="auth-card" id="recover-card" style="display: none;">
+    <h1 class="auth-title">Reset Password</h1>
+    <p class="auth-subtitle">We will send you an email to reset your password.</p>
+
+    {%- form 'recover_customer_password', class: 'auth-form' -%}
+      {%- if form.errors -%}
+        <div class="errors">
+          {{ form.errors | default_errors }}
+        </div>
+      {%- endif -%}
+
+      {%- if form.posted_successfully? -%}
+        <script>
+          window.onload = function() {
+            alert('We have sent you an email with a link to update your password.');
+          }
+        </script>
+      {%- endif -%}
+
+      <div class="form-field">
+        <label for="RecoverEmail">Email</label>
+        <input type="email" 
+               name="email" 
+               id="RecoverEmail" 
+               autocomplete="email" 
+               placeholder="Enter your email"
+               required>
+      </div>
+
+      <button type="submit" class="auth-submit-btn">Submit</button>
+
+      <div class="auth-footer">
+        <button type="button" 
+                id="CancelRecoverBtn" 
+                class="form-link"
+                onclick="toggleRecoverForm(false); return false;">
+          Cancel
+        </button>
+      </div>
+    {%- endform -%}
+  </div>
+
+</div>
+
+<script>
+  function toggleRecoverForm(showRecover) {
+    var loginCard = document.getElementById('login-card');
+    var recoverCard = document.getElementById('recover-card');
+    if (showRecover) {
+      loginCard.style.display = 'none';
+      recoverCard.style.display = 'block';
+      window.location.hash = '#recover';
+    } else {
+      loginCard.style.display = 'block';
+      recoverCard.style.display = 'none';
+      window.location.hash = '';
+    }
+  }
+
+  
+  if (window.location.hash === '#recover') {
+    toggleRecoverForm(true);
+  }
+</script>

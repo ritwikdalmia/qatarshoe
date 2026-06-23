@@ -1,0 +1,487 @@
+/* Gift Card Page Custom Stylesheet */
+
+/* Page Wrapper */
+.gift-card-page-wrapper {
+  padding: 60px 24px 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card Container */
+.gift-card-container {
+  width: 100%;
+  max-width: 620px;
+  background-color: var(--color-bg);
+  border: 1.5px solid var(--color-primary) !important;
+  border-radius: var(--radius-card) !important;
+  padding: 48px 40px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(45, 31, 31, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header & Titles */
+.gift-card-header {
+  margin-bottom: 36px;
+}
+
+.gift-card-title {
+  font-family: var(--font-serif) !important;
+  font-size: 36px !important;
+  font-weight: 400 !important;
+  color: var(--color-primary) !important;
+  margin-bottom: 12px !important;
+  line-height: 1.2;
+}
+
+.gift-card-subtitle {
+  font-family: var(--font-body) !important;
+  font-size: 15px !important;
+  color: #000000 !important;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+/* Virtual Gift Card Visual */
+.gift-card-visual {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1.58 / 1;
+  margin: 0 auto 36px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #453232 100%);
+  border-radius: var(--radius-card);
+  padding: 28px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  box-shadow: 0 16px 36px rgba(45, 31, 31, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Subtle background accent pattern on card */
+.gift-card-visual::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gift-card-visual-header {
+  display: block;
+  text-align: center;
+  width: 100%;
+  z-index: 2;
+}
+
+.gift-card-visual-logo {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--color-white);
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.gift-card-visual-tag {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: var(--radius-card);
+  text-transform: uppercase;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.gift-card-visual-body {
+  margin-top: 15px;
+  margin-bottom: auto;
+  z-index: 2;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.gift-card-visual-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--font-size-small);
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.gift-card-visual-amount {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 38px;
+  color: #dfb76c; /* Elegant gold accent */
+  font-weight: 400;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.gift-card-visual-amount.gift-card-disabled {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.gift-card-visual-footer {
+  display: block;
+  text-align: center;
+  z-index: 2;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Card Code Presentation */
+.gift-card-visual-code-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px dashed rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-card);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+}
+
+.gift-card-visual-code-wrap:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #dfb76c;
+}
+
+.gift-card-visual-code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: var(--font-size-body);
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 1.5px;
+}
+
+.gift-card-copy-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.2s ease;
+}
+
+.gift-card-visual-code-wrap:hover .gift-card-copy-icon {
+  color: #dfb76c;
+}
+
+/* Expired / Disabled Badges */
+.gift-card-status-badge {
+  display: inline-block;
+  margin-bottom: 24px;
+  padding: 8px 16px;
+  border-radius: var(--radius-card);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-small);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.gift-card-status-badge.status-expired {
+  background-color: rgba(242, 92, 94, 0.1);
+  color: var(--color-accent);
+  border: 1px solid rgba(242, 92, 94, 0.2);
+}
+
+.gift-card-status-badge.status-disabled {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #666666;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.gift-card-status-badge.status-active {
+  background-color: rgba(30, 53, 36, 0.08);
+  color: var(--color-green);
+  border: 1px solid rgba(30, 53, 36, 0.15);
+}
+
+/* Redeem Instructions */
+.gift-card-instructions {
+  font-family: var(--font-body) !important;
+  font-size: 15px !important;
+  line-height: 1.6;
+  color: #000000;
+  margin-bottom: 30px;
+}
+
+/* QR Code Section */
+.gift-card-qr-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.gift-card-qr-container {
+  padding: 16px;
+  background-color: var(--color-white);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-card);
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(45, 31, 31, 0.03);
+  margin-bottom: 12px;
+}
+
+.gift-card-qr-container img {
+  display: block;
+}
+
+.gift-card-qr-text {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-small);
+  color: #666666;
+}
+
+/* Apple Wallet Pass Link */
+.gift-card-apple-wallet {
+  margin-bottom: 30px;
+}
+
+.gift-card-apple-wallet-btn {
+  display: inline-block;
+}
+
+.gift-card-apple-wallet-btn img {
+  height: 40px;
+  transition: transform 0.2s ease;
+}
+
+.gift-card-apple-wallet-btn:hover img {
+  transform: scale(1.02);
+}
+
+/* Action Buttons */
+.gift-card-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-top: 1.5px solid var(--color-primary);
+  padding-top: 36px;
+}
+
+.gift-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  padding: 14px 28px;
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  border: 1.5px solid var(--color-primary);
+}
+
+.gift-card-btn-primary {
+  background-color: var(--color-primary) !important;
+  color: var(--color-bg) !important;
+}
+
+.gift-card-btn-primary:hover {
+  background-color: var(--color-white) !important;
+  color: var(--color-primary) !important;
+}
+
+.gift-card-btn-secondary {
+  background-color: transparent !important;
+  color: var(--color-primary) !important;
+}
+
+.gift-card-btn-secondary:hover {
+  background-color: var(--color-primary) !important;
+  color: var(--color-bg) !important;
+}
+
+.gift-card-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+/* Toast Message */
+.gift-card-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  padding: 12px 24px;
+  border-radius: var(--radius-button);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gift-card-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.gift-card-toast svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* ── Arabic / RTL Adjustments ── */
+[dir="rtl"] .gift-card-visual {
+  text-align: center;
+}
+
+[dir="rtl"] .gift-card-visual-code-wrap {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .gift-card-visual-code {
+  letter-spacing: 0;
+  font-size: var(--font-size-body);
+}
+
+[dir="rtl"] .gift-card-btn {
+  flex-direction: row-reverse;
+}
+
+/* Responsive Scaling for Virtual Card on Small Screens */
+@media (max-width: 600px) {
+  .gift-card-container {
+    padding: 32px 20px;
+  }
+  
+  .gift-card-visual {
+    padding: 20px;
+    border-radius: var(--radius-card);
+  }
+  
+  .gift-card-visual-logo {
+    font-size: var(--font-size-heading-medium);
+  }
+  
+  .gift-card-visual-amount {
+    font-size: var(--font-size-heading-large);
+  }
+  
+  .gift-card-visual-code {
+    font-size: var(--font-size-body);
+    letter-spacing: 1px;
+  }
+  
+  .gift-card-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .gift-card-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* ── Print Styles ── */
+@media print {
+  /* Hide all headers, footers, navigation, sticky panels, and buttons */
+  header,
+  .homepage-desktop-header,
+  .homepage-sticky-wrapper,
+  .site-header,
+  .desktop-nav,
+  footer,
+  .site-footer,
+  .site-footer-legal,
+  .gift-card-buttons,
+  .gift-card-toast,
+  .breadcrumbs,
+  script,
+  #shopify-section-header,
+  #shopify-section-footer,
+  .shopify-section-group-footer-group {
+    display: none !important;
+  }
+  
+  body,
+  html,
+  #MainContent,
+  .gift-card-page-wrapper {
+    background: var(--color-white) !important;
+    background-color: var(--color-white) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  
+  .gift-card-container {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 20px !important;
+    margin: 40px auto !important;
+    max-width: 100% !important;
+    background: var(--color-white) !important;
+  }
+  
+  .gift-card-visual {
+    background: var(--color-primary) !important;
+    color: var(--color-white) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    box-shadow: none !important;
+    border: 1px solid var(--color-primary) !important;
+  }
+
+  .gift-card-visual-amount {
+    color: #dfb76c !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .gift-card-qr-container {
+    border: 1px solid var(--color-primary) !important;
+    box-shadow: none !important;
+  }
+}

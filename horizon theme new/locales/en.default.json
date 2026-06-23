@@ -8,6 +8,18 @@
  * ------------------------------------------------------------
  */
 {
+  "general": {
+    "size_required": "Please select a size first.",
+    "stock_limit": "Only {{ count }} items available in stock.",
+    "cart_stock_exceeded": "You cannot add {{ qty }} more. You already have {{ in_cart }} in your cart, and only {{ max }} are available in stock.",
+    "stock_limit_buy_now": "Only {{ max }} items are available in stock. You already have {{ in_cart }} in your cart.",
+    "adding": "Adding...",
+    "checking_stock": "Checking stock...",
+    "processing": "Processing...",
+    "add_to_cart": "Add to Cart",
+    "sold_out": "Sold Out",
+    "buy_now": "Buy Now"
+  },
   "accessibility": {
     "account": "Account",
     "active_filters": "Active filters:",

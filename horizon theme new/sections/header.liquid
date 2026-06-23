@@ -1,1754 +1,2874 @@
 
 
-{% liquid
-  assign order = 'logo,menu,localization,search,drawer_search,actions'
+{%- if template != 'index' -%}
+  <style>
+    #homepage-desktop-header { display: none !important; }
+    #homepage-sticky-header {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 9999 !important;
+      transform: translateY(0) !important;
+      pointer-events: auto !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+    }
+  </style>
+{%- endif -%}
 
-  if shop.customer_accounts_enabled
-    assign order = 'drawer_search,logo,menu,localization,search,actions'
-  endif
-
-  assign rows = 'top,bottom' | split: ','
-  assign search_style = 'none'
-
-  if section.settings.show_search
-    assign search_style = 'modal'
-  endif
-
-  if section.settings.show_search
-    render 'slideshow-styles'
-  endif
-
-  if section.settings.enable_transparent_header_home and template.name == 'index'
-    assign transparent = 'always'
-    assign transparent_text_color_setting = section.settings.text_color_transparent_home
-  elsif section.settings.enable_transparent_header_product and template.name == 'product'
-    assign transparent = 'always'
-    assign transparent_text_color_setting = section.settings.text_color_transparent_product
-  elsif section.settings.enable_transparent_header_collection and template.name == 'collection'
-    assign transparent = 'always'
-    assign transparent_text_color_setting = section.settings.text_color_transparent_collection
-  endif
-
-  if section.settings.enable_sticky_header == 'always'
-    assign sticky = 'always'
-  elsif section.settings.enable_sticky_header == 'scroll-up'
-    assign sticky = 'scroll-up'
-  endif
-
-  if transparent and sticky
-    assign transparent = 'not-sticky'
-  endif
-
-  assign text_color_transparent = transparent_text_color_setting | default: settings.page_text_color
-  assign transparent_text_brightness = text_color_transparent | color_brightness
-  if transparent_text_brightness > 128
-    assign transparent_text_contrast = 'var(--palette-darkest)'
-  else
-    assign transparent_text_contrast = 'var(--palette-lightest)'
-  endif
-
-  # Cart bubble colors: custom styles apply in every header state; default
-  # mirrors the top row's effective text color, with a contrasting text color.
-  if section.settings.bubble_style == 'custom' or section.settings.text_color_top != blank or section.settings.background_color_top != blank
-    assign cart_bubble_color_override = true
-  endif
-  if cart_bubble_color_override
-    if section.settings.bubble_style == 'custom'
-      assign cart_bubble_background = section.settings.bubble_background_color | default: section.settings.text_color_top | default: settings.page_text_color
-      assign cart_bubble_text = section.settings.bubble_text_color | default: section.settings.background_color_top | default: settings.page_background_color
-    elsif section.settings.text_color_top != blank
-      assign cart_bubble_background = section.settings.text_color_top
-      if section.settings.background_color_top != blank
-        assign cart_bubble_text = section.settings.background_color_top
-      else
-        assign cart_bubble_bg_brightness = cart_bubble_background | color_brightness
-        if cart_bubble_bg_brightness > 128
-          assign cart_bubble_text = 'var(--palette-darkest)'
-        else
-          assign cart_bubble_text = 'var(--palette-lightest)'
-        endif
-      endif
-    elsif section.settings.background_color_top != blank
-      assign bg_top = section.settings.background_color_top
-      assign bg_top_brightness = bg_top | color_brightness
-      assign cart_bubble_text = bg_top
-      if bg_top_brightness > 128
-        assign cart_bubble_background = 'var(--palette-darkest)'
-      else
-        assign cart_bubble_background = 'var(--palette-lightest)'
-      endif
-    endif
-  endif
-
-  capture logo
-    content_for 'block', type: '_header-logo', id: 'header-logo'
-  endcapture
-
-  capture menu
-    content_for 'block', type: '_header-menu', id: 'header-menu'
-  endcapture
-
-  capture drawer_menu
-    content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'mobile'
-  endcapture
-
-  capture navigation_bar
-    content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'navigation_bar', transparent: transparent
-  endcapture
-
-  capture actions
-    render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section
-  endcapture
-
-  if shop.customer_accounts_enabled
-    assign search_class = 'search-action--hidden-on-drawer'
-  endif
-
-  # Handle localization positioning
-  if section.settings.localization_position == 'left'
-    if section.settings.search_position == 'left'
-      if shop.customer_accounts_enabled
-        assign order = 'drawer_search,logo,search,localization,menu,actions'
-      else
-        assign order = 'logo,search,localization,menu,drawer_search,actions'
-      endif
-    else
-      if shop.customer_accounts_enabled
-        assign order = 'drawer_search,logo,localization,menu,search,actions'
-      else
-        assign order = 'logo,localization,menu,search,drawer_search,actions'
-      endif
-    endif
-  else
-    if section.settings.search_position == 'left'
-      if shop.customer_accounts_enabled
-        assign order = 'drawer_search,logo,search,menu,localization,actions'
-      else
-        assign order = 'logo,search,menu,localization,drawer_search,actions'
-      endif
-    endif
-  endif
-  capture search
-    render 'search', style: search_style, class: search_class, display_style: section.settings.actions_display_style
-  endcapture
-
-  # Skip drawer search under specific conditions:
-  # Always render if search_row is bottom
-  # Don't render when shop.customer_accounts_enabled is false and search_position is left and search_style is not none
-  assign skip_drawer_search = false
-  if shop.customer_accounts_enabled == false and section.settings.search_position == 'left' and search_style != 'none'
-    assign skip_drawer_search = true
-  endif
-
-  if section.settings.search_row == 'bottom' or search_style != 'none' and skip_drawer_search == false
-    # Mobile search duplicate for when search is not in the right order for mobile layout
-    capture drawer_search
-      render 'search', class: 'search-action--hidden-on-menu', style: search_style, display_style: section.settings.actions_display_style
-    endcapture
-  endif
-
-  assign show_language = section.settings.show_language
-  if localization.available_languages.size <= 1
-    assign show_language = false
-  endif
-
-  assign show_country = section.settings.show_country
-  if localization.available_countries.size <= 1
-    assign show_country = false
-  endif
-
-  assign bottom_row_blocks = ''
-
-  if section.settings.menu_row == 'bottom'
-    assign bottom_row_blocks = bottom_row_blocks | append: 'menu,'
-  endif
-
-  if section.settings.search_style != 'none'
-    if section.settings.search_row == 'bottom'
-      assign bottom_row_blocks = bottom_row_blocks | append: 'search,'
-    endif
-  endif
-
-  if section.settings.show_country or section.settings.show_language
-    if section.settings.localization_row == 'bottom'
-      assign bottom_row_blocks = bottom_row_blocks | append: 'localization,'
-    endif
-  endif
-
-  assign bottom_row_blocks = bottom_row_blocks | split: ',' | compact
-
-  if section.settings.section_height == 'compact'
-    assign header_height_class = ' header--compact'
-  endif
-
-  if bottom_row_blocks.size > 0 and section.settings.background_color_top == section.settings.background_color_bottom and section.settings.divider_width == 0
-    assign collapse_header_paddings_class = 'header--collapse-row-paddings'
-  endif
-
-  assign class = 'header'
-
-  if header_height_class
-    assign class = class | append: ' ' | append: header_height_class
-  endif
-
-  if collapse_header_paddings_class
-    assign class = class | append: ' ' | append: collapse_header_paddings_class
-  endif
-
-  # Determine transparent background value
-  assign top_transparent = false
-  assign bottom_transparent = false
-
-  if section.settings.background_color_top.alpha != 1
-    assign top_transparent = true
-  endif
-
-  if section.settings.background_color_bottom.alpha != 1
-    assign bottom_transparent = true
-  endif
-
-  if top_transparent and bottom_transparent
-    assign background_transparent_color_value = 'both'
-  elsif top_transparent
-    assign background_transparent_color_value = 'top'
-  elsif bottom_transparent
-    assign background_transparent_color_value = 'bottom'
-  endif
-%}
-
-{% capture localization_markup %}
-  {% liquid
-    assign localization_font = '--menu-localization-font: var(--font-[localization_font]--family); ' | replace: '[localization_font]', section.settings.localization_font
-    assign localization_font_size = '--menu-localization-font-size: [localization_font_size]; ' | replace: '[localization_font_size]', section.settings.localization_font_size
-    assign color_shadow = '--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));'
-    assign form_style = localization_font | append: localization_font_size | append: color_shadow
-  %}
-  {% if show_language and show_country == false %}
-    <div class="dropdown-localization mobile:hidden">
-      {% render 'localization-form',
-        show_country: show_country,
-        show_language: show_language,
-        localization_style: 'dropdown',
-        form_style: form_style,
-        form_id: section.id
-      %}
-    </div>
-  {% elsif show_country %}
-    <dropdown-localization-component
-      class="dropdown-localization mobile:hidden"
-    >
-      <button
-        type="button"
-        class="button dropdown-localization__button localization-selector header-actions__action"
-        aria-expanded="false"
-        aria-controls="dropdown-localization-results"
-        ref="button"
-        on:click="/toggleSelector"
-        style="{{ localization_font }} {{ localization_font_size }}"
-      >
-        {% if show_country %}
-          {% if section.settings.country_selector_style == true %}
-            {% assign localization_background_color = 'background_color_[row]' | replace: '[row]', section.settings.localization_row %}
-            {% liquid
-              assign background_brightness = section.settings[localization_background_color] | color_brightness
-              if background_brightness < 64
-                assign shadow_size = 4
-              else
-                assign shadow_size = 2
-              endif
-            %}
-            <span
-              class="icon-flag"
-              style="
-                background-image: url({{- localization.country | image_url: width: 32 }});
-                --size-shadow: {{ shadow_size }}px;
-                --color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-30-60));
-              "
-            ></span>
-          {% endif %}
-          <span
-            class="currency-code"
-            data-testid="localization-currency-code"
-          >
-            {{- localization.country.currency.iso_code -}}
-          </span>
-        {% endif %}
-        <span
-          class="visually-hidden"
-          data-testid="localization-visually-hidden"
-        >
-          {{- 'accessibility.localization_region_and_language' | t -}}
-        </span>
-
-        {%- if show_country and show_language -%}
-          <span>/</span>
-        {%- endif -%}
-
-        {%- if show_language -%}
-          <span>
-            {{ localization.language.iso_code | upcase }}
-          </span>
-        {%- endif -%}
-        <span class="svg-wrapper icon-caret">
-          {{- 'icon-caret.svg' | inline_asset_content -}}
-        </span>
-      </button>
-
-      <div
-        class="localization-wrapper {{ section.settings.localization_position }}-bound color-custom-popover"
-        hidden
-        ref="panel"
-      >
-        {% render 'localization-form',
-          show_country: show_country,
-          show_language: show_language,
-          localization_style: 'dropdown',
-          form_style: form_style,
-          form_id: section.id
-        %}
-      </div>
-    </dropdown-localization-component>
-  {% endif %}
-{% endcapture %}
-
-<script type="application/ld+json">
-  {
-    "@context": "http://schema.org",
-    "@type": "Organization",
-    "name": {{ shop.name | json }},
-    {% if settings.logo %}
-      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
-    {% endif %}
-    "url": {{ request.origin | append: page.url | json }}
+<style>
+  .logo-circle-layout img {
+    width: {{ settings.logo_width | default: 90 }}px !important;
+    height: {{ settings.logo_width | default: 90 }}px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    overflow: hidden !important;
+    max-width: 100%;
   }
-</script>
+  .logo-circle-layout:not(.mobile-header-logo) {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    background: transparent !important;
+  }
+  .mobile-header-logo {
+    display: none !important;
+  }
+  .two-panel-dropdown {
+    min-width: 360px !important;
+  }
+  .two-panel-dropdown .panel-left {
+    display: block !important;
+    column-count: 2 !important;
+    column-gap: 32px !important;
+  }
+  .two-panel-dropdown .panel-left .panel-item {
+    display: block !important;
+    break-inside: avoid-column !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
+  }
 
-<header-component
-  id="header-component"
-  class="{{ class }}"
-  data-theme-color="rgb({{ section.settings.background_color_top.rgb | default: settings.page_background_color.rgb }})"
-  data-bubble-style="{{ section.settings.bubble_style }}"
-  {% if transparent %}
-    transparent="{{ transparent }}"
-  {% endif %}
-  {% if sticky %}
-    sticky="{{ sticky }}"
-  {% endif %}
-  data-skip-node-update
-  data-scroll-direction="none"
-  {% if section.settings.menu_row == 'top' and bottom_row_blocks.size > 0 %}
-    data-submenu-overlap-bottom-row
-  {% endif %}
-  {% if background_transparent_color_value %}
-    data-transparent-background="{{ background_transparent_color_value }}"
-  {% endif %}
-  style="
-    --color-background-top-row: rgba({{ section.settings.background_color_top.rgba | default: settings.page_background_color.rgba }});
-    --color-background-bottom-row: rgba({{ section.settings.background_color_bottom.rgba | default: settings.page_background_color.rgba }});
-    {% if transparent and text_color_transparent != blank %}
-      --color-transparent-text: {{ text_color_transparent }};
-      --color-transparent-text-rgb: {{ text_color_transparent.rgb }};
-      --color-transparent-text-contrast: {{ transparent_text_contrast }};
-    {% endif %}
-    {% if cart_bubble_color_override %}
-      --cart-bubble-background: {{ cart_bubble_background }};
-      --cart-bubble-text: {{ cart_bubble_text }};
-    {% endif %}
-    {% if section.settings.actions_display_style == 'text' %}
-      --header-actions-font-size: {{ section.settings.actions_font_size | default: '1rem' }};
-      --header-actions-font-family: var(--font-{{ section.settings.actions_font | default: 'heading' }}--family);
-      --header-actions-font-weight: var(--font-{{ section.settings.actions_font | default: 'heading' }}--weight);
-      --header-actions-text-case: {{ section.settings.actions_text_case | default: 'none' }};
-    {% endif %}
-  "
->
-  <div class="header__underlay header__underlay-closed"></div>
-  <div
-    class="header__underlay header__underlay-open"
-  ></div>
-  {%- if request.page_type == 'index' -%}
-    <h1 class="visually-hidden">{{ shop.name }}</h1>
-  {%- endif -%}
-  {% for row in rows %}
-    {% liquid
-      assign background = 'background_color_' | append: row
-      assign row_setting = 'background_color_' | append: row
-      assign text_setting = 'text_color_' | append: row
-      assign row_class_id = row | append: '-' | append: section.id
-      assign row_class = ' color-custom-' | append: row_class_id
-      assign class = 'header__row header__row--[row] color-[row_background] section section--full-width-margin section--[section-width]' | replace: '[row]', row | replace: '[row_background]', section.settings[background] | replace: '[section-width]', section.settings.section_width
+  .three-panel-dropdown {
+    min-width: 540px !important;
+  }
+  .three-panel-dropdown .panel-left {
+    display: block !important;
+    column-count: 3 !important;
+    column-gap: 32px !important;
+  }
+  .three-panel-dropdown .panel-left .panel-item {
+    display: block !important;
+    break-inside: avoid-column !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .hover-box:has(.panel-left *:nth-child(2)) {
+    min-width: 360px !important;
+  }
+  .hover-box:has(.panel-left *:nth-child(2)) .panel-left {
+    display: block !important;
+    column-count: 2 !important;
+    column-gap: 32px !important;
+  }
+  .hover-box:has(.panel-left *:nth-child(2)) .panel-left .panel-item {
+    display: block !important;
+    break-inside: avoid-column !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
+  }
 
-      case row
-        when 'top'
-          assign first = drawer_menu
+  .hover-box:has(.panel-left *:nth-child(13)) {
+    min-width: 540px !important;
+  }
+  .hover-box:has(.panel-left *:nth-child(13)) .panel-left {
+    display: block !important;
+    column-count: 3 !important;
+    column-gap: 32px !important;
+  }
+  .hover-box:has(.panel-left *:nth-child(13)) .panel-left .panel-item {
+    display: block !important;
+    break-inside: avoid-column !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
+  }
+</style>
 
-          if bottom_row_blocks.size > 0 and section.settings.divider_size == 'page-width'
-            assign class = class | append: ' divider--page-width'
-          endif
 
-          if bottom_row_blocks.size > 0
-            assign border_bottom_setting_id = 'divider_width'
-            assign border_bottom_color_setting_id = 'divider_color'
-          else
-            assign border_bottom_setting_id = 'border_width'
-            assign border_bottom_color_setting_id = 'bottom_border_color'
-          endif
-        when 'bottom'
-          assign first = ''
-          assign class = class | append: ' mobile:hidden'
+<header class="homepage-desktop-header" id="homepage-desktop-header">
 
-          assign border_bottom_setting_id = 'border_width'
-          assign border_bottom_color_setting_id = 'bottom_border_color'
-      endcase
+  
+  <div class="desktop-header-row1">
 
-      assign style = '--border-bottom-width: [width]px; ' | replace: '[width]', section.settings[border_bottom_setting_id]
+    
+    <div class="desktop-header-left">
+      <div class="dept-toggle">
+        <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">
+          {%- if request.locale.iso_code == 'ar' -%}نساء{%- else -%}Women{%- endif -%}
+        </a>
+        <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">
+          {%- if request.locale.iso_code == 'ar' -%}رجال{%- else -%}Men{%- endif -%}
+        </a>
+      </div>
+    </div>
 
-      assign border_bottom_color_value = section.settings[border_bottom_color_setting_id]
-      if border_bottom_color_value != blank
-        assign style = style | append: '--border-bottom-color: [color]; ' | replace: '[color]', border_bottom_color_value
-      endif
-
-      if row == 'top'
-        assign custom_color_styles = true
-        assign class = class | append: row_class
-        assign style = style | append: '--border-bottom-width-mobile: [width]px; ' | replace: '[width]', section.settings.border_width
-
-        assign mobile_border_color = section.settings.bottom_border_color | default: 'var(--color-border)'
-        assign style = style | append: '--border-bottom-color-mobile: [color]; ' | replace: '[color]', mobile_border_color
-      elsif bottom_row_blocks.size > 0
-        assign custom_color_styles = true
-        assign class = class | append: row_class
-      else
-        assign custom_color_styles = false
-      endif
-    %}
-
-    {% capture content %}
-      {% if custom_color_styles %}
-        {% render 'contrast-override', background_color: section.settings[row_setting], text_color: section.settings[text_setting], section_id: row_class_id %}
-      {% endif %}
-      {% render 'header-row',
-        row: row,
-        order: order,
-        settings: section.settings,
-        first: first,
-        logo: logo,
-        menu: menu,
-        actions: actions,
-        localization: localization_markup,
-        search: search,
-        drawer_search: drawer_search
-      %}
-    {% endcapture %}
-
-    {% assign content = content | strip %}
-    {% if content != blank %}
-      <div
-        class="{{ class | strip }}"
-        ref="headerRowTop"
-        {%- if style != blank -%}
-          style="{{ style | strip }}"
+    
+    <div class="desktop-header-center">
+      <a href="{{ routes.root_url }}" class="desktop-header-logo{% if settings.logo != blank or section.settings.logo_image != blank %} logo-circle-layout{% endif %}" aria-label="{{ shop.name }}">
+        {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
+        {%- if header_logo != blank -%}
+          <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" loading="lazy" width="200" height="200">
+        {%- else -%}
+          <span class="logo-text-fallback">{{ section.settings.logo_text | default: shop.name }}</span>
         {%- endif -%}
-      >
-        <div class="header__columns spacing-style">
-          {{ content }}
+      </a>
+    </div>
+
+    
+    <div class="desktop-header-right">
+
+      
+      <div class="delivery-mode-wrapper" id="desktop-delivery-wrapper">
+        <button type="button" class="delivery-mode-selector" id="desktop-delivery-btn"
+                aria-label="Delivery location: Qatar" style="cursor: default; pointer-events: none;">
+          <span class="delivery-flag">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar" aria-hidden="true">
+              <rect x="0" width="40" height="28" fill="#fff"/>
+              <path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/>
+            </svg>
+          </span>
+          <span class="delivery-label">Qatar</span>
+        </button>
+      </div>
+
+      
+      <div class="header-search-lang-group">
+        
+        <button class="header-icon-btn header-desktop-search" onclick="openSearch()" aria-label="Search" id="desktop-search-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+
+        <span class="header-v-sep" aria-hidden="true"></span>
+
+        
+        <div class="lang-selector-wrapper" id="desktop-lang-wrapper">
+          <button type="button" class="lang-selector" id="desktop-lang-btn" aria-expanded="false" aria-label="Language">
+            <span class="lang-label">{{ request.locale.iso_code | upcase }}</span>
+            <svg class="lang-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+              <path d="M2.5 4L6 7.5L9.5 4"/>
+            </svg>
+          </button>
+          <div class="lang-dropdown" id="desktop-lang-dropdown" aria-hidden="true">
+            <div class="lang-option {% if request.locale.iso_code == 'en' %}is-active{% endif %}" data-lang="en">
+              <span>EN</span>
+              <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+            </div>
+            <div class="lang-option {% if request.locale.iso_code == 'ar' %}is-active{% endif %}" data-lang="ar">
+              <span>AR</span>
+              <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+            </div>
+          </div>
         </div>
       </div>
-    {% endif %}
-  {% endfor %}
 
-  {% if navigation_bar != blank %}
-    <div class="header__row header__navigation-bar-row">
-      {{ navigation_bar }}
+      <span class="header-v-sep" aria-hidden="true" style="background:rgba(255,255,255,0.2);display:block;width:1px;height:20px;"></span>
+
+      
+      <div class="header-icon-group">
+        
+        <button type="button" class="header-icon-btn wishlist-trigger" id="homepage-wishlist-btn"
+                aria-label="Wishlist" style="position:relative;">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="wishlist-count" style="display:none;">0</span>
+        </button>
+
+        
+        <a href="{{ routes.cart_url }}" class="header-icon-btn cart-link" id="desktop-header-cart" aria-label="Cart" style="position:relative;">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-count-badge" id="desktop-header-cart-count" style="display:none;">{{ cart.item_count }}</span>
+        </a>
+
+        
+        {%- if customer -%}
+          <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="My Account">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+        {%- else -%}
+          <a href="{{ routes.account_login_url }}" class="header-icon-btn" aria-label="Sign In">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
+
     </div>
-  {% endif %}
-</header-component>
+  </div>
 
-<script
-  src="{{ 'header.js' | asset_url }}"
-  type="module"
-></script>
+  
+  <div class="desktop-header-row2">
+    <div class="nav-menu-wrapper" id="desktop-nav-menu">
+      
+            
+      <div class="navigation-menu-wrapper" data-dept="women" id="desktop-nav-women">
+        {%- assign women_menu = section.settings.women_main_menu -%}
+        {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
+        
+        {%- if women_menu != blank and linklists[women_menu] != blank -%}
+          {%- for link in linklists[women_menu].links -%}
+            <div class="nav-item-wrapper">
+              <a class="nav-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale-link{% endif %}" href="{{ link.url }}">
+                <span class="nav-link-text">{{ link.title }}</span>
+              </a>
+              {%- if link.links.size > 0 -%}
+                <div class="hover-box{% if link.links.size >= 2 and link.links.size <= 12 %} two-panel-dropdown{% elsif link.links.size > 12 %} three-panel-dropdown{% endif %}">
+                  <div class="panel-container">
+                    <div class="panel-left">
+                      {%- for child_link in link.links -%}
+                        <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
 
-{% stylesheet %}
-  body {
-    --header-height: 60px;
-    --header-group-height: var(--header-height);
-    --transparent-header-offset-boolean: 0; /* stylelint-disable-line declaration-property-value-disallowed-list */
-  }
+        {%- for block in menu_item_blocks -%}
+          {%- if block.settings.gender == 'women' -%}
+            <div class="nav-item-wrapper" {{ block.shopify_attributes }}>
+              <a class="nav-link {% if block.settings.is_sale %}sale-link{% endif %}" href="{{ block.settings.url | default: '#' }}">
+                <span class="nav-link-text">{{ block.settings.title }}</span>
+              </a>
+              {%- assign sub_menu = block.settings.dropdown_menu -%}
+              {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
+                {%- assign sub_menu_size = linklists[sub_menu].links.size -%}
+                <div class="hover-box{% if sub_menu_size >= 2 and sub_menu_size <= 12 %} two-panel-dropdown{% elsif sub_menu_size > 12 %} three-panel-dropdown{% endif %}">
+                  <div class="panel-container">
+                    <div class="panel-left">
+                      {%- for child_link in linklists[sub_menu].links -%}
+                        <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
 
-  .header {
-    /* Set header paddings based on height setting */
-    --header-padding: var(--padding-sm);
-    --font-paragraph--line-height: 1;
-    --header-content-transition-timing: 0s;
+        {%- if women_menu == blank and menu_item_blocks.size == 0 -%}
+        {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/new-in" id="nav-link-new-in"><span class="nav-link-text">New in</span></a></div>{%- endif -%}
+        {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/restock" id="nav-link-restock"><span class="nav-link-text">Restock</span></a></div>{%- endif -%}
+        {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="{{ routes.collections_url }}/on-sale" id="nav-link-on-sale"><span class="nav-link-text">On sale</span></a></div>{%- endif -%}
+{%- if section.settings.menu_w_brands -%}
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-brands"><span class="nav-link-text">Brands</span></a>
+          <div class="hover-box three-panel-dropdown">
+            <div class="panel-container">
+              <div class="panel-left">
+                {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
+                {%- if w_brands.links.size > 0 -%}
+                  {%- for link in w_brands.links -%}
+                    <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                  {%- endfor -%}
+                {%- else -%}
+                  <a class="panel-item" href="{{ routes.collections_url }}/hms">HMS</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/gyd">GYD</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/coco">COCO</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/dr">DR</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/lvn">LVN</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/lp">LP</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/gcc">GCC</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/prd">PRD</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/fnd">FND</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/cln">CLN</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/mmu">MMU</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/stl">STL</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/bvg">BVG</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/rlx">RLX</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/msk">MSK</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/crt">CRT</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/vcf">VCF</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/adidas">Adidas</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/nike">Nike</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/nb">NB</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/golden-goose">Golden Goose</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/onitsuka-tiger">Onitsuka Tiger</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/loewe">Loewe</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/tiffany-co">Tiffany &amp; Co.</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/rimowa">Rimowa</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/chaumet">Chaumet</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_w_bags -%}
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-bags"><span class="nav-link-text">Bags</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign w_bags = linklists[section.settings.women_bags_menu] | default: linklists['women-bags'] | default: linklists['bags'] -%}
+              {%- if w_bags.links.size > 0 -%}
+                {%- for link in w_bags.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/bags">All Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/handbags">Handbags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/mini-bags">Mini Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/tote-bags">Tote Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/backpacks">Backpacks</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/travel-bags">Travel Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/shoulder-bags">Shoulder Bags</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_w_slg -%}
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-slg"><span class="nav-link-text">Small Leather Goods</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign w_slg = linklists[section.settings.women_slg_menu] | default: linklists['women-slg'] | default: linklists['small-leather-goods'] -%}
+              {%- if w_slg.links.size > 0 -%}
+                {%- for link in w_slg.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/small-leather-goods">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/wallets">Wallets</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/pouches">Pouches</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/card-holders">Card Holders</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_w_shoes -%}
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-shoes"><span class="nav-link-text">Shoes</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign w_shoes = linklists[section.settings.women_shoes_menu] | default: linklists['women-shoes'] | default: linklists['shoes'] -%}
+              {%- if w_shoes.links.size > 0 -%}
+                {%- for link in w_shoes.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/shoes">All Shoes</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/sneakers">Sneakers</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/sandals">Sandals</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/boots">Boots</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/heels">Heels</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/flats">Flats</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/mules">Mules</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/loafers">Loafers</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/ballet-flats">Ballet Flats</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_w_jewellery -%}
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-jewellery"><span class="nav-link-text">Jewellery</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign w_jewellery = linklists[section.settings.women_jewellery_menu] | default: linklists['women-jewellery'] | default: linklists['jewellery'] -%}
+              {%- if w_jewellery.links.size > 0 -%}
+                {%- for link in w_jewellery.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/jewellery">All Jewellery</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/necklaces">Necklaces</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/bracelets">Bracelets</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/earrings">Earrings</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/anklets">Anklets</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rings">Rings</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_w_watches -%}
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-watches"><span class="nav-link-text">Watches</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign w_watches = linklists[section.settings.women_watches_menu] | default: linklists['women-watches'] | default: linklists['watches'] -%}
+              {%- if w_watches.links.size > 0 -%}
+                {%- for link in w_watches.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/watches">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rlx">RLX</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/hms">HMS</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/crt">CRT</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/vcf">VCF</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/dr">DR</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/chaumet">Chaumet</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_w_accessories -%}
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-accessories"><span class="nav-link-text">Accessories</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign w_acc = linklists[section.settings.women_accessories_menu] | default: linklists['women-accessories'] | default: linklists['accessories'] -%}
+              {%- if w_acc.links.size > 0 -%}
+                {%- for link in w_acc.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/accessories">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/caps">Caps</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/belts">Belts</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/straps">Straps</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/badge-holders">Badge Holders</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/home-accessories">Home Accessories</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_w_clothing -%}
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-clothing"><span class="nav-link-text">Clothing</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign w_clothing = linklists[section.settings.women_clothing_menu] | default: linklists['women-clothing'] | default: linklists['clothing'] -%}
+              {%- if w_clothing.links.size > 0 -%}
+                {%- for link in w_clothing.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/clothing">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/tops">Tops</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/t-shirts">T-shirts</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+      {%- endif -%}
+      </div>
 
-    display: block;
-    contain: layout style;
-    background: transparent;
+      
+            <div class="navigation-menu-wrapper" data-dept="men" id="desktop-nav-men" style="display:none;">
+        {%- assign men_menu = section.settings.men_main_menu -%}
+        {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
+        
+        {%- if men_menu != blank and linklists[men_menu] != blank -%}
+          {%- for link in linklists[men_menu].links -%}
+            <div class="nav-item-wrapper">
+              <a class="nav-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale-link{% endif %}" href="{{ link.url }}">
+                <span class="nav-link-text">{{ link.title }}</span>
+              </a>
+              {%- if link.links.size > 0 -%}
+                <div class="hover-box{% if link.links.size >= 2 and link.links.size <= 12 %} two-panel-dropdown{% elsif link.links.size > 12 %} three-panel-dropdown{% endif %}">
+                  <div class="panel-container">
+                    <div class="panel-left">
+                      {%- for child_link in link.links -%}
+                        <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
 
-    a,
-    .button,
-    .button-secondary,
-    .header-actions__action {
-      /* reset style from base.css */
-      transition: color var(--header-content-transition-timing), border-color var(--header-content-transition-timing);
+        {%- for block in menu_item_blocks -%}
+          {%- if block.settings.gender == 'men' -%}
+            <div class="nav-item-wrapper" {{ block.shopify_attributes }}>
+              <a class="nav-link {% if block.settings.is_sale %}sale-link{% endif %}" href="{{ block.settings.url | default: '#' }}">
+                <span class="nav-link-text">{{ block.settings.title }}</span>
+              </a>
+              {%- assign sub_menu = block.settings.dropdown_menu -%}
+              {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
+                {%- assign sub_menu_size = linklists[sub_menu].links.size -%}
+                <div class="hover-box{% if sub_menu_size >= 2 and sub_menu_size <= 12 %} two-panel-dropdown{% elsif sub_menu_size > 12 %} three-panel-dropdown{% endif %}">
+                  <div class="panel-container">
+                    <div class="panel-left">
+                      {%- for child_link in linklists[sub_menu].links -%}
+                        <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if men_menu == blank and menu_item_blocks.size == 0 -%}
+        {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/new-arrivals">New arrivals</a></div>{%- endif -%}
+        {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link sale-link" href="{{ routes.collections_url }}/on-sale-men">On Sale</a></div>{%- endif -%}
+{%- if section.settings.menu_m_brands -%}
+        <div class="nav-item-wrapper">
+          <a class="nav-link" href="#">Brands</a>
+          <div class="hover-box two-panel-dropdown">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign m_brands = linklists[section.settings.men_brands_menu] | default: linklists['men-brands'] | default: linklists['brands-men'] -%}
+              {%- if m_brands.links.size > 0 -%}
+                {%- for link in m_brands.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/hms-men">HMS</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/gyd-men">GYD</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/lp-men">LP</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/lvn-men">LVN</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rlx-men">RLX</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/crt-men">CRT</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/dr-men">DR</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/prd-men">PRD</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/loewe-men">Loewe</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/nike-men">Nike</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/adidas-men">Adidas</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/onitsuka-tiger-men">Onitsuka Tiger</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_m_bags -%}
+                <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-bags-men"><span class="nav-link-text">Bags</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign m_bags = linklists[section.settings.men_bags_menu] | default: linklists['men-bags'] | default: linklists['bags-men'] -%}
+              {%- if m_bags.links.size > 0 -%}
+                {%- for link in m_bags.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/bags-men">All Bags</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_m_shoes -%}
+                <div class="nav-item-wrapper">
+          <a class="nav-link" href="#" id="nav-link-shoes-men"><span class="nav-link-text">Shoes</span></a>
+          <div class="hover-box">
+            <div class="panel-container"><div class="panel-left">
+              {%- assign m_shoes = linklists[section.settings.men_shoes_menu] | default: linklists['men-shoes'] | default: linklists['shoes-men'] -%}
+              {%- if m_shoes.links.size > 0 -%}
+                {%- for link in m_shoes.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/shoes-men">All Shoes</a>
+              {%- endif -%}
+            </div></div>
+          </div>
+        </div>
+{%- endif -%}
+{%- if section.settings.menu_m_wallets -%}        {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/wallets-men">Wallets</a></div>{%- endif -%}{%- endif -%}
+{%- if section.settings.menu_m_watches -%}        {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/watches-men">Watches</a></div>{%- endif -%}{%- endif -%}
+{%- if section.settings.menu_m_travel_bags -%}        <div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/travel-bags-men">Travel Bags</a></div>{%- endif -%}
+{%- if section.settings.menu_m_accessories -%}        {%- if section.settings.menu_m_accessories -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/accessories-men">Accessories</a></div>{%- endif -%}{%- endif -%}
+      {%- endif -%}
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+<div id="homepage-sticky-header" class="homepage-sticky-wrapper">
+
+  
+  <header class="site-header">
+    <div class="header-container">
+
+      
+      <div class="header-left">
+        
+        <a href="{{ routes.root_url }}" class="header-logo mobile-header-logo{% if settings.logo != blank or section.settings.logo_image != blank %} logo-circle-layout{% endif %}" aria-label="{{ shop.name }}">
+          {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
+          {%- if header_logo != blank -%}
+            <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="logo-light" loading="lazy" width="200" height="200">
+          {%- else -%}
+            <span style="font-family:var(--font-serif);font-size:22px;font-weight:300;color:var(--color-white);">{{ section.settings.logo_text | default: shop.name }}</span>
+          {%- endif -%}
+        </a>
+        
+        <div class="dept-toggle">
+          <a href="javascript:void(0)" class="dept-link active" data-dept="women" onclick="switchDept('women');return false;">
+            {%- if request.locale.iso_code == 'ar' -%}نساء{%- else -%}Women{%- endif -%}
+          </a>
+          <a href="javascript:void(0)" class="dept-link" data-dept="men" onclick="switchDept('men');return false;">
+            {%- if request.locale.iso_code == 'ar' -%}رجال{%- else -%}Men{%- endif -%}
+          </a>
+        </div>
+      </div>
+
+      
+      <div class="header-center">
+        <a href="{{ routes.root_url }}" class="header-logo{% if settings.logo != blank or section.settings.logo_image != blank %} logo-circle-layout{% endif %}">
+          {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
+          {%- if header_logo != blank -%}
+            <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="logo-light" loading="lazy" width="200" height="200">
+          {%- else -%}
+            <span style="font-family:var(--font-serif);font-size:22px;font-weight:300;color:var(--color-white);">{{ section.settings.logo_text | default: shop.name }}</span>
+          {%- endif -%}
+        </a>
+        
+        <div class="delivery-mode-wrapper site-hdr-mobile" style="display: none;">
+          <button type="button" class="delivery-mode-selector" aria-label="Delivery location: Qatar" style="cursor: default; pointer-events: none;">
+            <span class="delivery-flag">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar" aria-hidden="true" style="width: 16px; height: 11px;">
+                <rect x="0" width="40" height="28" fill="#fff"/>
+                <path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/>
+              </svg>
+            </span>
+            <span class="delivery-label" style="font-size: 11px;">Qatar</span>
+          </button>
+        </div>
+      </div>
+
+      
+      <div class="header-right">
+
+        
+        <div class="delivery-mode-wrapper site-hdr-desktop" id="sticky-delivery-wrapper">
+          <button type="button" class="delivery-mode-selector" aria-label="Delivery location: Qatar" style="cursor: default; pointer-events: none;">
+            <span class="delivery-flag">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar" aria-hidden="true">
+                <rect x="0" width="40" height="28" fill="#fff"/>
+                <path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/>
+              </svg>
+            </span>
+            <span class="delivery-label">Qatar</span>
+          </button>
+        </div>
+
+        
+        <button class="header-icon-btn header-search-icon site-hdr-mobile" onclick="openSearch()" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+
+        <span class="header-mobile-sep" aria-hidden="true"></span>
+
+        
+        <a href="{{ routes.cart_url }}" class="header-icon-btn cart-link site-hdr-mobile" id="mobile-header-cart-btn" aria-label="Cart" style="position:relative;">
+          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-count-badge" style="display:none;">{{ cart.item_count }}</span>
+        </a>
+
+        <span class="desktop-header-sep site-hdr-desktop" aria-hidden="true"></span>
+
+        <div class="header-search-lang-group site-hdr-desktop">
+          <button class="header-icon-btn header-desktop-search" onclick="openSearch()" aria-label="Search" id="sticky-search-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </button>
+
+          <span class="header-v-sep" aria-hidden="true"></span>
+
+          <div class="lang-selector-wrapper" id="sticky-lang-wrapper">
+            <button type="button" class="lang-selector" id="sticky-lang-btn" aria-expanded="false" aria-label="Language">
+              <span class="lang-label">{{ request.locale.iso_code | upcase }}</span>
+              <svg class="lang-chevron" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2.5 4L6 7.5L9.5 4"/></svg>
+            </button>
+            <div class="lang-dropdown" id="sticky-lang-dropdown" aria-hidden="true">
+              <div class="lang-option {% if request.locale.iso_code == 'en' %}is-active{% endif %}" data-lang="en">
+                <span>EN</span>
+                <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+              </div>
+              <div class="lang-option {% if request.locale.iso_code == 'ar' %}is-active{% endif %}" data-lang="ar">
+                <span>AR</span>
+                <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span class="desktop-header-sep site-hdr-desktop" aria-hidden="true"></span>
+
+        
+        <button type="button" class="header-icon-btn wishlist-trigger site-hdr-desktop" aria-label="Wishlist" style="position:relative;">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="wishlist-count" style="display:none;">0</span>
+        </button>
+
+        
+        <a href="{{ routes.cart_url }}" class="header-icon-btn cart-link site-hdr-desktop" aria-label="Cart" style="position:relative;">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-count-badge" style="display:none;">{{ cart.item_count }}</span>
+        </a>
+
+        
+        {%- if customer -%}
+          <a href="{{ routes.account_url }}" class="header-icon-btn site-hdr-desktop" aria-label="My Account">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+        {%- else -%}
+          <a href="{{ routes.account_login_url }}" class="header-icon-btn site-hdr-desktop" aria-label="Sign In">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.4" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+        {%- endif -%}
+
+        
+        <span class="header-mobile-sep" aria-hidden="true"></span>
+        <button class="header-icon-btn menu-toggle site-hdr-mobile" id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  
+  <nav class="desktop-nav">
+    <div class="desktop-nav-container">
+      <div class="nav-menu-wrapper">
+        <div class="navigation-menu-wrapper" data-dept="women" id="sticky-nav-women">
+          {%- assign women_menu = section.settings.women_main_menu -%}
+          {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
+          
+          {%- if women_menu != blank and linklists[women_menu] != blank -%}
+            {%- for link in linklists[women_menu].links -%}
+              <div class="nav-item-wrapper">
+                <a class="nav-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale-link{% endif %}" href="{{ link.url }}">
+                  <span class="nav-link-text">{{ link.title }}</span>
+                </a>
+                {%- if link.links.size > 0 -%}
+                  <div class="hover-box{% if link.links.size >= 2 and link.links.size <= 12 %} two-panel-dropdown{% elsif link.links.size > 12 %} three-panel-dropdown{% endif %}">
+                    <div class="panel-container">
+                      <div class="panel-left">
+                        {%- for child_link in link.links -%}
+                          <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+
+          {%- for block in menu_item_blocks -%}
+            {%- if block.settings.gender == 'women' -%}
+              <div class="nav-item-wrapper" {{ block.shopify_attributes }}>
+                <a class="nav-link {% if block.settings.is_sale %}sale-link{% endif %}" href="{{ block.settings.url | default: '#' }}">
+                  <span class="nav-link-text">{{ block.settings.title }}</span>
+                </a>
+                {%- assign sub_menu = block.settings.dropdown_menu -%}
+                {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
+                  {%- assign sub_menu_size = linklists[sub_menu].links.size -%}
+                  <div class="hover-box{% if sub_menu_size >= 2 and sub_menu_size <= 12 %} two-panel-dropdown{% elsif sub_menu_size > 12 %} three-panel-dropdown{% endif %}">
+                    <div class="panel-container">
+                      <div class="panel-left">
+                        {%- for child_link in linklists[sub_menu].links -%}
+                          <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if women_menu == blank and menu_item_blocks.size == 0 -%}
+          {%- if section.settings.menu_w_new_in -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/new-in">New in</a></div>{%- endif -%}
+          {%- if section.settings.menu_w_restock -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/restock">Restock</a></div>{%- endif -%}
+          {%- if section.settings.menu_w_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/on-sale">On sale</a></div>{%- endif -%}
+{%- if section.settings.menu_w_brands -%}
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Brands</a>
+            <div class="hover-box three-panel-dropdown">
+              <div class="panel-container"><div class="panel-left">
+                {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
+                {%- if w_brands.links.size > 0 -%}
+                  {%- for link in w_brands.links -%}
+                    <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                  {%- endfor -%}
+                {%- else -%}
+                  <a class="panel-item" href="{{ routes.collections_url }}/hms">HMS</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/gyd">GYD</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/coco">COCO</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/lvn">LVN</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/rlx">RLX</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/crt">CRT</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/nike">Nike</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/adidas">Adidas</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/golden-goose">Golden Goose</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/loewe">Loewe</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/tiffany-co">Tiffany &amp; Co.</a>
+                  <a class="panel-item" href="{{ routes.collections_url }}/chaumet">Chaumet</a>
+                {%- endif -%}
+              </div></div>
+            </div>
+          </div>
+{%- endif -%}
+{%- if section.settings.menu_w_bags -%}
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Bags</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              {%- assign w_bags = linklists[section.settings.women_bags_menu] | default: linklists['women-bags'] | default: linklists['bags'] -%}
+              {%- if w_bags.links.size > 0 -%}
+                {%- for link in w_bags.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/bags">All Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/handbags">Handbags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/mini-bags">Mini Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/tote-bags">Tote Bags</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/backpacks">Backpacks</a>
+              {%- endif -%}
+            </div></div></div>
+          </div>
+{%- endif -%}
+{%- if section.settings.menu_w_shoes -%}
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Shoes</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              {%- assign w_shoes = linklists[section.settings.women_shoes_menu] | default: linklists['women-shoes'] | default: linklists['shoes'] -%}
+              {%- if w_shoes.links.size > 0 -%}
+                {%- for link in w_shoes.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/shoes">All Shoes</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/sneakers">Sneakers</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/sandals">Sandals</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/heels">Heels</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/ballet-flats">Ballet Flats</a>
+              {%- endif -%}
+            </div></div></div>
+          </div>
+{%- endif -%}
+{%- if section.settings.menu_w_jewellery -%}
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Jewellery</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              {%- assign w_jewellery = linklists[section.settings.women_jewellery_menu] | default: linklists['women-jewellery'] | default: linklists['jewellery'] -%}
+              {%- if w_jewellery.links.size > 0 -%}
+                {%- for link in w_jewellery.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/jewellery">All Jewellery</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/necklaces">Necklaces</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/earrings">Earrings</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rings">Rings</a>
+              {%- endif -%}
+            </div></div></div>
+          </div>
+{%- endif -%}
+{%- if section.settings.menu_w_watches -%}
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Watches</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              {%- assign w_watches = linklists[section.settings.women_watches_menu] | default: linklists['women-watches'] | default: linklists['watches'] -%}
+              {%- if w_watches.links.size > 0 -%}
+                {%- for link in w_watches.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/watches">All Watches</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/rlx">RLX</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/hms">HMS</a>
+              {%- endif -%}
+            </div></div></div>
+          </div>
+{%- endif -%}
+{%- if section.settings.menu_w_accessories -%}
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Accessories</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              {%- assign w_acc = linklists[section.settings.women_accessories_menu] | default: linklists['women-accessories'] | default: linklists['accessories'] -%}
+              {%- if w_acc.links.size > 0 -%}
+                {%- for link in w_acc.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/accessories">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/caps">Caps</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/belts">Belts</a>
+              {%- endif -%}
+            </div></div></div>
+          </div>
+{%- endif -%}
+{%- if section.settings.menu_w_clothing -%}
+          <div class="nav-item-wrapper">
+            <a class="nav-link" href="#">Clothing</a>
+            <div class="hover-box"><div class="panel-container"><div class="panel-left">
+              {%- assign w_clothing = linklists[section.settings.women_clothing_menu] | default: linklists['women-clothing'] | default: linklists['clothing'] -%}
+              {%- if w_clothing.links.size > 0 -%}
+                {%- for link in w_clothing.links -%}
+                  <a class="panel-item" href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a class="panel-item" href="{{ routes.collections_url }}/clothing">All</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/tops">Tops</a>
+                <a class="panel-item" href="{{ routes.collections_url }}/t-shirts">T-shirts</a>
+              {%- endif -%}
+            </div></div></div>
+          </div>
+{%- endif -%}
+          {%- endif -%}
+        </div>
+        
+        <div class="navigation-menu-wrapper" data-dept="men" id="sticky-nav-men" style="display:none;">
+          {%- assign men_menu = section.settings.men_main_menu -%}
+          {%- assign menu_item_blocks = section.blocks | where: "type", "menu_item" -%}
+
+          {%- if men_menu != blank and linklists[men_menu] != blank -%}
+            {%- for link in linklists[men_menu].links -%}
+              <div class="nav-item-wrapper">
+                <a class="nav-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale-link{% endif %}" href="{{ link.url }}">
+                  <span class="nav-link-text">{{ link.title }}</span>
+                </a>
+                {%- if link.links.size > 0 -%}
+                  <div class="hover-box{% if link.links.size >= 2 and link.links.size <= 12 %} two-panel-dropdown{% elsif link.links.size > 12 %} three-panel-dropdown{% endif %}">
+                    <div class="panel-container">
+                      <div class="panel-left">
+                        {%- for child_link in link.links -%}
+                          <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+
+          {%- for block in menu_item_blocks -%}
+            {%- if block.settings.gender == 'men' -%}
+              <div class="nav-item-wrapper" {{ block.shopify_attributes }}>
+                <a class="nav-link {% if block.settings.is_sale %}sale-link{% endif %}" href="{{ block.settings.url | default: '#' }}">
+                  <span class="nav-link-text">{{ block.settings.title }}</span>
+                </a>
+                {%- assign sub_menu = block.settings.dropdown_menu -%}
+                {%- if sub_menu != blank and linklists[sub_menu].links.size > 0 -%}
+                  {%- assign sub_menu_size = linklists[sub_menu].links.size -%}
+                  <div class="hover-box{% if sub_menu_size >= 2 and sub_menu_size <= 12 %} two-panel-dropdown{% elsif sub_menu_size > 12 %} three-panel-dropdown{% endif %}">
+                    <div class="panel-container">
+                      <div class="panel-left">
+                        {%- for child_link in linklists[sub_menu].links -%}
+                          <a class="panel-item" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if men_menu == blank and menu_item_blocks.size == 0 -%}
+          {%- if section.settings.menu_m_new_arrivals -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/new-arrivals">New arrivals</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_on_sale -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/on-sale-men">On Sale</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_bags -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/bags-men">Bags</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_shoes -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/shoes-men">Shoes</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_wallets -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/wallets-men">Wallets</a></div>{%- endif -%}
+          {%- if section.settings.menu_m_watches -%}<div class="nav-item-wrapper"><a class="nav-link" href="{{ routes.collections_url }}/watches-men">Watches</a></div>{%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+
+<div class="home-search-overlay" id="home-search-overlay" onclick="closeSearch()"
+     data-show-vendor="{{ settings.show_search_vendor | default: false }}"
+     data-show-price="{{ settings.show_search_price | default: true }}">
+  <div class="home-search-overlay-content" onclick="event.stopPropagation()">
+    <div class="search-overlay-header">
+      <span class="search-overlay-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </span>
+      <input type="text" class="search-overlay-input" id="home-search-input"
+             placeholder="{% if request.locale.iso_code == 'ar' %}ابحث عن المنتجات...{% else %}Search products...{% endif %}" autocomplete="off">
+      <button class="search-overlay-clear" id="home-search-clear" style="display:none;" onclick="clearSearchInput(event)">
+        {%- if request.locale.iso_code == 'ar' -%}مسح{%- else -%}Clear{%- endif -%}
+      </button>
+      <span class="search-overlay-divider"></span>
+      <button class="search-overlay-close" onclick="closeSearch()" aria-label="Close search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="search-overlay-body">
+      {%- if settings.enable_search_suggestions -%}
+        <div class="search-suggestions" id="search-suggestions">
+          {%- assign suggestion_count = 0 -%}
+          {%- for collection in collections -%}
+            {%- unless collection.handle == 'all' or collection.handle == 'frontpage' -%}
+              {%- if suggestion_count < 3 -%}
+                <button class="suggestion-tag" onclick="useSuggestionTag('{{ collection.title | escape }}')">{{ collection.title }}</button>
+                {%- assign suggestion_count = suggestion_count | plus: 1 -%}
+              {%- endif -%}
+            {%- endunless -%}
+          {%- endfor -%}
+          {%- if suggestion_count == 0 -%}
+            <button class="suggestion-tag" onclick="useSuggestionTag('bags')">bags</button>
+            <button class="suggestion-tag" onclick="useSuggestionTag('shoes')">shoes</button>
+            <button class="suggestion-tag" onclick="useSuggestionTag('boots')">boots</button>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      
+      <div class="search-overlay-results-wrap" id="search-results-wrap" style="display:none;">
+        <div id="collections-results-wrap" style="margin-bottom: 24px; display: none;">
+          <h4 class="search-results-title">{% if request.locale.iso_code == 'ar' %}المجموعات{% else %}Collections{% endif %}</h4>
+          <div class="search-suggestions" id="home-collections-results" style="margin-bottom: 0;"></div>
+        </div>
+
+        <h4 class="search-results-title">{% if request.locale.iso_code == 'ar' %}المنتجات{% else %}Products{% endif %}</h4>
+        <div class="search-overlay-results" id="home-search-results"></div>
+        <div class="search-overlay-view-all-wrap">
+          <a href="{{ routes.search_url }}?q=" class="search-view-all-btn" id="search-view-all-btn">
+            {%- if request.locale.iso_code == 'ar' -%}عرض الكل{%- else -%}View all{%- endif -%}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="home-drawer-overlay" id="home-drawer-overlay"></div>
+
+<div class="home-mobile-drawer" id="home-mobile-drawer">
+  
+  <div class="drawer-header">
+    <div class="drawer-tabs">
+      <button class="drawer-tab active" data-gender="women">
+        {%- if request.locale.iso_code == 'ar' -%}نساء{%- else -%}Women{%- endif -%}
+      </button>
+      <button class="drawer-tab" data-gender="men">
+        {%- if request.locale.iso_code == 'ar' -%}رجال{%- else -%}Men{%- endif -%}
+      </button>
+    </div>
+    <button type="button" class="drawer-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu">&times;</button>
+  </div>
+
+  
+  <nav class="drawer-nav" id="drawer-nav-women" data-dept="women">
+    {%- assign women_menu = section.settings.women_main_menu -%}
+    {%- if women_menu != blank and linklists[women_menu] != blank -%}
+      {%- for link in linklists[women_menu].links -%}
+        {%- if link.links.size > 0 -%}
+          <div class="drawer-expandable">
+            <button class="drawer-expand-btn" type="button"><span>{{ link.title }}</span><span class="drawer-expand-icon">+</span></button>
+            <div class="drawer-submenu">
+              {%- for child_link in link.links -%}
+                <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- else -%}
+          <a class="drawer-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- if section.settings.menu_w_new_in -%}<a class="drawer-link" href="{{ routes.collections_url }}/new-in">New in</a>{%- endif -%}
+      {%- if section.settings.menu_w_restock -%}<a class="drawer-link" href="{{ routes.collections_url }}/restock">Restock</a>{%- endif -%}
+      {%- if section.settings.menu_w_on_sale -%}<a class="drawer-link sale" href="{{ routes.collections_url }}/on-sale">On sale</a>{%- endif -%}
+      {%- if section.settings.menu_w_brands -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_brands = linklists[section.settings.women_brands_menu] | default: linklists['women-brands'] | default: linklists['brands'] -%}
+          {%- if w_brands.links.size > 0 -%}
+            {%- for link in w_brands.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.collections_url }}/hms">HMS</a><a href="{{ routes.collections_url }}/gyd">GYD</a><a href="{{ routes.collections_url }}/coco">COCO</a>
+            <a href="{{ routes.collections_url }}/dr">DR</a><a href="{{ routes.collections_url }}/lvn">LVN</a><a href="{{ routes.collections_url }}/lp">LP</a>
+            <a href="{{ routes.collections_url }}/gcc">GCC</a><a href="{{ routes.collections_url }}/prd">PRD</a><a href="{{ routes.collections_url }}/rlx">RLX</a>
+            <a href="{{ routes.collections_url }}/crt">CRT</a><a href="{{ routes.collections_url }}/nike">Nike</a><a href="{{ routes.collections_url }}/adidas">Adidas</a>
+            <a href="{{ routes.collections_url }}/golden-goose">Golden Goose</a><a href="{{ routes.collections_url }}/loewe">Loewe</a>
+            <a href="{{ routes.collections_url }}/tiffany-co">Tiffany &amp; Co.</a><a href="{{ routes.collections_url }}/chaumet">Chaumet</a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if section.settings.menu_w_bags -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Bags</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_bags = linklists[section.settings.women_bags_menu] | default: linklists['women-bags'] | default: linklists['bags'] -%}
+          {%- if w_bags.links.size > 0 -%}
+            {%- for link in w_bags.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.collections_url }}/bags">All Bags</a><a href="{{ routes.collections_url }}/handbags">Handbags</a>
+            <a href="{{ routes.collections_url }}/mini-bags">Mini Bags</a><a href="{{ routes.collections_url }}/tote-bags">Tote Bags</a>
+            <a href="{{ routes.collections_url }}/backpacks">Backpacks</a><a href="{{ routes.collections_url }}/shoulder-bags">Shoulder Bags</a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if section.settings.menu_w_slg -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Small Leather Goods</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_slg = linklists[section.settings.women_slg_menu] | default: linklists['women-slg'] | default: linklists['small-leather-goods'] -%}
+          {%- if w_slg.links.size > 0 -%}
+            {%- for link in w_slg.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.collections_url }}/wallets">Wallets</a><a href="{{ routes.collections_url }}/pouches">Pouches</a>
+            <a href="{{ routes.collections_url }}/card-holders">Card Holders</a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if section.settings.menu_w_shoes -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Shoes</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_shoes = linklists[section.settings.women_shoes_menu] | default: linklists['women-shoes'] | default: linklists['shoes'] -%}
+          {%- if w_shoes.links.size > 0 -%}
+            {%- for link in w_shoes.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.collections_url }}/shoes">All Shoes</a><a href="{{ routes.collections_url }}/sneakers">Sneakers</a>
+            <a href="{{ routes.collections_url }}/sandals">Sandals</a><a href="{{ routes.collections_url }}/heels">Heels</a>
+            <a href="{{ routes.collections_url }}/flats">Flats</a><a href="{{ routes.collections_url }}/ballet-flats">Ballet Flats</a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if section.settings.menu_w_jewellery -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Jewellery</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_jewellery = linklists[section.settings.women_jewellery_menu] | default: linklists['women-jewellery'] | default: linklists['jewellery'] -%}
+          {%- if w_jewellery.links.size > 0 -%}
+            {%- for link in w_jewellery.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.collections_url }}/jewellery">All Jewellery</a><a href="{{ routes.collections_url }}/necklaces">Necklaces</a>
+            <a href="{{ routes.collections_url }}/bracelets">Bracelets</a><a href="{{ routes.collections_url }}/earrings">Earrings</a>
+            <a href="{{ routes.collections_url }}/rings">Rings</a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if section.settings.menu_w_watches -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Watches</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_watches = linklists[section.settings.women_watches_menu] | default: linklists['women-watches'] | default: linklists['watches'] -%}
+          {%- if w_watches.links.size > 0 -%}
+            {%- for link in w_watches.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.collections_url }}/watches">All</a><a href="{{ routes.collections_url }}/rlx">RLX</a>
+            <a href="{{ routes.collections_url }}/hms">HMS</a><a href="{{ routes.collections_url }}/crt">CRT</a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if section.settings.menu_w_accessories -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Accessories</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_acc = linklists[section.settings.women_accessories_menu] | default: linklists['women-accessories'] | default: linklists['accessories'] -%}
+          {%- if w_acc.links.size > 0 -%}
+            {%- for link in w_acc.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.collections_url }}/accessories">All</a><a href="{{ routes.collections_url }}/caps">Caps</a>
+            <a href="{{ routes.collections_url }}/belts">Belts</a><a href="{{ routes.collections_url }}/key-holders-bag-charms">Key Holders &amp; Bag Charms</a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if section.settings.menu_w_clothing -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Clothing</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          {%- assign w_clothing = linklists[section.settings.women_clothing_menu] | default: linklists['women-clothing'] | default: linklists['clothing'] -%}
+          {%- if w_clothing.links.size > 0 -%}
+            {%- for link in w_clothing.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.collections_url }}/clothing">All</a><a href="{{ routes.collections_url }}/tops">Tops</a><a href="{{ routes.collections_url }}/t-shirts">T-shirts</a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+    {%- endif -%}
+  </nav>
+
+  
+  <nav class="drawer-nav" id="drawer-nav-men" data-dept="men" style="display:none;">
+    {%- assign men_menu = section.settings.men_main_menu -%}
+    {%- if men_menu != blank and linklists[men_menu] != blank -%}
+      {%- for link in linklists[men_menu].links -%}
+        {%- if link.links.size > 0 -%}
+          <div class="drawer-expandable">
+            <button class="drawer-expand-btn" type="button"><span>{{ link.title }}</span><span class="drawer-expand-icon">+</span></button>
+            <div class="drawer-submenu">
+              {%- for child_link in link.links -%}
+                <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- else -%}
+          <a class="drawer-link {% if link.title contains 'Sale' or link.title contains 'sale' %}sale{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- if section.settings.menu_m_new_arrivals -%}<a class="drawer-link" href="{{ routes.collections_url }}/new-arrivals">New arrivals</a>{%- endif -%}
+      {%- if section.settings.menu_m_on_sale -%}<a class="drawer-link sale" href="{{ routes.collections_url }}/on-sale-men">On Sale</a>{%- endif -%}
+      {%- if section.settings.menu_m_brands -%}
+      <div class="drawer-expandable">
+        <button class="drawer-expand-btn" type="button"><span>Brands</span><span class="drawer-expand-icon">+</span></button>
+        <div class="drawer-submenu">
+          <a href="{{ routes.collections_url }}/hms-men">HMS</a><a href="{{ routes.collections_url }}/gyd-men">GYD</a>
+          <a href="{{ routes.collections_url }}/lvn-men">LVN</a><a href="{{ routes.collections_url }}/rlx-men">RLX</a>
+          <a href="{{ routes.collections_url }}/nike-men">Nike</a><a href="{{ routes.collections_url }}/adidas-men">Adidas</a>
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if section.settings.menu_m_bags -%}<a class="drawer-link" href="{{ routes.collections_url }}/bags-men">Bags</a>{%- endif -%}
+      {%- if section.settings.menu_m_shoes -%}<a class="drawer-link" href="{{ routes.collections_url }}/shoes-men">Shoes</a>{%- endif -%}
+      {%- if section.settings.menu_m_wallets -%}<a class="drawer-link" href="{{ routes.collections_url }}/wallets-men">Wallets</a>{%- endif -%}
+      {%- if section.settings.menu_m_watches -%}<a class="drawer-link" href="{{ routes.collections_url }}/watches-men">Watches</a>{%- endif -%}
+      {%- if section.settings.menu_m_accessories -%}<a class="drawer-link" href="{{ routes.collections_url }}/accessories-men">Accessories</a>{%- endif -%}
+    {%- endif -%}
+  </nav>
+
+  
+  <div class="drawer-footer">
+    <div class="drawer-locale-row">
+      <div class="drawer-locale-col drawer-lang-wrapper" style="width: 100%;">
+        <button type="button" class="drawer-locale-trigger drawer-lang-selector" aria-expanded="false">
+          <span class="drawer-locale-text">{{ request.locale.iso_code | upcase }}</span>
+          <svg class="drawer-locale-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8L10 13L15 8"/></svg>
+        </button>
+      </div>
+    </div>
+    <button type="button" class="drawer-footer-item wishlist-trigger" style="position:relative; width:100%;">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>Wishlist</span>
+      <span class="wishlist-count" style="display:none; position:static !important; margin-left:auto; background:var(--color-border); color:var(--color-primary); font-size:11px; font-weight:700; padding:2px 8px; border-radius:12px; height:20px; min-width:20px; align-items:center; justify-content:center; line-height:1;">0</span>
+    </button>
+    {%- if customer -%}
+      <a href="{{ routes.account_url }}" class="drawer-footer-item">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>My Account</span>
+      </a>
+    {%- else -%}
+      <a href="{{ routes.account_login_url }}" class="drawer-footer-item">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Sign In</span>
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+
+
+<script>
+  window.cartItemInventory = {
+    {%- for item in cart.items -%}
+      "{{ item.variant_id }}": {
+        "qty": {{ item.variant.inventory_quantity | default: 999 }},
+        "management": "{{ item.variant.inventory_management | default: '' }}",
+        "policy": "{{ item.variant.inventory_policy | default: 'deny' }}"
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  };
+
+  window.showErrorAlert = function(message) {
+    var container = document.getElementById('custom-toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'custom-toast-container';
+      container.style.cssText = 'position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 1000000; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; pointer-events: none;';
+      document.body.appendChild(container);
     }
+    var toast = document.createElement('div');
+    toast.style.cssText = 'background: #fff5f5; border-left: 4px solid var(--color-accent); color: var(--color-primary); padding: 14px 18px; border-radius: 8px; box-shadow: 0 4px 12px rgba(242,92,94,0.12), 0 2px 4px rgba(0,0,0,0.05); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 12px; transform: translateY(-20px); opacity: 0; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease; pointer-events: auto; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;';
+    var iconSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+    var closeBtn = '<button style="background: none; border: none; font-size: 16px; font-weight: 600; color: #888; cursor: pointer; margin-left: auto; padding: 0 4px; line-height: 1;">&times;</button>';
+    toast.innerHTML = iconSvg + '<div style="flex: 1; line-height: 1.4;">' + message + '</div>' + closeBtn;
+    toast.querySelector('button').addEventListener('click', function() { removeToast(toast); });
+    container.appendChild(toast);
+    setTimeout(function() {
+      toast.style.transform = 'translateY(0)';
+      toast.style.opacity = '1';
+    }, 10);
+    setTimeout(function() { removeToast(toast); }, 5000);
+    function removeToast(el) {
+      el.style.transform = 'translateY(-10px)';
+      el.style.opacity = '0';
+      setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 300);
+    }
+  };
+
+  window.CURRENCY_SYMBOLS = {
+    {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
+    {%- assign currency_data_parts = currency_data | split: '|||' -%}
+    {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
+    {%- for sym_pair_raw in custom_symbols -%}
+      {%- assign sym_pair = sym_pair_raw | split: ':' -%}
+      {%- assign sym_code = sym_pair[0] | strip | upcase -%}
+      {%- assign sym_val = sym_pair[1] | strip -%}
+      {%- if sym_code != blank -%}
+        "{{ sym_code }}": "{{ sym_val }}"{%- unless forloop.last -%},{%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  };
+
+(function() {
+  
+  var savedDept = localStorage.getItem('amirivibes_department') || 'women';
+
+  function applyDept(dept) {
+    savedDept = dept;
+    localStorage.setItem('amirivibes_department', dept);
+    document.cookie = 'amirivibes_department=' + dept + '; path=/; max-age=' + (365 * 24 * 60 * 60);
+
+    document.body.classList.remove('dept-women', 'dept-men');
+    document.body.classList.add('dept-' + dept);
+
+    
+    document.querySelectorAll('.dept-link').forEach(function(l) {
+      l.classList.toggle('active', l.dataset.dept === dept);
+    });
+    document.querySelectorAll('.drawer-tab').forEach(function(t) {
+      t.classList.toggle('active', t.dataset.gender === dept);
+    });
+
+    
+    var desktopNavs = document.querySelectorAll('#desktop-nav-menu .navigation-menu-wrapper, .desktop-nav .navigation-menu-wrapper');
+    desktopNavs.forEach(function(n) {
+      n.style.display = (n.dataset.dept === dept) ? 'flex' : 'none';
+    });
+
+    
+    var womenNav = document.getElementById('drawer-nav-women');
+    var menNav   = document.getElementById('drawer-nav-men');
+    if (womenNav) womenNav.style.display = dept === 'women' ? '' : 'none';
+    if (menNav)   menNav.style.display   = dept === 'men'   ? '' : 'none';
+
+    window.dispatchEvent(new CustomEvent('departmentChanged', { detail: { department: dept } }));
   }
 
-  #header-component :is(.header-menu, .dropdown-localization) {
+  window.switchDept = function(dept) { applyDept(dept); };
+
+  
+  var savedMode = 'ready-to-go';
+
+  function applyDeliveryMode(mode) {
+    mode = 'ready-to-go';
+    localStorage.setItem('delivery_mode', mode);
+    
+    document.querySelectorAll('.delivery-mode-wrapper').forEach(function(wrapper) {
+      var btn = wrapper.querySelector('.delivery-mode-selector');
+      if (!btn) return;
+      var flagSpan = btn.querySelector('.delivery-flag');
+      var labelSpan = btn.querySelector('.delivery-label');
+      var options = wrapper.querySelectorAll('.delivery-mode-option');
+      
+      var activeOption = wrapper.querySelector('.delivery-mode-option[data-mode="' + mode + '"]');
+      
+      options.forEach(function(opt) {
+        opt.classList.toggle('is-active', opt.dataset.mode === mode);
+        var checkSvg = opt.querySelector('.dm-check');
+        if (opt.dataset.mode === mode) {
+          if (!checkSvg) {
+            opt.insertAdjacentHTML('beforeend', '<svg class="dm-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>');
+          }
+        } else {
+          if (checkSvg) checkSvg.remove();
+        }
+      });
+      
+      if (activeOption) {
+        var flagEl = activeOption.querySelector('.delivery-flag');
+        var labelEl = activeOption.querySelector('.delivery-option-title');
+        if (flagSpan && flagEl) flagSpan.innerHTML = flagEl.innerHTML;
+        if (labelSpan && labelEl) labelSpan.textContent = labelEl.textContent;
+      }
+    });
+    
+    window.dispatchEvent(new CustomEvent('deliveryModeChanged', { detail: { mode: mode } }));
+  }
+
+  window.switchDeliveryMode = function(mode) { applyDeliveryMode(mode); };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    applyDept(savedDept);
+    applyDeliveryMode(savedMode);
+
+    
+    document.querySelectorAll('.delivery-mode-option').forEach(function(opt) {
+      opt.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        applyDeliveryMode(opt.dataset.mode);
+      });
+    });
+
+    
+    document.querySelectorAll('.drawer-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() { applyDept(tab.dataset.gender); });
+    });
+
+    
+    var stickyWrapper      = document.getElementById('homepage-sticky-header');
+    var transparentHeader  = document.getElementById('homepage-desktop-header');
+    var ticking = false;
+
+    function updateHeader() {
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      var heroEl  = document.querySelector('.qtr-hero');
+      var threshold = heroEl ? heroEl.offsetHeight * 0.85 : window.innerHeight * 0.85;
+
+      if (scrollY > threshold) {
+        if (transparentHeader) transparentHeader.classList.add('hidden');
+        if (stickyWrapper)     stickyWrapper.classList.add('visible');
+      } else {
+        if (transparentHeader) transparentHeader.classList.remove('hidden');
+        if (stickyWrapper)     stickyWrapper.classList.remove('visible');
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function() {
+      if (!ticking) { window.requestAnimationFrame(updateHeader); ticking = true; }
+    }, { passive: true });
+    updateHeader();
+
+    
+    window.toggleMobileMenu = function() {
+      var drawer  = document.getElementById('home-mobile-drawer');
+      var overlay = document.getElementById('home-drawer-overlay');
+      var closeBtn = document.getElementById('drawer-close');
+      var isOpen  = drawer.classList.contains('active');
+
+      if (isOpen) {
+        drawer.classList.remove('active');
+        overlay.classList.remove('active');
+        if (closeBtn) closeBtn.classList.remove('active');
+        document.body.style.overflow = '';
+      } else {
+        drawer.classList.add('active');
+        overlay.classList.add('active');
+        if (closeBtn) closeBtn.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    var drawerClose = document.getElementById('drawer-close');
+    if (drawerClose) drawerClose.addEventListener('click', window.toggleMobileMenu);
+
+    var drawerOverlay = document.getElementById('home-drawer-overlay');
+    if (drawerOverlay) drawerOverlay.addEventListener('click', function(e) {
+      if (e.target === drawerOverlay) window.toggleMobileMenu();
+    });
+
+    
+    document.querySelectorAll('.drawer-expand-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var submenu = btn.nextElementSibling;
+        var icon    = btn.querySelector('.drawer-expand-icon');
+        var isOpen  = submenu.classList.contains('open');
+        submenu.classList.toggle('open', !isOpen);
+        if (icon) icon.textContent = isOpen ? '+' : '−';
+      });
+    });
+
+    
+    window.openSearch = function() {
+      document.getElementById('home-search-overlay').classList.add('active');
+      var inp = document.getElementById('home-search-input');
+      if (inp) { setTimeout(function() { inp.focus(); }, 50); }
+      document.body.style.overflow = 'hidden';
+    };
+    window.closeSearch = function() {
+      document.getElementById('home-search-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    };
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeSearch(); } });
+
+    window.clearSearchInput = function(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      const inp = document.getElementById('home-search-input');
+      if (inp) {
+        inp.value = '';
+        inp.focus();
+        triggerSearch('');
+      }
+    };
+
+    window.useSuggestionTag = function(tag) {
+      const inp = document.getElementById('home-search-input');
+      if (inp) {
+        inp.value = tag;
+        inp.focus();
+        triggerSearch(tag);
+      }
+    };
+
+    let searchDebounceTimer = null;
+    const searchInput = document.getElementById('home-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', function(e) {
+        const query = e.target.value;
+        const clearBtn = document.getElementById('home-search-clear');
+        if (clearBtn) {
+          clearBtn.style.display = query.trim().length > 0 ? 'block' : 'none';
+        }
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => {
+          triggerSearch(query);
+        }, 300);
+      });
+    }
+
+    function triggerSearch(query) {
+      const resultsWrap = document.getElementById('search-results-wrap');
+      const resultsContainer = document.getElementById('home-search-results');
+      const viewAllBtn = document.getElementById('search-view-all-btn');
+      const clearBtn = document.getElementById('home-search-clear');
+      
+      const cleanQuery = query.trim();
+      if (clearBtn) {
+        clearBtn.style.display = cleanQuery.length > 0 ? 'block' : 'none';
+      }
+
+      const collWrap = document.getElementById('collections-results-wrap');
+      const collContainer = document.getElementById('home-collections-results');
+
+      if (!cleanQuery) {
+        if (resultsWrap) resultsWrap.style.display = 'none';
+        if (resultsContainer) resultsContainer.innerHTML = '';
+        if (collWrap) collWrap.style.display = 'none';
+        if (collContainer) collContainer.innerHTML = '';
+        return;
+      }
+
+      fetch(`/search/suggest.json?q=${encodeURIComponent(cleanQuery)}&resources[type]=product,collection&resources[limit]=12`)
+        .then(res => res.json())
+        .then(data => {
+          const products = data.resources.results.products;
+          const collections = data.resources.results.collections;
+
+          // Render Collections
+          if (collections && collections.length > 0) {
+            let collHtml = '';
+            collections.forEach(coll => {
+              collHtml += `<a href="${coll.url}" class="suggestion-tag" style="text-decoration: none; display: inline-block;">${coll.title}</a>`;
+            });
+            if (collContainer) collContainer.innerHTML = collHtml;
+            if (collWrap) collWrap.style.display = 'block';
+          } else {
+            if (collWrap) collWrap.style.display = 'none';
+            if (collContainer) collContainer.innerHTML = '';
+          }
+
+          // Render Products
+          if (products && products.length > 0) {
+            let html = '';
+            const searchOverlayEl = document.getElementById('home-search-overlay');
+            const showVendor = searchOverlayEl ? searchOverlayEl.getAttribute('data-show-vendor') === 'true' : false;
+            const showPrice = searchOverlayEl ? searchOverlayEl.getAttribute('data-show-price') === 'true' : true;
+
+            products.forEach(prod => {
+              const priceFormatted = formatQarPrice(prod.price);
+              const comparePriceFormatted = prod.compare_at_price ? formatQarPrice(prod.compare_at_price) : '';
+              let imgUrl = 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_600x.png';
+              if (prod.image) {
+                imgUrl = prod.image;
+              } else if (prod.featured_image) {
+                imgUrl = typeof prod.featured_image === 'string' ? prod.featured_image : (prod.featured_image.url || prod.featured_image.src || imgUrl);
+              }
+              
+              let vendorHtml = '';
+              if (showVendor && prod.vendor) {
+                vendorHtml = `<div class="src-vendor">${prod.vendor}</div>`;
+              }
+
+              let priceHtml = '';
+              if (showPrice && prod.price) {
+                priceHtml = `
+                  <div class="src-price-group">
+                    ${comparePriceFormatted ? `<span class="src-compare-price">${comparePriceFormatted}</span>` : ''}
+                    <span class="src-price">${priceFormatted}</span>
+                  </div>
+                `;
+              }
+
+              html += `
+                <a href="${prod.url}" class="search-result-card">
+                  <div class="src-img-wrap">
+                    <img src="${imgUrl}" alt="${prod.title}" loading="lazy" onerror="this.onerror=null; this.src='https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_600x.png';">
+                  </div>
+                  ${vendorHtml}
+                  <div class="src-title">${prod.title}</div>
+                  ${priceHtml}
+                </a>
+              `;
+            });
+            
+            if (resultsContainer) resultsContainer.innerHTML = html;
+            if (viewAllBtn) viewAllBtn.href = `/search?q=${encodeURIComponent(cleanQuery)}`;
+            if (resultsWrap) resultsWrap.style.display = 'block';
+          } else {
+            if (resultsContainer) {
+              resultsContainer.innerHTML = `<div class="no-results-msg" style="grid-column: span 4; text-align: center; color: #777; padding: 20px 0; font-size: 14px;">
+                ${document.documentElement.lang === 'ar' || window.Shopify?.locale === 'ar' ? 'لم يتم العثور على منتجات' : 'No products found'}
+              </div>`;
+            }
+            if (viewAllBtn) viewAllBtn.href = `/search?q=${encodeURIComponent(cleanQuery)}`;
+            if (resultsWrap) resultsWrap.style.display = 'block';
+          }
+        })
+        .catch(err => {
+          console.error('Predictive search error:', err);
+        });
+    }
+
+    function formatQarPrice(priceVal) {
+      if (!priceVal) return '';
+      if (priceVal.toString().includes('QAR') || priceVal.toString().includes('ر.ق')) {
+        return priceVal;
+      }
+      let price = parseFloat(priceVal);
+      if (isNaN(price)) return priceVal;
+      if (Number.isInteger(price) && price > 100) {
+        price = price / 100;
+      }
+      return 'QAR ' + price.toFixed(2);
+    }
+
+    
+    var currencyBtn = document.getElementById('desktop-currency-btn');
+    var currencyDd  = document.getElementById('desktop-currency-dropdown');
+    var stickyCurrencyBtn = document.getElementById('sticky-currency-btn');
+    var stickyCurrencyDd  = document.getElementById('sticky-currency-dropdown');
+
+    function toggleCurrencyDropdown(btn, dd, e) {
+      e.stopPropagation();
+      
+      if (langDd) langDd.classList.remove('open');
+      if (stickyLangDd) stickyLangDd.classList.remove('open');
+      if (currencyDd && currencyDd !== dd) currencyDd.classList.remove('is-open');
+      if (stickyCurrencyDd && stickyCurrencyDd !== dd) stickyCurrencyDd.classList.remove('is-open');
+
+      var open = dd.classList.contains('is-open');
+      dd.classList.toggle('is-open', !open);
+      btn.setAttribute('aria-expanded', String(!open));
+    }
+
+    if (currencyBtn && currencyDd) {
+      currencyBtn.addEventListener('click', function(e) { toggleCurrencyDropdown(currencyBtn, currencyDd, e); });
+    }
+    if (stickyCurrencyBtn && stickyCurrencyDd) {
+      stickyCurrencyBtn.addEventListener('click', function(e) { toggleCurrencyDropdown(stickyCurrencyBtn, stickyCurrencyDd, e); });
+    }
+
+    
+    var langBtn = document.getElementById('desktop-lang-btn');
+    var langDd  = document.getElementById('desktop-lang-dropdown');
+    var stickyLangBtn = document.getElementById('sticky-lang-btn');
+    var stickyLangDd  = document.getElementById('sticky-lang-dropdown');
+
+    function toggleLangDropdown(btn, dd, e) {
+      e.stopPropagation();
+      
+      if (currencyDd) currencyDd.classList.remove('is-open');
+      if (stickyCurrencyDd) stickyCurrencyDd.classList.remove('is-open');
+      if (langDd && langDd !== dd) langDd.classList.remove('open');
+      if (stickyLangDd && stickyLangDd !== dd) stickyLangDd.classList.remove('open');
+
+      var open = dd.classList.contains('open');
+      dd.classList.toggle('open', !open);
+      btn.setAttribute('aria-expanded', String(!open));
+    }
+
+    if (langBtn && langDd) {
+      langBtn.addEventListener('click', function(e) { toggleLangDropdown(langBtn, langDd, e); });
+    }
+    if (stickyLangBtn && stickyLangDd) {
+      stickyLangBtn.addEventListener('click', function(e) { toggleLangDropdown(stickyLangBtn, stickyLangDd, e); });
+    }
+
+    
+    document.addEventListener('click', function() {
+      if (currencyDd) { currencyDd.classList.remove('is-open'); if (currencyBtn) currencyBtn.setAttribute('aria-expanded', 'false'); }
+      if (langDd)     { langDd.classList.remove('open');        if (langBtn) langBtn.setAttribute('aria-expanded', 'false'); }
+      if (stickyCurrencyDd) { stickyCurrencyDd.classList.remove('is-open'); if (stickyCurrencyBtn) stickyCurrencyBtn.setAttribute('aria-expanded', 'false'); }
+      if (stickyLangDd)     { stickyLangDd.classList.remove('open');        if (stickyLangBtn) stickyLangBtn.setAttribute('aria-expanded', 'false'); }
+    });
+
+    
+    function applyCurrencyLabel(selectedCurrency) {
+      document.querySelectorAll('.currency-wrapper').forEach(function(wrapper) {
+        var symbolSpan = wrapper.querySelector('.currency-symbol');
+        var codeSpan   = wrapper.querySelector('.currency-code');
+        if (codeSpan) codeSpan.textContent = selectedCurrency;
+        if (symbolSpan) {
+          symbolSpan.textContent = window.CURRENCY_SYMBOLS[selectedCurrency] || selectedCurrency;
+        }
+        wrapper.querySelectorAll('.currency-option').forEach(function(o) {
+          var isCurrent = o.getAttribute('data-currency') === selectedCurrency;
+          o.classList.toggle('is-active', isCurrent);
+          var checkSvg = o.querySelector('svg');
+          if (isCurrent) {
+            if (!checkSvg) {
+              o.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>');
+            }
+          } else {
+            if (checkSvg) checkSvg.remove();
+          }
+        });
+      });
+    }
+
+    
+    window.applyStoreCurrency = function(currency) {
+      currency = 'QAR';
+      var key = 'qar';
+      localStorage.setItem('qtr_currency', 'QAR');
+
+      
+      applyCurrencyLabel(currency);
+
+      
+      document.querySelectorAll('.product-price-row[data-price-qar], .card-price-row[data-price-qar]').forEach(function(row) {
+        var price   = row.getAttribute('data-price-' + key) || row.getAttribute('data-price-qar');
+        var compare = row.getAttribute('data-compare-' + key) || row.getAttribute('data-compare-qar') || null;
+
+        if (!price) return;
+
+        var priceEl   = row.querySelector('.product-price, .sale-price, .card-price');
+        var compareEl = row.querySelector('.product-price-compare, .card-price-cmp');
+
+        if (compare) {
+          if (compareEl) {
+            compareEl.textContent = compare;
+            compareEl.style.display = '';
+          } else {
+            compareEl = document.createElement('span');
+            compareEl.className = row.classList.contains('card-price-row') ? 'card-price-cmp' : 'product-price-compare';
+            row.insertBefore(compareEl, row.firstChild);
+            compareEl.textContent = compare;
+          }
+          if (priceEl) {
+            priceEl.className = row.classList.contains('card-price-row') ? 'card-price sale' : 'product-price sale-price';
+            priceEl.textContent = price;
+          }
+        } else {
+          if (compareEl) compareEl.style.display = 'none';
+          if (priceEl) {
+            priceEl.className = row.classList.contains('card-price-row') ? 'card-price' : 'product-price';
+            priceEl.textContent = price;
+          }
+        }
+      });
+
+      
+      document.querySelectorAll('.size-option, .color-swatch, .sz-btn').forEach(function(btn) {
+        var priceAttr = btn.getAttribute('data-price-' + key) || btn.getAttribute('data-price-qar');
+        var compareAttr = btn.getAttribute('data-compare-' + key) || btn.getAttribute('data-compare-qar');
+
+        if (priceAttr) {
+          btn.setAttribute('data-price', priceAttr);
+        }
+        if (compareAttr) {
+          btn.setAttribute('data-compare-price', compareAttr);
+          btn.setAttribute('data-cmp', compareAttr);
+        } else {
+          btn.removeAttribute('data-compare-price');
+          btn.removeAttribute('data-cmp');
+        }
+      });
+
+      
+      var activeSize = document.querySelector('.size-option.selected, .sz-btn.selected');
+      if (activeSize) {
+        if (typeof selectProductSize === 'function') {
+          selectProductSize(activeSize);
+        } else if (typeof pickSize === 'function') {
+          pickSize(activeSize);
+        }
+      } else {
+        var activeColor = document.querySelector('.color-swatch.active, .swatch.active');
+        if (activeColor) {
+          if (typeof selectProductColor === 'function') {
+            selectProductColor(activeColor);
+          } else if (typeof pickColor === 'function') {
+            pickColor(activeColor);
+          }
+        } else {
+          var mainPriceContainer = document.querySelector('.price-container, .price-row');
+          if (mainPriceContainer) {
+            var mainPrice = mainPriceContainer.getAttribute('data-price-' + key) || mainPriceContainer.getAttribute('data-price-qar');
+            var mainCompare = mainPriceContainer.getAttribute('data-compare-' + key) || mainPriceContainer.getAttribute('data-compare-qar');
+            
+            var curDisplay = document.getElementById('current-price-display') || document.getElementById('price-cur');
+            var cmpDisplay = document.getElementById('compare-price-display') || document.getElementById('price-cmp');
+            
+            if (curDisplay && mainPrice) {
+              curDisplay.textContent = mainPrice;
+            }
+            if (cmpDisplay) {
+              if (mainCompare) {
+                cmpDisplay.textContent = mainCompare;
+                cmpDisplay.style.display = '';
+                if (curDisplay) curDisplay.classList.add('sale');
+              } else {
+                cmpDisplay.style.display = 'none';
+                if (curDisplay) curDisplay.classList.remove('sale');
+              }
+            }
+          }
+        }
+      }
+    };
+
+    document.querySelectorAll('.currency-option').forEach(function(opt) {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var selectedCurrency = opt.getAttribute('data-currency');
+
+        
+        window.applyStoreCurrency(selectedCurrency);
+
+        
+        if (currencyDd)       currencyDd.classList.remove('is-open');
+        if (stickyCurrencyDd) stickyCurrencyDd.classList.remove('is-open');
+      });
+    });
+
+    
+    (function() {
+      var saved = localStorage.getItem('qtr_currency') || 'QAR';
+      window.applyStoreCurrency(saved);
+    })();
+
+    document.querySelectorAll('.lang-option').forEach(function(opt) {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var selectedLang = opt.getAttribute('data-lang').toLowerCase();
+        var currentLang = "{{ request.locale.iso_code }}".toLowerCase();
+        
+        // Save explicit preference
+        localStorage.setItem('shopify_locale_preference', selectedLang);
+        
+        if (selectedLang !== currentLang) {
+          var newPath = window.location.pathname;
+          
+          if (selectedLang === 'ar') {
+            if (!newPath.startsWith('/ar')) {
+              newPath = '/ar' + (newPath === '/' ? '' : newPath);
+            }
+          } else {
+            if (newPath.startsWith('/ar/')) {
+              newPath = newPath.replace('/ar/', '/');
+            } else if (newPath === '/ar') {
+              newPath = '/';
+            }
+          }
+          
+          window.location.href = window.location.origin + newPath + window.location.search + window.location.hash;
+        }
+        
+        if (langDd) langDd.classList.remove('open');
+        if (stickyLangDd) stickyLangDd.classList.remove('open');
+      });
+    });
+
+    
+    function updateCartBadge(count) {
+      var badges = document.querySelectorAll('.cart-count-badge');
+      badges.forEach(function(b) {
+        b.textContent = count;
+        b.style.display = count > 0 ? 'flex' : 'none';
+      });
+    }
+
+    
+    function updateWishlistBadge() {
+      var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+      var badges = document.querySelectorAll('.wishlist-count');
+      badges.forEach(function(b) {
+        b.textContent = wishlist.length;
+        b.style.display = wishlist.length > 0 ? 'flex' : 'none';
+      });
+    }
+
+    
+    fetch('/cart.js').then(function(r) { return r.json(); }).then(function(d) {
+      updateCartBadge(d.item_count);
+    }).catch(function() {});
+
+    updateWishlistBadge();
+
+    
+    var drawer = document.getElementById('side-drawer');
+    var overlay = document.getElementById('side-drawer-overlay');
+    var titleEl = document.getElementById('side-drawer-title');
+    var bodyEl = document.getElementById('side-drawer-body');
+    var footerEl = document.getElementById('side-drawer-footer');
+    var closeBtn = document.getElementById('side-drawer-close-btn');
+
+    function formatStorePrice(cents, currency) {
+      var val = cents / 100;
+      var symbol = currency;
+      const FALLBACK_RATES = {
+        'QAR': 1.0,
+        'USD': 0.2747,
+        'EUR': 0.253,
+        'AED': 1.003,
+        'SAR': 1.03,
+        'BHD': 0.103,
+        'KWD': 0.084,
+        'OMR': 0.105,
+        'GBP': 0.21
+      };
+      var rate = FALLBACK_RATES[currency] || 1.0;
+      val = val * rate;
+      
+      const showCurrencyCodes = document.getElementById('side-drawer')?.getAttribute('data-show-currency-codes') === 'true';
+      if (showCurrencyCodes) {
+        symbol = currency;
+      } else {
+        symbol = window.CURRENCY_SYMBOLS[currency] || currency;
+      }
+      
+      return symbol + ' ' + val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    window.openSideDrawer = function(type, noLoading) {
+      if (type === 'cart') {
+        const cartType = document.getElementById('side-drawer')?.getAttribute('data-cart-type') || 'drawer';
+        if (cartType === 'page') {
+          window.location.href = '/cart';
+          return;
+        } else if (cartType === 'notification') {
+          fetch('/cart.js')
+            .then(function(r) { return r.json(); })
+            .then(function(cart) {
+              updateCartBadge(cart.item_count);
+              if (window.showToastAlert) {
+                window.showToastAlert('Item added to cart!');
+              } else {
+                alert('Item added to cart!');
+              }
+            });
+          return;
+        }
+      }
+
+      drawer.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      var curCurrency = localStorage.getItem('qtr_currency') || 'QAR';
+
+      if (type === 'wishlist') {
+        titleEl.textContent = 'Your Wishlist';
+        var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+        
+        if (wishlist.length === 0) {
+          bodyEl.innerHTML = `
+            <div class="empty-drawer-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; color:#888; gap:16px; text-align:center;">
+              <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.2" fill="none" style="opacity:0.6;">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+              <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your wishlist is empty.</span>
+            </div>
+          `;
+          footerEl.innerHTML = '';
+        } else {
+          var html = '';
+          wishlist.forEach(function(item) {
+            html += `
+              <div class="drawer-item" data-id="${item.id}">
+                <img src="${item.image}" class="drawer-item-img">
+                <div class="drawer-item-info">
+                  <div>
+                    <div class="drawer-item-title">${item.title}</div>
+                    <div class="drawer-item-price">${formatStorePrice(item.price, curCurrency)}</div>
+                  </div>
+                  <div class="drawer-item-actions">
+                    <button class="remove-btn" onclick="window.removeWishlistItem('${item.id}')">Remove</button>
+                    <button class="wish-to-cart-btn" onclick="window.addWishlistToCart('${item.id}', '${item.variant_id || item.id}')">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+          bodyEl.innerHTML = html;
+          footerEl.innerHTML = `
+            <button class="checkout-btn" onclick="window.closeSideDrawer()">Continue Shopping</button>
+          `;
+        }
+      } else {
+        titleEl.textContent = 'Shopping Cart';
+        if (!noLoading) {
+          bodyEl.innerHTML = '<div class="empty-drawer-msg" style="padding: 20px; text-align: center;">Loading cart...</div>';
+          footerEl.innerHTML = '';
+        }
+
+        const showVendor = document.getElementById('side-drawer')?.getAttribute('data-show-vendor') === 'true';
+        const showNote = document.getElementById('side-drawer')?.getAttribute('data-show-note') === 'true';
+
+        fetch('/cart.js')
+          .then(function(r) { return r.json(); })
+          .then(function(cart) {
+            updateCartBadge(cart.item_count);
+            if (cart.items.length === 0) {
+              const templateEl = document.getElementById('drawer-empty-collection-template');
+              if (templateEl) {
+                bodyEl.innerHTML = templateEl.innerHTML;
+              } else {
+                bodyEl.innerHTML = `
+                  <div class="empty-drawer-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; color:#888; gap:16px; text-align:center;">
+                    <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.2" fill="none" style="opacity:0.6;">
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                      <line x1="3" y1="6" x2="21" y2="6"/>
+                      <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your cart is empty.</span>
+                  </div>
+                `;
+              }
+              footerEl.innerHTML = '';
+            } else {
+              var html = '';
+              cart.items.forEach(function(item) {
+                html += `
+                  <div class="drawer-item">
+                    <img src="${item.image}" class="drawer-item-img">
+                    <div class="drawer-item-info">
+                      <div>
+                        ${showVendor && item.vendor ? `<div style="font-size: 10px; text-transform: uppercase; color: #888; letter-spacing: 0.05em; margin-bottom: 2px;">${item.vendor}</div>` : ''}
+                        <div class="drawer-item-title">${item.product_title}</div>
+                        ${item.variant_title ? `<div style="font-size: 11px; color: #888;">${item.variant_title}</div>` : ''}
+                        <div class="drawer-item-price">${formatStorePrice(item.price, curCurrency)}</div>
+                      </div>
+                      <div class="drawer-item-actions">
+                        <div class="qty-select">
+                          <button onclick="window.changeCartQty('${item.key}', ${item.quantity - 1})">-</button>
+                          <span>${item.quantity}</span>
+                          <button onclick="window.changeCartQty('${item.key}', ${item.quantity + 1})">+</button>
+                        </div>
+                        <button class="remove-btn" onclick="window.changeCartQty('${item.key}', 0)">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              });
+              bodyEl.innerHTML = html;
+
+              window.proceedToCheckout = function(e) {
+                e.preventDefault();
+                const noteEl = document.getElementById('drawer-cart-note');
+                if (noteEl) {
+                  const noteVal = noteEl.value;
+                  fetch('/cart/update.js', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ note: noteVal })
+                  }).then(function() {
+                    window.location.href = '/checkout';
+                  }).catch(function() {
+                    window.location.href = '/checkout';
+                  });
+                } else {
+                  window.location.href = '/checkout';
+                }
+              };
+
+              footerEl.innerHTML = `
+                ${showNote ? `
+                  <div class="drawer-note-wrap" style="padding: 12px 0;">
+                    <textarea id="drawer-cart-note" placeholder="Add order note..." style="width: 100%; min-height: 50px; padding: 8px; border-radius: var(--radius-card); border: 1px solid var(--color-border); font-size: 11px; resize: vertical; outline: none;">${cart.note || ''}</textarea>
+                  </div>
+                ` : ''}
+                <div class="total-row">
+                  <span>Subtotal</span>
+                  <span>${formatStorePrice(cart.total_price, curCurrency)}</span>
+                </div>
+                <button class="checkout-btn" onclick="window.proceedToCheckout(event)">Proceed to Checkout</button>
+              `;
+            }
+          });
+      }
+    };
+
+    window.closeSideDrawer = function() {
+      drawer.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    window.changeCartQty = function(itemKey, qty) {
+      var variantId = String(itemKey).split(':')[0];
+      if (window.cartItemInventory && window.cartItemInventory[variantId]) {
+        var inv = window.cartItemInventory[variantId];
+        if (inv.management && inv.management !== '') {
+          if (qty > inv.qty) {
+            window.showErrorAlert('Only ' + inv.qty + ' items available in stock.');
+            return;
+          }
+        }
+      }
+
+      fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: itemKey, quantity: qty })
+      })
+      .then(function(r) {
+        return r.json().then(function(data) {
+          if (!r.ok) {
+            throw new Error(data.description || data.message || 'Not enough stock or invalid quantity.');
+          }
+          return data;
+        });
+      })
+      .then(function(cart) {
+        if (qty === 0) {
+          window.closeSideDrawer();
+          updateCartBadge(cart.item_count);
+        } else {
+          window.openSideDrawer('cart', true);
+        }
+      })
+      .catch(function(err) {
+        window.showErrorAlert(err.message);
+        window.openSideDrawer('cart', true);
+      });
+    };
+
+    window.removeWishlistItem = function(id) {
+      var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+      var items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+      
+      wishlist = wishlist.filter(function(i) { return i !== id && i !== parseInt(id); });
+      items = items.filter(function(item) { return item.id !== id && item.id !== parseInt(id); });
+      
+      localStorage.setItem('qtr_wishlist', JSON.stringify(wishlist));
+      localStorage.setItem('qtr_wishlist_items', JSON.stringify(items));
+      
+      updateWishlistBadge();
+      window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
+      window.closeSideDrawer();
+    };
+
+    window.addWishlistToCart = function(productId, variantId) {
+      var isDummy = String(variantId).indexOf('dummy') > -1;
+      var postData = isDummy ? {} : {
+        items: [{
+          id: Number(variantId) || variantId,
+          quantity: 1
+        }]
+      };
+      
+      var addPromise = isDummy ? Promise.resolve() : fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      }).then(function(r) {
+        return r.json().then(function(data) {
+          if (!r.ok) {
+            throw new Error(data.description || data.message || 'Could not add item to cart.');
+          }
+          return data;
+        });
+      });
+
+      addPromise.then(function() {
+        
+        var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+        var items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+        
+        wishlist = wishlist.filter(function(i) { return i !== productId && i !== parseInt(productId) && String(i) !== String(productId); });
+        items = items.filter(function(item) { return item.id !== productId && item.id !== parseInt(productId) && String(item.id) !== String(productId); });
+        
+        localStorage.setItem('qtr_wishlist', JSON.stringify(wishlist));
+        localStorage.setItem('qtr_wishlist_items', JSON.stringify(items));
+        
+        updateWishlistBadge();
+        window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
+        
+        
+        window.openSideDrawer('cart');
+      }).catch(function(err) {
+        console.error('Error adding to cart from wishlist:', err);
+        window.showErrorAlert(err.message || 'Could not add item to cart. Please make sure a valid size/variant is selected.');
+      });
+    };
+
+    overlay.addEventListener('click', window.closeSideDrawer);
+    closeBtn.addEventListener('click', window.closeSideDrawer);
+
+    
+    document.querySelectorAll('.cart-link').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.openSideDrawer('cart');
+      });
+    });
+
+    document.querySelectorAll('.wishlist-trigger').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.openSideDrawer('wishlist');
+      });
+    });
+
+    window.toggleWishlist = function(event, productId) {
+      event.preventDefault();
+      event.stopPropagation();
+      
+      var btn = event.currentTarget;
+      var heartSvg = btn.querySelector('svg');
+      var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+      var items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+      var index = wishlist.indexOf(productId);
+      
+      if (index > -1) {
+        wishlist.splice(index, 1);
+        items = items.filter(function(item) { return item.id !== productId && item.id !== parseInt(productId); });
+        if (heartSvg) {
+          heartSvg.setAttribute('fill', 'none');
+          heartSvg.setAttribute('stroke', 'currentColor');
+        }
+        btn.classList.remove('active');
+      } else {
+        wishlist.push(productId);
+        if (heartSvg) {
+          var activeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#e74c3c';
+          heartSvg.setAttribute('fill', activeColor);
+          heartSvg.setAttribute('stroke', activeColor);
+        }
+        btn.classList.add('active');
+        
+        
+        var title = btn.getAttribute('data-title') || 'Product';
+        var image = btn.getAttribute('data-image') || '';
+        var price = parseInt(btn.getAttribute('data-price')) || 0;
+        var vendor = btn.getAttribute('data-vendor') || '';
+        var url = btn.getAttribute('data-url') || '';
+        var variantId = btn.getAttribute('data-variant-id') || productId;
+        
+        items.push({
+          id: productId,
+          variant_id: variantId,
+          title: title,
+          vendor: vendor,
+          image: image,
+          price: price,
+          url: url
+        });
+        
+        setTimeout(function() {
+          window.openSideDrawer('wishlist');
+        }, 300);
+      }
+      
+      localStorage.setItem('qtr_wishlist', JSON.stringify(wishlist));
+      localStorage.setItem('qtr_wishlist_items', JSON.stringify(items));
+      
+      window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
+    };
+
+    window.syncWishlistHearts = function() {
+      var wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+      var activeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#e74c3c';
+      document.querySelectorAll('.product-wishlist-btn').forEach(function(btn) {
+        var id = btn.getAttribute('data-id');
+        if (!id) {
+          var match = (btn.getAttribute('onclick') || '').match(/'([^']+)'/);
+          id = match ? match[1] : null;
+        }
+        if (id) {
+          var heartSvg = btn.querySelector('svg');
+          var inList = wishlist.indexOf(id) > -1 || wishlist.indexOf(parseInt(id)) > -1;
+          if (heartSvg) {
+            heartSvg.setAttribute('fill',   inList ? activeColor : 'none');
+            heartSvg.setAttribute('stroke', inList ? activeColor : 'currentColor');
+          }
+          btn.classList.toggle('active', inList);
+        }
+      });
+    };
+
+    window.addEventListener('wishlistChanged', function() {
+      updateWishlistBadge();
+      window.syncWishlistHearts();
+    });
+
+    window.syncWishlistHearts();
+
+    /* ---- Mobile Drawer Locale Toggles ---- */
+    var mobCurrBtn = document.querySelector('.drawer-currency-col .drawer-locale-trigger');
+    if (mobCurrBtn) {
+      mobCurrBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var currencies = ['QAR', 'USD', 'EUR', 'AED'];
+        var current = localStorage.getItem('qtr_currency') || 'QAR';
+        var idx = currencies.indexOf(current);
+        var next = currencies[(idx + 1) % currencies.length];
+        
+        window.applyStoreCurrency(next);
+        
+        // Update labels on mobile drawer button
+        var label = mobCurrBtn.querySelector('.drawer-locale-text');
+        if (label) {
+          var symbol = window.CURRENCY_SYMBOLS[next] || next;
+          label.innerHTML = '<span style="color:rgba(26,26,26,0.4)">' + symbol + '</span> ' + next;
+        }
+      });
+    }
+
+    var mobLangBtn = document.querySelector('.drawer-lang-wrapper .drawer-locale-trigger');
+    if (mobLangBtn) {
+      mobLangBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var label = mobLangBtn.querySelector('.drawer-locale-text');
+        var current = (label ? label.textContent : 'EN').trim().toUpperCase();
+        var next = current === 'EN' ? 'AR' : 'EN';
+        
+        if (label) label.textContent = next;
+        
+        // Find corresponding desktop option to click (triggers language changes)
+        var targetOption = document.querySelector('.lang-option[data-lang="' + next.toLowerCase() + '"]');
+        if (targetOption) targetOption.click();
+      });
+    }
+
+    // Set initial values on mobile locale buttons
+    (function() {
+      var savedCurr = localStorage.getItem('qtr_currency') || 'QAR';
+      if (mobCurrBtn) {
+        var symbol = window.CURRENCY_SYMBOLS[savedCurr] || savedCurr;
+        var label = mobCurrBtn.querySelector('.drawer-locale-text');
+        if (label) label.innerHTML = '<span style="color:rgba(26,26,26,0.4)">' + symbol + '</span> ' + savedCurr;
+      }
+      var savedLang = (document.querySelector('.lang-selector-wrapper .lang-label') ? document.querySelector('.lang-selector-wrapper .lang-label').textContent : 'EN').trim().toUpperCase();
+      if (mobLangBtn) {
+        var label = mobLangBtn.querySelector('.drawer-locale-text');
+        if (label) label.textContent = savedLang;
+      }
+    })();
+
+  });
+})();
+</script>
+
+
+<div class="side-drawer-overlay" id="side-drawer-overlay"></div>
+<div class="side-drawer" id="side-drawer"
+     data-cart-type="{{ settings.cart_type | default: 'drawer' }}"
+     data-show-vendor="{{ settings.show_cart_vendor | default: false }}"
+     data-show-note="{{ settings.show_cart_note | default: false }}"
+     data-show-currency-codes="{{ settings.show_currency_codes | default: false }}">
+  <div class="side-drawer-header">
+    <h2 id="side-drawer-title">Shopping Cart</h2>
+    <button class="side-drawer-close" id="side-drawer-close-btn">&times;</button>
+  </div>
+  <div class="side-drawer-body" id="side-drawer-body"></div>
+  <div class="side-drawer-footer" id="side-drawer-footer"></div>
+  {%- if settings.empty_cart_collection != blank -%}
+    {%- assign empty_collection = collections[settings.empty_cart_collection] -%}
+    {%- if empty_collection and empty_collection.products.size > 0 -%}
+      <div id="drawer-empty-collection-template" style="display: none;">
+        <div class="empty-drawer-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px 20px 10px 20px; color:#888; gap:12px; text-align:center;">
+          <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your cart is empty.</span>
+        </div>
+        <div class="empty-cart-featured" style="padding: 0 20px 20px 20px;">
+          <h4 style="font-family: var(--font-serif); font-size: 16px; font-weight: 300; margin-bottom: 12px; color: var(--color-primary);">{% if request.locale.iso_code == 'ar' %}المنتجات المقترحة{% else %}Featured Items{% endif %}</h4>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+            {%- for product in empty_collection.products limit: 4 -%}
+              <a href="{{ product.url }}" class="empty-cart-prod-card" style="text-decoration: none; color: inherit; display: block; text-align: center;">
+                <div style="aspect-ratio: 1; border-radius: var(--radius-card); overflow: hidden; background: #fafafa; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 6px;">
+                  <img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title | escape }}" loading="lazy" width="200" height="200" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div style="font-size: 11px; font-weight: 600; color: var(--color-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ product.title }}</div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--color-primary);">{{ product.price | money }}</div>
+              </a>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+<style>
+  
+  .side-drawer-overlay {
     display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-
-  @media screen and (min-width: 750px) {
-    #header-component[data-menu-style='menu'] :is(.header-menu, .dropdown-localization) {
-      display: flex;
-    }
-  }
-
-  #header-component[data-menu-style='drawer'] .header__column {
-    display: contents;
-  }
-
-  @media screen and (min-width: 750px) {
-    #header-component[data-menu-style='menu'] .header__navigation-bar-row {
-      display: none;
-    }
-  }
-
-  .header[transparent] {
-    --language-button-background-color: transparent;
-    --language-button-border-color: transparent;
-    --header-content-transition-timing: calc(var(--submenu-animation-speed) - var(--animation-speed-fast))
-      var(--animation-speed-fast) var(--ease-out-cubic);
-
-    --closed-underlay-height: 0px;
-
-    /* used to display the appropriate logo based on transparency state */
-    --header-logo-display: none;
-    --header-logo-inverse-display: block;
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-
-    z-index: var(--layer-overlay);
-
-    &[transparent='not-sticky'][data-sticky-state='active'],
-    &:has(.menu-list__link:not([aria-haspopup]):hover) {
-      --header-logo-display: unset;
-      --header-logo-inverse-display: unset;
-      --color-foreground: inherit;
-      --color-foreground-rgb: inherit;
-      --color-background: inherit;
-      --color-background-rgb: inherit;
-      --color-border: inherit;
-      --color-border-rgb: inherit;
-      --closed-underlay-height: 100%;
-    }
-
-    /** For transparent header, apply transparent text color to rows when menu is not hovered */
-    &:not([data-sticky-state='active']):not(:has(.menu-list__link:is(:hover, [aria-expanded='true']))) .header__row {
-      --color-foreground: var(--color-transparent-text);
-      --color-foreground-rgb: var(--color-transparent-text-rgb);
-      --color-border: var(--color-transparent-text);
-      --color-border-rgb: var(--color-transparent-text-rgb);
-      --color-primary-button-background: var(--color-transparent-text);
-      --color-primary-button-text: var(--color-transparent-text-contrast);
-    }
-
-    /* Swap the cart bubble in transparent state only when using the default
-       style. Custom bubble colors apply unchanged across header states. */
-    &[data-bubble-style='default']:not([data-sticky-state='active']):not(
-        :has(.menu-list__link:is(:hover, [aria-expanded='true']))
-      )
-      .header__row {
-      --cart-bubble-background: var(--color-transparent-text, var(--cart-bubble-background-fallback));
-      --cart-bubble-text: var(--color-transparent-text-contrast, var(--cart-bubble-text-fallback));
-    }
-
-    /* Multiple selectors for performance: each simple :has() check is faster than one complex selector with multiple conditions */
-    &:has(.mega-menu__list:hover),
-    &:has(.menu-list__link:is(:hover, [aria-expanded='true'])),
-    &:has(.menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'])) {
-      --header-logo-display: unset;
-      --header-logo-inverse-display: unset;
-      --color-foreground: inherit;
-      --color-foreground-rgb: inherit;
-      --color-background: inherit;
-      --color-background-rgb: inherit;
-      --color-border: inherit;
-      --color-border-rgb: inherit;
-      --header-content-transition-timing: var(--submenu-animation-speed) var(--ease-out-cubic);
-    }
-  }
-
-  /* When top row has transparent background, make it inherit colors from header component */
-  [data-transparent-background='top']:hover .header__row--top,
-  [data-transparent-background='top']:focus-within .header__row--top,
-  [data-transparent-background='both']:hover .header__row--top,
-  [data-transparent-background='both']:focus-within .header__row--top {
-    --color-foreground: inherit;
-    --color-foreground-rgb: inherit;
-    --color-border: inherit;
-    --color-border-rgb: inherit;
-    --color-primary-button-background: inherit;
-    --color-primary-button-text: inherit;
-  }
-
-  /* When bottom row has transparent background, make it inherit colors from header component */
-  [data-transparent-background='bottom']:hover .header__row--bottom,
-  [data-transparent-background='bottom']:focus-within .header__row--bottom,
-  [data-transparent-background='both']:hover .header__row--bottom,
-  [data-transparent-background='both']:focus-within .header__row--bottom {
-    --color-foreground: inherit;
-    --color-foreground-rgb: inherit;
-    --color-border: inherit;
-    --color-border-rgb: inherit;
-    --color-primary-button-background: inherit;
-    --color-primary-button-text: inherit;
-  }
-
-  .header-section {
-    position: relative;
-    z-index: var(--layer-menu-drawer);
-  }
-
-  /* need default values for non-flash transitions on first overflow menu open */
-  #header-component {
-    --submenu-height: 0px;
-    --full-open-header-height: 0px;
-  }
-
-  #header-group:has(#header-component[sticky]) {
-    display: contents;
-  }
-
-  .header-section:has(> #header-component[sticky='always']),
-  .header-section:has(> #header-component[sticky='scroll-up'][data-sticky-state='active']) {
-    position: sticky;
-
-    /* Use -1 instead of 0 so intersection observer can track sticky state */
-    top: -1px;
-    z-index: var(--layer-menu-drawer);
-  }
-
-  .header[data-sticky-state] {
-    transition: opacity var(--animation-speed) var(--animation-easing);
+  .side-drawer-overlay.active {
+    display: block;
     opacity: 1;
   }
-
-  .header[data-sticky-state='active'] {
-    view-transition-name: sticky-header;
+  .side-drawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 400px;
+    height: 100%;
+    background: var(--color-drawer-bg, #fff);
+    z-index: 100000;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
-
-  :active-view-transition-type(empty-cart-drawer) {
-    .header[data-sticky-state='active'] {
-      view-transition-name: none;
-    }
+  .side-drawer.active {
+    right: 0;
   }
-
-  .header[data-sticky-state='idle'] {
-    opacity: 0;
+  .side-drawer-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-border, #e0dcd3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-
-  /* ================================
-     * Underlays
-     * ================================ */
-  .header__underlay {
-    position: absolute;
-    inset: 0;
+  .side-drawer-header h2 {
+    font-family: var(--font-serif, 'Canela Text Trial', 'Canela Text', Georgia, serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-primary, var(--color-primary));
+    margin: 0;
   }
-
-  .header__underlay-closed {
-    height: var(--closed-underlay-height, 100%);
-    z-index: var(--layer-lowest);
-    background: linear-gradient(
-      var(--color-background-top-row) 0 var(--top-row-height),
-      var(--color-background-bottom-row) var(--top-row-height) var(--header-height)
-    );
-    transition: height var(--animation-speed-slow) var(--ease-out-cubic);
+  .side-drawer-close {
+    font-size: 28px;
+    color: var(--color-muted, #888);
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
   }
-
-  .header__underlay-open {
-    height: var(--full-open-header-height);
-    background: linear-gradient(
-      var(--color-background-top-row) 0 var(--top-row-height),
-      var(--color-background-bottom-row) var(--top-row-height) var(--header-height),
-      var(--color-submenu) var(--header-height) 100%
-    );
-    /* header-height is updated via js, the transition works automagically */
-    transition: height var(--submenu-animation-speed) var(--ease-out-cubic);
+  .side-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
   }
-
-  .header__underlay-open::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    box-shadow: var(--shadow-popover);
-    clip-path: inset(var(--header-height) 0 -100px 0); /* stylelint-disable-line */
-    transition: height var(--submenu-animation-speed) var(--ease-out-cubic);
+  .drawer-item {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(45,31,31,0.06);
   }
-
-  /* When top row has transparent background, swap underlay to merchant's chosen color at full opacity */
-  [data-transparent-background='top']:hover,
-  [data-transparent-background='top']:focus-within,
-  [data-transparent-background='both']:hover,
-  [data-transparent-background='both']:focus-within {
-    :is(.header__underlay-open, .header__underlay-closed) {
-      --color-background-top-row: var(--color-background);
-    }
+  .drawer-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #f9f9f9;
   }
-
-  /* When bottom row has transparent background, swap underlay to merchant's chosen color at full opacity */
-  [data-transparent-background='bottom']:hover,
-  [data-transparent-background='bottom']:focus-within,
-  [data-transparent-background='both']:hover,
-  [data-transparent-background='both']:focus-within {
-    :is(.header__underlay-open, .header__underlay-closed) {
-      --color-background-bottom-row: var(--color-background);
-    }
+  .drawer-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
-
-  [data-submenu-overlap-bottom-row] {
-    .header__underlay-open {
-      background: linear-gradient(
-        var(--color-background-top-row) 0 var(--top-row-height),
-        var(--color-submenu) var(--top-row-height) 100%
-      );
-    }
-
-    .header__row--bottom {
-      z-index: var(--layer-lowest);
-    }
+  .drawer-item-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-primary, var(--color-primary));
+    line-height: 1.4;
   }
-
-  /* End Underlays ================ */
-
-  .header__row {
-    /* The account component uses a different background color, but we need to override it to inherit the color of the header row */
-    --color-account-icon: var(--color-foreground);
-
-    position: relative;
-
-    /* Overwrite color from section settings, background is controlled by the underlays */
-    /* stylelint-disable-next-line declaration-no-important */
-    background-color: transparent !important;
-
-    &:has(.mega-menu__list:hover),
-    &:has(.menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true'])),
-    &:has(.menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'])) {
-      /* Only elevate the row when the submenu is open to avoid overlapping other elevated content */
-      z-index: var(--layer-heightened);
-    }
+  .drawer-item-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-accent, #f25c5e);
+    margin-top: 4px;
   }
-
-  .header__row--top:not(.divider--page-width),
-  .header__row--top.divider--page-width .header__columns,
-  .header__row--bottom {
-    border-bottom: var(--border-bottom-width) solid var(--border-bottom-color, var(--color-border));
-  }
-
-  @media screen and (max-width: 749px) {
-    .header__row--top:not(.divider--page-width),
-    .header__row--top.divider--page-width .header__columns {
-      border-bottom-width: var(--border-bottom-width-mobile);
-      border-bottom-color: var(--border-bottom-color-mobile);
-    }
-  }
-
-  #header-component[data-menu-style='drawer'] .header__row--top:not(.divider--page-width),
-  #header-component[data-menu-style='drawer'] .header__row--top.divider--page-width .header__columns {
-    border-bottom-width: var(--border-bottom-width-mobile);
-    border-bottom-color: var(--border-bottom-color-mobile);
-  }
-
-  .header__row.divider--page-width:not(.section--page-width) .header__columns {
-    @media screen and (min-width: 750px) {
-      padding-inline-start: 0;
-      padding-inline-end: 0;
-      margin-inline-start: var(--page-margin);
-      margin-inline-end: var(--page-margin);
-    }
-  }
-
-  .header__column {
+  .drawer-item-actions {
     display: flex;
     align-items: center;
-
-    /* on mobile, header__column nodes are ignored to create a new grid-template-area based on all visible content */
-    @media screen and (max-width: 749px) {
-      display: contents;
-    }
+    justify-content: space-between;
+    margin-top: 8px;
   }
-
-  .header__column--left,
-  .header__column--center {
-    gap: var(--gap-xl);
-    grid-area: left;
-  }
-
-  .header__column--center {
-    justify-content: center;
-    grid-area: center;
-
-    header-menu:only-child .overflow-menu::part(list) {
-      justify-content: center;
-    }
-  }
-
-  .header__column--right {
-    gap: var(--gap-xl);
-    justify-content: flex-end;
-    grid-area: right;
-
-    .overflow-menu::part(list) {
-      justify-content: flex-end;
-    }
-  }
-
-  .header__columns {
-    /* Three column layout */
-    --header-left: 1fr;
-    --header-center: auto;
-    --header-right: 1fr;
-    --header-template-columns: var(--header-left) var(--header-center) var(--header-right);
-
-    /* Mobile layout */
-    --header-mobile-bookend: 44px;
-
-    display: grid;
-    grid-template-areas: 'left center right';
-    grid-gap: var(--gap-xl);
-    grid-template-columns: var(--header-template-columns);
-
-    /* If menu is in center column */
-    &:has(.header__column--center header-menu) {
-      --header-center: auto;
-      --header-left: minmax(max-content, 1fr);
-      --header-right: minmax(max-content, 1fr);
-    }
-
-    /* If there is no center column, make the column the menu is in grow eagerly */
-    &:where(:not(:has(.header__column--center))) {
-      @media screen and (min-width: 750px) {
-        --header-template-columns: var(--header-left) var(--header-right);
-
-        grid-template-areas: 'left right';
-      }
-
-      /* If the header-menu is in the right column */
-      &:has(.header__column--right header-menu) {
-        --header-right: auto;
-        --header-left: minmax(max-content, 1fr);
-      }
-
-      /* If the header-menu is in the left column */
-      &:has(.header__column--left header-menu) {
-        --header-left: auto;
-        --header-right: minmax(max-content, 1fr);
-      }
-    }
-
-    @media screen and (max-width: 749px) {
-      --header-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr
-        var(--header-mobile-bookend) var(--header-mobile-bookend);
-
-      grid-template-areas: 'leftA leftB center rightA rightB';
-      grid-column: span 3;
-      column-gap: 0;
-      align-items: center;
-      padding-block: 0;
-      padding-inline: 0 var(--padding-3xs);
-
-      .header-logo {
-        grid-area: center;
-      }
-
-      &:not(:has(header-actions)) .search-action {
-        grid-area: leftB;
-      }
-
-      &:not(:has(shopify-account)) .search-action {
-        grid-area: rightA;
-      }
-
-      .search-action {
-        grid-area: leftB;
-      }
-
-      header-actions {
-        grid-area: rightB;
-      }
-    }
-  }
-
-  /* not ideal but we need to duplicate these styles for when touch comes into play
-    We could avoid the duplication using js to set the data-menu-style attribute on small screens instead of using @media queries */
-  #header-component[data-menu-style='drawer'] .header__columns {
-    --header-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr
-      var(--header-mobile-bookend) var(--header-mobile-bookend);
-
-    grid-template-areas: 'leftA leftB center rightA rightB';
-    grid-column: span 3;
-    column-gap: 0;
+  .qty-select {
+    display: flex;
     align-items: center;
-    padding-block: 0;
-    padding-inline: 0 var(--padding-3xs);
-
-    .header-logo {
-      grid-area: center;
-    }
-
-    &:not(:has(header-actions)) .search-action {
-      grid-area: leftB;
-    }
-
-    &:not(:has(shopify-account)) .search-action {
-      grid-area: rightA;
-    }
-
-    .search-action {
-      grid-area: leftB;
-    }
-
-    header-actions {
-      grid-area: rightB;
-    }
+    border: 1px solid var(--color-border, #e0dcd3);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
   }
-
-  /* Single column layout if there are no columns within */
-  .header__columns:not(:has(.header__column)) {
-    grid-template-columns: 1fr;
+  .qty-select button {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    background: #f9f9f9;
+    border: none;
+    cursor: pointer;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-
-  /* Check for hover support to avoid unnecessary expensive recalculations when tapping on mobile */
-  @media (hover: hover) {
-    /* Column-specific dimming effect when any interactive element is hovered
-        Multiple selectors for performance: each simple :has() check is faster than one complex selector with multiple conditions */
-    .header__column:has(header-menu:hover),
-    .header__column:has(.header-actions__action:hover),
-    .header__column:has(.header__icon--menu:hover) {
-      header-menu:not(:hover),
-      .header-actions__action:not(:hover),
-      .header__icon--menu:not(:hover) {
-        opacity: var(--opacity-subdued-text);
-        transition: opacity var(--animation-speed) var(--animation-easing);
-      }
-    }
+  .qty-select span {
+    width: 32px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
   }
-
-  /* Ensure smooth transitions for all interactive elements */
-  header-menu,
-  .header-actions__action,
-  .header__icon--menu {
-    transition: opacity var(--animation-speed) var(--animation-easing);
+  .remove-btn {
+    font-size: 11px;
+    color: var(--color-muted, #888);
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
-
-  /* Header action button styles */
-  .header-actions__action {
-    --button-color: var(--color-foreground);
-    color: var(--button-color);
+  .remove-btn:hover {
+    color: var(--color-primary, var(--color-primary));
+  }
+  .side-drawer-footer {
+    padding: 24px;
+    border-top: 1px solid var(--color-border, #e0dcd3);
+    background: var(--color-drawer-footer-bg, #faf9f5);
+  }
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-bg, #f9f2d5);
+  }
+  .checkout-btn {
+    width: 100%;
+    height: 46px;
+    background: var(--color-bg, #f9f2d5);
+    color: var(--color-primary, #8c1638);
+    border-radius: 24px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--color-bg, #f9f2d5);
     cursor: pointer;
     display: flex;
-    justify-content: center;
-
-    &:hover {
-      --button-color: var(--color-foreground);
-    }
-  }
-
-  .header-actions__action:not(.account-button) .svg-wrapper {
-    height: var(--button-size);
-    width: var(--button-size);
-  }
-
-  .header-actions__action:not(.account-button) svg {
-    width: var(--icon-size-md);
-    height: var(--icon-size-md);
-  }
-
-  .header:has(#Details-menu-drawer-container[open]) {
-    contain: style;
-  }
-
-  .header.header--compact {
-    --header-padding: var(--padding-2xs);
-  }
-
-  .header__columns {
-    --padding-block-start: var(--header-padding);
-    --padding-block-end: var(--header-padding);
-  }
-
-  .header:not(.header--compact) .header__row--bottom {
-    --header-padding: var(--padding-xs);
-  }
-
-  .header--collapse-row-paddings {
-    .header__row--top .header__columns {
-      --padding-block-end: 0px;
-    }
-
-    .header__row--bottom .header__columns {
-      --padding-block-start: 0px;
-    }
-  }
-
-  /* When the header is transparent, add a margin to a potential header-section below it */
-  .header-section:has(.header[transparent]) + .shopify-section {
-    margin-top: var(--header-height);
-  }
-
-  /* Optimize layout performance for hidden menus */
-  .header-menu .menu-list__submenu {
-    content-visibility: auto;
-    contain-intrinsic-size: 0px 500px;
-  }
-
-  /* Force visibility when open/animating and in overflow submenu to prevent layout issues */
-  .header-menu details[open] .menu-list__submenu,
-  .header-menu .menu-list__submenu[data-active],
-  .header-menu .menu-list__list-item[slot='overflow'] .menu-list__submenu {
-    content-visibility: visible;
-  }
-
-  /* Dropdown Localization Styles */
-  .dropdown-localization__button {
-    display: flex;
-    position: relative;
     align-items: center;
-    gap: 4px;
-    font-family: var(--menu-localization-font);
-    font-size: var(--menu-localization-font-size);
-    font-weight: var(--menu-top-level-font-weight);
-    padding-inline: var(--padding-2xs);
-    margin-inline: calc(-1 * var(--padding-2xs));
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .checkout-btn:hover {
+    background: var(--color-white);
+    color: var(--color-primary, #8c1638);
+    border-color: var(--color-white);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  }
+  .wish-to-cart-btn {
+    padding: 6px 14px;
+    background: var(--color-bg, #f9f2d5);
+    color: var(--color-primary, #8c1638);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1.5px solid var(--color-primary, #8c1638);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .wish-to-cart-btn:hover {
+    background: var(--color-primary, #8c1638);
+    color: var(--color-bg, #f9f2d5);
+  }
+  .empty-drawer-msg {
+    text-align: center;
+    color: var(--color-muted, #888);
+    padding: 40px 0;
+    font-size: 14px;
+  }
+  
+  .wishlist-count, .cart-count-badge {
+    position: absolute !important;
+    top: -5px !important;
+    right: -7px !important;
+    background: var(--color-border) !important;
+    color: var(--color-primary) !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    z-index: 5 !important;
   }
 
-  .dropdown-localization__button .svg-wrapper.icon-caret {
-    height: var(--icon-size-xs);
-    width: var(--icon-size-xs);
-    right: var(--margin-xs);
-    top: calc(50% - var(--padding-2xs));
-    flex-shrink: 0;
-    transition: transform var(--animation-speed) var(--animation-easing);
-  }
+  
+  @media (max-width: 1024px) {
+    .desktop-nav {
+      display: none !important;
+    }
+    
+    #homepage-desktop-header {
+      display: none !important;
+    }
+    
+    
+    #homepage-sticky-header {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      transform: translateY(0) !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+      background: var(--color-primary) !important; 
+    }
 
-  .dropdown-localization__button .icon-flag {
-    width: var(--menu-localization-font-size, var(--icon-size-sm));
-    height: var(--menu-localization-font-size, var(--icon-size-sm));
-    clip-path: circle(50%); /* stylelint-disable-line */
-    background-position: center;
-    background-size: cover;
-    margin-inline-end: 4px;
-    position: relative;
-  }
+    .site-header {
+      background: var(--color-primary) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+      height: 60px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+    .header-container {
+      width: 100% !important;
+      padding: 0 16px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
 
-  .dropdown-localization__button .icon-flag::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    box-shadow: inset 0 0 var(--size-shadow) var(--color-shadow);
-    border-radius: 50%;
-  }
+    
+    .site-header .header-left .mobile-header-logo {
+      display: flex !important;
+    }
+    .site-header .header-left .mobile-header-logo span {
+      color: #fff !important;
+    }
+    
+    
+    .site-header .header-left .dept-toggle {
+      display: none !important;
+    }
 
-  .dropdown-localization__button[aria-expanded='true'] .icon-caret svg {
-    transform: rotate(180deg);
-  }
+    
+    .site-header .header-center > a {
+      display: none !important;
+    }
 
-  .dropdown-localization__button,
-  .dropdown-localization__button:hover {
-    box-shadow: none;
-    background-color: transparent;
-    border-color: transparent;
-  }
+    
+    .site-header .header-center .delivery-mode-wrapper.site-hdr-mobile {
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+    .site-header .header-center .delivery-mode-selector {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      backdrop-filter: blur(10px) !important;
+      color: #fff !important;
+      height: 32px !important;
+      border-radius: 20px !important;
+      padding: 0 12px !important;
+      font-size: 11px !important;
+      text-transform: capitalize !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+    .site-header .header-center .delivery-mode-selector svg {
+      margin-top: 1px !important;
+    }
 
-  dropdown-localization-component .localization-form__list {
-    max-height: 20.5rem;
-  }
+    
+    .site-header .header-right .site-hdr-desktop {
+      display: none !important;
+    }
+    
+    
+    .site-header .header-right .site-hdr-mobile {
+      display: flex !important;
+    }
+    
+    .site-header .header-right .header-mobile-sep {
+      display: block !important;
+      background: rgba(255,255,255,0.15) !important;
+      height: 16px !important;
+      margin: 0 4px !important;
+    }
+    
+    .site-header .header-right {
+      gap: 10px !important;
+      color: #fff !important;
+    }
 
-  .localization-wrapper {
-    position: fixed;
-    z-index: var(--layer-raised);
-    border-radius: var(--style-border-radius-popover);
-    transition-property: display, opacity, translate;
-    transition-duration: 0.3s;
-    transition-timing-function: var(--ease-out-quad);
-    transition-behavior: allow-discrete;
-    translate: 0 20px;
-    opacity: 0;
-  }
-
-  .localization-wrapper:not([hidden]) {
-    translate: 0 0;
-    opacity: 1;
-  }
-
-  @starting-style {
-    .localization-wrapper:not([hidden]) {
-      translate: 0 20px;
-      opacity: 0;
+    .site-header .header-right button,
+    .site-header .header-right a {
+      color: #fff !important;
+    }
+    
+    .site-header .header-logo img {
+      filter: brightness(0) invert(1) !important;
     }
   }
-
-  dropdown-localization-component {
-    position: relative;
-    background-color: transparent;
-  }
-
-  dropdown-localization-component .country-filter {
-    position: relative;
-    padding: 8px;
-  }
-
-  dropdown-localization-component .country-filter__input {
-    border: none;
-  }
-
-  dropdown-localization-component .localization-form__list-item {
-    margin-inline: 8px;
-  }
-
-  dropdown-localization-component .localization-wrapper {
-    box-shadow: var(--shadow-popover);
-    border: var(--style-border-popover);
-    background-color: var(--color-background);
-    max-height: 27.5rem;
-    position: absolute;
-    top: calc(100% + 10px);
-    z-index: calc(var(--layer-header-menu) + 1);
-  }
-
-  dropdown-localization-component .localization-wrapper.right-bound {
-    right: 0;
-    left: unset;
-  }
-
-  dropdown-localization-component .localization-wrapper.left-bound {
-    left: -8px;
-    right: unset;
-  }
-
-  /* Additional specificity due to dropdown-localization-component getting a low score */
-  dropdown-localization-component .language-selector.language-selector {
-    padding: 10px 8px 10px 16px;
-  }
-
-  dropdown-localization-component .localization-form__currency {
-    width: max-content;
-    opacity: 0;
-    visibility: hidden;
-    transition: none;
-  }
-
-  dropdown-localization-component .localization-form__select:hover {
-    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-8));
-  }
-
-  dropdown-localization-component
-    :is(
-      .localization-form__list-item:hover,
-      .localization-form__list-item[aria-selected='true'],
-      .localization-form__list-item[aria-current='true']
-    )
-    .localization-form__currency {
-    opacity: 1;
-    color: var(--color-foreground-muted);
-    transition: opacity var(--animation-speed-slow) var(--animation-easing);
-    visibility: visible;
-  }
-
-  .dropdown-localization .language-selector:where(:not(.top-shadow)) {
-    font-weight: var(--menu-top-level-font-weight);
-  }
-
-  .dropdown-localization:not(dropdown-localization-component) .language-selector {
-    font-family: var(--menu-localization-font);
-    font-size: var(--menu-localization-font-size);
-  }
-{% endstylesheet %}
-
-{% unless request.design_mode %}
-  <script type="module">
-    import { hydrate } from '@theme/section-hydration';
-    const url = new URL(window.location.href);
-    url.searchParams.delete('page');
-    hydrate('{{ section.id }}', url);
-  </script>
-{% endunless %}
+</style>
 
 {% schema %}
 {
-  "name": "t:names.header",
-  "tag": "header",
-  "class": "header-section",
+  "name": "Header",
   "settings": [
     {
-      "type": "header",
-      "content": "t:content.logo"
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo Image"
     },
     {
-      "type": "select",
-      "id": "logo_position",
-      "label": "t:settings.position",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:options.left"
-        },
-        {
-          "value": "center",
-          "label": "t:options.center"
-        },
-        {
-          "value": "right",
-          "label": "t:options.right"
-        }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "header",
-      "content": "t:content.menu"
-    },
-    {
-      "type": "select",
-      "id": "menu_position",
-      "label": "t:settings.position",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:options.left"
-        },
-        {
-          "value": "center",
-          "label": "t:options.center"
-        },
-        {
-          "value": "right",
-          "label": "t:options.right"
-        }
-      ],
-      "default": "left"
-    },
-    {
-      "type": "select",
-      "id": "menu_row",
-      "label": "t:settings.row",
-      "options": [
-        {
-          "value": "top",
-          "label": "t:options.top"
-        },
-        {
-          "value": "bottom",
-          "label": "t:options.bottom"
-        }
-      ],
-      "default": "top"
-    },
-    {
-      "type": "header",
-      "content": "t:content.customer_account"
-    },
-    {
-      "type": "paragraph",
-      "content": "t:content.manage_customer_accounts"
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text (fallback)",
+      "default": "Qtrshoe"
     },
     {
       "type": "link_list",
-      "id": "customer_account_menu",
-      "label": "t:settings.menu",
-      "default": "customer-account-main-menu"
+      "id": "women_main_menu",
+      "label": "Women Main Menu"
     },
     {
-      "type": "header",
-      "content": "t:content.search"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_search",
-      "label": "t:settings.search_icon",
-      "default": true
-    },
-    {
-      "type": "select",
-      "id": "search_position",
-      "label": "t:settings.search_position",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:options.left"
-        },
-        {
-          "value": "right",
-          "label": "t:options.right"
-        }
-      ],
-      "default": "right",
-      "visible_if": "{{ section.settings.show_search }}"
-    },
-    {
-      "type": "select",
-      "id": "search_row",
-      "label": "t:settings.search_row",
-      "options": [
-        {
-          "value": "top",
-          "label": "t:options.top"
-        },
-        {
-          "value": "bottom",
-          "label": "t:options.bottom"
-        }
-      ],
-      "default": "top",
-      "visible_if": "{{ section.settings.show_search }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.localization"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_country",
-      "label": "t:settings.country_region",
-      "info": "t:info.manage_countries_regions",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "country_selector_style",
-      "label": "t:settings.flag",
-      "default": true,
-      "visible_if": "{{ section.settings.show_country }}"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_language",
-      "label": "t:settings.language_selector",
-      "info": "t:info.manage_languages",
-      "default": true
-    },
-    {
-      "type": "select",
-      "id": "localization_font",
-      "label": "t:settings.font",
-      "options": [
-        {
-          "value": "heading",
-          "label": "t:options.heading"
-        },
-        {
-          "value": "subheading",
-          "label": "t:options.subheading"
-        },
-        {
-          "value": "body",
-          "label": "t:options.body"
-        },
-        {
-          "value": "accent",
-          "label": "t:options.accent"
-        }
-      ],
-      "default": "heading",
-      "visible_if": "{{ section.settings.show_country or section.settings.show_language }}"
-    },
-    {
-      "type": "select",
-      "id": "localization_font_size",
-      "label": "t:settings.size",
-      "options": [
-        {
-          "value": "0.625rem",
-          "label": "10px"
-        },
-        {
-          "value": "0.75rem",
-          "label": "12px"
-        },
-        {
-          "value": "0.875rem",
-          "label": "14px"
-        },
-        {
-          "value": "1rem",
-          "label": "16px"
-        },
-        {
-          "value": "1.125rem",
-          "label": "18px"
-        }
-      ],
-      "default": "1rem"
-    },
-    {
-      "type": "select",
-      "id": "localization_position",
-      "label": "t:settings.position",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:options.left"
-        },
-        {
-          "value": "right",
-          "label": "t:options.right"
-        }
-      ],
-      "default": "right",
-      "visible_if": "{{ section.settings.show_country or section.settings.show_language }}"
-    },
-    {
-      "type": "select",
-      "id": "localization_row",
-      "label": "t:settings.row",
-      "options": [
-        {
-          "value": "top",
-          "label": "t:options.top"
-        },
-        {
-          "value": "bottom",
-          "label": "t:options.bottom"
-        }
-      ],
-      "default": "top",
-      "visible_if": "{{ section.settings.show_country or section.settings.show_language }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.appearance"
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "t:settings.width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "section_height",
-      "label": "t:settings.height",
-      "options": [
-        {
-          "value": "compact",
-          "label": "t:options.compact"
-        },
-        {
-          "value": "standard",
-          "label": "t:options.standard"
-        }
-      ],
-      "default": "standard"
-    },
-    {
-      "type": "select",
-      "id": "enable_sticky_header",
-      "label": "t:settings.sticky_header",
-      "options": [
-        {
-          "value": "always",
-          "label": "t:options.always"
-        },
-        {
-          "value": "scroll-up",
-          "label": "t:options.on_scroll_up"
-        },
-        {
-          "value": "never",
-          "label": "t:options.never"
-        }
-      ],
-      "default": "always"
-    },
-    {
-      "type": "range",
-      "id": "divider_width",
-      "label": "t:settings.divider_thickness",
-      "min": 0,
-      "max": 5,
-      "step": 0.5,
-      "unit": "px",
-      "default": 0,
-      "visible_if": "{{ section.settings.menu_row == 'bottom' or section.settings.localization_row == 'bottom' or section.settings.search_row == 'bottom' }}"
-    },
-    {
-      "type": "select",
-      "id": "divider_size",
-      "label": "t:settings.divider_width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "visible_if": "{{ section.settings.divider_width > 0 and section.settings.menu_row == 'bottom' or section.settings.localization_row == 'bottom' or section.settings.search_row == 'bottom' }}"
-    },
-    {
-      "type": "color",
-      "id": "divider_color",
-      "label": "t:settings.divider_color",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.divider_width > 0 and section.settings.menu_row == 'bottom' or section.settings.localization_row == 'bottom' or section.settings.search_row == 'bottom' }}"
-    },
-    {
-      "type": "range",
-      "id": "border_width",
-      "label": "t:settings.border_width",
-      "min": 0,
-      "max": 5,
-      "step": 0.5,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "color",
-      "id": "bottom_border_color",
-      "label": "t:settings.bottom_border_color",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.border_width > 0 }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.utilities"
-    },
-    {
-      "type": "select",
-      "id": "actions_display_style",
-      "label": "t:settings.actions_display_style",
-      "info": "t:info.actions_display_style",
-      "options": [
-        {
-          "value": "icon",
-          "label": "t:options.icons"
-        },
-        {
-          "value": "text",
-          "label": "t:options.text"
-        }
-      ],
-      "default": "icon"
-    },
-    {
-      "type": "select",
-      "id": "actions_font_size",
-      "label": "t:settings.size",
-      "options": [
-        {
-          "value": "0.75rem",
-          "label": "12px"
-        },
-        {
-          "value": "0.875rem",
-          "label": "14px"
-        },
-        {
-          "value": "1rem",
-          "label": "16px"
-        },
-        {
-          "value": "1.125rem",
-          "label": "18px"
-        }
-      ],
-      "default": "0.875rem",
-      "visible_if": "{{ section.settings.actions_display_style == 'text' }}"
-    },
-    {
-      "type": "select",
-      "id": "actions_font",
-      "label": "t:settings.font",
-      "options": [
-        {
-          "value": "heading",
-          "label": "t:options.heading"
-        },
-        {
-          "value": "subheading",
-          "label": "t:options.subheading"
-        },
-        {
-          "value": "body",
-          "label": "t:options.body"
-        },
-        {
-          "value": "accent",
-          "label": "t:options.accent"
-        }
-      ],
-      "default": "body",
-      "visible_if": "{{ section.settings.actions_display_style == 'text' }}"
-    },
-    {
-      "type": "select",
-      "id": "actions_text_case",
-      "label": "t:settings.case",
-      "options": [
-        {
-          "value": "none",
-          "label": "t:options.default"
-        },
-        {
-          "value": "uppercase",
-          "label": "t:options.uppercase"
-        }
-      ],
-      "default": "none",
-      "visible_if": "{{ section.settings.actions_display_style == 'text' }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.colors"
-    },
-    {
-      "type": "color",
-      "id": "background_color_top",
-      "label": "t:settings.top_row_background",
-      "placeholder": "t:settings.default"
-    },
-    {
-      "type": "color",
-      "id": "text_color_top",
-      "label": "t:settings.top_row_text",
-      "placeholder": "t:settings.default"
-    },
-    {
-      "type": "color",
-      "id": "background_color_bottom",
-      "label": "t:settings.bottom_row_background",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.menu_row == 'bottom' or section.settings.localization_row == 'bottom' or section.settings.search_row == 'bottom' }}"
-    },
-    {
-      "type": "color",
-      "id": "text_color_bottom",
-      "label": "t:settings.bottom_row_text",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.menu_row == 'bottom' or section.settings.localization_row == 'bottom' or section.settings.search_row == 'bottom' }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.cart_bubble"
-    },
-    {
-      "type": "select",
-      "id": "bubble_style",
-      "label": "t:settings.bubble_style",
-      "options": [
-        {
-          "value": "default",
-          "label": "t:options.default"
-        },
-        {
-          "value": "custom",
-          "label": "t:options.custom"
-        }
-      ],
-      "default": "default"
-    },
-    {
-      "type": "color",
-      "id": "bubble_background_color",
-      "label": "t:settings.background",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.bubble_style == 'custom' }}"
-    },
-    {
-      "type": "color",
-      "id": "bubble_text_color",
-      "label": "t:settings.text",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.bubble_style == 'custom' }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.home_page"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_transparent_header_home",
-      "label": "t:settings.transparent_background",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "home_inverse_logo",
-      "label": "t:settings.inverse_logo",
-      "default": false,
-      "visible_if": "{{ section.settings.enable_transparent_header_home }}"
-    },
-    {
-      "type": "color",
-      "id": "text_color_transparent_home",
-      "label": "t:settings.text_color_transparent",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.enable_transparent_header_home }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.product_page"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_transparent_header_product",
-      "label": "t:settings.transparent_background",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "product_inverse_logo",
-      "label": "t:settings.inverse_logo",
-      "default": false,
-      "visible_if": "{{ section.settings.enable_transparent_header_product }}"
-    },
-    {
-      "type": "color",
-      "id": "text_color_transparent_product",
-      "label": "t:settings.text_color_transparent",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.enable_transparent_header_product }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.collection_page"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_transparent_header_collection",
-      "label": "t:settings.transparent_background",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "collection_inverse_logo",
-      "label": "t:settings.inverse_logo",
-      "default": false,
-      "visible_if": "{{ section.settings.enable_transparent_header_collection }}"
-    },
-    {
-      "type": "color",
-      "id": "text_color_transparent_collection",
-      "label": "t:settings.text_color_transparent",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.enable_transparent_header_collection }}"
+      "type": "link_list",
+      "id": "men_main_menu",
+      "label": "Men Main Menu"
     }
   ],
-  "presets": []
+  "blocks": [
+    {
+      "type": "menu_item",
+      "name": "Custom Menu Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu Item Title",
+          "default": "New In"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Menu Item Link"
+        },
+        {
+          "type": "select",
+          "id": "gender",
+          "label": "Department",
+          "options": [
+            { "value": "women", "label": "Women" },
+            { "value": "men", "label": "Men" }
+          ],
+          "default": "women"
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_menu",
+          "label": "Dropdown Sub-Menu (Optional)"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_sale",
+          "label": "Highlight as Sale",
+          "default": false
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

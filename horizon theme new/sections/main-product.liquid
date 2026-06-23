@@ -1,0 +1,1435 @@
+
+{%- liquid
+  assign is_mock = false
+  if product == blank
+    assign is_mock = true
+  endif
+  if is_mock
+    if request.locale.iso_code == 'ar'
+      assign p_title = "حقيبة توت ديانا الصغيرة من جي سي سي"
+      assign p_vendor = "جي سي سي"
+      assign p_description = '<p>تتميز حقيبة توت ديانا الصغيرة بمقابض الخيزران المميزة وإكسسوارات شعار الحرفين G. مصنوعة من جلد فاخر بتصميم منظم.</p><p>التفاصيل:<br>- مقابض خيزران بارتفاع 3.1 بوصة<br>- إكسسوارات شعار الحرفين G<br>- جيب داخلي مفتوح وقسمين بسحاب<br>- المقاس الصغير: 10.6 بوصة عرض × 9.4 بوصة ارتفاع × 4.3 بوصة عمق</p>'
+      assign p_price_money = "2,000 ر.ق"
+      assign p_compare_price_money = "2,500 ر.ق"
+    else
+      assign p_title = "GCC Diana small tote bag"
+      assign p_vendor = "GCC"
+      assign p_description = '<p>The Diana small tote bag features the signature bamboo handles and double G hardware. Crafted from premium leather in a structured silhouette.</p><p>Details:<br>- Bamboo handles with 3.1" drop<br>- Double G hardware<br>- Interior open pocket and 2 zip compartments<br>- Small size: 10.6"W x 9.4"H x 4.3"D</p>'
+      assign p_price_money = "QAR 2,000"
+      assign p_compare_price_money = "QAR 2,500"
+    endif
+    assign p_compare_at_price_val = 250000
+    assign p_price_val = 200000
+    assign p_id = "dummy-0"
+  else
+     assign p_title = product.title
+    assign p_vendor = product.vendor
+    assign p_description = product.description
+    assign p_price_money = product.price | money
+    assign p_compare_price_money = product.compare_at_price | money
+    assign p_compare_at_price_val = product.compare_at_price
+    assign p_price_val = product.price
+    assign p_id = product.id
+  endif
+-%}
+
+{%- if section.settings.override_button_style -%}
+  <style>
+    .product-detail-page .add-to-cart-btn,
+    .product-detail-page .buy-now-btn,
+    .product-detail-page .wish-to-cart-btn {
+      border-width: {{ section.settings.btn_thickness }}px !important;
+      border-style: solid !important;
+      border-color: color-mix(in srgb, var(--color-primary) {{ section.settings.btn_opacity }}%, transparent) !important;
+      border-radius: {{ section.settings.btn_radius }}px !important;
+      box-shadow: {{ section.settings.btn_shadow_h }}px {{ section.settings.btn_shadow_v }}px {{ section.settings.btn_shadow_blur }}px rgba(0, 0, 0, {{ section.settings.btn_shadow_opacity | divided_by: 100.0 }}) !important;
+    }
+  </style>
+{%- endif -%}
+
+<div class="product-detail-page">
+  
+  <div class="breadcrumbs">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span>/</span>
+    <a href="{{ routes.all_products_collection_url }}">Collections</a>
+    <span>/</span>
+    <span class="current-crumb">{{ p_title }}</span>
+  </div>
+
+  <div class="product-container">
+    
+    <div class="product-gallery-container">
+      <div id="product-gallery">
+        
+        <div class="product-thumbnails">
+          {%- if is_mock -%}
+            {%- # theme-check-disable RemoteAsset -%}
+            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=120&h=120&fit=crop"
+                 alt="Diana 1"
+                 class="active"
+                 width="120" height="120"
+                 data-main-src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800"
+                 onclick="switchMainImage(this)">
+            <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=120&h=120&fit=crop"
+                 alt="Diana 2"
+                 width="120" height="120"
+                 data-main-src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=800"
+                 onclick="switchMainImage(this)">
+            <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=120&h=120&fit=crop"
+                 alt="Diana 3"
+                 width="120" height="120"
+                 data-main-src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=800"
+                 onclick="switchMainImage(this)">
+            {%- # theme-check-enable RemoteAsset -%}
+          {%- else -%}
+            {%- if product.images.size > 0 -%}
+              {%- for image in product.images -%}
+                {%- # theme-check-disable ImgWidthAndHeight -%}
+                <img src="{{ image | image_url: width: 120, height: 120, crop: 'center' }}"
+                     alt="{{ image.alt | escape }}"
+                     class="{% if forloop.first %}active{% endif %}"
+                     width="120" height="120"
+                     data-main-src="{{ image | image_url: width: 1000 }}"
+                     onclick="switchMainImage(this)">
+                {%- # theme-check-enable ImgWidthAndHeight -%}
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+
+        
+        <div class="product-main-image">
+          
+          <button type="button" class="product-wishlist-btn" aria-label="Add to wishlist" onclick="toggleProductWishlist(event, '{{ p_id }}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </button>
+          
+          
+          {%- if p_compare_at_price_val > p_price_val -%}
+            <div class="product-badge-sale-new">
+              <span class="badge-indicator sale-color"></span>
+              <span class="badge-text">SALE</span>
+            </div>
+          {%- else -%}
+            <div class="product-badge-new">
+              <span class="badge-indicator"></span>
+              <span class="badge-text">NEW</span>
+            </div>
+          {%- endif -%}
+
+          {%- if is_mock -%}
+            {%- # theme-check-disable RemoteAsset -%}
+            <img id="main-image-view" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800" alt="{{ p_title | escape }}" width="800" height="1200" loading="lazy">
+            {%- # theme-check-enable RemoteAsset -%}
+          {%- else -%}
+            {%- if product.featured_image != blank -%}
+              {%- # theme-check-disable ImgWidthAndHeight -%}
+              <img id="main-image-view" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}">
+              {%- # theme-check-enable ImgWidthAndHeight -%}
+            {%- else -%}
+              <div class="product-card-placeholder" style="background:#f5f5f5;display:flex;align-items:center;justify-content:center;aspect-ratio:2/3;width:100%;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    
+    <div id="product-info">
+      <div class="vendor">
+        {%- assign vendor_handle = p_vendor | handleize -%}
+        <a href="{{ routes.collections_url }}/{{ vendor_handle }}">{{ p_vendor }}</a>
+      </div>
+      <h1 class="title">{{ p_title }}</h1>
+
+      {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
+      {%- assign currency_data_parts = currency_data | split: '|||' -%}
+      {%- assign currencies = currency_data_parts[0] | split: ',' -%}
+      {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
+      
+      {%- assign price_cent = p_price_val | modulo: 100 -%}
+      {%- assign price_main = p_price_val | divided_by: 100 -%}
+      {%- if price_cent < 10 -%}{%- assign price_cent = '0' | append: price_cent -%}{%- endif -%}
+      {%- assign price_qar_formatted = 'QAR ' | append: price_main | append: '.' | append: price_cent -%}
+      
+      {%- assign compare_qar_formatted = blank -%}
+      {%- if p_compare_at_price_val > p_price_val -%}
+        {%- assign compare_cent = p_compare_at_price_val | modulo: 100 -%}
+        {%- assign compare_main = p_compare_at_price_val | divided_by: 100 -%}
+        {%- if compare_cent < 10 -%}{%- assign compare_cent = '0' | append: compare_cent -%}{%- endif -%}
+        {%- assign compare_qar_formatted = 'QAR ' | append: compare_main | append: '.' | append: compare_cent -%}
+      {%- endif -%}
+
+      <div class="price-container"
+           data-price-qar="{{ price_qar_formatted }}"
+           {%- if p_compare_at_price_val > p_price_val %}
+           data-compare-qar="{{ compare_qar_formatted }}"
+           {%- endif %}
+           {%- for curr_raw in currencies -%}
+             {%- assign curr = curr_raw | strip | upcase -%}
+             {%- if curr != blank and curr != 'QAR' -%}
+               {%- assign curr_down = curr | downcase -%}
+               {%- assign price_key = curr_down | append: '_price' -%}
+               {%- assign compare_key = curr_down | append: '_compare' -%}
+               {%- assign custom_price = product.metafields.pricing[price_key] -%}
+               {%- assign custom_compare = product.metafields.pricing[compare_key] -%}
+               
+               {%- assign symbol = curr -%}
+               {%- for sym_pair_raw in custom_symbols -%}
+                 {%- assign sym_pair = sym_pair_raw | split: ':' -%}
+                 {%- assign sym_code = sym_pair[0] | strip | upcase -%}
+                 {%- if sym_code == curr -%}
+                   {%- assign symbol = sym_pair[1] | strip -%}
+                   {%- break -%}
+                 {%- endif -%}
+               {%- endfor -%}
+               
+               {%- if custom_price != blank -%}
+                 data-price-{{ curr_down }}="{{ symbol }} {{ custom_price }}"
+               {%- endif -%}
+               {%- if custom_compare != blank -%}
+                 data-compare-{{ curr_down }}="{{ symbol }} {{ custom_compare }}"
+               {%- endif -%}
+             {%- endif -%}
+           {%- endfor -%}>
+        {%- if p_compare_at_price_val > p_price_val -%}
+          <span class="compare-price" id="compare-price-display">{{ p_compare_price_money }}</span>
+          <span class="price sale" id="current-price-display">{{ p_price_money }}</span>
+        {%- else -%}
+          <span class="compare-price" id="compare-price-display" style="display:none;"></span>
+          <span class="price" id="current-price-display">{{ p_price_money }}</span>
+        {%- endif -%}
+      </div>
+
+      
+      {%- if is_mock -%}
+        {%- assign initial_available = true -%}
+      {%- else -%}
+        {%- assign initial_available = product.selected_or_first_available_variant.available -%}
+      {%- endif -%}
+
+      <div class="stock-banner {% if initial_available %}in-stock{% else %}out-of-stock{% endif %}" id="qtr-stock-banner">
+        <span class="status-dot"></span>
+        <span class="status-text">
+          {%- if initial_available -%}
+            {%- if request.locale.iso_code == 'ar' -%}
+              متوفر في المخزون — متاح للتوصيل في نفس اليوم في قطر
+            {%- else -%}
+              In Stock — Available for Same Day Delivery in Qatar
+            {%- endif -%}
+          {%- else -%}
+            {%- if request.locale.iso_code == 'ar' -%}
+              نفذت الكمية — غير متوفر
+            {%- else -%}
+              Out of Stock — Not Available
+            {%- endif -%}
+          {%- endif -%}
+        </span>
+      </div>
+
+      
+      {%- if is_mock -%}
+        <div class="product-variant-selectors">
+          <div id="size-selector" class="selector-group">
+            <label class="option-label">
+              {%- if request.locale.iso_code == 'ar' -%}
+                اختر المقاس (الأوروبي)
+              {%- else -%}
+                Select Size (EU)
+              {%- endif -%}
+            </label>
+            <div class="size-options">
+              <button type="button" 
+                      class="size-option" 
+                      data-variant-id="dummy-variant-36"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
+                      data-available="true"
+                      onclick="selectProductSize(this)">
+                36
+              </button>
+              <button type="button" 
+                      class="size-option" 
+                      data-variant-id="dummy-variant-37"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
+                      data-available="true"
+                      onclick="selectProductSize(this)">
+                37
+              </button>
+              <button type="button" 
+                      class="size-option" 
+                      data-variant-id="dummy-variant-38"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
+                      data-available="true"
+                      onclick="selectProductSize(this)">
+                38
+              </button>
+              <button type="button" 
+                      class="size-option unavailable" 
+                      data-variant-id="dummy-variant-39"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
+                      data-available="false"
+                      disabled
+                      onclick="selectProductSize(this)">
+                39
+              </button>
+              <button type="button" 
+                      class="size-option" 
+                      data-variant-id="dummy-variant-40"
+                      data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                      data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                      data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                      data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                      data-price="QAR 2,000.00"
+                      data-compare-price="QAR 2,500.00"
+                      data-available="true"
+                      onclick="selectProductSize(this)">
+                40
+              </button>
+            </div>
+          </div>
+
+          <div id="color-selector" class="selector-group">
+            <label class="option-label">
+              {%- if request.locale.iso_code == 'ar' -%}
+                اختر اللون
+              {%- else -%}
+                Select Color
+              {%- endif -%}
+            </label>
+            <div class="color-swatches">
+              <div class="color-swatch active" 
+                   data-color="Brown"
+                   data-variant-id="dummy-variant-brown"
+                   data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                   data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                   data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                   data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                   data-price="QAR 2,000.00"
+                   data-compare-price="QAR 2,500.00"
+                   data-available="true"
+                   title="Brown"
+                   onclick="selectProductColor(this)">
+              </div>
+              <div class="color-swatch" 
+                   data-color="Black"
+                   data-variant-id="dummy-variant-black"
+                   data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                   data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                   data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                   data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                   data-price="QAR 2,000.00"
+                   data-compare-price="QAR 2,500.00"
+                   data-available="true"
+                   title="Black"
+                   onclick="selectProductColor(this)">
+              </div>
+              <div class="color-swatch" 
+                   data-color="Red"
+                   data-variant-id="dummy-variant-red"
+                   data-price-qar="QAR 2,000.00" data-compare-qar="QAR 2,500.00"
+                   data-price-usd="$ 549.00" data-compare-usd="$ 687.00"
+                   data-price-eur="€ 506.00" data-compare-eur="€ 633.00"
+                   data-price-aed="AED 2,006.00" data-compare-aed="AED 2,508.00"
+                   data-price="QAR 2,000.00"
+                   data-compare-price="QAR 2,500.00"
+                   data-available="true"
+                   title="Red"
+                   onclick="selectProductColor(this)">
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- else -%}
+        {%- comment -%} Universal variant rendering — every option the merchant creates is shown {%- endcomment -%}
+        {%- assign has_real_options = false -%}
+        {%- for opt in product.options_with_values -%}
+          {%- assign opt_name_down = opt.name | downcase -%}
+          {%- unless opt_name_down == 'title' and opt.values.size == 1 and opt.values.first == 'Default Title' -%}
+            {%- assign has_real_options = true -%}
+          {%- endunless -%}
+        {%- endfor -%}
+
+        {%- if has_real_options -%}
+          <div class="product-variant-selectors">
+            {%- for option in product.options_with_values -%}
+              {%- assign opt_dn = option.name | downcase -%}
+              {%- if opt_dn == 'title' and option.values.size == 1 and option.values.first == 'Default Title' -%}
+                {%- continue -%}
+              {%- endif -%}
+
+              {%- assign is_color_opt = false -%}
+              {%- if opt_dn contains 'color' or opt_dn contains 'colour' or opt_dn == 'اللون' or opt_dn == 'لون' or opt_dn contains 'لون' -%}
+                {%- assign is_color_opt = true -%}
+              {%- endif -%}
+
+              {%- if is_color_opt -%}
+                <div class="selector-group" id="color-selector">
+                  <label class="option-label">
+                    {%- if request.locale.iso_code == 'ar' -%}اختر اللون{%- else -%}Select {{ option.name }}{%- endif -%}
+                  </label>
+                  <div class="color-swatches">
+                    {%- for value in option.values -%}
+                      {%- assign v_avail = false -%}
+                      {%- assign v_id = '' -%}
+                      {%- assign v_price = '' -%}
+                      {%- assign v_compare = '' -%}
+                      {%- assign v_inventory_qty = 999 -%}
+                      {%- assign v_inventory_management = '' -%}
+                      {%- assign v_inventory_policy = 'deny' -%}
+                      {%- for variant in product.variants -%}
+                        {%- if variant.options contains value -%}
+                          {%- if variant.available -%}{%- assign v_avail = true -%}{%- endif -%}
+                          {%- assign v_id = variant.id -%}
+                          {%- assign v_price = variant.price | money -%}
+                          {%- if variant.compare_at_price > variant.price -%}
+                            {%- assign v_compare = variant.compare_at_price | money -%}
+                          {%- endif -%}
+                          {%- assign v_inventory_qty = variant.inventory_quantity -%}
+                          {%- assign v_inventory_management = variant.inventory_management -%}
+                          {%- assign v_inventory_policy = variant.inventory_policy -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- assign v_active = false -%}
+                      {%- if product.selected_or_first_available_variant.id == v_id or option.selected_value == value -%}
+                        {%- assign v_active = true -%}
+                      {%- endif -%}
+                      <div class="color-swatch{% if v_active %} active{% endif %}{% unless v_avail %} unavailable{% endunless %}"
+                           data-color="{{ value }}"
+                           data-variant-id="{{ v_id }}"
+                           data-price="{{ v_price }}"
+                           data-compare-price="{{ v_compare }}"
+                           data-available="{{ v_avail }}"
+                           data-inventory-qty="{{ v_inventory_qty }}"
+                           data-inventory-management="{{ v_inventory_management }}"
+                           data-inventory-policy="{{ v_inventory_policy }}"
+                           title="{{ value }}"
+                           onclick="selectProductColor(this)">
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- else -%}
+                <div class="selector-group">
+                  <label class="option-label">
+                    {%- if opt_dn contains 'size' or opt_dn contains 'مقاس' -%}
+                      {%- if request.locale.iso_code == 'ar' -%}اختر المقاس{%- else -%}Select Size{%- endif -%}
+                    {%- else -%}
+                      {%- if request.locale.iso_code == 'ar' -%}اختر {{ option.name }}{%- else -%}Select {{ option.name }}{%- endif -%}
+                    {%- endif -%}
+                  </label>
+                  <div class="size-options">
+                    {%- for value in option.values -%}
+                      {%- assign v_avail = false -%}
+                      {%- assign v_id = '' -%}
+                      {%- assign v_price = '' -%}
+                      {%- assign v_compare = '' -%}
+                      {%- assign v_inventory_qty = 999 -%}
+                      {%- assign v_inventory_management = '' -%}
+                      {%- assign v_inventory_policy = 'deny' -%}
+                      {%- for variant in product.variants -%}
+                        {%- if variant.options contains value -%}
+                          {%- if variant.available -%}{%- assign v_avail = true -%}{%- endif -%}
+                          {%- assign v_id = variant.id -%}
+                          {%- assign v_price = variant.price | money -%}
+                          {%- if variant.compare_at_price > variant.price -%}
+                            {%- assign v_compare = variant.compare_at_price | money -%}
+                          {%- endif -%}
+                          {%- assign v_inventory_qty = variant.inventory_quantity -%}
+                          {%- assign v_inventory_management = variant.inventory_management -%}
+                          {%- assign v_inventory_policy = variant.inventory_policy -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- assign v_selected = false -%}
+                      {%- if product.selected_or_first_available_variant.id == v_id -%}
+                        {%- assign v_selected = true -%}
+                      {%- endif -%}
+                      <button type="button"
+                              class="size-option{% unless v_avail %} unavailable{% endunless %}{% if v_selected %} selected{% endif %}"
+                              data-variant-id="{{ v_id }}"
+                              data-price="{{ v_price }}"
+                              data-compare-price="{{ v_compare }}"
+                              data-available="{{ v_avail }}"
+                              data-inventory-qty="{{ v_inventory_qty }}"
+                              data-inventory-management="{{ v_inventory_management }}"
+                              data-inventory-policy="{{ v_inventory_policy }}"
+                              {% unless v_avail %}disabled{% endunless %}
+                              onclick="selectProductSize(this)">
+                        {{ value }}
+                      </button>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      
+      {%- if is_mock -%}
+        <input type="hidden" id="selected-variant-id" name="id" value="dummy-variant-36">
+      {%- else -%}
+        <input type="hidden" id="selected-variant-id" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      {%- endif -%}
+
+      
+      <div class="quantity-wrapper">
+        <span class="quantity-label">
+          {%- if request.locale.iso_code == 'ar' -%}الكمية{%- else -%}Quantity{%- endif -%}
+        </span>
+        <div class="quantity-controls">
+          <button type="button" class="qty-btn" onclick="adjustProductQty(-1)">−</button>
+          <input type="number" id="product-qty-input" value="1" min="1" readonly>
+          <button type="button" class="qty-btn" onclick="adjustProductQty(1)">+</button>
+        </div>
+      </div>
+
+      
+      <div class="cta-wrapper">
+        <button type="button" id="add-to-cart" class="checkout-btn atc-btn" 
+                {% unless initial_available %}disabled{% endunless %}
+                onclick="addToCartClick()">
+          {%- if initial_available -%}
+            {%- if request.locale.iso_code == 'ar' -%}أضف إلى السلة{%- else -%}Add to Cart{%- endif -%}
+          {%- else -%}
+            {%- if request.locale.iso_code == 'ar' -%}نفذت الكمية{%- else -%}Sold Out{%- endif -%}
+          {%- endif -%}
+        </button>
+        <button type="button" id="buy-now" class="checkout-btn buy-now-btn" 
+                {% unless initial_available %}disabled{% endunless %}
+                onclick="buyNowClick()">
+          {%- if request.locale.iso_code == 'ar' -%}اشتري الآن{%- else -%}Buy Now{%- endif -%}
+        </button>
+      </div>
+
+      
+      <div class="delivery-info-strip">
+        <div class="info-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>
+            {%- if request.locale.iso_code == 'ar' -%}التوصيل في نفس اليوم في قطر (للطلبات قبل 4 مساءً){%- else -%}Same Day Delivery in Qatar (orders before 4 PM){%- endif -%}
+          </span>
+        </div>
+        <div class="info-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>
+            {%- if request.locale.iso_code == 'ar' -%}الدفع عند الاستلام بشكل آمن{%- else -%}Secure Cash on Delivery Checkout{%- endif -%}
+          </span>
+        </div>
+      </div>
+
+      <!-- Estimated Delivery — custom dropdown -->
+      <div class="est-delivery">
+        <div class="est-hdr">
+          {%- if request.locale.iso_code == 'ar' -%}الشحن من مستودع قطر{%- else -%}Shipping from Qatar Warehouse{%- endif -%}
+        </div>
+        <div class="est-body">
+          <div class="est-label">
+            {%- if request.locale.iso_code == 'ar' -%}تاريخ التوصيل المتوقع{%- else -%}Estimated Delivery{%- endif -%}
+            <i class="est-info-i" title="{% if request.locale.iso_code == 'ar' %}تختلف أوقات التوصيل حسب المنطقة{% else %}Delivery times vary by area{% endif %}">i</i>
+          </div>
+
+          <!-- Custom styled dropdown -->
+          <div class="cs-wrap" id="city-dd">
+            <div class="cs-trigger" onclick="toggleDD()">
+              <span id="cs-label">{% if request.locale.iso_code == 'ar' %}الشحانية{% else %}Ash-Shahaniyah{% endif %}</span>
+              <span class="cs-arrow"></span>
+            </div>
+            <div class="cs-options" id="cs-opts">
+              <div class="cs-opt" data-fee="{% if request.locale.iso_code == 'ar' %}مجاني{% else %}Free{% endif %}" data-time="same" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الدوحة{% else %}Doha{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 70"  data-time="same" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الريان{% else %}Al Rayyan{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 70"  data-time="same" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الوكرة{% else %}Al Wakrah{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 80"  data-time="same" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}أم صلال محمد{% else %}Umm Salal Mohammed{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 80"  data-time="next" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الخور{% else %}Al Khor{% endif %}</div>
+              <div class="cs-opt active" data-fee="QAR 90" data-time="next" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الشحانية{% else %}Ash-Shahaniyah{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 90"  data-time="next" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}دخان{% else %}Dukhan{% endif %}</div>
+              <div class="cs-opt" data-fee="QAR 100" data-time="next" onclick="pickCity(this)">{% if request.locale.iso_code == 'ar' %}الشمال{% else %}Al Shamal{% endif %}</div>
+            </div>
+          </div>
+
+          <div class="est-result" style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+            <div>
+              <span class="same-day-tag next" id="delivery-tag">{% if request.locale.iso_code == 'ar' %}توصيل في اليوم التالي{% else %}Next-day delivery{% endif %}</span>
+              <div class="est-to">
+                {%- if request.locale.iso_code == 'ar' -%}
+                  إلى <strong id="delivery-city">الشحانية</strong>
+                {%- else -%}
+                  to <strong id="delivery-city">Ash-Shahaniyah</strong>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="est-fee" id="delivery-fee">
+              {%- if request.locale.iso_code == 'ar' -%}
+                توصيل بقيمة <b>QAR 90</b>
+              {%- else -%}
+                <b>QAR 90</b> delivery
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="product-accordions">
+        <div class="accordion-item active">
+          <button type="button" class="accordion-header" onclick="toggleProductAccordion(this)">
+            <span>
+              {%- if request.locale.iso_code == 'ar' -%}الوصف{%- else -%}Description{%- endif -%}
+            </span>
+            <span class="accordion-icon">−</span>
+          </button>
+          <div class="accordion-content">
+            <div class="rte">
+              {{ p_description }}
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" onclick="toggleProductAccordion(this)">
+            <span>
+              {%- if request.locale.iso_code == 'ar' -%}الشحن والإرجاع{%- else -%}Shipping & Returns{%- endif -%}
+            </span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-content">
+            <p>
+              {%- if request.locale.iso_code == 'ar' -%}
+                نحن نوفر خدمة التوصيل في نفس اليوم داخل الدوحة لجميع الطلبات المقدمة قبل الساعة 4 مساءً. التوصيل مجاني للمشتريات التي تزيد عن 500 ريال قطري. الدفع عند الاستلام (COD) مقبول عند الدفع. يُسمح بالإرجاع في غضون 7 أيام من التوصيل، بشرط أن تكون السلع غير مستخدمة وفي تغليفها الأصلي.
+              {%- else -%}
+                We provide same-day courier delivery within Doha for all orders placed before 4 PM. Delivery is free for purchases above QAR 500. Cash on Delivery (COD) is accepted at checkout. Returns are allowed within 7 days of delivery, provided items are unworn and in original packaging.
+              {%- endif -%}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Locale strings rendered by Liquid — fully translatable via Shopify Translate & Adapt
+  const _t = {
+    size_required:        {{ 'general.size_required' | t | json }},
+    stock_limit:          {{ 'general.stock_limit' | t | json }},
+    adding:               {{ 'general.adding' | t | json }},
+    checking_stock:       {{ 'general.checking_stock' | t | json }},
+    processing:           {{ 'general.processing' | t | json }},
+    add_to_cart:          {{ 'general.add_to_cart' | t | json }},
+    sold_out:             {{ 'general.sold_out' | t | json }},
+    buy_now:              {{ 'general.buy_now' | t | json }}
+  };
+  function _tStockLimit(count) {
+    return {{ 'general.stock_limit' | t | json }}.replace('{% raw %}{{ count }}{% endraw %}', count);
+  }
+  function _tCartExceeded(qty, in_cart, max) {
+    return {{ 'general.cart_stock_exceeded' | t | json }}
+      .replace('{% raw %}{{ qty }}{% endraw %}', qty).replace('{% raw %}{{ in_cart }}{% endraw %}', in_cart).replace('{% raw %}{{ max }}{% endraw %}', max);
+  }
+  function _tBuyNowExceeded(max, in_cart) {
+    return {{ 'general.stock_limit_buy_now' | t | json }}
+      .replace('{% raw %}{{ max }}{% endraw %}', max).replace('{% raw %}{{ in_cart }}{% endraw %}', in_cart);
+  }
+
+  const COLOR_HEX_MAP = {
+    'brown': '#8B4513', 'black': '#000000', 'red': '#B22222', 'green': '#228B22', 'navy blue': '#000080',
+    'navy': '#000080', 'blue': '#0066CC', 'burgundy': '#800020', 'grey': '#808080', 'gray': '#808080',
+    'white': 'var(--color-white)', 'beige': '#F5F5DC', 'pink': '#FFC0CB', 'orange': '#FF8C00', 'yellow': '#FFD700',
+    'purple': '#800080', 'tan': '#D2B48C', 'cognac': '#9A463D', 'camel': '#C19A6B', 'cream': '#FFFDD0',
+    'gold': '#FFD700', 'silver': '#C0C0C0', 'nude': '#E3BC9A', 'taupe': '#483C32', 'olive': '#808000',
+    'coral': '#FF7F50', 'turquoise': '#40E0D0', 'mint': '#98FF98', 'lavender': '#E6E6FA', 'maroon': '#800000',
+    'teal': '#008080', 'natural': '#F5F5DC', 'khaki': '#C3B091', 'rose': '#FF007F', 'ivory': '#FFFFF0',
+    'charcoal': '#36454F', 'chocolate': '#7B3F00', 'bordeaux': '#6B0F1A', 'light brown': '#A0522D',
+    'dark brown': '#654321', 'light grey': '#D3D3D3', 'dark grey': '#696969', 'light gray': '#D3D3D3',
+    'dark gray': '#696969', 'sky blue': '#87CEEB', 'light blue': '#ADD8E6', 'dark blue': '#00008B',
+    'royal blue': '#4169E1', 'light pink': '#FFB6C1', 'hot pink': '#FF69B4', 'dark green': '#006400',
+    'forest green': '#228B22', 'bright red': '#FF0000', 'dark red': '#8B0000', 'off white': '#FAF9F6',
+    'ecru': '#C2B280', 'sand': '#C2B280', 'bone': '#E3DAC9', 'pearl': '#F0EAD6', 'slate': '#708090',
+    'gunmetal': '#2C3539', 'platinum': '#E5E4E2', 'champagne': '#F7E7CE', 'rust': '#B7410E',
+    'copper': '#B87333', 'bronze': '#CD7F32', 'coffee': '#6F4E37', 'mocha': '#967969', 'espresso': '#3C1414',
+    'honey': '#EB9605', 'mustard': '#FFDB58', 'amber': '#FFBF00', 'terracotta': '#E2725B', 'peach': '#FFCBA4',
+    'apricot': '#FBCEB1', 'salmon': '#FA8072', 'fuchsia': '#FF00FF', 'magenta': '#FF0090', 'plum': '#DDA0DD',
+    'lilac': '#C8A2C8', 'mauve': '#E0B0FF', 'violet': '#EE82EE', 'indigo': '#4B0082', 'cobalt': '#0047AB',
+    'sapphire': '#0F52BA', 'azure': '#007FFF', 'aqua': '#00FFFF', 'cyan': '#00FFFF', 'seafoam': '#71EEB8',
+    'emerald': '#50C878', 'jade': '#00A86B', 'sage': '#9DC183', 'moss': '#8A9A5B', 'army green': '#4B5320',
+    'hunter green': '#355E3B', 'pine': '#01796F', 'mahogany': '#C04000', 'walnut': '#773F1A', 'oak': '#806517',
+    'maple': '#C08040', 'cedar': '#A04000', 'ebony': '#555D50', 'jet black': '#0A0A0A', 'onyx': '#353839',
+    'midnight': '#191970'
+  };
+
+  
+  let galleryTimer = null;
+  let isGalleryPaused = false;
+
+  function switchMainImage(thumbnail, fromAuto = false) {
+    const mainSrc = thumbnail.getAttribute('data-main-src');
+    if (!mainSrc) return;
+    
+    const container = document.querySelector('.product-main-image');
+    let currentImg = document.getElementById('main-image-view');
+    if (!container || !currentImg) return;
+    
+    if (currentImg.src === mainSrc) return;
+
+    // Ensure container has relative positioning and overflow hidden
+    container.style.position = 'relative';
+    container.style.overflow = 'hidden';
+
+    // Set active thumbnail class
+    document.querySelectorAll('.product-thumbnails img').forEach(img => {
+      img.classList.remove('active');
+    });
+    thumbnail.classList.add('active');
+
+    // Scroll active thumbnail into view
+    thumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+
+    // Preload and create the next image
+    const nextImg = document.createElement('img');
+    nextImg.id = 'main-image-view';
+    nextImg.alt = currentImg.alt;
+    
+    const doTransition = () => {
+      // Fix current container height during absolute transition
+      const currentHeight = container.offsetHeight;
+      container.style.height = `${currentHeight}px`;
+
+      nextImg.style.position = 'absolute';
+      nextImg.style.top = '0';
+      nextImg.style.left = '100%';
+      nextImg.style.width = '100%';
+      nextImg.style.height = '100%';
+      nextImg.style.objectFit = 'contain';
+      
+      currentImg.style.position = 'absolute';
+      currentImg.style.top = '0';
+      currentImg.style.left = '0';
+      currentImg.style.width = '100%';
+      currentImg.style.height = '100%';
+      currentImg.style.objectFit = 'contain';
+      
+      container.appendChild(nextImg);
+      
+      // Force reflow
+      nextImg.offsetWidth;
+      
+      // Slide current image left and next image left
+      currentImg.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      currentImg.style.transform = 'translateX(-100%)';
+      nextImg.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      nextImg.style.transform = 'translateX(-100%)';
+      
+      // Remove ID from old image to prevent duplicate ID issues
+      currentImg.removeAttribute('id');
+      
+      setTimeout(() => {
+        if (currentImg && currentImg.parentNode === container) {
+          container.removeChild(currentImg);
+        }
+        
+        // Reset styles to let responsive stylesheet rules take over
+        nextImg.style.transition = 'none';
+        nextImg.style.position = '';
+        nextImg.style.top = '';
+        nextImg.style.left = '';
+        nextImg.style.width = '';
+        nextImg.style.height = '';
+        nextImg.style.objectFit = '';
+        nextImg.style.transform = 'none';
+        
+        // Remove temporary height
+        container.style.height = '';
+        
+        if (!fromAuto) {
+          {%- if settings.slideshow_enabled_products -%}
+          restartGalleryAutoSlide();
+          {%- endif -%}
+        }
+      }, 500);
+    };
+    
+    nextImg.onload = doTransition;
+    nextImg.onerror = doTransition;
+    nextImg.src = mainSrc;
+  }
+
+  function startGalleryAutoSlide() {
+    stopGalleryAutoSlide();
+    if (isGalleryPaused) return;
+
+    galleryTimer = setTimeout(() => {
+      const thumbnails = document.querySelectorAll('.product-thumbnails img');
+      if (thumbnails.length <= 1) return;
+      
+      let activeIndex = -1;
+      thumbnails.forEach((thumb, idx) => {
+        if (thumb.classList.contains('active')) {
+          activeIndex = idx;
+        }
+      });
+      
+      const nextIndex = (activeIndex + 1) % thumbnails.length;
+      const nextThumb = thumbnails[nextIndex];
+      if (nextThumb) {
+        switchMainImage(nextThumb, true);
+      }
+      startGalleryAutoSlide();
+    }, {{ settings.slideshow_interval | default: 5 | times: 1000 }});
+  }
+
+  function stopGalleryAutoSlide() {
+    if (galleryTimer) {
+      clearTimeout(galleryTimer);
+      galleryTimer = null;
+    }
+  }
+
+  function restartGalleryAutoSlide() {
+    stopGalleryAutoSlide();
+    startGalleryAutoSlide();
+  }
+
+  /* ── Custom City Dropdown ── */
+  window.toggleDD = function() {
+    document.getElementById('city-dd').classList.toggle('open');
+  }
+  window.pickCity = function(opt) {
+    const city = opt.textContent.trim();
+    const fee  = opt.dataset.fee;
+    const time = opt.dataset.time;
+    const isAr = document.documentElement.lang === 'ar' || window.location.pathname.startsWith('/ar');
+
+    document.querySelectorAll('#city-dd .cs-opt').forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+    document.getElementById('cs-label').textContent = city;
+    document.getElementById('delivery-city').textContent = city;
+
+    const tag = document.getElementById('delivery-tag');
+    if (time === 'same') {
+      tag.textContent = isAr ? 'توصيل في نفس اليوم' : 'Same-day delivery';
+      tag.className = 'same-day-tag';
+    } else {
+      tag.textContent = isAr ? 'توصيل في اليوم التالي' : 'Next-day delivery';
+      tag.className = 'same-day-tag next';
+    }
+
+    const feeEl = document.getElementById('delivery-fee');
+    if (isAr) {
+      feeEl.innerHTML = (fee === 'Free' || fee === 'مجاني')
+        ? 'توصيل <b style="color:#1a6e2e">مجاني</b>'
+        : 'توصيل بقيمة <b>' + fee + '</b>';
+    } else {
+      feeEl.innerHTML = (fee === 'Free' || fee === 'مجاني')
+        ? '<b style="color:#1a6e2e">Free</b> delivery'
+        : '<b>' + fee + '</b> delivery';
+    }
+
+    document.getElementById('city-dd').classList.remove('open');
+  }
+
+  document.addEventListener('click', e => {
+    const dd = document.getElementById('city-dd');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  });
+
+  
+  function adjustProductQty(amount) {
+    const input = document.getElementById('product-qty-input');
+    let currentVal = parseInt(input.value) || 1;
+    currentVal += amount;
+    if (currentVal < 1) currentVal = 1;
+    
+    // Check max stock based on selected variant
+    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
+    if (selectedVariantEl) {
+      const management = selectedVariantEl.getAttribute('data-inventory-management');
+      if (management && management !== '') {
+        const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
+        if (currentVal > maxQty) {
+          window.showErrorAlert(_tStockLimit(maxQty));
+          return;
+        }
+      }
+    }
+    
+    input.value = currentVal;
+  }
+
+  
+  function toggleProductAccordion(header) {
+    const item = header.closest('.accordion-item');
+    const isActive = item.classList.contains('active');
+    const icon = header.querySelector('.accordion-icon');
+    
+    
+    item.classList.toggle('active', !isActive);
+    if (icon) icon.textContent = isActive ? '+' : '−';
+  }
+
+  
+  function selectProductSize(btn) {
+    if (btn.classList.contains('unavailable')) return;
+
+    
+    document.querySelectorAll('.size-option').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+
+    
+    const variantId = btn.getAttribute('data-variant-id');
+    document.getElementById('selected-variant-id').value = variantId;
+
+    
+    updateProductPrice(btn.getAttribute('data-price'), btn.getAttribute('data-compare-price'));
+    updateCTAState(btn.getAttribute('data-available') === 'true');
+  }
+
+  
+  function selectProductColor(swatch) {
+    if (swatch.classList.contains('unavailable')) return;
+
+    
+    document.querySelectorAll('.color-swatch').forEach(b => b.classList.remove('active'));
+    swatch.classList.add('active');
+
+    
+    const variantId = swatch.getAttribute('data-variant-id');
+    document.getElementById('selected-variant-id').value = variantId;
+
+    
+    updateProductPrice(swatch.getAttribute('data-price'), swatch.getAttribute('data-compare-price'));
+    updateCTAState(swatch.getAttribute('data-available') === 'true');
+  }
+
+  
+  function updateProductPrice(price, comparePrice) {
+    const priceDisplay = document.getElementById('current-price-display');
+    const compareDisplay = document.getElementById('compare-price-display');
+
+    if (priceDisplay && price) {
+      priceDisplay.textContent = price;
+    }
+
+    if (compareDisplay) {
+      if (comparePrice) {
+        priceDisplay.classList.add('sale');
+        compareDisplay.textContent = comparePrice;
+        compareDisplay.style.display = 'inline';
+      } else {
+        priceDisplay.classList.remove('sale');
+        compareDisplay.style.display = 'none';
+      }
+    }
+  }
+
+  
+  function updateCTAState(isAvailable) {
+    const atcBtn = document.getElementById('add-to-cart');
+    const buyBtn = document.getElementById('buy-now');
+    const banner = document.getElementById('qtr-stock-banner');
+    const isAr = document.documentElement.lang === 'ar' || window.location.pathname.startsWith('/ar');
+
+    if (atcBtn) {
+      atcBtn.disabled = !isAvailable;
+      atcBtn.textContent = isAvailable 
+        ? (isAr ? 'أضف إلى السلة' : _t.add_to_cart) 
+        : (isAr ? 'نفذت الكمية' : _t.sold_out);
+    }
+
+    if (buyBtn) {
+      buyBtn.disabled = !isAvailable;
+    }
+
+    if (banner) {
+      if (isAvailable) {
+        banner.className = 'stock-banner in-stock';
+        banner.querySelector('.status-text').textContent = isAr 
+          ? 'متوفر في المخزون — متاح للتوصيل في نفس اليوم في قطر' 
+          : 'In Stock — Available for Same Day Delivery in Qatar';
+      } else {
+        banner.className = 'stock-banner out-of-stock';
+        banner.querySelector('.status-text').textContent = isAr 
+          ? 'نفذت الكمية — غير متوفر' 
+          : 'Out of Stock — Not Available';
+      }
+    }
+  }
+
+  
+  function addToCartClick() {
+    const variantId = document.getElementById('selected-variant-id').value;
+    const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
+    const atcBtn = document.getElementById('add-to-cart');
+
+    if (!variantId) {
+      window.showErrorAlert(_t.size_required);
+      return;
+    }
+
+    // Check max stock
+    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
+    if (selectedVariantEl) {
+      const management = selectedVariantEl.getAttribute('data-inventory-management');
+      if (management && management !== '') {
+        const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
+        
+        atcBtn.disabled = true;
+        atcBtn.textContent = _t.checking_stock;
+        
+        fetch('/cart.js')
+          .then(r => r.json())
+          .then(cart => {
+            const inCartItem = cart.items.find(item => String(item.variant_id) === String(variantId));
+            const inCartQty = inCartItem ? inCartItem.quantity : 0;
+            if (inCartQty + qty > maxQty) {
+              window.showErrorAlert(_tCartExceeded(qty, inCartQty, maxQty));
+              atcBtn.disabled = false;
+              atcBtn.textContent = _t.add_to_cart;
+              return;
+            }
+            performAddToCart(variantId, qty, atcBtn);
+          })
+          .catch(err => {
+            console.error(err);
+            performAddToCart(variantId, qty, atcBtn);
+          });
+        return;
+      }
+    }
+
+    performAddToCart(variantId, qty, atcBtn);
+  }
+
+  function performAddToCart(variantId, qty, atcBtn) {
+    // Add to local window inventory cache for drawer validation
+    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
+    if (selectedVariantEl) {
+      if (!window.cartItemInventory) window.cartItemInventory = {};
+      window.cartItemInventory[variantId] = {
+        qty: parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 999,
+        management: selectedVariantEl.getAttribute('data-inventory-management') || '',
+        policy: selectedVariantEl.getAttribute('data-inventory-policy') || 'deny'
+      };
+    }
+
+    atcBtn.disabled = true;
+    atcBtn.textContent = _t.adding;
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: qty
+      })
+    })
+    .then(response => {
+      return response.json().then(data => {
+        if (!response.ok) {
+          throw new Error(data.description || data.message || 'Could not add item to cart.');
+        }
+        return data;
+      });
+    })
+    .then(data => {
+      atcBtn.disabled = false;
+      atcBtn.textContent = _t.add_to_cart;
+      if (typeof window.openSideDrawer === 'function') {
+        window.openSideDrawer('cart');
+      } else {
+        window.location.href = '/cart';
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      window.showErrorAlert(error.message);
+      atcBtn.disabled = false;
+      atcBtn.textContent = _t.add_to_cart;
+    });
+  }
+
+  
+  function buyNowClick() {
+    const variantId = document.getElementById('selected-variant-id').value;
+    const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
+    const buyBtn = document.getElementById('buy-now');
+
+    if (!variantId) {
+      window.showErrorAlert(_t.size_required);
+      return;
+    }
+
+    // Check max stock
+    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
+    if (selectedVariantEl) {
+      const management = selectedVariantEl.getAttribute('data-inventory-management');
+      if (management && management !== '') {
+        const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
+        
+        buyBtn.disabled = true;
+        buyBtn.textContent = _t.checking_stock;
+        
+        fetch('/cart.js')
+          .then(r => r.json())
+          .then(cart => {
+            const inCartItem = cart.items.find(item => String(item.variant_id) === String(variantId));
+            const inCartQty = inCartItem ? inCartItem.quantity : 0;
+            if (inCartQty + qty > maxQty) {
+              window.showErrorAlert(_tBuyNowExceeded(maxQty, inCartQty));
+              buyBtn.disabled = false;
+              buyBtn.textContent = _t.buy_now;
+              return;
+            }
+            performBuyNow(variantId, qty, buyBtn);
+          })
+          .catch(err => {
+            performBuyNow(variantId, qty, buyBtn);
+          });
+        return;
+      }
+    }
+
+    performBuyNow(variantId, qty, buyBtn);
+  }
+
+  function performBuyNow(variantId, qty, buyBtn) {
+    buyBtn.disabled = true;
+    buyBtn.textContent = _t.processing;
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: qty
+      })
+    })
+    .then(response => {
+      return response.json().then(data => {
+        if (!response.ok) {
+          throw new Error(data.description || data.message || 'Could not add item to cart.');
+        }
+        return data;
+      });
+    })
+    .then(data => {
+      window.location.href = '/checkout';
+    })
+    .catch(error => {
+      console.error(error);
+      window.showErrorAlert(error.message);
+      buyBtn.disabled = false;
+      buyBtn.textContent = _t.buy_now;
+    });
+  }
+
+  
+  function toggleProductWishlist(event, productId) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const btn = event.currentTarget;
+    const heartSvg = btn.querySelector('svg');
+    let wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+    let items = JSON.parse(localStorage.getItem('qtr_wishlist_items') || '[]');
+    const index = wishlist.indexOf(productId);
+    
+    if (index > -1) {
+      wishlist.splice(index, 1);
+      items = items.filter(item => item.id !== productId && item.id !== parseInt(productId));
+      heartSvg.setAttribute('fill', 'none');
+      heartSvg.setAttribute('stroke', 'currentColor');
+      btn.classList.remove('active');
+    } else {
+      wishlist.push(productId);
+      const activeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#e74c3c';
+      heartSvg.setAttribute('fill', activeColor);
+      heartSvg.setAttribute('stroke', activeColor);
+      btn.classList.add('active');
+      
+      const variantId = document.getElementById('selected-variant-id').value;
+      let price = {% if p_price_val %}{{ p_price_val }}{% else %}200000{% endif %};
+      let title = "{{ p_title | escape }}";
+      let image = "";
+      const imgEl = document.getElementById('main-image-view');
+      if (imgEl) image = imgEl.src;
+      
+      items.push({
+        id: productId,
+        variant_id: variantId,
+        title: title,
+        vendor: "{{ p_vendor | escape }}",
+        image: image,
+        price: price,
+        url: window.location.pathname
+      });
+      
+      setTimeout(() => {
+        if (typeof window.openSideDrawer === 'function') {
+          window.openSideDrawer('wishlist');
+        }
+      }, 300);
+    }
+    
+    localStorage.setItem('qtr_wishlist', JSON.stringify(wishlist));
+    localStorage.setItem('qtr_wishlist_items', JSON.stringify(items));
+    
+    
+    window.dispatchEvent(new CustomEvent('wishlistChanged', { detail: wishlist }));
+  }
+
+  
+  async function fetchDynamicShippingRates() {
+    try {
+      const res = await fetch('/cart/shipping_rates.json?shipping_address[country]=Qatar');
+      if (!res.ok) throw new Error('Network error or cart empty');
+      const data = await res.json();
+      if (data.shipping_rates && data.shipping_rates.length > 0) {
+        populateShippingDropdown(data.shipping_rates);
+      }
+    } catch (e) {
+      console.log('Using default shipping rates:', e);
+    }
+  }
+
+  function populateShippingDropdown(rates) {
+    const container = document.getElementById('cs-opts');
+    if (!container) return;
+    
+    const isAr = document.documentElement.lang === 'ar' || window.location.pathname.startsWith('/ar');
+    let html = '';
+    
+    rates.forEach((rate, index) => {
+      const priceNum = parseFloat(rate.price);
+      let feeText = '';
+      if (priceNum === 0) {
+        feeText = isAr ? 'مجاني' : 'Free';
+      } else {
+        feeText = `QAR ${priceNum.toFixed(0)}`;
+      }
+      
+      const nameLower = rate.name.toLowerCase();
+      
+      // Fallback city keyword checking
+      let isNext = nameLower.includes('khor') || nameLower.includes('shamal') || nameLower.includes('shaniyah') || nameLower.includes('dukhan') || nameLower.includes('shahaniyah');
+      
+      // Check delivery range transit times if available (1-1 is same-day, 1-2 is next-day)
+      if (rate.delivery_range && typeof rate.delivery_range === 'object') {
+        const minVal = rate.delivery_range.min ? parseInt(rate.delivery_range.min.value) : null;
+        const maxVal = rate.delivery_range.max ? parseInt(rate.delivery_range.max.value) : null;
+        
+        if (minVal === 1 && maxVal === 1) {
+          isNext = false;
+        } else if (minVal === 1 && maxVal === 2) {
+          isNext = true;
+        }
+      }
+      
+      const timeVal = isNext ? 'next' : 'same';
+      
+      const activeClass = index === 0 ? 'active' : '';
+      
+      html += `<div class="cs-opt ${activeClass}" data-fee="${feeText}" data-time="${timeVal}" onclick="pickCity(this)">${rate.name}</div>`;
+    });
+    
+    container.innerHTML = html;
+    
+    const firstOpt = container.querySelector('.cs-opt');
+    if (firstOpt) {
+      pickCity(firstOpt);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+      const color = swatch.getAttribute('data-color').toLowerCase().trim();
+      const hex = COLOR_HEX_MAP[color] || '#dcdcdc';
+      swatch.style.backgroundColor = hex;
+    });
+
+    
+    const firstAvailableSize = document.querySelector('.size-option[data-available="true"]');
+    if (firstAvailableSize) {
+      selectProductSize(firstAvailableSize);
+    } else {
+      
+      const singleOpt = document.querySelector('.size-option');
+      if (singleOpt) selectProductSize(singleOpt);
+    }
+
+    
+    const wishlist = JSON.parse(localStorage.getItem('qtr_wishlist') || '[]');
+    const heartBtn = document.querySelector('.product-wishlist-btn');
+    if (heartBtn && wishlist.indexOf('{{ product.id }}') > -1) {
+      heartBtn.classList.add('active');
+      const heartSvg = heartBtn.querySelector('svg');
+      if (heartSvg) {
+        const activeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#e74c3c';
+        heartSvg.setAttribute('fill', activeColor);
+        heartSvg.setAttribute('stroke', activeColor);
+      }
+    }
+
+    // Main image pan zoom on hover
+    const mainImageContainer = document.querySelector('.product-main-image');
+
+    if (mainImageContainer) {
+      mainImageContainer.addEventListener('mouseenter', function() {
+        isGalleryPaused = true;
+        stopGalleryAutoSlide();
+      });
+
+      mainImageContainer.addEventListener('mousemove', function(e) {
+        const rect = mainImageContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+        
+        const activeImageView = document.getElementById('main-image-view');
+        if (activeImageView) {
+          activeImageView.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+          activeImageView.style.transform = 'scale(2.5)';
+        }
+      });
+      
+      mainImageContainer.addEventListener('mouseleave', function() {
+        const activeImageView = document.getElementById('main-image-view');
+        if (activeImageView) {
+          activeImageView.style.transformOrigin = 'center center';
+          activeImageView.style.transform = 'scale(1)';
+        }
+        isGalleryPaused = false;
+        {%- if settings.slideshow_enabled_products -%}
+        restartGalleryAutoSlide();
+        {%- endif -%}
+      });
+    }
+
+    // Start auto slide on load
+    {%- if settings.slideshow_enabled_products -%}
+    startGalleryAutoSlide();
+    {%- endif -%}
+
+    // Load dynamic shipping rates from active Shopify shipping settings
+    fetchDynamicShippingRates();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Details",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Button Style Override"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_button_style",
+      "label": "Override global button style",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "btn_thickness",
+      "label": "Border Thickness",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_opacity",
+      "label": "Border Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "label": "Corner Radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_opacity",
+      "label": "Shadow Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_h",
+      "label": "Shadow Horizontal Offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_v",
+      "label": "Shadow Vertical Offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_shadow_blur",
+      "label": "Shadow Blur",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 5,
+      "unit": "px"
+    }
+  ]
+}
+{% endschema %}
+

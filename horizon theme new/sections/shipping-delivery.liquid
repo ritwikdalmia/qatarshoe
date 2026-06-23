@@ -1,0 +1,986 @@
+{%- style -%}
+  /* Shared Info-section CSS */
+  .pp-content {
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+    padding: 24px var(--grid-horizontal-space, 40px);
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .pp-content-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pp-block-title {
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: var(--color-primary);
+    margin: 0;
+  }
+
+  .pp-block-title--upper {
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .pp-block-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pp-block-intro {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .pp-block-bullets {
+    margin: 0;
+    padding-inline-start: 40px;
+    list-style: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    color: var(--color-text);
+  }
+
+  .pp-block-bullets li {
+    position: relative;
+    margin: 0;
+    padding-inline-start: 18px;
+  }
+
+  .pp-block-bullets li::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    background: var(--color-text);
+    border-radius: 50%;
+  }
+
+  .pp-block-bullets li + li {
+    margin-top: 2px;
+  }
+
+  .pp-block-intro + .pp-block-bullets {
+    margin-top: -8px;
+  }
+
+  .pp-block-richtext {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    color: var(--color-text);
+  }
+
+  .pp-block-richtext p {
+    margin: 0 0 12px 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    color: var(--color-text);
+  }
+
+  .pp-block-richtext p:last-child {
+    margin-bottom: 0;
+  }
+
+  .pp-block-richtext ul {
+    margin: 0;
+    padding-inline-start: 0;
+    list-style: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    color: var(--color-text);
+  }
+
+  .pp-block-richtext ul li {
+    position: relative;
+    margin: 0;
+    padding-inline-start: 18px;
+  }
+
+  .pp-block-richtext ul li::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    background: var(--color-text);
+    border-radius: 50%;
+  }
+
+  .pp-block-richtext ul li + li {
+    margin-top: 2px;
+  }
+
+  .pp-block-richtext p + ul {
+    margin-top: -8px;
+  }
+
+  /* Shipping & Delivery styles */
+  .sd-hero {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px) 12px;
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+  }
+
+  .sd-hero-title {
+      font-family: var(--font-body);
+      font-size: 64px;
+      font-weight: 400;
+      color: var(--color-primary);
+      margin: 0;
+      line-height: 1.1;
+      text-transform: capitalize;
+  }
+
+  .sd-hero-subtitle {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text);
+      margin: 0;
+      line-height: 1.5;
+  }
+
+  .sd-services {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+  }
+
+  .sd-services-title {
+      font-family: var(--font-body);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+      text-align: center;
+      line-height: 1.2;
+  }
+
+  .sd-services-rows {
+      display: flex;
+      flex-direction: column;
+  }
+
+  .sd-service-row {
+      display: flex;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--color-border);
+  }
+
+  .sd-service-row:last-child {
+      border-bottom: none;
+  }
+
+  .sd-service-row-title {
+      font-family: var(--font-body);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--color-primary);
+      flex: 0 0 50%;
+      line-height: 1.4;
+      text-transform: uppercase;
+  }
+
+  .sd-service-row-desc {
+      flex: 0 0 50%;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text);
+      margin: 0;
+      line-height: 1.6;
+  }
+
+  .sd-timelines {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      padding: 24px var(--grid-horizontal-space, 40px);
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+  }
+
+  .sd-timelines-title {
+      font-family: var(--font-body);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+      text-align: center;
+      line-height: 28px;
+  }
+
+  .sd-timelines-grid {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      background: var(--color-border);
+      border-radius: 24px;
+      gap: 1px;
+      padding: 1px;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .sd-timeline-card {
+      background: var(--color-bg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+  }
+
+  .sd-timeline-card:first-child {
+      border-radius: 23px 0 0 23px;
+  }
+
+  .sd-timeline-card:last-child {
+      border-radius: 0 23px 23px 0;
+  }
+
+  .sd-timeline-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      position: relative;
+  }
+
+  .sd-timeline-card-icon svg {
+      width: 24px;
+      height: 24px;
+  }
+
+  .sd-timeline-card-icon .flag-svg {
+      position: absolute;
+      width: auto;
+      height: 100%;
+      top: 0;
+  }
+
+  .sd-timeline-card-header {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+  }
+
+  .sd-timeline-card-title {
+      font-family: var(--font-body);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 0;
+      line-height: 29px;
+      letter-spacing: -0.02em;
+  }
+
+  .sd-timeline-card-rows {
+      display: flex;
+      flex-direction: column;
+  }
+
+  .sd-timeline-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 0;
+      gap: 10px;
+  }
+
+  .sd-timeline-row:first-child {
+      border-bottom: 1px solid var(--color-border);
+  }
+
+  .sd-timeline-row:last-child {
+      padding-bottom: 0;
+  }
+
+  .sd-timeline-label {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text);
+      line-height: 150%;
+      flex: 1;
+  }
+
+  .sd-timeline-value {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-primary);
+      line-height: 24px;
+      text-align: right;
+  }
+
+  /* Contact Form Section */
+  .contact-form-section {
+      max-width: var(--page-width, 1400px);
+      margin: 0 auto;
+      background: var(--color-bg);
+      padding: 24px var(--grid-horizontal-space, 40px);
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .contact-form-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--color-border);
+  }
+
+  .contact-form-inner {
+      max-width: 1620px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 80px;
+  }
+
+  .contact-form-intro {
+      flex: 0 0 488px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-intro h2 {
+      font-family: var(--font-body);
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 100%;
+      margin: 0;
+      color: var(--color-primary);
+  }
+
+  .contact-form-intro p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--color-text);
+      margin: 0;
+  }
+
+  .contact-form-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .contact-form-wrapper .contact-form-text {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--color-text);
+      margin-bottom: 24px;
+  }
+
+  .contact-form-wrapper .contact-form-text h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: var(--color-primary);
+  }
+
+  .contact-form-wrapper .contact-form-text p {
+      margin-bottom: 12px;
+  }
+
+  .contact-form-wrapper form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 12px;
+  }
+
+  .contact-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+  }
+
+  .contact-field-group.full-width {
+      grid-column: 1 / -1;
+  }
+
+  .contact-field-group label {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-primary);
+      margin: 0;
+  }
+
+  .contact-field-group label .required {
+      color: #FF0000;
+      margin-left: 2px;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"],
+  .contact-form-wrapper textarea {
+      width: 100%;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-button, 6px);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+  }
+
+  .contact-form-wrapper input[type="text"],
+  .contact-form-wrapper input[type="email"],
+  .contact-form-wrapper input[type="tel"] {
+      height: 44px;
+      padding: 0 12px;
+  }
+
+  .contact-form-wrapper textarea {
+      height: 108px;
+      padding: 12px;
+      resize: vertical;
+  }
+
+  .contact-submit-custom {
+      width: 100%;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      border-radius: 900px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+  }
+
+  .contact-submit-custom:hover {
+      background: var(--color-primary);
+      color: var(--color-bg);
+  }
+
+  .wpcf7-response-output {
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card, 4px);
+  }
+
+  .wpcf7-response-output.sent {
+      border-color: #28a745;
+      color: #1e7a35;
+      background-color: rgba(40, 167, 69, 0.05);
+  }
+
+  .wpcf7-response-output.invalid {
+      border-color: #d93b3d;
+      color: #b1282a;
+      background-color: rgba(217, 59, 61, 0.05);
+  }
+
+  @media (max-width: 1023px) {
+      .sd-hero {
+          padding: 24px 40px 12px;
+      }
+      .sd-services,
+      .sd-timelines,
+      .pp-content,
+      .contact-form-section {
+          padding: 32px 40px;
+      }
+      .sd-service-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+      }
+      .sd-timeline-card-header {
+          flex-direction: row;
+          align-items: center;
+          gap: 12px;
+      }
+      .sd-timelines-grid {
+          flex-direction: column;
+      }
+      .sd-timeline-card:first-child {
+          border-radius: 23px 23px 0 0;
+      }
+      .sd-timeline-card:last-child {
+          border-radius: 0 0 23px 23px;
+      }
+      .contact-form-inner {
+          flex-direction: column;
+          gap: 40px;
+      }
+  }
+
+  @media (max-width: 767px) {
+      .sd-hero {
+          padding: 24px 24px 12px;
+      }
+      .sd-services,
+      .sd-timelines,
+      .pp-content,
+      .contact-form-section {
+          padding: 24px 24px;
+      }
+      .sd-hero-title {
+          font-size: 32px;
+      }
+      .sd-services-title,
+      .sd-timelines-title {
+          font-size: 24px;
+      }
+      .sd-timeline-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 4px;
+      }
+      .contact-form-wrapper form {
+          grid-template-columns: 1fr;
+      }
+      .contact-bottom-row {
+          flex-direction: column;
+          align-items: stretch;
+      }
+      .contact-toggle {
+          justify-content: center;
+      }
+  }
+{%- endstyle -%}
+
+<script>
+  document.body.classList.add('shipping-delivery-page-body');
+</script>
+
+<main class="sd-main">
+    <!-- Hero Section -->
+    <header class="sd-hero">
+        <h1 class="sd-hero-title">{{ section.settings.heading | default: page.title }}</h1>
+        <p class="sd-hero-subtitle">{{ section.settings.subheading | default: "AmiriVibes offers flexible delivery options for customers in Qatar." }}</p>
+    </header>
+
+    <!-- Stacked Content Blocks (Text First) -->
+    <section class="pp-content">
+        {%- for block in section.blocks -%}
+            {%- if block.type == 'content_block' -%}
+                <div class="pp-content-block" {{ block.shopify_attributes }}>
+                    {%- if block.settings.title != blank -%}
+                        <h2 class="pp-block-title{% if block.settings.uppercase %} pp-block-title--upper{% endif %}">
+                            {{ block.settings.title }}
+                        </h2>
+                    {%- endif -%}
+                    
+                    {%- if block.settings.intro != blank or block.settings.bullets != blank -%}
+                        <div class="pp-block-body">
+                            {%- if block.settings.intro != blank -%}
+                                <p class="pp-block-intro">{{ block.settings.intro | newline_to_br }}</p>
+                            {%- endif -%}
+                            
+                            {%- if block.settings.bullets != blank -%}
+                                <ul class="pp-block-bullets">
+                                    {%- assign bullet_items = block.settings.bullets | split: '||' -%}
+                                    {%- for item in bullet_items -%}
+                                        {%- if item != blank -%}
+                                            <li>{{ item | strip }}</li>
+                                        {%- endif -%}
+                                    {%- endfor -%}
+                                </ul>
+                            {%- endif -%}
+                        </div>
+                    {%- endif -%}
+                </div>
+            {%- elsif block.type == 'richtext' -%}
+                <div class="pp-content-block" {{ block.shopify_attributes }}>
+                    {%- if block.settings.title != blank -%}
+                        <h2 class="pp-block-title{% if block.settings.uppercase %} pp-block-title--upper{% endif %}">
+                            {{ block.settings.title }}
+                        </h2>
+                    {%- endif -%}
+                    
+                    {%- if block.settings.content != blank -%}
+                        <div class="pp-block-body pp-block-richtext">
+                            {{ block.settings.content }}
+                        </div>
+                    {%- endif -%}
+                </div>
+            {%- endif -%}
+        {%- endfor -%}
+
+    </section>
+
+    <!-- Services Section -->
+    {%- assign has_services = false -%}
+    {%- for block in section.blocks -%}{%- if block.type == 'service_row' -%}{%- assign has_services = true -%}{%- endif -%}{%- endfor -%}
+    
+    {%- if has_services -%}
+        <section class="sd-services">
+            <h2 class="sd-services-title">{{ section.settings.services_heading | default: "Delivery By Service" }}</h2>
+            <div class="sd-services-rows">
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'service_row' -%}
+                        <div class="sd-service-row" {{ block.shopify_attributes }}>
+                            <div class="sd-service-row-title">{{ block.settings.title }}</div>
+                            <p class="sd-service-row-desc">{{ block.settings.description | newline_to_br }}</p>
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        </section>
+    {%- endif -%}
+
+    <!-- Timelines Section -->
+    {%- assign has_timelines = false -%}
+    {%- for block in section.blocks -%}{%- if block.type == 'timeline_card' -%}{%- assign has_timelines = true -%}{%- endif -%}{%- endfor -%}
+    
+    {%- if has_timelines -%}
+        <section class="sd-timelines">
+            <h2 class="sd-timelines-title">{{ section.settings.timelines_heading | default: "Estimated Delivery Timelines" }}</h2>
+            <div class="sd-timelines-grid">
+                {%- for block in section.blocks -%}
+                    {%- if block.type == 'timeline_card' -%}
+                        <div class="sd-timeline-card" {{ block.shopify_attributes }}>
+                            <div class="sd-timeline-card-header">
+                                <div class="sd-timeline-card-icon">
+                                    {%- if block.settings.icon_type == 'qatar' -%}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 1 26 26" class="flag-svg flag-qatar"><rect width="40" height="28" fill="#fff"/><path d="M12,0 L16,1.556 L12,3.111 L16,4.667 L12,6.222 L16,7.778 L12,9.333 L16,10.889 L12,12.444 L16,14 L12,15.556 L16,17.111 L12,18.667 L16,20.222 L12,21.778 L16,23.333 L12,24.889 L16,26.444 L12,28 L40,28 L40,0Z" fill="#8A1538"/></svg>
+                                    {%- elsif block.settings.icon_type == 'uae' -%}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="2 0 28 28" class="flag-svg flag-uae"><rect width="40" height="9.333" fill="#00732F"/><rect y="9.333" width="40" height="9.333" fill="#fff"/><rect y="18.667" width="40" height="9.334" fill="#000"/><rect width="10" height="28" fill="#FF0000"/></svg>
+                                    {%- else -%}
+                                        {{ block.settings.icon_svg }}
+                                    {%- endif -%}
+                                </div>
+                                <h3 class="sd-timeline-card-title">{{ block.settings.title }}</h3>
+                            </div>
+                            <div class="sd-timeline-card-rows">
+                                {%- if block.settings.row_1_label != blank -%}
+                                    <div class="sd-timeline-row">
+                                        <div class="sd-timeline-label">{{ block.settings.row_1_label }}</div>
+                                        <div class="sd-timeline-value">{{ block.settings.row_1_value }}</div>
+                                    </div>
+                                {%- endif -%}
+                                {%- if block.settings.row_2_label != blank -%}
+                                    <div class="sd-timeline-row">
+                                        <div class="sd-timeline-label">{{ block.settings.row_2_label }}</div>
+                                        <div class="sd-timeline-value">{{ block.settings.row_2_value }}</div>
+                                    </div>
+                                {%- endif -%}
+                            </div>
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        </section>
+    {%- endif -%}
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+        <div class="contact-form-inner">
+            <div class="contact-form-intro">
+                <h2>{{ section.settings.form_heading | default: "Send Us A Message" }}</h2>
+                <p>{{ section.settings.form_subheading | default: "Fill out the form and we'll get back to you as quickly as possible." }}</p>
+            </div>
+
+            <div class="contact-form-wrapper">
+                {%- form 'contact', id: 'ContactForm' -%}
+                    {%- if form.posted_successfully? -%}
+                        <div class="wpcf7-response-output sent" role="status">
+                            Thanks for contacting us! We'll get back to you as soon as possible.
+                        </div>
+                    {%- elsif form.errors -%}
+                        <div class="wpcf7-response-output invalid" role="alert">
+                            {{ form.errors | default_errors }}
+                        </div>
+                    {%- endif -%}
+
+                    <div class="contact-field-group">
+                        <label for="ContactFormFirstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="ContactFormFirstName" name="contact[first_name]" placeholder="First Name" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormLastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="ContactFormLastName" name="contact[last_name]" placeholder="Last Name" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormEmail">Email <span class="required">*</span></label>
+                        <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required aria-required="true" />
+                    </div>
+                    <div class="contact-field-group">
+                        <label for="ContactFormPhone">Phone Number (optional)</label>
+                        <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone Number (optional)" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" pattern="^[34567][0-9]{7}$" title="Please enter a valid 8-digit Qatar phone number (starting with 3, 4, 5, 6, or 7)." />
+                    </div>
+                    <div class="contact-field-group full-width">
+                        <label for="ContactFormMessage">Your Message <span class="required">*</span></label>
+                        <textarea cols="40" rows="10" id="ContactFormMessage" name="contact[body]" placeholder="Your Message" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                    </div>
+                    
+                    <div class="contact-field-group full-width" style="margin-top: 12px;">
+                        <button type="submit" class="contact-submit-custom">
+                            <svg class="contact-submit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M17.5 2.5L9.16667 10.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17.5 2.5L12.0833 17.5L9.16667 10.8333L2.5 7.91667L17.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Send a Message</span>
+                        </button>
+                    </div>
+                {%- endform -%}
+            </div>
+        </div>
+    </section>
+</main>
+
+{% schema %}
+{
+  "name": "Shipping & Delivery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shipping & Delivery"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "AmiriVibes offers flexible delivery options for customers in Qatar."
+    },
+    {
+      "type": "header",
+      "content": "Services Section Settings"
+    },
+    {
+      "type": "text",
+      "id": "services_heading",
+      "label": "Services Heading",
+      "default": "Delivery By Service"
+    },
+    {
+      "type": "header",
+      "content": "Timelines Section Settings"
+    },
+    {
+      "type": "text",
+      "id": "timelines_heading",
+      "label": "Timelines Heading",
+      "default": "Estimated Delivery Timelines"
+    },
+    {
+      "type": "header",
+      "content": "Contact Form Settings"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form Heading",
+      "default": "Send Us A Message"
+    },
+    {
+      "type": "text",
+      "id": "form_subheading",
+      "label": "Form Subheading",
+      "default": "Fill out the form and we'll get back to you as quickly as possible."
+    },
+    {
+      "type": "richtext",
+      "id": "form_text",
+      "label": "Form Descriptive Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content_block",
+      "name": "Content Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Block Title",
+          "default": "Local Orders"
+        },
+        {
+          "type": "checkbox",
+          "id": "uppercase",
+          "label": "Uppercase Heading",
+          "default": true
+        },
+        {
+          "type": "textarea",
+          "id": "intro",
+          "label": "Intro Paragraph",
+          "default": "All orders placed within Qatar are fulfilled from local stock, ensuring fast availability and minimal wait times."
+        },
+        {
+          "type": "textarea",
+          "id": "bullets",
+          "label": "Bullet Items (separated by ||)",
+          "default": "Same-day delivery is available for orders confirmed before the daily cut-off time.||Orders confirmed after the cut-off are dispatched the following business day.||Delivery timelines are displayed before checkout — you will always know when to expect your order before you confirm."
+        }
+      ]
+    },
+    {
+      "type": "richtext",
+      "name": "Rich Text Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Block Title",
+          "default": "Block Title"
+        },
+        {
+          "type": "checkbox",
+          "id": "uppercase",
+          "label": "Uppercase Heading",
+          "default": true
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Add your content here.</p>"
+        }
+      ]
+    },
+    {
+      "type": "service_row",
+      "name": "Service Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Service Title",
+          "default": "Qatar Collection"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Service Description",
+          "default": "Available exclusively within Qatar. Products are stocked locally. Same-day or next business day delivery. Ideal for customers who want fast and convenient local delivery."
+        }
+      ]
+    },
+    {
+      "type": "timeline_card",
+      "name": "Timeline Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "Qatar"
+        },
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon Type",
+          "options": [
+            { "value": "qatar", "label": "Qatar Flag" },
+            { "value": "uae", "label": "UAE Flag" },
+            { "value": "custom", "label": "Custom SVG" }
+          ],
+          "default": "qatar"
+        },
+        {
+          "type": "textarea",
+          "id": "icon_svg",
+          "label": "Custom Icon SVG"
+        },
+        {
+          "type": "text",
+          "id": "row_1_label",
+          "label": "Row 1 Label",
+          "default": "Premium Shipping"
+        },
+        {
+          "type": "text",
+          "id": "row_1_value",
+          "label": "Row 1 Value",
+          "default": "Within 1 day"
+        },
+        {
+          "type": "text",
+          "id": "row_2_label",
+          "label": "Row 2 Label",
+          "default": "Standard Shipping"
+        },
+        {
+          "type": "text",
+          "id": "row_2_value",
+          "label": "Row 2 Value",
+          "default": "2-4 business days"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

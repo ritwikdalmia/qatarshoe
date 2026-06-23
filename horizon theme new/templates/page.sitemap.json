@@ -1,0 +1,197 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "sitemap",
+      "blocks": {
+        "card_women": {
+          "type": "card",
+          "settings": {
+            "title": "Women",
+            "group": "qatar",
+            "menu": "",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        },
+        "card_men": {
+          "type": "card",
+          "settings": {
+            "title": "Men",
+            "group": "qatar",
+            "menu": "",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        },
+        "card_care": {
+          "type": "card",
+          "settings": {
+            "title": "Customer Care",
+            "group": "support",
+            "menu": "customer-care-menu",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        },
+        "card_shipping": {
+          "type": "card",
+          "settings": {
+            "title": "Shipping & Returns",
+            "group": "support",
+            "menu": "shipping-and-returns-menu",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        },
+        "card_payments": {
+          "type": "card",
+          "settings": {
+            "title": "Payments",
+            "group": "support",
+            "menu": "payments-menu",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        },
+        "card_policies": {
+          "type": "card",
+          "settings": {
+            "title": "Policies",
+            "group": "support",
+            "menu": "policies-menu",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        },
+        "card_services": {
+          "type": "card",
+          "settings": {
+            "title": "Services",
+            "group": "support",
+            "menu": "services-menu",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        },
+        "card_about": {
+          "type": "card",
+          "settings": {
+            "title": "About",
+            "group": "support",
+            "menu": "about-us-menu",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_women",
+        "card_men",
+        "card_care",
+        "card_shipping",
+        "card_payments",
+        "card_policies",
+        "card_services",
+        "card_about"
+      ],
+      "settings": {
+        "title": "Sitemap",
+        "description": "Browse the full AmiriVibes website structure. Find direct links to all collections, categories, and pages organized for easy navigation.",
+        "qatar_title": "Qatar Collection",
+        "support_title": "Support Pages"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

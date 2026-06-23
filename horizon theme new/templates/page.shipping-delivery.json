@@ -1,0 +1,38 @@
+{
+  "sections": {
+    "main": {
+      "type": "shipping-delivery",
+      "settings": {
+        "heading": "Shipping & Delivery",
+        "subheading": "AmiriVibes offers flexible delivery options for customers in Qatar."
+      },
+      "blocks": {
+        "local_orders": {
+          "type": "content_block",
+          "settings": {
+            "title": "LOCAL ORDERS",
+            "uppercase": true,
+            "intro": "All orders placed within Qatar are fulfilled from local stock, ensuring fast availability and minimal wait times.",
+            "bullets": "Same-day delivery is available for orders confirmed before the daily cut-off time.||Orders confirmed after the cut-off are dispatched the following business day.||Delivery timelines are displayed before checkout — you will always know when to expect your order before you confirm."
+          }
+        },
+        "personal_shopping": {
+          "type": "content_block",
+          "settings": {
+            "title": "PERSONAL SHOPPING",
+            "uppercase": true,
+            "intro": "Personal Shopping is our dedicated service for clients looking to source a specific product. Simply get in touch with our customer care team, share what you are looking for, and we will take it from there.",
+            "bullets": "Contact our team via WhatsApp with the product details — style, size, and any preferences.||Once confirmed and available, payment is collected in full via Bank Transfer before sourcing begins.||Estimated delivery is 15 to 18 working days from the date payment is confirmed.||Delivery timelines are communicated clearly before you commit to your order.||If we are unable to source the requested product, a full refund will be issued promptly with no deductions.||All Personal Shopping requests are handled exclusively via WhatsApp to ensure every detail is confirmed accurately before processing begins."
+          }
+        }
+      },
+      "block_order": [
+        "local_orders",
+        "personal_shopping"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
