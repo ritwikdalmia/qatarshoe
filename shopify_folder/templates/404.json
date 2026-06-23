@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "blocks": {},
+      "settings": {
+        "content_direction": "column",
+        "section_width": "page-width",
+        "section_height": "small",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 20,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 100,
+        "padding-block-end": 100
+      }
+    },
+    "product_list_iA96Tq": {
+      "type": "product-showcase",
+      "settings": {
+        "heading": "Discover something new",
+        "collection_handle": "all",
+        "view_all_url": "shopify://collections/all",
+        "max_products": 4
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product_list_iA96Tq"
+  ]
+}
