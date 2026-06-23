@@ -2148,7 +2148,7 @@
         "type": "color",
         "id": "color_border",
         "label": "Border Color",
-        "default": "#d4c5a9"
+        "default": "#8c1638"
       },
       {
         "type": "color",
