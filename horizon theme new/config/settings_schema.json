@@ -66,6 +66,76 @@
           "background": "#ffffff",
           "foreground": "#000000"
         }
+      },
+      {
+        "type": "header",
+        "content": "Theme Primary Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Background Color",
+        "default": "#f9f2d5"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent Color",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border Color",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_muted",
+        "label": "Muted Text Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_dark_teal",
+        "label": "Dark Teal / Secondary",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_green",
+        "label": "Success / Green",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_drawer_bg",
+        "label": "Drawer Background",
+        "default": "#f9f2d5"
+      },
+      {
+        "type": "color",
+        "id": "color_drawer_footer_bg",
+        "label": "Drawer Footer Background",
+        "default": "#f9f2d5"
+      },
+      {
+        "type": "color",
+        "id": "color_white",
+        "label": "White Override",
+        "default": "#ffffff"
       }
     ]
   },
@@ -1094,6 +1164,60 @@
           }
         ],
         "default": "none"
+      },
+      {
+        "type": "header",
+        "content": "Theme Font Sizes"
+      },
+      {
+        "type": "range",
+        "id": "font_size_small",
+        "label": "Small Font Size",
+        "min": 9,
+        "max": 14,
+        "step": 1,
+        "unit": "px",
+        "default": 11
+      },
+      {
+        "type": "range",
+        "id": "font_size_body_small",
+        "label": "Body Small Font Size",
+        "min": 11,
+        "max": 16,
+        "step": 1,
+        "unit": "px",
+        "default": 13
+      },
+      {
+        "type": "range",
+        "id": "font_size_body",
+        "label": "Body Font Size",
+        "min": 13,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "default": 15
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_medium",
+        "label": "Heading Medium Font Size",
+        "min": 14,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 18
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_large",
+        "label": "Heading Large Font Size",
+        "min": 18,
+        "max": 36,
+        "step": 1,
+        "unit": "px",
+        "default": 24
       }
     ]
   },
@@ -1125,6 +1249,86 @@
           }
         ],
         "default": "narrow"
+      },
+      {
+        "type": "header",
+        "content": "Theme Borders & Layout"
+      },
+      {
+        "type": "range",
+        "id": "radius_card",
+        "label": "Card Border Radius",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "radius_large",
+        "label": "Large Border Radius",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "radius_button",
+        "label": "Button Border Radius",
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "custom_page_width",
+        "label": "Custom Page Width",
+        "min": 1000,
+        "max": 1600,
+        "step": 20,
+        "unit": "px",
+        "default": 1400
+      },
+      {
+        "type": "range",
+        "id": "spacing_sections",
+        "label": "Section Spacing",
+        "min": 0,
+        "max": 60,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Slideshow Spacing"
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow_enabled_homepage",
+        "label": "Enable Slideshow on Homepage",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow_enabled_products",
+        "label": "Enable Gallery Auto-Slide on Products",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "slideshow_interval",
+        "label": "Slideshow Interval",
+        "min": 2,
+        "max": 10,
+        "step": 1,
+        "unit": "s",
+        "default": 5
       }
     ]
   },
@@ -2114,209 +2318,6 @@
           }
         ],
         "default": "equal-width-buttons"
-      }
-    ]
-  },
-  {
-    "name": "Custom Theme Colors",
-    "settings": [
-      {
-        "type": "color",
-        "id": "color_bg",
-        "label": "Background Color",
-        "default": "#f9f2d5"
-      },
-      {
-        "type": "color",
-        "id": "color_text",
-        "label": "Text Color",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "color_primary",
-        "label": "Primary Color",
-        "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_accent",
-        "label": "Accent Color",
-        "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_border",
-        "label": "Border Color",
-        "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_muted",
-        "label": "Muted Text Color",
-        "default": "#000000"
-      },
-      {
-        "type": "color",
-        "id": "color_dark_teal",
-        "label": "Dark Teal / Secondary",
-        "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_green",
-        "label": "Success / Green",
-        "default": "#8c1638"
-      },
-      {
-        "type": "color",
-        "id": "color_drawer_bg",
-        "label": "Drawer Background",
-        "default": "#f9f2d5"
-      },
-      {
-        "type": "color",
-        "id": "color_drawer_footer_bg",
-        "label": "Drawer Footer Background",
-        "default": "#f9f2d5"
-      },
-      {
-        "type": "color",
-        "id": "color_white",
-        "label": "White Override",
-        "default": "#ffffff"
-      }
-    ]
-  },
-  {
-    "name": "Custom Typography",
-    "settings": [
-      {
-        "type": "range",
-        "id": "font_size_small",
-        "label": "Small Font Size",
-        "min": 9,
-        "max": 14,
-        "step": 1,
-        "unit": "px",
-        "default": 11
-      },
-      {
-        "type": "range",
-        "id": "font_size_body_small",
-        "label": "Body Small Font Size",
-        "min": 11,
-        "max": 16,
-        "step": 1,
-        "unit": "px",
-        "default": 13
-      },
-      {
-        "type": "range",
-        "id": "font_size_body",
-        "label": "Body Font Size",
-        "min": 13,
-        "max": 18,
-        "step": 1,
-        "unit": "px",
-        "default": 15
-      },
-      {
-        "type": "range",
-        "id": "font_size_heading_medium",
-        "label": "Heading Medium Font Size",
-        "min": 14,
-        "max": 24,
-        "step": 1,
-        "unit": "px",
-        "default": 18
-      },
-      {
-        "type": "range",
-        "id": "font_size_heading_large",
-        "label": "Heading Large Font Size",
-        "min": 18,
-        "max": 36,
-        "step": 1,
-        "unit": "px",
-        "default": 24
-      }
-    ]
-  },
-  {
-    "name": "Custom Layout",
-    "settings": [
-      {
-        "type": "range",
-        "id": "radius_card",
-        "label": "Card Border Radius",
-        "min": 0,
-        "max": 30,
-        "step": 1,
-        "unit": "px",
-        "default": 12
-      },
-      {
-        "type": "range",
-        "id": "radius_large",
-        "label": "Large Border Radius",
-        "min": 0,
-        "max": 40,
-        "step": 1,
-        "unit": "px",
-        "default": 20
-      },
-      {
-        "type": "range",
-        "id": "radius_button",
-        "label": "Button Border Radius",
-        "min": 0,
-        "max": 60,
-        "step": 1,
-        "unit": "px",
-        "default": 50
-      },
-      {
-        "type": "range",
-        "id": "custom_page_width",
-        "label": "Custom Page Width",
-        "min": 1000,
-        "max": 1600,
-        "step": 20,
-        "unit": "px",
-        "default": 1400
-      },
-      {
-        "type": "range",
-        "id": "spacing_sections",
-        "label": "Section Spacing",
-        "min": 0,
-        "max": 60,
-        "step": 4,
-        "unit": "px",
-        "default": 0
-      },
-      {
-        "type": "checkbox",
-        "id": "slideshow_enabled_homepage",
-        "label": "Enable Slideshow on Homepage",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "slideshow_enabled_products",
-        "label": "Enable Gallery Auto-Slide on Products",
-        "default": true
-      },
-      {
-        "type": "range",
-        "id": "slideshow_interval",
-        "label": "Slideshow Interval",
-        "min": 2,
-        "max": 10,
-        "step": 1,
-        "unit": "s",
-        "default": 5
       }
     ]
   },
