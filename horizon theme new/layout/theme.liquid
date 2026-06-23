@@ -38,9 +38,9 @@
         --color-text: {{ settings.color_text }};
         --color-primary: {{ settings.color_primary }};
         --color-accent: {{ settings.color_accent }};
-        --color-border: {{ settings.color_primary }};
-        --color-border-rgb: {{ settings.color_primary.rgb }};
-        --color-input-border: {{ settings.color_primary }};
+        --color-border: {{ settings.color_border }};
+        --color-border-rgb: {{ settings.color_border | color_extract: 'red' }}, {{ settings.color_border | color_extract: 'green' }}, {{ settings.color_border | color_extract: 'blue' }};
+        --color-input-border: {{ settings.color_border }};
         --color-muted: {{ settings.color_muted }};
         --color-dark-teal: {{ settings.color_dark_teal }};
         --color-green: {{ settings.color_green }};
@@ -63,6 +63,26 @@
         --radius-button: {{ settings.radius_button }}px;
         --page-width: {{ settings.custom_page_width }}px;
         --spacing-sections: {{ settings.spacing_sections }}px;
+
+        /* ─── Horizon Native system bridge ─── */
+        --color-background: var(--color-bg);
+        --color-foreground: var(--color-text);
+        --color-border: var(--color-border);
+        --color-input-border: var(--color-border);
+        --color-primary-button-background: var(--color-primary);
+        --color-primary-button-border: var(--color-primary);
+        --color-primary-button-text: var(--color-white);
+        
+        --style-border-radius-buttons-primary: var(--radius-button);
+        --style-border-radius-buttons-secondary: var(--radius-button);
+        --style-border-radius-pills: var(--radius-button);
+        --style-border-radius-inputs: var(--radius-button);
+        --style-border-radius-popover: var(--radius-large);
+        --style-border-radius-drawer: var(--radius-large);
+        
+        --font-paragraph--size: var(--font-size-body);
+        --font-h1--size: var(--font-size-heading-large);
+        --font-h2--size: var(--font-size-heading-medium);
       }
     </style>
     {{ 'theme.css' | asset_url | stylesheet_tag }}
