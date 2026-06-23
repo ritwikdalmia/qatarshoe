@@ -74,6 +74,12 @@
         "default": "#8c1638"
       },
       {
+        "type": "color",
+        "id": "color_secondary_text",
+        "label": "Secondary Text Color",
+        "default": "#ffffff"
+      },
+      {
         "type": "header",
         "content": "Card Colors"
       },
@@ -1336,29 +1342,53 @@
         "default": true
       },
       {
+        "type": "checkbox",
+        "id": "enable_scroll_reveal",
+        "label": "Enable scroll reveal animations",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "scroll_reveal_distance",
+        "label": "Scroll reveal distance",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "px",
+        "default": 20,
+        "visible_if": "{{ settings.enable_scroll_reveal == true }}"
+      },
+      {
+        "type": "range",
+        "id": "scroll_reveal_duration",
+        "label": "Scroll reveal duration",
+        "min": 0.1,
+        "max": 2.0,
+        "step": 0.1,
+        "unit": "s",
+        "default": 0.4,
+        "visible_if": "{{ settings.enable_scroll_reveal == true }}"
+      },
+      {
         "type": "select",
-        "id": "card_hover_effect",
-        "label": "t:settings.card_hover_effect",
+        "id": "hover_effect",
+        "label": "Hover effect",
         "options": [
           {
             "value": "none",
-            "label": "t:options.none"
+            "label": "None"
           },
           {
-            "value": "lift",
-            "label": "t:options.lift"
+            "value": "vertical",
+            "label": "Vertical lift"
           },
           {
-            "value": "scale",
-            "label": "t:options.scale"
-          },
-          {
-            "value": "subtle-zoom",
-            "label": "t:options.subtle_zoom"
+            "value": "3d",
+            "label": "3D lift"
           }
         ],
-        "default": "lift",
-        "info": "t:info.hover_effects"
+        "default": "3d",
+        "info": "Affects cards and buttons"
       }
     ]
   },
@@ -1376,10 +1406,6 @@
           {
             "value": "top-left",
             "label": "t:options.top_left"
-          },
-          {
-            "value": "top-right",
-            "label": "t:options.top_right"
           }
         ],
         "default": "top-left",
@@ -1421,6 +1447,17 @@
         "id": "badge_sold_out_text_color",
         "label": "t:settings.badge_sold_out_text_color",
         "default": "{{ settings.color_palette.foreground }}"
+      },
+      {
+        "type": "color",
+        "id": "badge_new_background_color",
+        "label": "t:settings.badge_new_background_color",
+        "default": "{{ settings.color_palette.foreground }}"
+      },
+      {
+        "type": "color",
+        "id": "badge_new_text_color",
+        "label": "t:settings.badge_new_text_color"
       },
       {
         "type": "header",

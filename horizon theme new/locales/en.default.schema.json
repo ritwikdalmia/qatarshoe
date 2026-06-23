@@ -798,6 +798,8 @@
     "badge_sale_text_color": "Sale badge text",
     "badge_sold_out_background_color": "Sold out badge background",
     "badge_sold_out_text_color": "Sold out badge text",
+    "badge_new_background_color": "New badge background",
+    "badge_new_text_color": "New badge text",
     // Display type selection for popup content (modal vs drawer)
     "behavior": "Behavior",
     "blog": "Blog",

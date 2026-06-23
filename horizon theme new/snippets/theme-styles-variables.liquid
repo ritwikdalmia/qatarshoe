@@ -532,6 +532,7 @@
     --focus-outline-offset: 0.2em;
 
     /* Badges */
+    --badge-border-radius: {{ settings.badge_corner_radius }}px;
     --badge-blob-padding-block: 1px;
     --badge-blob-padding-inline: 12px 8px;
     --badge-rectangle-padding-block: 1px;
@@ -709,5 +710,12 @@
   background_color: settings.badge_sold_out_background_color,
   text_color: settings.badge_sold_out_text_color,
   section_id: 'badge-sold-out',
+  preset: 'ui'
+%}
+
+{% render 'contrast-override',
+  background_color: settings.badge_new_background_color,
+  text_color: settings.badge_new_text_color,
+  section_id: 'badge-new',
   preset: 'ui'
 %}

@@ -109,12 +109,12 @@
           
           
           {%- if p_compare_at_price_val > p_price_val -%}
-            <div class="product-badge-sale-new">
+            <div class="product-badge-sale-new color-custom-badge-sale product-badge--{{ settings.badge_position }}">
               <span class="badge-indicator sale-color"></span>
               <span class="badge-text">SALE</span>
             </div>
           {%- else -%}
-            <div class="product-badge-new">
+            <div class="product-badge-new color-custom-badge-new product-badge--{{ settings.badge_position }}">
               <span class="badge-indicator"></span>
               <span class="badge-text">NEW</span>
             </div>

@@ -48,9 +48,12 @@
         --color-drawer-bg: {{ settings.color_palette.background }};
         --color-drawer-footer-bg: {{ settings.color_palette.background }};
         --color-white: #ffffff;
+        --color-secondary-text: {{ settings.color_secondary_text | default: '#ffffff' }};
         --color-card-bg: {{ settings.color_card_bg | default: '#ffffff' }};
         --color-card-border: {{ settings.color_card_border | default: settings.color_primary }};
         --color-card-image-bg: {{ settings.color_card_image_bg | default: '#f9f9f9' }};
+        --scroll-reveal-distance: {{ settings.scroll_reveal_distance | default: 20 }}px;
+        --scroll-reveal-duration: {{ settings.scroll_reveal_duration | default: 0.4 }}s;
 
         /* ─── Font Tokens ─── */
         --font-body: var(--font-body--family), 'Inter', sans-serif;
@@ -82,20 +85,32 @@
         --font-h2--size: var(--font-size-heading-medium);
       }
 
-      /* Card Hover Animations Bridge */
-      {% if settings.card_hover_effect == 'lift' %}
-        .product-card {
-          transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+      /* Card & Button Hover Animations Bridge */
+      {% if settings.hover_effect == 'vertical' %}
+        .product-card, .btn, .luxury-cta, .auth-submit-btn, .show-all-brands-btn, .brand-item, .page-card, .overview-card {
+          transition: transform 0.25s ease, box-shadow 0.25s ease !important;
         }
-        .product-card:hover {
-          transform: translateY(-8px) !important;
+        .product-card:hover, .btn:hover, .luxury-cta:hover, .auth-submit-btn:hover, .show-all-brands-btn:hover, .brand-item:hover, .page-card:hover, .overview-card:hover {
+          transform: translateY(-4px) !important;
+          box-shadow: 0 10px 20px rgba(45,31,31,0.08) !important;
         }
-      {% elsif settings.card_hover_effect == 'scale' %}
-        .product-card {
-          transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+      {% elsif settings.hover_effect == '3d' %}
+        .product-card, .btn, .luxury-cta, .auth-submit-btn, .show-all-brands-btn, .brand-item, .page-card, .overview-card {
+          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease !important;
         }
-        .product-card:hover {
-          transform: scale(1.03) !important;
+        .product-card:hover, .btn:hover, .luxury-cta:hover, .auth-submit-btn:hover, .show-all-brands-btn:hover, .brand-item:hover, .page-card:hover, .overview-card:hover {
+          transform: translateY(-6px) scale(1.02) !important;
+          box-shadow: 0 15px 30px rgba(45,31,31,0.12) !important;
+        }
+      {% endif %}
+
+      /* Scroll Reveal Dynamic Settings Bridge */
+      {% if settings.enable_scroll_reveal == false %}
+        .scroll-reveal,
+        #MainContent .shopify-section {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
         }
       {% endif %}
     </style>
@@ -108,7 +123,7 @@
     {{ content_for_header }}
   </head>
 
-  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
 
     {% render 'chat-drawer' %}
@@ -231,7 +246,7 @@
           }, observerOptions);
 
           function initScrollReveal() {
-            var revealElements = document.querySelectorAll('.scroll-reveal, #MainContent .shopify-section');
+            var revealElements = document.querySelectorAll('.scroll-reveal, .product-card, #MainContent .shopify-section');
             revealElements.forEach(function(el) {
               scrollRevealObserver.observe(el);
             });
@@ -242,13 +257,34 @@
           } else {
             initScrollReveal();
           }
+
+          // MutationObserver to auto-observe AJAX-loaded product cards and sections (filtering/sorting)
+          var mainContent = document.getElementById('MainContent');
+          if (mainContent) {
+            var mutationObserver = new MutationObserver(function(mutations) {
+              mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                  if (node.nodeType === Node.ELEMENT_NODE) {
+                    if (node.matches('.scroll-reveal, .product-card, .shopify-section')) {
+                      scrollRevealObserver.observe(node);
+                    }
+                    var children = node.querySelectorAll('.scroll-reveal, .product-card, .shopify-section');
+                    children.forEach(function(child) {
+                      scrollRevealObserver.observe(child);
+                    });
+                  }
+                });
+              });
+            });
+            mutationObserver.observe(mainContent, { childList: true, subtree: true });
+          }
           
           document.addEventListener('shopify:section:load', function(event) {
             var section = event.target;
             if (section.closest('#MainContent')) {
               scrollRevealObserver.observe(section);
             }
-            var newRevealElements = section.querySelectorAll('.scroll-reveal');
+            var newRevealElements = section.querySelectorAll('.scroll-reveal, .product-card');
             newRevealElements.forEach(function(el) {
               scrollRevealObserver.observe(el);
             });
