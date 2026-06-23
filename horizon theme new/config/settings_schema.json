@@ -72,6 +72,28 @@
         "id": "color_primary",
         "label": "Primary Color",
         "default": "#8c1638"
+      },
+      {
+        "type": "header",
+        "content": "Card Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_card_bg",
+        "label": "Card Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_card_border",
+        "label": "Card Border",
+        "default": "#8c1638"
+      },
+      {
+        "type": "color",
+        "id": "color_card_image_bg",
+        "label": "Card Image Background",
+        "default": "#f9f9f9"
       }
     ]
   },

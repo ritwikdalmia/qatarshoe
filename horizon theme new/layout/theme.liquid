@@ -48,6 +48,9 @@
         --color-drawer-bg: {{ settings.color_palette.background }};
         --color-drawer-footer-bg: {{ settings.color_palette.background }};
         --color-white: #ffffff;
+        --color-card-bg: {{ settings.color_card_bg | default: '#ffffff' }};
+        --color-card-border: {{ settings.color_card_border | default: settings.color_primary }};
+        --color-card-image-bg: {{ settings.color_card_image_bg | default: '#f9f9f9' }};
 
         /* ─── Font Tokens ─── */
         --font-body: var(--font-body--family), 'Inter', sans-serif;

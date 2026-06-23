@@ -107,6 +107,9 @@
       "foreground": "#1a0a00"
     },
     "color_primary": "#8c1638",
+    "color_card_bg": "#ffffff",
+    "color_card_border": "#8c1638",
+    "color_card_image_bg": "#f9f9f9",
     "font_size_small": 11,
     "font_size_body_small": 13,
     "font_size_body": 15,
