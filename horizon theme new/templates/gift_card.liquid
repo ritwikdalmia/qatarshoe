@@ -173,7 +173,7 @@
         width: 120,
         height: 120,
         colorDark: '#2d1f1f',
-        colorLight: 'var(--color-white)',
+        colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.H
       });
     }
@@ -228,10 +228,16 @@
       return;
     }
     
+    // Dynamically resolve var(--color-bg) to a hex/rgb string for html2canvas
+    var bgColor = window.getComputedStyle(element).backgroundColor || '#fbf9f4';
+    if (bgColor.includes('var')) {
+      bgColor = '#fbf9f4';
+    }
+    
     // Scale up for high quality image and set background color to match the cream styling
     html2canvas(element, {
       scale: 3,
-      backgroundColor: 'var(--color-bg)',
+      backgroundColor: bgColor,
       useCORS: true,
       logging: false
     }).then(function(canvas) {
