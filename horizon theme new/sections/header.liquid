@@ -19,12 +19,18 @@
 
 <style>
   .logo-circle-layout img {
-    width: {{ settings.logo_width | default: 90 }}px !important;
-    height: {{ settings.logo_width | default: 90 }}px !important;
+    width: {{ settings.logo_height | default: 36 }}px !important;
+    height: {{ settings.logo_height | default: 36 }}px !important;
     border-radius: 50% !important;
     object-fit: cover !important;
     overflow: hidden !important;
     max-width: 100%;
+  }
+  @media screen and (max-width: 768px) {
+    .logo-circle-layout img {
+      width: {{ settings.logo_height_mobile | default: 28 }}px !important;
+      height: {{ settings.logo_height_mobile | default: 28 }}px !important;
+    }
   }
   .logo-circle-layout:not(.mobile-header-logo) {
     display: inline-flex !important;
@@ -118,8 +124,8 @@
 
     
     <div class="desktop-header-center">
-      <a href="{{ routes.root_url }}" class="desktop-header-logo{% if settings.logo != blank or section.settings.logo_image != blank %} logo-circle-layout{% endif %}" aria-label="{{ shop.name }}">
-        {%- assign header_logo = settings.logo | default: section.settings.logo_image -%}
+      <a href="{{ routes.root_url }}" class="desktop-header-logo{% if settings.logo_inverse != blank or settings.logo != blank or section.settings.logo_image != blank %} logo-circle-layout{% endif %}" aria-label="{{ shop.name }}">
+        {%- assign header_logo = settings.logo_inverse | default: settings.logo | default: section.settings.logo_image -%}
         {%- if header_logo != blank -%}
           <img src="{{ header_logo | image_url: width: 200 }}" alt="{{ shop.name }}" loading="lazy" width="200" height="200">
         {%- else -%}
