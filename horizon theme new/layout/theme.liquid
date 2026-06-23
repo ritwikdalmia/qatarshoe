@@ -231,7 +231,7 @@
           }, observerOptions);
 
           function initScrollReveal() {
-            var revealElements = document.querySelectorAll('.scroll-reveal');
+            var revealElements = document.querySelectorAll('.scroll-reveal, #MainContent .shopify-section');
             revealElements.forEach(function(el) {
               scrollRevealObserver.observe(el);
             });
@@ -244,7 +244,11 @@
           }
           
           document.addEventListener('shopify:section:load', function(event) {
-            var newRevealElements = event.target.querySelectorAll('.scroll-reveal');
+            var section = event.target;
+            if (section.closest('#MainContent')) {
+              scrollRevealObserver.observe(section);
+            }
+            var newRevealElements = section.querySelectorAll('.scroll-reveal');
             newRevealElements.forEach(function(el) {
               scrollRevealObserver.observe(el);
             });
