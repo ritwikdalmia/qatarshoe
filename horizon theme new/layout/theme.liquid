@@ -174,5 +174,53 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    <script>
+      // Scroll Reveal Animations
+      (function() {
+        if ('IntersectionObserver' in window) {
+          var observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50px 0px',
+            threshold: 0.1
+          };
+          
+          var scrollRevealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, observerOptions);
+
+          function initScrollReveal() {
+            var revealElements = document.querySelectorAll('.scroll-reveal');
+            revealElements.forEach(function(el) {
+              scrollRevealObserver.observe(el);
+            });
+          }
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initScrollReveal);
+          } else {
+            initScrollReveal();
+          }
+          
+          document.addEventListener('shopify:section:load', function(event) {
+            var newRevealElements = event.target.querySelectorAll('.scroll-reveal');
+            newRevealElements.forEach(function(el) {
+              scrollRevealObserver.observe(el);
+            });
+          });
+        } else {
+          // Fallback for browsers without IntersectionObserver
+          var revealElements = document.querySelectorAll('.scroll-reveal');
+          revealElements.forEach(function(el) {
+            el.classList.add('in-view');
+          });
+        }
+      })();
+    </script>
   </body>
 </html>
