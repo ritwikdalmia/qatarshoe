@@ -15,24 +15,173 @@
     {% if section.settings.section_height != "" %} {{ section.settings.section_height | prepend: "section--height-" }}{% endif %}
   "
 >
-  <div>
-    <div
-      class="
-        spacing-style
-        layout-panel-flex
-        layout-panel-flex--column
-        section-content-wrapper
-        mobile-column
-      "
-      style="
-        {% render 'layout-panel-style', settings: section.settings %}
-        {% render 'spacing-style', settings: section.settings %}
-      "
-    >
-      {% content_for 'blocks' %}
+  <div class="custom-404-wrapper">
+    <div class="custom-404-container">
+      <div class="custom-404-brand-ornament">
+        <span class="ornament-line"></span>
+        <span class="ornament-diamond"></span>
+        <span class="ornament-line"></span>
+      </div>
+      <h1 class="custom-404-number">404</h1>
+      <h2 class="custom-404-title">Page Not Found</h2>
+      <p class="custom-404-text">
+        The link you followed may be broken, or the page has been moved. Discover our exclusive collections instead.
+      </p>
+      <div class="custom-404-actions">
+        <a href="{{ routes.all_products_collection_url }}" class="custom-404-btn custom-404-btn--primary">
+          Continue Shopping
+        </a>
+        <a href="{{ routes.root_url }}" class="custom-404-btn custom-404-btn--secondary">
+          Return Home
+        </a>
+      </div>
     </div>
   </div>
+  
+  {% comment %} Maintain block compatibility for theme editor / app blocks {% endcomment %}
+  <div style="display: none;">
+    {% content_for 'blocks' %}
+  </div>
 </div>
+
+<style>
+  .custom-404-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 100px 24px;
+    background-color: var(--color-background, #ffffff);
+  }
+  .custom-404-container {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .custom-404-brand-ornament {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    opacity: 0.8;
+  }
+  .ornament-line {
+    width: 40px;
+    height: 1px;
+    background-color: var(--color-primary, #8c1638);
+  }
+  .ornament-diamond {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-primary, #8c1638);
+    transform: rotate(45deg);
+  }
+  .custom-404-number {
+    font-family: 'Canela Text', var(--font-body), Georgia, serif;
+    font-size: clamp(6rem, 14vw, 10rem);
+    font-weight: 300;
+    color: var(--color-primary, #8c1638);
+    line-height: 1.1;
+    margin: 0 0 5px 0;
+    letter-spacing: 0.05em;
+    animation: custom404Pulse 4s infinite ease-in-out;
+  }
+  .custom-404-title {
+    font-family: 'Canela Text', var(--font-body), Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 300;
+    color: var(--color-primary, #8c1638);
+    margin: 0 0 24px 0;
+    letter-spacing: 0.02em;
+  }
+  .custom-404-text {
+    font-family: var(--font-paragraph--family), var(--font-body), 'Canela Text', sans-serif;
+    font-size: clamp(14px, 2vw, 16px);
+    line-height: 1.6;
+    color: var(--color-foreground, #000000);
+    opacity: 0.8;
+    max-width: 460px;
+    margin: 0 0 40px 0;
+  }
+  .custom-404-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .custom-404-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 36px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: var(--radius-button, 50px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+    min-width: 200px;
+  }
+  .custom-404-btn--primary {
+    background-color: var(--color-primary, #8c1638);
+    color: var(--color-white, #ffffff);
+    border: 1px solid var(--color-primary, #8c1638);
+  }
+  .custom-404-btn--primary:hover {
+    background-color: transparent;
+    color: var(--color-primary, #8c1638);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(140, 22, 56, 0.15);
+  }
+  .custom-404-btn--secondary {
+    background-color: transparent;
+    color: var(--color-primary, #8c1638);
+    border: 1px solid var(--color-primary, #8c1638);
+  }
+  .custom-404-btn--secondary:hover {
+    background-color: var(--color-primary, #8c1638);
+    color: var(--color-white, #ffffff);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(140, 22, 56, 0.15);
+  }
+  @keyframes custom404Pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+  }
+
+  /* Global style overrides for the 404 page's featured product list to match theme typography and colors */
+  body[data-template="404"] .ui-test-product-list h1,
+  body[data-template="404"] .ui-test-product-list h2,
+  body[data-template="404"] .ui-test-product-list h3,
+  body[data-template="404"] .ui-test-product-list h4,
+  body[data-template="404"] .ui-test-product-list h5,
+  body[data-template="404"] .ui-test-product-list h6,
+  body[data-template="404"] .ui-test-product-list p,
+  body[data-template="404"] .ui-test-product-list a,
+  body[data-template="404"] .ui-test-product-list span {
+    font-family: 'Canela Text', var(--font-body), Georgia, serif !important;
+  }
+  body[data-template="404"] .ui-test-product-list h1,
+  body[data-template="404"] .ui-test-product-list h2,
+  body[data-template="404"] .ui-test-product-list h3,
+  body[data-template="404"] .ui-test-product-list h4,
+  body[data-template="404"] .ui-test-product-list h5,
+  body[data-template="404"] .ui-test-product-list h6,
+  body[data-template="404"] .ui-test-product-list .price__container,
+  body[data-template="404"] .ui-test-product-list .price-item {
+    color: var(--color-primary, #8c1638) !important;
+  }
+</style>
+
 
 {% schema %}
 {

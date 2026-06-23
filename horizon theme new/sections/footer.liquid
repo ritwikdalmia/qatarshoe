@@ -389,6 +389,8 @@
         align-items: center;
         text-align: center;
         gap: 20px;
+        width: 100% !important;
+        min-width: 0 !important;
     }
 
     .footer-brand-title {
@@ -403,11 +405,15 @@
     .site-footer-links-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 30px 16px;
+        width: 100% !important;
+        min-width: 0 !important;
     }
 
     .footer-links-col {
         align-items: center;
         text-align: center;
+        width: 100% !important;
+        min-width: 0 !important;
     }
 
     .footer-links-col h4 {
@@ -460,18 +466,33 @@
         gap: 24px;
     }
 
+    .footer-subscribe-box {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
     .footer-subscribe-box form {
         flex-direction: column !important;
         align-items: stretch !important;
         gap: 10px !important;
+        width: 100% !important;
+        min-width: 0 !important;
     }
 
     .footer-subscribe-input-wrap {
         width: 100% !important;
+        min-width: 0 !important;
     }
 
     .footer-subscribe-submit {
         width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .footer-social-icons-row {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
     }
 }
 </style>
@@ -549,6 +570,7 @@
                             value="{{ form.email }}"
                             required
                             aria-label="Email Address"
+                            style="width: 100% !important; min-width: 0 !important;"
                         />
                     </div>
                     <button type="submit" class="footer-subscribe-submit">Subscribe</button>
