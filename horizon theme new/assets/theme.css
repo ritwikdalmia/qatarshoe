@@ -1057,8 +1057,8 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   background: transparent;
-  column-gap: var(--grid-horizontal-space);
-  row-gap: var(--grid-vertical-space);
+  column-gap: var(--grid-horizontal-space, 24px);
+  row-gap: var(--grid-vertical-space, 24px);
   border: none;
   margin-top: 24px;
 }
