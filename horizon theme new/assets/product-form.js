@@ -532,6 +532,11 @@ class ProductFormComponent extends Component {
                 this.#updateCartQuantity(ajaxCart);
               }
 
+              const cartDrawer = document.querySelector('theme-drawer#cart-drawer');
+              if (!cartDrawer && window.location.pathname !== (Theme.routes.cart_url || '/cart')) {
+                window.location.href = Theme.routes.cart_url || '/cart';
+              }
+
               return ajaxCart;
             })
             .catch(deferredEventPromise.reject);
@@ -680,6 +685,11 @@ class ProductFormComponent extends Component {
           },
         });
         this.#updateCartQuantity(cart);
+
+        const cartDrawer = document.querySelector('theme-drawer#cart-drawer');
+        if (!cartDrawer && window.location.pathname !== (Theme.routes.cart_url || '/cart')) {
+          window.location.href = Theme.routes.cart_url || '/cart';
+        }
       })
       .catch((error) => {
         console.error(error);

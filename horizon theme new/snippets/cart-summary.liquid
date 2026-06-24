@@ -76,6 +76,7 @@
                   id="cart-note"
                   class="cart-note__instructions"
                   name="note"
+                  placeholder="{% if request.locale.iso_code == 'ar' %}إضافة ملاحظة للطلب...{% else %}Add order note...{% endif %}"
                   data-skip-node-update
                 >{{ cart.note }}</textarea>
               </div>
@@ -441,10 +442,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    color: var(--color-primary, #8c1638);
   }
 
   .cart-note__summary:hover {
-    color: rgb(var(--color-rgb, var(--color-foreground-rgb)) / var(--opacity-subdued-text));
+    opacity: 0.85;
   }
 
   .cart-note__label {
@@ -453,20 +455,26 @@
     gap: var(--gap-2xs);
     font-size: var(--font-size--2xs);
     font-weight: 500;
+    color: var(--color-primary, #8c1638);
   }
 
   .cart-note__instructions {
-    color: var(--color-input-text);
-    background-color: var(--color-input-background);
-    border-width: var(--style-border-width-inputs);
-    border-color: var(--color-input-border);
-    transition: box-shadow var(--animation-speed) ease;
-    box-shadow: var(--input-box-shadow);
+    color: var(--color-text, #1a0a00);
+    background-color: #ffffff;
+    border: 1px solid var(--color-primary, #8c1638);
+    border-radius: 14px;
+    transition: border-color var(--animation-speed) ease, box-shadow var(--animation-speed) ease;
     min-height: 5.5rem;
     min-width: 100%;
     max-width: 100%;
     font-size: var(--font-size--sm);
-    padding: max(4px, calc(var(--style-border-radius-inputs) * (1 - cos(45deg))));
+    padding: 12px 16px;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  .cart-note__instructions:focus {
+    box-shadow: 0 0 0 2px rgba(140, 22, 56, 0.2);
   }
 
   .cart-totals__icon {
