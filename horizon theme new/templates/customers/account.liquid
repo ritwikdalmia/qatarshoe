@@ -273,7 +273,7 @@
   <div class="account-tab-content" id="tab-addresses">
     <div class="section-title-bar">
       <h2>Saved Addresses</h2>
-      <button class="empty-state-btn" style="height: 36px; border-radius: 4px;" onclick="openAddressModal('new-address-modal')">
+      <button class="empty-state-btn" style="height: 36px; border-radius: var(--style-border-radius-buttons-primary);" onclick="openAddressModal('new-address-modal')">
         + Add Address
       </button>
     </div>
@@ -387,7 +387,7 @@
 
                 <div class="address-form-actions">
                   <button type="submit" class="auth-submit-btn">Update Address</button>
-                  <button type="button" class="sign-out-btn" style="height: 48px; border-radius: 24px;" onclick="closeAddressModal('edit-address-modal-{{ address.id }}')">Cancel</button>
+                  <button type="button" class="sign-out-btn" style="height: 48px; border-radius: var(--style-border-radius-buttons-secondary);" onclick="closeAddressModal('edit-address-modal-{{ address.id }}')">Cancel</button>
                 </div>
               {%- endform -%}
             </div>
@@ -462,7 +462,7 @@
 
           <div class="address-form-actions">
             <button type="submit" class="auth-submit-btn">Add Address</button>
-            <button type="button" class="sign-out-btn" style="height: 48px; border-radius: 24px;" onclick="closeAddressModal('new-address-modal')">Cancel</button>
+            <button type="button" class="sign-out-btn" style="height: 48px; border-radius: var(--style-border-radius-buttons-secondary);" onclick="closeAddressModal('new-address-modal')">Cancel</button>
           </div>
         {%- endform -%}
       </div>
