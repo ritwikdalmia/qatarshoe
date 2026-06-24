@@ -155,9 +155,9 @@
                     {% liquid
                       assign ratio = 1
                       assign border_opacity = settings.cart_thumbnail_border_opacity | divided_by: 100.0
-                      assign border_override = '--border-width: [cart_thumbnail_border_width]px; --border-style: [cart_thumbnail_border_style]; --border-color: rgb(var(--color-border-rgb) / [cart_thumbnail_border_opacity]); --border-radius: [cart_thumbnail_border_radius]px;' | replace: '[cart_thumbnail_border_width]', settings.cart_thumbnail_border_width | replace: '[cart_thumbnail_border_style]', settings.cart_thumbnail_border | replace: '[cart_thumbnail_border_opacity]', border_opacity | replace: '[cart_thumbnail_border_radius]', settings.cart_thumbnail_border_radius
+                      assign border_override = '--border-width: [cart_thumbnail_border_width]px; --border-style: [cart_thumbnail_border_style]; --border-color: rgb(var(--color-border-rgb) / [cart_thumbnail_border_opacity]); --border-radius: [cart_thumbnail_border_radius]px;' | replace: '[cart_thumbnail_border_width]', settings.cart_thumbnail_border_width | replace: '[cart_thumbnail_border_style]', settings.cart_thumbnail_border | replace: '[cart_thumbnail_border_opacity]', border_opacity | replace: '[cart_thumbnail_border_radius]', settings.radius_card
 
-                      if settings.cart_thumbnail_border_radius > 0
+                      if settings.radius_card > 0
                         assign border_override = border_override | append: ' overflow: hidden;'
                       endif
                       if block_settings.image_ratio == 'portrait'
@@ -174,6 +174,23 @@
                       {%- liquid
                         echo item.image | image_url: width: 250 | image_tag: class: 'cart-items__media-image border-style', style: border_override
                       -%}
+                    </a>
+                  {%- else -%}
+                    {% liquid
+                      assign ratio = 1
+                      assign border_opacity = settings.cart_thumbnail_border_opacity | divided_by: 100.0
+                      assign border_override = '--border-width: [cart_thumbnail_border_width]px; --border-style: [cart_thumbnail_border_style]; --border-color: rgb(var(--color-border-rgb) / [cart_thumbnail_border_opacity]); --border-radius: [cart_thumbnail_border_radius]px;' | replace: '[cart_thumbnail_border_width]', settings.cart_thumbnail_border_width | replace: '[cart_thumbnail_border_style]', settings.cart_thumbnail_border | replace: '[cart_thumbnail_border_opacity]', border_opacity | replace: '[cart_thumbnail_border_radius]', settings.radius_card
+
+                      if settings.radius_card > 0
+                        assign border_override = border_override | append: ' overflow: hidden;'
+                      endif
+                    %}
+                    <a
+                      href="{{ item.url }}"
+                      class="cart-items__media-container"
+                      style="--ratio:{{ ratio }}; display: flex; align-items: center; justify-content: center; background: var(--color-card-image-bg, #f4f4f4); border-radius: {{ settings.radius_card }}px; {{ border_override }}"
+                    >
+                      {{ 'image' | placeholder_svg_tag: 'cart-items__media-image border-style' }}
                     </a>
                   {%- endif %}
                 </td>
@@ -291,32 +308,29 @@
                     {%- endif -%}
                   </div>
 
-                  <div class="cart-items__unit-price-wrapper">
+                  <div class="cart-items__unit-price-wrapper cart-secondary-typography">
                     <div>
                       {% if item.original_price != item.final_price %}
-                        <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
-                        <span>{{ item.final_price | money }}</span>
                         <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
-                        <s class="compare-at-price">
+                        <s class="compare-at-price" style="color: var(--color-muted, #757575); text-decoration: line-through; text-decoration-color: var(--color-primary, #8c1638); margin-right: 8px;">
                           {% if item.variant.compare_at_price > item.original_price %}
                             {{ item.variant.compare_at_price | money }}
                           {% else %}
                             {{ item.original_price | money }}
                           {% endif %}
                         </s>
+                        <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
+                        <span class="price-sale-active" style="color: var(--color-primary, #8c1638); font-weight: 600;">{{ item.final_price | money }}</span>
                       {% else %}
                         {% if item.variant.compare_at_price > item.original_price %}
+                          <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
+                          <s class="compare-at-price" style="color: var(--color-muted, #757575); text-decoration: line-through; text-decoration-color: var(--color-primary, #8c1638); margin-right: 8px;">{{ item.variant.compare_at_price | money }}</s>
                           <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
                         {% else %}
                           <span class="visually-hidden">{{ 'content.price' | t }}</span>
                         {% endif %}
 
-                        <span>{{ item.original_price | money }}</span>
-
-                        {% if item.variant.compare_at_price > item.original_price %}
-                          <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
-                          <s class="compare-at-price">{{ item.variant.compare_at_price | money }}</s>
-                        {% endif %}
+                        <span class="price-sale-active" style="color: var(--color-primary, #8c1638); font-weight: 600;">{{ item.original_price | money }}</span>
                       {% endif %}
                     </div>
                   </div>
@@ -349,6 +363,7 @@
                     <button
                       class="button cart-items__remove"
                       type="button"
+                      style="color: var(--color-primary, #8c1638);"
                       aria-label="{{ 'accessibility.remove_item' | t: title: item.title | escape }}"
                       on:click="/onLineItemRemove/{{ item.index | plus: 1 }}"
                       {% assign can_remove = item.instructions.can_remove | default: true, allow_false: true %}
@@ -466,6 +481,11 @@
   }
 
   .cart-items__table-row {
+    position: relative;
+    border-bottom: 1px solid var(--color-primary, #8c1638) !important;
+  }
+
+  .cart-items__table-row {
     --cart-item-price-width: 6rem;
 
     display: grid;
@@ -476,7 +496,7 @@
       'media error error';
     column-gap: var(--gap-md);
     align-items: start;
-    padding-bottom: var(--cart-items-gap);
+    padding-bottom: calc(var(--cart-items-gap) + 1.5rem);
     margin-bottom: var(--margin-lg);
   }
 
@@ -584,11 +604,11 @@
   }
 
   .cart-items__table-row:last-child {
-    padding-bottom: 0;
+    /* Kept original padding-bottom */
   }
 
   .cart-items--dividers .cart-items__table-row {
-    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+    border-bottom: 1px solid var(--color-primary, #8c1638);
     margin-bottom: var(--cart-items-gap);
   }
 
@@ -599,7 +619,6 @@
 
   .cart-items--dividers .cart-items__table-row:last-of-type {
     border-block-end: none;
-    padding-block-end: 0;
     margin-bottom: 0;
   }
 
@@ -617,7 +636,8 @@
   }
 
   .cart-items__title-row {
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--gap-xs);
     max-width: 100%;
@@ -625,8 +645,10 @@
   }
 
   .cart-items__title {
-    font-size: var(--font-size--md);
-    color: var(--color-foreground);
+    font-family: var(--font-serif) !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: var(--color-primary, #2d1f1f) !important;
     text-transform: var(--product-title-case);
     display: block;
     margin-block-start: 0;
@@ -671,9 +693,11 @@
   }
 
   .cart-items__quantity .quantity-selector {
-    display: inline-flex;
+    display: inline-flex !important;
     font-size: var(--font-size--sm);
-    height: auto;
+    height: 40px !important;
+    border-radius: 4px !important;
+    width: 136px !important;
   }
 
   .cart-items__remove {
@@ -943,20 +967,6 @@
   }
 
   @media screen and (min-width: 750px) {
-    .cart-items .quantity-selector {
-      --quantity-selector-width: 105px;
-      height: var(--button-size-md);
-      width: var(--quantity-selector-width);
-    }
-
-    .cart-items .quantity-selector button {
-      width: var(--button-size-md);
-      height: var(--button-size-md);
-    }
-
-    .cart-items .quantity-selector input {
-      max-width: calc(var(--quantity-selector-width) - var(--button-size-md) * 2);
-    }
   }
 
   @media screen and (prefers-reduced-motion: no-preference) {
@@ -1007,5 +1017,20 @@
       filter: none;
       opacity: 1;
     }
+  }
+
+  .price-sale-active {
+    color: var(--color-accent, var(--color-primary, #8c1638)) !important;
+    font-weight: 600;
+  }
+  .compare-at-price {
+    color: var(--color-muted, #888) !important;
+    text-decoration: line-through !important;
+    font-size: 0.9em;
+    margin-left: 8px;
+  }
+  .cart-items__price s.compare-at-price {
+    display: block;
+    margin-left: 0;
   }
 {% endstylesheet %}

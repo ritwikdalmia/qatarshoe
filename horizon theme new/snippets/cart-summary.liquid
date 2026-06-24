@@ -134,11 +134,12 @@
                     data-section-id="{{ section_id }}"
                   {% endif %}
                 >
-                  <div class="cart-discount__content">
+                  <div class="cart-discount__content" style="height: auto;">
                     <form
                       on:submit="/applyDiscount"
                       onsubmit="return false;"
                       class="cart-discount__form"
+                      style="display: flex; gap: 8px; align-items: center; width: 100%; padding-block: 8px;"
                     >
                       <label
                         for="cart-discount"
@@ -146,19 +147,27 @@
                       >
                         {{- 'accessibility.discount' | t -}}
                       </label>
-                      <input
-                        id="cart-discount"
-                        class="cart-discount__input"
-                        type="text"
-                        name="discount"
-                        size="8"
-                        placeholder="{{ 'content.discount_code' | t }}"
-                        required
-                        data-skip-node-update
-                      >
+                      <div style="position: relative; flex: 1; display: flex; align-items: center;">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" style="position: absolute; left: 12px; color: var(--color-muted, #888); opacity: 0.7; pointer-events: none;">
+                          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                          <line x1="7" y1="7" x2="7.01" y2="7"/>
+                        </svg>
+                        <input
+                          id="cart-discount"
+                          class="cart-discount__input"
+                          type="text"
+                          name="discount"
+                          size="8"
+                          placeholder="{% if request.locale.iso_code == 'ar' %}كود الخصم{% else %}Discount code{% endif %}"
+                          required
+                          data-skip-node-update
+                          style="width: 100%; height: 40px; padding: 0 12px 0 38px; border-radius: var(--style-border-radius-inputs, 4px); border: 1px solid var(--color-border, #e0dcd3); font-size: 12px; font-weight: 500; outline: none; background: #ffffff; color: var(--color-primary, #2d1f1f); box-sizing: border-box;"
+                        >
+                      </div>
                       <button
                         type="submit"
-                        class="button cart-discount__button"
+                        class="discount-apply-btn cart-discount__button"
+                        style="height: 40px; padding: 0 16px; border-radius: var(--style-border-radius-buttons-secondary, 24px); border: 1.5px solid var(--color-primary, #8c1638); background: transparent; color: var(--color-primary, #8c1638); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center;"
                       >
                         {{ 'actions.apply' | t }}
                       </button>
@@ -287,18 +296,18 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    border-block: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+    border-block: 1px solid var(--color-primary, #8c1638);
     padding-block: 0;
     margin-block-start: var(--margin-3xs);
   }
 
   .cart-actions__divider {
-    border-block-start: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+    border-block-start: 1px solid var(--color-primary, #8c1638);
   }
 
   .cart-totals:not(:has(.cart-actions)) {
     margin-block-start: var(--margin-3xs);
-    border-block-start: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+    border-block-start: 1px solid var(--color-primary, #8c1638);
     padding-block-start: var(--margin-xl);
   }
 
@@ -611,5 +620,10 @@
     .cart-summary--extend {
       height: 100%;
     }
+  }
+
+  .discount-apply-btn:hover {
+    background-color: var(--color-primary, #8c1638) !important;
+    color: var(--color-white, #ffffff) !important;
   }
 {% endstylesheet %}

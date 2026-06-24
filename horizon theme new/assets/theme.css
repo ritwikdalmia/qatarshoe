@@ -1782,7 +1782,7 @@ body.template-index .page-content {
   font-size: 36px;
   line-height: 1.2;
   font-weight: 400;
-  color: var(--color-primary);
+  color: var(--color-text, #1a0a00);
   margin-bottom: 16px;
 }
 @media (max-width: 768px) {
@@ -1988,7 +1988,7 @@ body.template-index .page-content {
 .quantity-controls {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-primary, #8c1638);
   border-radius: 4px;
   width: fit-content;
   background: #fff;
@@ -2013,15 +2013,18 @@ body.template-index .page-content {
 .quantity-controls input {
   width: 48px;
   height: 40px;
-  border: none;
-  border-left: 1px solid var(--color-border);
-  border-right: 1px solid var(--color-border);
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: 1px solid var(--color-primary, #8c1638) !important;
+  border-right: 1px solid var(--color-primary, #8c1638) !important;
+  border-radius: 0 !important;
   text-align: center;
   font-family: var(--font-body);
   font-size: var(--font-size-body);
   font-weight: 600;
   color: var(--color-primary);
   outline: none;
+  background-color: transparent !important;
 }
 
 
@@ -2568,7 +2571,7 @@ body.template-index .page-content {
     font-size: var(--font-size-small) !important;
   }
 
-  /* Reduce Wishlist Button Size on mobile product cards */
+  /* Reduce Wishlist and Quick-Add Button Sizes and Align on mobile product cards */
   .product-card .product-wishlist-btn {
     width: 28px !important;
     height: 28px !important;
@@ -2576,7 +2579,14 @@ body.template-index .page-content {
     right: 12px !important;
   }
 
-  .product-card .product-wishlist-btn svg {
+  .product-card .product-quick-add-btn {
+    width: 28px !important;
+    height: 28px !important;
+    top: 48px !important;
+    right: 12px !important;
+  }
+
+  .product-card :is(.product-wishlist-btn, .product-quick-add-btn) svg {
     width: 13px !important;
     height: 13px !important;
   }
@@ -3101,32 +3111,117 @@ body.template-index .page-content {
 .product-details .quantity-selector,
 .quick-add-modal .quantity-selector,
 .quantity-selector {
-  border: 1.5px solid var(--color-primary, #8c1638) !important;
-  border-radius: 50px !important;
+  border: 1px solid var(--color-primary, #8c1638) !important;
+  border-radius: 4px !important;
   background: #fff !important;
   overflow: hidden;
-  height: 44px !important;
-  display: flex !important;
+  height: 40px !important;
+  display: inline-flex !important;
   align-items: center !important;
   box-sizing: border-box !important;
+  width: 136px !important;
 }
 
+.quantity-selector input,
 .quantity-selector input[type='number'] {
-  border-left: 1.5px solid var(--color-primary, #8c1638) !important;
-  border-right: 1.5px solid var(--color-primary, #8c1638) !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: 1px solid var(--color-primary, #8c1638) !important;
+  border-right: 1px solid var(--color-primary, #8c1638) !important;
   border-radius: 0 !important;
   height: 100% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   box-sizing: border-box !important;
-  padding: 0 10px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  width: 48px !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+  color: var(--color-primary, #8c1638) !important;
+  outline: none !important;
 }
 
 .quantity-selector :is(.quantity-minus, .quantity-plus) {
   color: var(--color-primary, #8c1638) !important;
+  background: transparent !important;
   height: 100% !important;
+  width: 44px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  flex-shrink: 0 !important;
+  border: none !important;
+  cursor: pointer !important;
 }
+
+/* Premium Cart Totals and Discount Accordion Colors */
+.cart-totals__total-label,
+.cart-totals__total-value,
+.cart-discount__summary,
+.cart-discount__label,
+.cart-discount__summary * {
+  color: var(--color-primary, #8c1638) !important;
+}
+
+/* Mobile & Tablet Optimizations for Custom Pages */
+@media (max-width: 1023px) {
+  /* Fix page headers/h1 getting cut or hidden behind the sticky header (since header is fixed on mobile) */
+  .about-main-wrapper,
+  .contact-page-wrap,
+  .cc-page,
+  .faq-main,
+  .payments-main,
+  .ps-main,
+  .pp-main,
+  .rr-main,
+  .sd-main,
+  .sitemap-page {
+    padding-top: 76px !important; /* 60px mobile header height + 16px padding */
+  }
+
+  /* Fix vertical space on contact form (flex-basis height issue) */
+  .contact-form-intro {
+    flex: unset !important;
+  }
+}
+
+
+@media (max-width: 767px) {
+  /* Fix "What We Offer" collections horizontal scroller */
+  .about-offer-cards {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 16px !important;
+    scrollbar-width: none !important;
+  }
+  .about-offer-cards::-webkit-scrollbar {
+    display: none !important;
+  }
+  .about-offer-card {
+    flex: 0 0 150px !important;
+    gap: 12px !important;
+  }
+  .about-offer-card img,
+  .about-offer-card-placeholder {
+    width: 150px !important;
+    height: 150px !important;
+    max-width: 150px !important;
+    object-fit: cover !important;
+  }
+
+  /* Fix "House Of Brands" mobile grid card overflow */
+  .about-brands-section .brand-item {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1/1 !important;
+    max-width: none !important;
+    flex: unset !important;
+  }
+}
+
+

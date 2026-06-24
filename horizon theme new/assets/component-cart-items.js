@@ -8,6 +8,7 @@ import {
   startViewTransition,
 } from '@theme/utilities';
 import { morphSection, sectionRenderer } from '@theme/section-renderer';
+import { morph, MORPH_OPTIONS } from '@theme/morph';
 import { ThemeEvents, QuantitySelectorUpdateEvent } from '@theme/events';
 import { cartPerformance } from '@theme/performance';
 import {
@@ -279,11 +280,38 @@ export class CartItemsComponent extends createViewEventElement(Component) {
           },
         });
 
-        morphSection(this.sectionId, parsedResponseText.sections[this.sectionId], {
-          mode: this.isDrawer ? 'hydration' : 'full',
-        });
-
-        this.#updateCartQuantitySelectorButtonStates();
+        const sectionHtml = parsedResponseText.sections?.[this.sectionId];
+        if (sectionHtml) {
+          morphSection(this.sectionId, sectionHtml, {
+            mode: this.isDrawer ? 'hydration' : 'full',
+          });
+          this.#updateCartQuantitySelectorButtonStates();
+        } else {
+          fetch(window.location.href)
+            .then((res) => res.text())
+            .then((html) => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, 'text/html');
+              const newSection = doc.getElementById('shopify-section-' + this.sectionId);
+              if (newSection) {
+                const existing = document.getElementById('shopify-section-' + this.sectionId);
+                if (existing) {
+                  morph(existing, newSection, {
+                    ...MORPH_OPTIONS,
+                    hydrationMode: false,
+                  });
+                  this.#updateCartQuantitySelectorButtonStates();
+                } else {
+                  window.location.reload();
+                }
+              } else {
+                window.location.reload();
+              }
+            })
+            .catch(() => {
+              window.location.reload();
+            });
+        }
       })
       .catch((error) => {
         console.error(error);

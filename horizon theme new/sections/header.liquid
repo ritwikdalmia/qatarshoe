@@ -1997,6 +1997,18 @@
 
     updateWishlistBadge();
 
+    document.addEventListener('cart:lines:update', function(e) {
+      if (e.detail && e.detail.cart && e.detail.cart.item_count !== undefined) {
+        updateCartBadge(e.detail.cart.item_count);
+      } else if (e.detail && e.detail.itemCount !== undefined) {
+        updateCartBadge(e.detail.itemCount);
+      } else {
+        fetch('/cart.js').then(function(r) { return r.json(); }).then(function(d) {
+          updateCartBadge(d.item_count);
+        });
+      }
+    });
+
     
     var drawer = document.getElementById('side-drawer');
     var overlay = document.getElementById('side-drawer-overlay');
@@ -2006,14 +2018,16 @@
     var closeBtn = document.getElementById('side-drawer-close-btn');
 
     function getDrawerImageHtml(imgUrl, altText) {
+      var borderRadius = '{{ settings.radius_card | default: 0 }}px';
+      var borderOverride = `border: {% if settings.cart_thumbnail_border == 'solid' %}{{ settings.cart_thumbnail_border_width | default: 1 }}px solid rgba(0, 0, 0, {{ settings.cart_thumbnail_border_opacity | default: 50 | divided_by: 100.0 }}){% else %}none{% endif %};`;
       if (!imgUrl || imgUrl === '' || imgUrl.indexOf('no-image') > -1 || imgUrl.indexOf('placeholder') > -1 || imgUrl === 'null' || imgUrl === 'undefined') {
         return `
-          <div class="drawer-item-img placeholder" style="background:#f9f9f9; display:flex; align-items:center; justify-content:center; width:80px; height:80px; border-radius:4px; border:1.5px solid var(--color-primary); flex-shrink:0;">
+          <div class="drawer-item-img placeholder" style="background:transparent; display:flex; align-items:center; justify-content:center; width:80px; height:80px; border-radius:${borderRadius}; ${borderOverride} flex-shrink:0; box-sizing: border-box;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1" style="opacity:0.4;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           </div>
         `;
       }
-      return `<img src="${imgUrl}" alt="${altText || ''}" class="drawer-item-img" onerror="this.onerror=null; this.outerHTML='<div class=\\'drawer-item-img placeholder\\' style=\\'background:#f9f9f9; display:flex; align-items:center; justify-content:center; width:80px; height:80px; border-radius:4px; border:1.5px solid var(--color-primary); flex-shrink:0;\\'><svg width=\\'28\\' height=\\'28\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'var(--color-primary)\\' stroke-width=\\'1\\' style=\\'opacity:0.4;\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><polyline points=\\'21 15 16 10 5 21\\'/></svg></div>';">`;
+      return `<img src="${imgUrl}" alt="${altText || ''}" class="drawer-item-img" onerror="this.onerror=null; this.outerHTML='<div class=\\'drawer-item-img placeholder\\' style=\\'background:transparent; display:flex; align-items:center; justify-content:center; width:80px; height:80px; border-radius:${borderRadius}; ${borderOverride} flex-shrink:0; box-sizing: border-box;\\'><svg width=\\'28\\' height=\\'28\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'var(--color-primary)\\' stroke-width=\\'1\\' style=\\'opacity:0.4;\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><polyline points=\\'21 15 16 10 5 21\\'/></svg></div>';">`;
     }
 
     function formatStorePrice(cents, currency) {
@@ -2117,6 +2131,9 @@
 
         const showVendor = document.getElementById('side-drawer')?.getAttribute('data-show-vendor') === 'true';
         const showNote = document.getElementById('side-drawer')?.getAttribute('data-show-note') === 'true';
+        const showDiscount = document.getElementById('side-drawer')?.getAttribute('data-show-discount') === 'true';
+        const showInstallments = document.getElementById('side-drawer')?.getAttribute('data-show-installments') === 'true';
+        const showCheckoutButtons = document.getElementById('side-drawer')?.getAttribute('data-show-checkout-buttons') === 'true';
 
         fetch('/cart.js')
           .then(function(r) { return r.json(); })
@@ -2136,6 +2153,9 @@
                       <path d="M16 10a4 4 0 0 1-8 0"/>
                     </svg>
                     <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your cart is empty.</span>
+                    <a href="{{ settings.empty_cart_button_link | default: '/collections/all' }}" class="checkout-btn" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; width:auto; padding:0 24px; margin-top:8px;">
+                      {% if request.locale.iso_code == 'ar' %}ابدأ التسوق{% else %}Start Shopping{% endif %}
+                    </a>
                   </div>
                 `;
               }
@@ -2143,6 +2163,22 @@
             } else {
               var html = '';
               cart.items.forEach(function(item) {
+                var comparePriceHtml = '';
+                var currentPriceHtml = '';
+                var comparePrice = item.compare_at_price || 0;
+                var finalPrice = item.final_price || item.price;
+                var originalPrice = item.original_price || item.price;
+                
+                if (comparePrice > finalPrice) {
+                  comparePriceHtml = `<s class="compare-at-price" style="color: var(--color-muted, #888); text-decoration: line-through; font-size: 11px; margin-left: 6px;">${formatStorePrice(comparePrice, curCurrency)}</s>`;
+                  currentPriceHtml = `<span class="price-sale-active" style="color: var(--color-accent, var(--color-primary, #8c1638)); font-weight: 600;">${formatStorePrice(finalPrice, curCurrency)}</span>`;
+                } else if (originalPrice > finalPrice) {
+                  comparePriceHtml = `<s class="compare-at-price" style="color: var(--color-muted, #888); text-decoration: line-through; font-size: 11px; margin-left: 6px;">${formatStorePrice(originalPrice, curCurrency)}</s>`;
+                  currentPriceHtml = `<span class="price-sale-active" style="color: var(--color-accent, var(--color-primary, #8c1638)); font-weight: 600;">${formatStorePrice(finalPrice, curCurrency)}</span>`;
+                } else {
+                  currentPriceHtml = `<span>${formatStorePrice(finalPrice, curCurrency)}</span>`;
+                }
+
                 html += `
                   <div class="drawer-item">
                     ${getDrawerImageHtml(item.image, item.product_title)}
@@ -2151,7 +2187,7 @@
                         ${showVendor && item.vendor ? `<div style="font-size: 10px; text-transform: uppercase; color: #888; letter-spacing: 0.05em; margin-bottom: 2px;">${item.vendor}</div>` : ''}
                         <div class="drawer-item-title">${item.product_title}</div>
                         ${item.variant_title ? `<div style="font-size: 11px; color: #888;">${item.variant_title}</div>` : ''}
-                        <div class="drawer-item-price">${formatStorePrice(item.price, curCurrency)}</div>
+                        <div class="drawer-item-price">${currentPriceHtml}${comparePriceHtml}</div>
                       </div>
                       <div class="drawer-item-actions">
                         <div class="qty-select">
@@ -2170,6 +2206,20 @@
               window.proceedToCheckout = function(e) {
                 e.preventDefault();
                 const noteEl = document.getElementById('drawer-cart-note');
+                const discountEl = document.getElementById('drawer-cart-discount');
+                
+                let checkoutUrl = '/checkout';
+                const params = [];
+                
+                if (discountEl && discountEl.value.trim() !== '') {
+                  params.push('discount=' + encodeURIComponent(discountEl.value.trim()));
+                  window.cartDiscountCode = discountEl.value.trim();
+                }
+                
+                if (params.length > 0) {
+                  checkoutUrl += '?' + params.join('&');
+                }
+
                 if (noteEl) {
                   const noteVal = noteEl.value;
                   fetch('/cart/update.js', {
@@ -2177,27 +2227,94 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ note: noteVal })
                   }).then(function() {
-                    window.location.href = '/checkout';
+                    window.location.href = checkoutUrl;
                   }).catch(function() {
-                    window.location.href = '/checkout';
+                    window.location.href = checkoutUrl;
                   });
                 } else {
-                  window.location.href = '/checkout';
+                  window.location.href = checkoutUrl;
                 }
               };
+
+              window.applyDrawerDiscount = function(e) {
+                if (e) e.preventDefault();
+                var input = document.getElementById('drawer-cart-discount');
+                var status = document.getElementById('drawer-discount-status');
+                if (!input || !status) return;
+                
+                var val = input.value.trim();
+                if (val === '') {
+                  status.style.display = 'flex';
+                  status.style.color = '#d93b3d';
+                  status.innerHTML = '{% if request.locale.iso_code == "ar" %}الرجاء إدخال كود الخصم.{% else %}Please enter a discount code.{% endif %}';
+                  return;
+                }
+                
+                window.cartDiscountCode = val;
+                status.style.display = 'flex';
+                status.style.color = '#28a745';
+                status.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg> {% if request.locale.iso_code == "ar" %}تم تطبيق الكود "${val}" عند الدفع.{% else %}Code "${val}" will be applied at checkout.{% endif %}`;
+              };
+
+              var installmentsHtml = '';
+              if (showInstallments && cart.total_price > 0) {
+                var quarterPrice = formatStorePrice(cart.total_price / 4, curCurrency);
+                var providerText = 'Shop Pay / Tabby';
+                if (curCurrency === 'QAR' || curCurrency === 'AED' || curCurrency === 'SAR') {
+                  providerText = 'Tabby or Tamara';
+                }
+                installmentsHtml = `
+                  <div class="drawer-installments-msg" style="font-size: 11px; color: var(--color-primary, #2d1f1f); opacity:0.8; margin-top: 4px; margin-bottom: 12px; text-align: center; font-weight: 500;">
+                    or 4 interest-free payments of <strong>${quarterPrice}</strong> with ${providerText}
+                  </div>
+                `;
+              }
+
+              var acceleratedButtonsHtml = '';
+              if (showCheckoutButtons) {
+                const accContainer = document.getElementById('drawer-accelerated-checkout-buttons');
+                if (accContainer && accContainer.innerHTML.trim() !== '') {
+                  acceleratedButtonsHtml = accContainer.innerHTML;
+                }
+              }
 
               footerEl.innerHTML = `
                 ${showNote ? `
                   <div class="drawer-note-wrap" style="padding: 12px 0;">
-                    <textarea id="drawer-cart-note" placeholder="Add order note..." style="width: 100%; min-height: 50px; padding: 8px; border-radius: var(--radius-card); border: 1px solid var(--color-border); font-size: 11px; resize: vertical; outline: none;">${cart.note || ''}</textarea>
+                    <textarea id="drawer-cart-note" onchange="fetch('/cart/update.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ note: this.value }) })" placeholder="Add order note..." style="width: 100%; min-height: 50px; padding: 8px; border-radius: var(--radius-card); border: 1px solid var(--color-border); font-size: 11px; resize: vertical; outline: none;">${cart.note || ''}</textarea>
                   </div>
                 ` : ''}
-                <div class="total-row">
+                ${showDiscount ? `
+                  <div class="drawer-discount-wrap" style="padding: 0 0 16px 0;">
+                    <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
+                      <div style="position: relative; flex: 1; display: flex; align-items: center;">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" style="position: absolute; left: 12px; color: var(--color-muted, #888); opacity: 0.7; pointer-events: none;">
+                          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                          <line x1="7" y1="7" x2="7.01" y2="7"/>
+                        </svg>
+                        <input type="text" id="drawer-cart-discount" placeholder="{% if request.locale.iso_code == 'ar' %}كود الخصم{% else %}Discount code{% endif %}" style="width: 100%; height: 40px; padding: 0 12px 0 38px; border-radius: var(--style-border-radius-inputs, 4px); border: 1px solid var(--color-border, #e0dcd3); font-size: 12px; font-weight: 500; outline: none; background: #ffffff; color: var(--color-primary, #2d1f1f); box-sizing: border-box;" value="${window.cartDiscountCode || ''}">
+                      </div>
+                      <button type="button" class="discount-apply-btn" onclick="window.applyDrawerDiscount(event)" style="height: 40px; padding: 0 16px; border-radius: var(--style-border-radius-buttons-secondary, 24px); border: 1.5px solid var(--color-primary, #8c1638); background: transparent; color: var(--color-primary, #8c1638); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.2s ease;">
+                        {% if request.locale.iso_code == 'ar' %}تطبيق{% else %}Apply{% endif %}
+                      </button>
+                    </div>
+                    <div id="drawer-discount-status" style="font-size: 11px; margin-top: 6px; display: none; align-items: center; gap: 4px; font-weight: 500;"></div>
+                  </div>
+                ` : ''}
+                <div class="total-row" style="margin-bottom: 12px;">
                   <span>Subtotal</span>
                   <span>${formatStorePrice(cart.total_price, curCurrency)}</span>
                 </div>
+                ${installmentsHtml}
                 <button class="checkout-btn" onclick="window.proceedToCheckout(event)">Proceed to Checkout</button>
+                ${acceleratedButtonsHtml}
               `;
+
+              if (showDiscount && window.cartDiscountCode && window.cartDiscountCode !== '') {
+                setTimeout(function() {
+                  window.applyDrawerDiscount();
+                }, 50);
+              }
             }
           });
       }
@@ -2327,7 +2444,7 @@
       if (inCart) {
         fetch('/cart/change.js', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
             id: String(variantId),
             quantity: 0
@@ -2335,7 +2452,11 @@
         })
         .then(function(r) {
           btn.disabled = false;
-          return r.json().then(function(data) {
+          return r.text().then(function(text) {
+            var data = {};
+            try {
+              data = text ? JSON.parse(text) : {};
+            } catch(e) {}
             if (!r.ok) {
               throw new Error(data.description || data.message || 'Could not remove item from cart.');
             }
@@ -2357,7 +2478,7 @@
       
       fetch('/cart/add.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           items: [{
             id: Number(variantId) || variantId,
@@ -2367,7 +2488,11 @@
       })
       .then(function(r) {
         btn.disabled = false;
-        return r.json().then(function(data) {
+        return r.text().then(function(text) {
+          var data = {};
+          try {
+            data = text ? JSON.parse(text) : {};
+          } catch(e) {}
           if (!r.ok) {
             throw new Error(data.description || data.message || 'Could not add item to cart.');
           }
@@ -2375,7 +2500,20 @@
         });
       })
       .then(function() {
-        window.openSideDrawer('cart');
+        const autoOpen = document.getElementById('side-drawer')?.getAttribute('data-auto-open') === 'true';
+        if (autoOpen) {
+          window.openSideDrawer('cart');
+        } else {
+          fetch('/cart.js').then(function(r) { return r.json(); }).then(function(cart) {
+            updateCartBadge(cart.item_count);
+            if (window.syncCartButtons) window.syncCartButtons(cart);
+            if (window.showToastAlert) {
+              window.showToastAlert('Item added to cart!');
+            } else if (window.showErrorAlert) {
+              window.showErrorAlert('Item added to cart!');
+            }
+          });
+        }
       })
       .catch(function(err) {
         btn.disabled = false;
@@ -2593,6 +2731,10 @@
      data-cart-type="{{ settings.cart_type | default: 'drawer' }}"
      data-show-vendor="{{ settings.show_cart_vendor | default: false }}"
      data-show-note="{{ settings.show_cart_note | default: false }}"
+     data-show-discount="{{ settings.show_add_discount_code | default: false }}"
+     data-show-installments="{{ settings.show_installments | default: false }}"
+     data-show-checkout-buttons="{{ settings.show_accelerated_checkout_buttons | default: false }}"
+     data-auto-open="{{ settings.auto_open_cart_drawer | default: false }}"
      data-show-currency-codes="{{ settings.show_currency_codes | default: false }}">
   <div class="side-drawer-header">
     <h2 id="side-drawer-title">Shopping Cart</h2>
@@ -2608,12 +2750,17 @@
           <span style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-primary);">Your cart is empty.</span>
         </div>
         <div class="empty-cart-featured" style="padding: 0 20px 20px 20px;">
-          <h4 style="font-family: var(--font-serif); font-size: 16px; font-weight: 300; margin-bottom: 12px; color: var(--color-primary);">{% if request.locale.iso_code == 'ar' %}المنتجات المقترحة{% else %}Featured Items{% endif %}</h4>
-          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-            {%- for product in empty_collection.products limit: 4 -%}
+          <h4 style="font-family: var(--font-serif); font-size: 16px; font-weight: 300; margin-bottom: 12px; color: var(--color-primary);">{{ empty_collection.title }}</h4>
+          {%- assign limit_val = settings.empty_cart_collection_limit | default: 3 -%}
+          <div style="display: grid; grid-template-columns: repeat({% if limit_val == 3 or limit_val == 6 or limit_val == 5 %}3{% else %}2{% endif %}, 1fr); gap: 12px;">
+            {%- for product in empty_collection.products limit: limit_val -%}
               <a href="{{ product.url }}" class="empty-cart-prod-card" style="text-decoration: none; color: inherit; display: block; text-align: center;">
-                <div style="aspect-ratio: 1; border-radius: var(--radius-card); overflow: hidden; background: #fafafa; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 6px;">
-                  <img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title | escape }}" loading="lazy" width="200" height="200" style="width: 100%; height: 100%; object-fit: cover;">
+                <div style="aspect-ratio: 1; border-radius: var(--radius-card); overflow: hidden; background: #fafafa; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 6px; display: flex; align-items: center; justify-content: center;">
+                  {%- if product.featured_image != blank -%}
+                    <img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title | escape }}" loading="lazy" width="200" height="200" style="width: 100%; height: 100%; object-fit: cover;">
+                  {%- else -%}
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#faf9f5;"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.25;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                  {%- endif -%}
                 </div>
                 <div style="font-size: 11px; font-weight: 600; color: var(--color-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ product.title }}</div>
                 <div style="font-size: 11px; font-weight: 700; color: var(--color-primary);">{{ product.price | money }}</div>
@@ -2623,6 +2770,14 @@
         </div>
       </div>
     {%- endif -%}
+  {%- endif -%}
+</div>
+
+<div id="drawer-accelerated-checkout-buttons" style="display: none;">
+  {%- if content_for_additional_checkout_buttons -%}
+    <div class="additional-checkout-buttons" style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px; width: 100%;">
+      {{ content_for_additional_checkout_buttons }}
+    </div>
   {%- endif -%}
 </div>
 
@@ -2696,8 +2851,10 @@
     width: 80px;
     height: 80px;
     object-fit: cover;
-    border-radius: 4px;
     background: #f9f9f9;
+    border-radius: {{ settings.cart_thumbnail_border_radius | default: 0 }}px !important;
+    border: {% if settings.cart_thumbnail_border == 'solid' %}{{ settings.cart_thumbnail_border_width | default: 1 }}px solid rgba(0, 0, 0, {{ settings.cart_thumbnail_border_opacity | default: 50 | divided_by: 100.0 }}){% else %}none{% endif %} !important;
+    box-sizing: border-box;
   }
   .drawer-item-info {
     flex: 1;
@@ -2706,16 +2863,20 @@
     justify-content: space-between;
   }
   .drawer-item-title {
-    font-size: 13px;
-    font-weight: 600;
+    font-family: var(--font-serif) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
     color: var(--color-primary, var(--color-primary));
     line-height: 1.4;
+    text-transform: {% if settings.product_title_case == 'uppercase' %}uppercase{% else %}none{% endif %};
   }
   .drawer-item-price {
     font-size: 13px;
-    font-weight: 700;
     color: var(--color-accent, #f25c5e);
     margin-top: 4px;
+    font-family: var(--cart-secondary-font-family);
+    font-style: var(--cart-secondary-font-style);
+    font-weight: var(--cart-secondary-font-weight);
   }
   .drawer-item-actions {
     display: flex;
@@ -2774,6 +2935,11 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--color-bg, #f9f2d5);
+  }
+  .total-row span:last-child {
+    font-family: var(--cart-secondary-font-family);
+    font-style: var(--cart-secondary-font-style);
+    font-weight: var(--cart-secondary-font-weight);
   }
   .checkout-btn {
     width: 100%;

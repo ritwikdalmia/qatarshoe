@@ -46,6 +46,11 @@
     }
   </style>
 {%- endif -%}
+<style>
+  .product-detail-page .title {
+    color: var(--color-primary, #8c1638) !important;
+  }
+</style>
 
 <div class="product-detail-page">
   
@@ -612,18 +617,22 @@
         <div class="accordion-item">
           <button type="button" class="accordion-header" onclick="toggleProductAccordion(this)">
             <span>
-              {%- if request.locale.iso_code == 'ar' -%}الشحن والإرجاع{%- else -%}Shipping & Returns{%- endif -%}
+              {%- if request.locale.iso_code == 'ar' -%}
+                {{ section.settings.shipping_returns_title_ar | default: 'الشحن والإرجاع' }}
+              {%- else -%}
+                {{ section.settings.shipping_returns_title_en | default: 'Shipping & Returns' }}
+              {%- endif -%}
             </span>
             <span class="accordion-icon">+</span>
           </button>
           <div class="accordion-content">
-            <p>
+            <div class="rte">
               {%- if request.locale.iso_code == 'ar' -%}
-                نحن نوفر خدمة التوصيل في نفس اليوم داخل الدوحة لجميع الطلبات المقدمة قبل الساعة 4 مساءً. التوصيل مجاني للمشتريات التي تزيد عن 500 ريال قطري. الدفع عند الاستلام (COD) مقبول عند الدفع. يُسمح بالإرجاع في غضون 7 أيام من التوصيل، بشرط أن تكون السلع غير مستخدمة وفي تغليفها الأصلي.
+                {{ section.settings.shipping_returns_text_ar | default: 'نحن نوفر خدمة التوصيل في نفس اليوم داخل الدوحة لجميع الطلبات المقدمة قبل الساعة 4 مساءً. التوصيل مجاني للمشتريات التي تزيد عن 500 ريال قطري. الدفع عند الاستلام (COD) مقبول عند الدفع. يُسمح بالإرجاع في غضون 7 أيام من التوصيل، بشرط أن تكون السلع غير مستخدمة وفي تغليفها الأصلي.' }}
               {%- else -%}
-                We provide same-day courier delivery within Doha for all orders placed before 4 PM. Delivery is free for purchases above QAR 500. Cash on Delivery (COD) is accepted at checkout. Returns are allowed within 7 days of delivery, provided items are unworn and in original packaging.
+                {{ section.settings.shipping_returns_text_en | default: 'We provide same-day courier delivery within Doha for all orders placed before 4 PM. Delivery is free for purchases above QAR 500. Cash on Delivery (COD) is accepted at checkout. Returns are allowed within 7 days of delivery, provided items are unworn and in original packaging.' }}
               {%- endif -%}
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -1428,6 +1437,34 @@
       "step": 1,
       "default": 5,
       "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Shipping & Returns Accordion"
+    },
+    {
+      "type": "text",
+      "id": "shipping_returns_title_en",
+      "label": "Title (English)",
+      "default": "Shipping & Returns"
+    },
+    {
+      "type": "text",
+      "id": "shipping_returns_title_ar",
+      "label": "Title (Arabic)",
+      "default": "الشحن والإرجاع"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_returns_text_en",
+      "label": "Content (English)",
+      "default": "<p>We provide same-day courier delivery within Doha for all orders placed before 4 PM. Delivery is free for purchases above QAR 500. Cash on Delivery (COD) is accepted at checkout. Returns are allowed within 7 days of delivery, provided items are unworn and in original packaging.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_returns_text_ar",
+      "label": "Content (Arabic)",
+      "default": "<p>نحن نوفر خدمة التوصيل في نفس اليوم داخل الدوحة لجميع الطلبات المقدمة قبل الساعة 4 مساءً. التوصيل مجاني للمشتريات التي تزيد عن 500 ريال قطري. الدفع عند الاستلام (COD) مقبول عند الدفع. يُسمح بالإرجاع في غضون 7 أيام من التوصيل، بشرط أن تكون السلع غير مستخدمة وفي تغليفها الأصلي.</p>"
     }
   ]
 }

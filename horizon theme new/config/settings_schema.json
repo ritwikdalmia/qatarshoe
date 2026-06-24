@@ -1791,6 +1791,20 @@
         "default": "/collections/all"
       },
       {
+        "type": "collection",
+        "id": "empty_cart_collection",
+        "label": "Collection to display when empty"
+      },
+      {
+        "type": "range",
+        "id": "empty_cart_collection_limit",
+        "min": 2,
+        "max": 6,
+        "step": 1,
+        "label": "Number of products to display",
+        "default": 3
+      },
+      {
         "type": "header",
         "content": "t:content.product_media"
       },

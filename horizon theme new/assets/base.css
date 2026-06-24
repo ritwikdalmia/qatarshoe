@@ -3052,7 +3052,7 @@ label:has(input[type='checkbox']:disabled) {
   align-items: center;
   color: var(--color-input-text);
   background-color: var(--color-input-background);
-  border: var(--style-border-width-inputs) solid var(--color-input-border);
+  border: 1px solid var(--color-primary, #8c1638);
   border-radius: var(--style-border-radius-inputs);
   flex: 1 1 var(--quantity-selector-width);
   align-self: stretch;
@@ -3074,7 +3074,7 @@ label:has(input[type='checkbox']:disabled) {
   width: var(--minimum-touch-target);
   height: var(--minimum-touch-target);
   flex-shrink: 0;
-  color: var(--color-input-text);
+  color: var(--color-primary, #8c1638);
 }
 
 .quantity-selector .quantity-minus {
@@ -3087,22 +3087,7 @@ label:has(input[type='checkbox']:disabled) {
   border-end-end-radius: var(--style-border-radius-inputs);
 }
 
-.product-details .quantity-selector,
-.quick-add-modal .quantity-selector {
-  border-radius: var(--style-border-radius-buttons-primary);
-}
-
-.product-details .quantity-selector .quantity-minus,
-.quick-add-modal .quantity-selector .quantity-minus {
-  border-start-start-radius: var(--style-border-radius-buttons-primary);
-  border-end-start-radius: var(--style-border-radius-buttons-primary);
-}
-
-.product-details .quantity-selector .quantity-plus,
-.quick-add-modal .quantity-selector .quantity-plus {
-  border-start-end-radius: var(--style-border-radius-buttons-primary);
-  border-end-end-radius: var(--style-border-radius-buttons-primary);
-}
+/* Global border radius for quantity selectors is handled by var(--style-border-radius-inputs) */
 
 .quantity-selector .svg-wrapper {
   transition: transform var(--animation-speed) var(--animation-easing);
@@ -3121,11 +3106,14 @@ label:has(input[type='checkbox']:disabled) {
   margin: 0;
   text-align: center;
   border: none;
+  border-inline: 1px solid var(--color-primary, #8c1638);
   appearance: none;
   max-width: calc(var(--quantity-selector-width) - var(--minimum-touch-target) * 2);
-  border-radius: var(--style-border-radius-buttons);
-  color: var(--color-input-text);
+  border-radius: 0;
+  color: var(--color-primary, #8c1638);
+  font-weight: 600;
   background-color: transparent;
+  height: 100%;
 }
 
 /* Chrome, Safari, Edge, Opera */

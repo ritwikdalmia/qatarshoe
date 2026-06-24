@@ -57,7 +57,7 @@
 <style>
   
   .breadcrumbs {
-    padding: 24px 40px;
+    padding: 10px 40px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -81,18 +81,22 @@
     opacity: 0.4;
   }
   .breadcrumbs .crumb-active {
-    color: var(--color-primary, var(--color-primary));
+    color: var(--color-text, #1a0a00);
     font-weight: 600;
+    opacity: 0.65;
   }
 
   .collection-header-container {
     max-width: var(--page-width);
     margin: 0 auto;
-    padding: 24px 40px 16px 40px;
+    padding: 10px 40px 12px 40px;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
+    .breadcrumbs {
+      padding: 10px 20px;
+    }
     .collection-header-container {
-      padding: 16px 20px 12px 20px;
+      padding: 10px 20px 10px 20px;
     }
     .collection-title {
       font-size: 28px !important;
@@ -107,8 +111,8 @@
     font-family: var(--font-serif);
     font-size: 36px;
     font-weight: 400;
-    color: var(--color-primary);
-    margin-bottom: 12px;
+    color: var(--color-primary, #8c1638);
+    margin-bottom: 8px;
     letter-spacing: -0.02em;
   }
   .collection-description {
