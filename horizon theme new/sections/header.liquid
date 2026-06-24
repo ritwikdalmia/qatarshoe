@@ -1992,6 +1992,7 @@
     
     fetch('/cart.js').then(function(r) { return r.json(); }).then(function(d) {
       updateCartBadge(d.item_count);
+      if (window.syncCartButtons) window.syncCartButtons(d);
     }).catch(function() {});
 
     updateWishlistBadge();
@@ -2121,6 +2122,7 @@
           .then(function(r) { return r.json(); })
           .then(function(cart) {
             updateCartBadge(cart.item_count);
+            if (window.syncCartButtons) window.syncCartButtons(cart);
             if (cart.items.length === 0) {
               const templateEl = document.getElementById('drawer-empty-collection-template');
               if (templateEl) {
@@ -2233,6 +2235,7 @@
         });
       })
       .then(function(cart) {
+        if (window.syncCartButtons) window.syncCartButtons(cart);
         if (qty === 0) {
           window.closeSideDrawer();
           updateCartBadge(cart.item_count);
@@ -2442,6 +2445,41 @@
             heartSvg.setAttribute('stroke', inList ? activeColor : 'currentColor');
           }
           btn.classList.toggle('active', inList);
+        }
+      });
+    };
+
+    window.syncCartButtons = function(cart) {
+      if (!cart || !cart.items) return;
+      var inCartVariantIds = cart.items.map(function(item) {
+        return String(item.variant_id);
+      });
+      var activeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#e74c3c';
+      var primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#8c1638';
+      document.querySelectorAll('.product-quick-add-btn').forEach(function(btn) {
+        var varId = btn.getAttribute('data-variant-id');
+        if (!varId) {
+          var match = (btn.getAttribute('onclick') || '').match(/'([^']+)'/);
+          varId = match ? match[1] : null;
+        }
+        if (varId) {
+          var inCart = inCartVariantIds.indexOf(String(varId)) > -1;
+          btn.classList.toggle('active', inCart);
+          var svg = btn.querySelector('svg');
+          if (svg) {
+            var paths = svg.querySelectorAll('path');
+            if (paths.length > 0) {
+              paths[0].setAttribute('fill', inCart ? activeColor : 'none');
+              paths[0].setAttribute('stroke', inCart ? activeColor : primaryColor);
+            }
+            if (paths.length > 1) {
+              paths[1].setAttribute('stroke', inCart ? activeColor : primaryColor);
+            }
+            var lines = svg.querySelectorAll('line');
+            lines.forEach(function(l) {
+              l.setAttribute('stroke', inCart ? activeColor : primaryColor);
+            });
+          }
         }
       });
     };

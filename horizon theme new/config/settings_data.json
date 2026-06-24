@@ -52,7 +52,7 @@
     "hover_effect": "3d",
     "badge_position": "top-left",
     "badge_corner_radius": 100,
-    "badge_sale_background_color": "#16658C",
+    "badge_sale_background_color": "#8C1638",
     "badge_sale_text_color": "#ffffff",
     "badge_sold_out_background_color": "#f9f2d5",
     "badge_sold_out_text_color": "#1a0a00",

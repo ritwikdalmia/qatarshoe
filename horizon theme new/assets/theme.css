@@ -1182,6 +1182,10 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-color: var(--color-accent, #e74c3c) !important;
 }
+.product-quick-add-btn.active {
+  color: var(--color-accent, #e74c3c) !important;
+  border-color: var(--color-accent, #e74c3c) !important;
+}
 .product-quick-add-btn svg {
   width: 16px;
   height: 16px;
