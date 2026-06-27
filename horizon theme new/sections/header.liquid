@@ -2018,8 +2018,8 @@
     var closeBtn = document.getElementById('side-drawer-close-btn');
 
     function getDrawerImageHtml(imgUrl, altText) {
-      var borderRadius = '{{ settings.radius_card | default: 0 }}px';
-      var borderOverride = `border: {% if settings.cart_thumbnail_border == 'solid' %}{{ settings.cart_thumbnail_border_width | default: 1 }}px solid rgba(0, 0, 0, {{ settings.cart_thumbnail_border_opacity | default: 50 | divided_by: 100.0 }}){% else %}none{% endif %};`;
+      var borderRadius = '{{ settings.cart_thumbnail_border_radius | default: 0 }}px';
+      var borderOverride = `border: {% if settings.cart_thumbnail_border == 'solid' %}{{ settings.cart_thumbnail_border_width | default: 1 }}px solid rgba({{ settings.color_primary | color_extract: 'red' }}, {{ settings.color_primary | color_extract: 'green' }}, {{ settings.color_primary | color_extract: 'blue' }}, {{ settings.cart_thumbnail_border_opacity | default: 50 | divided_by: 100.0 }}){% else %}none{% endif %};`;
       if (!imgUrl || imgUrl === '' || imgUrl.indexOf('no-image') > -1 || imgUrl.indexOf('placeholder') > -1 || imgUrl === 'null' || imgUrl === 'undefined') {
         return `
           <div class="drawer-item-img placeholder" style="background:transparent; display:flex; align-items:center; justify-content:center; width:80px; height:80px; border-radius:${borderRadius}; ${borderOverride} flex-shrink:0; box-sizing: border-box;">
@@ -2281,7 +2281,7 @@
               footerEl.innerHTML = `
                 ${showNote ? `
                   <div class="drawer-note-wrap" style="padding: 12px 0;">
-                    <textarea id="drawer-cart-note" onchange="fetch('/cart/update.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ note: this.value }) })" placeholder="{% if request.locale.iso_code == 'ar' %}إضافة ملاحظة للطلب...{% else %}Add order note...{% endif %}" style="width: 100%; min-height: 80px; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--color-primary, #8c1638); background: #ffffff; font-size: 12px; resize: vertical; outline: none; box-sizing: border-box;">${cart.note || ''}</textarea>
+                    <textarea id="drawer-cart-note" onchange="fetch('/cart/update.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ note: this.value }) })" placeholder="{% if request.locale.iso_code == 'ar' %}إضافة ملاحظة للطلب...{% else %}Add order note...{% endif %}" style="width: 100%; min-height: 80px; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--color-primary, #8c1638); background: var(--color-bg); font-size: 12px; resize: vertical; outline: none; box-sizing: border-box;">${cart.note || ''}</textarea>
                   </div>
                 ` : ''}
                 ${showDiscount ? `
@@ -2292,7 +2292,7 @@
                           <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
                           <line x1="7" y1="7" x2="7.01" y2="7"/>
                         </svg>
-                        <input type="text" id="drawer-cart-discount" placeholder="{% if request.locale.iso_code == 'ar' %}كود الخصم{% else %}Discount code{% endif %}" style="width: 100%; height: 40px; padding: 0 12px 0 38px; border-radius: var(--style-border-radius-inputs, 4px); border: 1px solid var(--color-border, #e0dcd3); font-size: 12px; font-weight: 500; outline: none; background: #ffffff; color: var(--color-primary, #2d1f1f); box-sizing: border-box;" value="${window.cartDiscountCode || ''}">
+                        <input type="text" id="drawer-cart-discount" placeholder="{% if request.locale.iso_code == 'ar' %}كود الخصم{% else %}Discount code{% endif %}" style="width: 100%; height: 40px; padding: 0 12px 0 38px; border-radius: var(--style-border-radius-inputs, 4px); border: 1px solid var(--color-border, #e0dcd3); font-size: 12px; font-weight: 500; outline: none; background: var(--color-bg); color: var(--color-primary, #2d1f1f); box-sizing: border-box;" value="${window.cartDiscountCode || ''}">
                       </div>
                       <button type="button" class="discount-apply-btn" onclick="window.applyDrawerDiscount(event)" style="height: 40px; padding: 0 16px; border-radius: var(--style-border-radius-buttons-secondary, 24px); border: 1.5px solid var(--color-primary, #8c1638); background: transparent; color: var(--color-primary, #8c1638); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.2s ease;">
                         {% if request.locale.iso_code == 'ar' %}تطبيق{% else %}Apply{% endif %}
@@ -2851,9 +2851,9 @@
     width: 80px;
     height: 80px;
     object-fit: cover;
-    background: #f9f9f9;
+    background: var(--color-card-image-bg, #f9f9f9);
     border-radius: {{ settings.cart_thumbnail_border_radius | default: 0 }}px !important;
-    border: {% if settings.cart_thumbnail_border == 'solid' %}{{ settings.cart_thumbnail_border_width | default: 1 }}px solid rgba(0, 0, 0, {{ settings.cart_thumbnail_border_opacity | default: 50 | divided_by: 100.0 }}){% else %}none{% endif %} !important;
+    border: {% if settings.cart_thumbnail_border == 'solid' %}{{ settings.cart_thumbnail_border_width | default: 1 }}px solid rgba({{ settings.color_primary | color_extract: 'red' }}, {{ settings.color_primary | color_extract: 'green' }}, {{ settings.color_primary | color_extract: 'blue' }}, {{ settings.cart_thumbnail_border_opacity | default: 50 | divided_by: 100.0 }}){% else %}none{% endif %} !important;
     box-sizing: border-box;
   }
   .drawer-item-info {
@@ -2890,13 +2890,13 @@
     border: 1px solid var(--color-border, #e0dcd3);
     border-radius: 4px;
     overflow: hidden;
-    background: #fff;
+    background: var(--color-bg);
   }
   .qty-select button {
     width: 24px;
     height: 24px;
     font-size: 14px;
-    background: #f9f9f9;
+    background: var(--color-card-image-bg, #f9f9f9);
     border: none;
     cursor: pointer;
     line-height: 24px;

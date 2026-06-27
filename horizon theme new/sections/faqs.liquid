@@ -1,7 +1,7 @@
 {%- style -%}
   .faq-main {
       padding: 24px 150px 48px;
-      background: #fff;
+      background: var(--color-bg);
       max-width: 1620px;
       margin: 0 auto;
       box-sizing: border-box;
@@ -30,7 +30,7 @@
       font-size: 16px;
       font-weight: 400;
       line-height: 150%;
-      color: rgba(45, 31, 31, 0.7);
+      color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
       margin: 0;
       max-width: 600px;
   }
@@ -81,8 +81,8 @@
       font-family: var(--font-body);
       font-size: 16px;
       font-weight: 500;
-      color: rgba(45, 31, 31, 0.7);
-      background: #fff;
+      color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+      background: var(--color-bg);
       box-sizing: border-box;
       transition: all 0.2s ease;
       user-select: none;
@@ -110,7 +110,7 @@
 
   .faq-search-wrap {
       flex-shrink: 0;
-      background: #fff;
+      background: var(--color-bg);
       padding-bottom: 4px;
   }
 
@@ -180,7 +180,7 @@
   }
 
   .faq-item {
-      background: #fff;
+      background: var(--color-bg);
       padding: 24px;
       display: flex;
       flex-direction: column;
@@ -287,7 +287,7 @@
       font-size: 14px;
       font-weight: 400;
       line-height: 20px;
-      color: #000000;
+      color: var(--color-text);
       margin: 0;
       max-width: 320px;
   }
@@ -300,7 +300,7 @@
       z-index: 100;
       border: 1px solid var(--color-border);
       border-radius: 8px;
-      background: #fff;
+      background: var(--color-bg);
       padding: 12px 16px;
       display: none;
       flex-direction: row;
@@ -359,7 +359,7 @@
   }
 
   .faq-mobile-overlay-card {
-      background: #fff;
+      background: var(--color-bg);
       border: 1px solid var(--color-border);
       border-radius: 12px;
       overflow: hidden;
@@ -383,8 +383,8 @@
       font-family: var(--font-body);
       font-size: 16px;
       font-weight: 500;
-      color: rgba(45, 31, 31, 0.7);
-      background: #fff;
+      color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+      background: var(--color-bg);
       box-sizing: border-box;
       transition: all 0.2s ease;
   }
@@ -411,7 +411,7 @@
 
   /* Contact form on the FAQ page */
   .contact-form-section {
-      background: #fff;
+      background: var(--color-bg);
       padding: 96px 150px;
       position: relative;
       width: 100%;
@@ -425,7 +425,7 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: #e5e5e5;
+      background: var(--color-card-image-bg, #f9f9f9);
   }
 
   .contact-form-inner {
@@ -455,7 +455,7 @@
   .contact-form-intro p {
       font-family: var(--font-body);
       font-size: 16px;
-      color: rgba(45, 31, 31, 0.7);
+      color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
       margin: 0;
   }
 
@@ -491,7 +491,7 @@
   }
 
   .contact-field-group label .required {
-      color: #FF0000;
+      color: var(--color-primary);
       margin-left: 2px;
   }
 
@@ -500,7 +500,7 @@
   .contact-form-wrapper input[type="tel"],
   .contact-form-wrapper textarea {
       width: 100%;
-      background: #fff;
+      background: var(--color-bg);
       border: 1px solid rgba(45, 31, 31, 0.2);
       border-radius: var(--style-border-radius-inputs);
       color: var(--color-primary);
@@ -530,7 +530,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      background: #fff;
+      background: var(--color-bg);
       color: var(--color-primary);
       border: 1px solid var(--color-primary);
       border-radius: var(--style-border-radius-buttons-primary);

@@ -192,10 +192,10 @@
 - [ ] Products to Display When Empty (`empty_cart_collection_limit`) — _not set_
 
 **Cart Thumbnail**
-- [ ] Border Style (`cart_thumbnail_border`) — _not set_
-- [ ] Border Width (`cart_thumbnail_border_width`) — _not set_
-- [ ] Border Opacity (`cart_thumbnail_border_opacity`) — _not set_
-- [ ] Border Radius (`cart_thumbnail_border_radius`) — _not set_
+- [x] Border Style (`cart_thumbnail_border`) — **Solid**
+- [x] Border Width (`cart_thumbnail_border_width`) — **2px**
+- [x] Border Opacity (`cart_thumbnail_border_opacity`) — **50%**
+- [x] Border Radius (`cart_thumbnail_border_radius`) — **10px**
 
 ---
 
@@ -324,6 +324,6 @@
 | 🟡 Medium | Add **Brand Headline** and **Brand Description** for footer |
 | 🟡 Medium | Upload **Brand Image / Footer Logo** |
 | 🟡 Medium | Review **Scroll Reveal** — distance 60px & duration 1.0s may feel sluggish |
-| 🟢 Low | Set **Cart Thumbnail** border style if using drawer cart |
+| 🟢 Low | ~~Set **Cart Thumbnail** border style if using drawer cart~~ (Completed) |
 | 🟢 Low | Configure **Empty Cart Collection** for better UX |
 | 🟢 Low | Set **Products/Collections per Row** explicitly |

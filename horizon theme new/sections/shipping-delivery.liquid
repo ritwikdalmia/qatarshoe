@@ -474,7 +474,7 @@
   }
 
   .contact-field-group label .required {
-      color: #FF0000;
+      color: var(--color-primary);
       margin-left: 2px;
   }
 
@@ -537,15 +537,15 @@
   }
 
   .wpcf7-response-output.sent {
-      border-color: #28a745;
-      color: #1e7a35;
-      background-color: rgba(40, 167, 69, 0.05);
+      border-color: var(--color-success, #28a745);
+      color: var(--color-success-text, #1e7a35);
+      background-color: rgb(var(--color-success-rgb, 40 167 69) / 0.05);
   }
 
   .wpcf7-response-output.invalid {
-      border-color: #d93b3d;
-      color: #b1282a;
-      background-color: rgba(217, 59, 61, 0.05);
+      border-color: var(--color-error, #d93b3d);
+      color: var(--color-error-text, #b1282a);
+      background-color: rgb(var(--color-error-rgb, 217 59 61) / 0.05);
   }
 
   @media (max-width: 1023px) {

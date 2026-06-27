@@ -18,14 +18,43 @@
     if linklists[handle] != blank
       for link in linklists[handle].links
         assign link_handle = link.url | split: '/' | last
+        assign link_handle_clean = link_handle | replace: 'all-', '' | replace: '-all', ''
+        assign col_handle_clean = collection.handle | replace: 'all-', '' | replace: '-all', ''
+        
+        assign is_parent_match = false
+        assign is_parent_match = false
         if link.url == collection.url or link_handle == collection.handle
+          assign is_parent_match = true
+        elsif link_handle_clean != blank and link_handle_clean == col_handle_clean
+          assign is_parent_match = true
+        else
+          # Fallback: Match by title (useful for megamenu titles with href="#")
+          assign link_title_clean = link.title | downcase | replace: ' ', '-' | replace: '&', 'and'
+          assign col_title_clean = collection.title | downcase | replace: 'all ', '' | replace: ' ', '-'
+          if link_title_clean != blank and col_title_clean != blank
+            if col_title_clean == link_title_clean or col_title_clean contains link_title_clean or link_title_clean contains col_title_clean
+              assign is_parent_match = true
+            endif
+          endif
+        endif
+        
+        if is_parent_match
           assign parent_link = link
           break
         endif
         
         for child_link in link.links
           assign child_handle = child_link.url | split: '/' | last
+          assign child_handle_clean = child_handle | replace: 'all-', '' | replace: '-all', ''
+          
+          assign is_child_match = false
           if child_link.url == collection.url or child_handle == collection.handle
+            assign is_child_match = true
+          elsif child_handle_clean != blank and child_handle_clean == col_handle_clean
+            assign is_child_match = true
+          endif
+          
+          if is_child_match
             assign parent_link = link
             break
           endif
@@ -135,7 +164,7 @@
     gap: 20px;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
-    background: #fff;
+    background: var(--color-bg);
     overflow: visible;
   }
   .toolbar-left {
@@ -173,7 +202,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--color-primary);
-    background: #fff;
+    background: var(--color-bg);
     white-space: nowrap;
     transition: all 0.2s ease;
   }
@@ -233,7 +262,7 @@
     font-size: 13px;
     font-family: inherit;
     color: var(--color-primary);
-    background: #fff;
+    background: var(--color-bg);
     cursor: pointer;
     transition: border-color 0.18s;
   }
@@ -252,7 +281,7 @@
     position: absolute;
     top: calc(100% + 4px);
     left: 0; right: 0;
-    background: #fff;
+    background: var(--color-bg);
     border: 1px solid var(--color-primary);
     border-radius: 8px;
     overflow: hidden;
@@ -330,7 +359,7 @@
     font-size: 14px;
     font-weight: 500;
     color: var(--color-primary);
-    background: #fff;
+    background: var(--color-bg);
     border: 1px solid var(--color-border);
     transition: all 0.2s ease;
     text-decoration: none;
@@ -359,7 +388,7 @@
     opacity: 0.4;
     cursor: not-allowed;
     border-color: var(--color-border);
-    background: #fff;
+    background: var(--color-bg);
     color: var(--color-primary);
   }
 
@@ -473,7 +502,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    background: #fff;
+    background: var(--color-bg);
     color: var(--color-primary);
     cursor: pointer;
     transition: all 0.2s;
@@ -507,7 +536,7 @@
     height: 18px;
     border: 1.5px solid var(--color-border, #ccc);
     border-radius: 4px;
-    background-color: #fff;
+    background-color: var(--color-bg);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -607,7 +636,7 @@
     border-color: color-mix(in srgb, var(--color-primary) {{ settings.col_card_border_opacity | default: 100 }}%, transparent) !important;
     box-shadow: var(--col-card-shadow-horizontal-offset) var(--col-card-shadow-vertical-offset) var(--col-card-shadow-blur) rgba(0, 0, 0, var(--col-card-shadow-opacity)) !important;
     overflow: hidden !important;
-    background: #fff;
+    background: var(--color-bg);
     text-decoration: none;
     transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
@@ -747,205 +776,280 @@
       </button>
       
       {%- if show_filters -%}
+        {%- comment -%}
+          === Unified Filter Pills ===
+          Regular collections: ALL → [Brands with products] → SALE → NEW IN
+          Brand collections (is_brand_menu): ALL + main category pills from nav + SALE + NEW IN
+          Special collections (on-sale, new-in, new-arrivals, trending, restock): ALL + SALE + NEW IN only
+          /all: ALL + SALE + NEW IN + section filter_link blocks
+        {%- endcomment -%}
+        {%- assign is_special_col = false -%}
+        {%- if collection.handle == 'on-sale' or collection.handle contains 'sale' or collection.handle == 'new-in' or collection.handle == 'new-arrivals' or collection.handle == 'trending' or collection.handle == 'restock' -%}
+          {%- assign is_special_col = true -%}
+        {%- endif -%}
+
         <div class="filter-pills-scroll">
+
+          {%- comment -%} ── 1. ALL pill (points to parent menu collection if on sub-category, active only on parent) ── {%- endcomment -%}
+          {%- if request.locale.iso_code == 'ar' -%}{%- assign all_label = 'الكل' -%}{%- else -%}{%- assign all_label = 'All' -%}{%- endif -%}
+          
+          {%- assign all_url = collection.url -%}
+          {%- assign is_all_active = true -%}
           {%- if parent_link != blank and parent_link.links.size > 0 and is_brand_menu == false -%}
-
-            <a href="{{ parent_link.url }}" 
-               class="filter-pill filter-pill-type" 
-               data-parent-url="{{ parent_link.url }}" 
-               data-is-all="true" 
-               onclick="toggleTypeFilter(this, event)">All</a>
-            {%- for child_link in parent_link.links -%}
-              {%- assign child_title_down = child_link.title | downcase -%}
-              {%- if child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
-                {%- continue -%}
-              {%- endif -%}
-
-              {%- assign type_value = child_link.title -%}
-              <a href="{{ child_link.url }}" 
-                 class="filter-pill filter-pill-type" 
-                 data-parent-url="{{ parent_link.url }}" 
-                 data-type-value="{{ type_value | escape }}" 
-                 onclick="toggleTypeFilter(this, event)">
-                {{ child_link.title }}
-              </a>
-            {%- endfor -%}
-          {%- else -%}
-            {%- comment -%}
-              We are on a brand collection page (where parent_link points to the Brands menu) or parent_link is blank.
-              If it's a brand collection page, we show dynamic category pills (Bags, Shoes, Watches, Jewellery, Accessories)
-              which point to the respective category collections filtered by brand vendor.
-            {%- endcomment -%}
-            {%- assign show_fallback = true -%}
-            {%- if collection.handle contains 'sale' or collection.handle == 'new-in' or collection.handle == 'restock' -%}
-              {%- assign show_fallback = false -%}
+            {%- assign all_url = parent_link.url -%}
+            {%- assign parent_handle = parent_link.url | split: '/' | last -%}
+            {%- assign is_all_active = false -%}
+            {%- if parent_link.url == collection.url or parent_handle == collection.handle or collection.handle contains parent_handle -%}
+              {%- assign is_all_active = true -%}
             {%- endif -%}
+          {%- endif -%}
+          
+          <a href="{{ all_url }}" class="filter-pill{% if is_all_active %} active{% endif %}" data-is-brand-all="true">{{ all_label }}</a>
+
+          {%- unless is_special_col or collection.handle == 'all' -%}
+
+            {%- comment -%} ── 2a. Sub-category pills (only on the top-level parent collection, not on sub-items) ── {%- endcomment -%}
+            {%- liquid
+              assign sub_menu_links = blank
+              assign is_on_parent = false
+              assign fallback_links_str = blank
+              
+              if parent_link != blank and parent_link.links.size > 0
+                assign sub_menu_links = parent_link.links
+                
+                # Extract parent handle robustly (handling trailing slashes or query params)
+                assign parent_handle = blank
+                assign url_parts = parent_link.url | split: '?' | first | split: '/'
+                for part in url_parts
+                  if part != blank and part != 'collections'
+                    assign parent_handle = part
+                  endif
+                endfor
+                
+                assign parent_handle_clean = parent_handle | replace: 'all-', '' | replace: '-all', ''
+                assign col_handle_clean = collection.handle | replace: 'all-', '' | replace: '-all', ''
+                
+                if parent_link.url == collection.url or parent_handle == collection.handle or col_handle_clean == parent_handle_clean
+                  assign is_on_parent = true
+                endif
+              else
+                # Fallback: Check if there is a separate linklist matching this collection's handle or common prefixes
+                assign clean_handle = collection.handle | replace: 'all-', '' | replace: '-all', ''
+                assign list_found = blank
+                
+                assign women_list_handle = 'women-' | append: clean_handle
+                assign men_list_handle = 'men-' | append: clean_handle
+                
+                if linklists[clean_handle] != blank and linklists[clean_handle].links.size > 0
+                  assign list_found = linklists[clean_handle]
+                elsif linklists[women_list_handle] != blank and linklists[women_list_handle].links.size > 0
+                  assign list_found = linklists[women_list_handle]
+                elsif linklists[men_list_handle] != blank and linklists[men_list_handle].links.size > 0
+                  assign list_found = linklists[men_list_handle]
+                elsif clean_handle == 'small-leather-goods' or clean_handle == 'slg'
+                  if linklists['women-slg'] != blank and linklists['women-slg'].links.size > 0
+                    assign list_found = linklists['women-slg']
+                  elsif linklists['small-leather-goods'] != blank and linklists['small-leather-goods'].links.size > 0
+                    assign list_found = linklists['small-leather-goods']
+                  elsif linklists['women-small-leather-goods'] != blank and linklists['women-small-leather-goods'].links.size > 0
+                    assign list_found = linklists['women-small-leather-goods']
+                  endif
+                elsif clean_handle == 'bags'
+                  if linklists['women-bags'] != blank and linklists['women-bags'].links.size > 0
+                    assign list_found = linklists['women-bags']
+                  endif
+                endif
+                
+                if list_found != blank
+                  assign sub_menu_links = list_found.links
+                  assign is_on_parent = true
+                else
+                  # If no dynamic menu found, fallback to hardcoded header menu structures
+                  if clean_handle == 'small-leather-goods' or clean_handle == 'slg'
+                    assign fallback_links_str = "Pouches::pouches||Wallets::wallets||Card Holders::card-holders"
+                    assign is_on_parent = true
+                  elsif clean_handle == 'bags'
+                    assign fallback_links_str = "Handbags::handbags||Mini Bags::mini-bags||Tote Bags::tote-bags||Backpacks::backpacks||Travel Bags::travel-bags||Shoulder Bags::shoulder-bags"
+                    assign is_on_parent = true
+                  endif
+                endif
+              endif
+            -%}
             
-            {%- if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' -%}
-
-              {%- if request.locale.iso_code == 'ar' -%}
-                {%- assign all_label = 'الكل' -%}
-              {%- else -%}
-                {%- assign all_label = 'All' -%}
+            {%- if is_on_parent -%}
+              {%- if sub_menu_links != blank -%}
+                {%- for child_link in sub_menu_links -%}
+                  {%- assign ctd = child_link.title | downcase -%}
+                  {%- if ctd == 'all' or ctd == 'الكل' or ctd contains 'view all' or ctd contains 'all collection' -%}{%- continue -%}{%- endif -%}
+                  {%- if ctd contains 'new' or ctd contains 'sale' or ctd contains 'explore' or ctd contains 'restock' or ctd contains 'عرض' -%}{%- continue -%}{%- endif -%}
+                  {%- assign child_col_handle = child_link.url | split: '/' | last -%}
+                  {%- if child_col_handle == collection.handle -%}{%- continue -%}{%- endif -%}
+                  <a href="{{ child_link.url }}"
+                     class="filter-pill filter-pill-type"
+                     data-type-value="{{ child_link.title | escape }}"
+                     onclick="toggleTypeFilter(this, event)">{{ child_link.title }}</a>
+                {%- endfor -%}
+              {%- elsif fallback_links_str != blank -%}
+                {%- assign fallback_pairs = fallback_links_str | split: '||' -%}
+                {%- for pair in fallback_pairs -%}
+                  {%- assign parts = pair | split: '::' -%}
+                  {%- assign title = parts[0] -%}
+                  {%- assign handle = parts[1] -%}
+                  <a href="/collections/{{ handle }}"
+                     class="filter-pill filter-pill-type"
+                     data-type-value="{{ title | escape }}"
+                     onclick="toggleTypeFilter(this, event)">{{ title }}</a>
+                {%- endfor -%}
               {%- endif -%}
+            {%- endif -%}
 
-              <a href="{{ collection.url }}" class="filter-pill active" data-is-brand-all="true">{{ all_label }}</a>
-
+            {%- comment -%} ── 2b. Main category pills from nav (for brand collections — top-level only on front, all on drawer) ── {%- endcomment -%}
+            {%- if is_brand_menu -%}
               {%- capture vendor_titles_str -%}{%- for vendor in shop.vendors -%}::{{ vendor | downcase }}||{%- endfor -%}{%- endcapture -%}
-
-              {%- comment -%} Dynamically extract category collection links from menus including dropdowns {%- endcomment -%}
               {%- assign category_links = "" -%}
+              {%- assign category_links_all = "" -%}
               {%- for menu_handle in menu_handles -%}
                 {%- if linklists[menu_handle] != blank -%}
                   {%- for link in linklists[menu_handle].links -%}
-                    {%- assign link_title_down = link.title | downcase -%}
-                    {%- if link_title_down contains 'brand' or link_title_down contains 'vendor' or link_title_down contains 'البراند' or link_title_down contains 'ماركة' or link_title_down contains 'البراندات' -%}
-                      {%- continue -%}
-                    {%- endif -%}
-                    {%- if link_title_down contains 'home' or link_title_down contains 'الرئيسية' or link_title_down contains 'new' or link_title_down contains 'sale' or link_title_down contains 'عرض' -%}
-                      {%- continue -%}
-                    {%- endif -%}
-                    {%- if link_title_down contains 'explore' or link_title_down contains 'restock' -%}
-                      {%- continue -%}
-                    {%- endif -%}
-                    {%- assign check_vendor_title = '::' | append: link_title_down | append: '||' -%}
-                    {%- if vendor_titles_str contains check_vendor_title -%}
-                      {%- continue -%}
-                    {%- endif -%}
+                    {%- assign ltd = link.title | downcase -%}
+                    {%- if ltd contains 'brand' or ltd contains 'vendor' or ltd contains 'البراند' or ltd contains 'ماركة' or ltd contains 'البراندات' -%}{%- continue -%}{%- endif -%}
+                    {%- if ltd contains 'home' or ltd contains 'الرئيسية' or ltd contains 'new' or ltd contains 'sale' or ltd contains 'عرض' or ltd contains 'explore' or ltd contains 'restock' -%}{%- continue -%}{%- endif -%}
+                    {%- if ltd == 'all' or ltd == 'الكل' or ltd == 'view all' -%}{%- continue -%}{%- endif -%}
+                    {%- assign cvt = '::' | append: ltd | append: '||' -%}
+                    {%- if vendor_titles_str contains cvt -%}{%- continue -%}{%- endif -%}
                     {%- if link.url contains '/collections/' -%}
-                      {%- assign col_handle = link.url | split: '/' | last -%}
-                      {%- assign check_handle = '::' | append: col_handle | append: '||' -%}
-                      {%- unless category_links contains check_handle -%}
-                        {%- assign category_links = category_links | append: link.title | append: '::' | append: col_handle | append: '||' -%}
-                      {%- endunless -%}
+                      {%- assign clh = link.url | split: '/' | last -%}
+                      {%- if clh != collection.handle -%}
+                        {%- assign chk = '::' | append: clh | append: '||' -%}
+                        {%- unless category_links contains chk -%}{%- assign category_links = category_links | append: link.title | append: '::' | append: clh | append: '||' -%}{%- endunless -%}
+                        {%- unless category_links_all contains chk -%}{%- assign category_links_all = category_links_all | append: link.title | append: '::' | append: clh | append: '||' -%}{%- endunless -%}
+                      {%- endif -%}
                     {%- endif -%}
-
+                    
                     {%- for child_link in link.links -%}
-                      {%- assign child_title_down = child_link.title | downcase -%}
-                      {%- if child_title_down contains 'view all' or child_title_down contains 'all collection' -%}
-                        {%- continue -%}
-                      {%- endif -%}
-                      {%- if child_title_down contains 'explore' or child_title_down contains 'restock' -%}
-                        {%- continue -%}
-                      {%- endif -%}
-                      {%- assign check_vendor_title = '::' | append: child_title_down | append: '||' -%}
-                      {%- if vendor_titles_str contains check_vendor_title -%}
-                        {%- continue -%}
-                      {%- endif -%}
+                      {%- assign cltd = child_link.title | downcase -%}
+                      {%- if cltd == 'all' or cltd == 'الكل' or cltd contains 'view all' or cltd contains 'all collection' or cltd contains 'explore' or cltd contains 'restock' -%}{%- continue -%}{%- endif -%}
+                      {%- assign ccvt = '::' | append: cltd | append: '||' -%}
+                      {%- if vendor_titles_str contains ccvt -%}{%- continue -%}{%- endif -%}
                       {%- if child_link.url contains '/collections/' -%}
-                        {%- assign col_handle = child_link.url | split: '/' | last -%}
-                        {%- assign check_handle = '::' | append: col_handle | append: '||' -%}
-                        {%- unless category_links contains check_handle -%}
-                          {%- assign category_links = category_links | append: child_link.title | append: '::' | append: col_handle | append: '||' -%}
-                        {%- endunless -%}
+                        {%- assign clch = child_link.url | split: '/' | last -%}
+                        {%- if clch != collection.handle -%}
+                          {%- assign cchk = '::' | append: clch | append: '||' -%}
+                          {%- unless category_links_all contains cchk -%}{%- assign category_links_all = category_links_all | append: child_link.title | append: '::' | append: clch | append: '||' -%}{%- endunless -%}
+                        {%- endif -%}
                       {%- endif -%}
-
-                      {%- for grandchild_link in child_link.links -%}
-                        {%- assign grandchild_title_down = grandchild_link.title | downcase -%}
-                        {%- if grandchild_title_down contains 'view all' or grandchild_title_down contains 'all collection' -%}
-                          {%- continue -%}
-                        {%- endif -%}
-                        {%- if grandchild_title_down contains 'explore' or grandchild_title_down contains 'restock' -%}
-                          {%- continue -%}
-                        {%- endif -%}
-                        {%- assign check_vendor_title = '::' | append: grandchild_title_down | append: '||' -%}
-                        {%- if vendor_titles_str contains check_vendor_title -%}
-                          {%- continue -%}
-                        {%- endif -%}
-                        {%- if grandchild_link.url contains '/collections/' -%}
-                          {%- assign col_handle = grandchild_link.url | split: '/' | last -%}
-                          {%- assign check_handle = '::' | append: col_handle | append: '||' -%}
-                          {%- unless category_links contains check_handle -%}
-                            {%- assign category_links = category_links | append: grandchild_link.title | append: '::' | append: col_handle | append: '||' -%}
-                          {%- endunless -%}
+                      
+                      {%- for gc in child_link.links -%}
+                        {%- assign gctd = gc.title | downcase -%}
+                        {%- if gctd == 'all' or gctd == 'الكل' or gctd contains 'view all' or gctd contains 'all collection' or gctd contains 'explore' or gctd contains 'restock' -%}{%- continue -%}{%- endif -%}
+                        {%- assign gcvt = '::' | append: gctd | append: '||' -%}
+                        {%- if vendor_titles_str contains gcvt -%}{%- continue -%}{%- endif -%}
+                        {%- if gc.url contains '/collections/' -%}
+                          {%- assign gch = gc.url | split: '/' | last -%}
+                          {%- if gch != collection.handle -%}
+                            {%- assign gchk = '::' | append: gch | append: '||' -%}
+                            {%- unless category_links_all contains gchk -%}{%- assign category_links_all = category_links_all | append: gc.title | append: '::' | append: gch | append: '||' -%}{%- endunless -%}
+                          {%- endif -%}
                         {%- endif -%}
                       {%- endfor -%}
                     {%- endfor -%}
                   {%- endfor -%}
                 {%- endif -%}
               {%- endfor -%}
-
-              {%- assign category_pairs = category_links | split: '||' -%}
-              {%- for pair in category_pairs -%}
-                {%- assign parts = pair | split: '::' -%}
-                {%- assign title = parts[0] -%}
-                {%- assign handle = parts[1] -%}
-                {%- if title != blank and handle != blank -%}
-                  {%- comment -%} Build type list based on category handle {%- endcomment -%}
-                  {%- assign query_params = "" -%}
-                  {%- assign type_values_str = "" -%}
-                  
-                  {%- assign types_list = title | split: ',' -%}
-
-                  {%- for type_item in types_list -%}
-                    {%- assign type_encoded = type_item | strip | url_encode -%}
-                    {%- if forloop.first -%}
-                      {%- assign query_params = query_params | append: "filter.p.product_type=" | append: type_encoded -%}
-                    {%- else -%}
-                      {%- assign query_params = query_params | append: "&filter.p.product_type=" | append: type_encoded -%}
-                    {%- endif -%}
-                    {%- assign type_values_str = type_values_str | append: type_item | strip -%}
-                    {%- unless forloop.last -%}
-                      {%- assign type_values_str = type_values_str | append: "," -%}
-                    {%- endunless -%}
+              {%- assign cat_pairs = category_links | split: '||' -%}
+              {%- for pair in cat_pairs -%}
+                {%- assign pparts = pair | split: '::' -%}
+                {%- assign ptitle = pparts[0] -%}
+                {%- assign phandle = pparts[1] -%}
+                {%- if ptitle != blank and phandle != blank -%}
+                  {%- assign qp = "" -%}
+                  {%- assign tvs = "" -%}
+                  {%- assign tlist = ptitle | split: ',' -%}
+                  {%- for ti in tlist -%}
+                    {%- assign te = ti | strip | url_encode -%}
+                    {%- if forloop.first -%}{%- assign qp = qp | append: "filter.p.product_type=" | append: te -%}{%- else -%}{%- assign qp = qp | append: "&filter.p.product_type=" | append: te -%}{%- endif -%}
+                    {%- assign tvs = tvs | append: ti | strip -%}
+                    {%- unless forloop.last -%}{%- assign tvs = tvs | append: "," -%}{%- endunless -%}
                   {%- endfor -%}
+                  <a href="{{ collection.url }}?{{ qp }}"
+                     class="filter-pill filter-pill-category-type"
+                     data-type-values="{{ tvs | escape }}"
+                     onclick="toggleCategoryTypeFilter(this, event)">{{ ptitle }}</a>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
 
-                  <a href="{{ collection.url }}?{{ query_params }}" 
-                     class="filter-pill filter-pill-category-type" 
-                     data-type-values="{{ type_values_str | escape }}" 
-                     onclick="toggleCategoryTypeFilter(this, event)">
-                     {{ title }}
+           {%- comment -%} ── 3. Brand filter pills removed (brands handled in drawer) ── {%- endcomment -%}
+
+          {%- endunless -%}
+
+          {%- comment -%} ── 4. /all page — section filter_link blocks ── {%- endcomment -%}
+          {%- if collection.handle == 'all' -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'filter_link' -%}
+                {%- assign target_col = collections[block.settings.collection_handle] -%}
+                {%- if target_col != blank -%}
+                  <a href="{{ target_col.url }}" class="filter-pill{% if collection.handle == target_col.handle %} active{% endif %}">
+                    {{ block.settings.label | default: target_col.title }}
                   </a>
                 {%- endif -%}
-              {%- endfor -%}
-              {%- assign show_fallback = false -%}
-            {%- elsif collection.handle != 'all' -%}
-              {%- comment -%} Look for Brand / Vendor filter {%- endcomment -%}
-              {%- assign brand_filter = blank -%}
-              {%- for filter in collection.filters -%}
-                {%- assign label_down = filter.label | downcase -%}
-                {%- if label_down contains 'brand' or label_down contains 'vendor' or label_down contains 'البراند' or label_down contains 'ماركة' -%}
-                  {%- assign brand_filter = filter -%}
-                  {%- break -%}
-                {%- endif -%}
-              {%- endfor -%}
-              
-              {%- if brand_filter != blank and brand_filter.values.size > 0 -%}
-                {%- assign active_count = brand_filter.active_values.size -%}
-                <a href="{{ collection.url }}" class="filter-pill {% if active_count == 0 %}active{% endif %}">All</a>
-                {%- for value in brand_filter.values limit: 8 -%}
-                  {%- if value.active -%}
-                    <a href="{{ value.url_to_remove }}" class="filter-pill active">
-                      {{ value.label }}
-                    </a>
-                  {%- else -%}
-                    <a href="{{ value.url_to_add }}" class="filter-pill">
-                      {{ value.label }}
-                    </a>
-                  {%- endif -%}
-                {%- endfor -%}
-                {%- assign show_fallback = false -%}
               {%- endif -%}
-            {%- endif -%}
-            
-            {%- if show_fallback -%}
-              <a href="{{ routes.all_products_collection_url }}" class="filter-pill filter-pill-general{% if collection.handle == 'all' %} active{% endif %}">All</a>
-              <a href="{{ routes.collections_url }}/on-sale" class="filter-pill filter-pill-general{% if collection.handle == 'on-sale' %} active{% endif %}">Sale</a>
-              <a href="{{ routes.collections_url }}/new-in" class="filter-pill filter-pill-general{% if collection.handle == 'new-in' %} active{% endif %}">New In</a>
-              {%- if collection.handle == 'all' -%}
-                {%- for block in section.blocks -%}
-                  {%- if block.type == 'filter_link' -%}
-                    {%- assign target_col = collections[block.settings.collection_handle] -%}
-                    {%- if target_col != blank -%}
-                      <a href="{{ target_col.url }}" class="filter-pill{% if collection.handle == target_col.handle %} active{% endif %}">
-                        {{ block.settings.label | default: target_col.title }}
-                      </a>
-                    {%- endif -%}
-                  {%- endif -%}
-                {%- endfor -%}
-              {%- endif -%}
-            {%- endif -%}
+            {%- endfor -%}
           {%- endif -%}
+
+          {%- comment -%} ── 5. Sale + New In links (always, acts as tags filter instead of redirecting) ── {%- endcomment -%}
+          {%- liquid
+            # Detect available sale and new-in tags dynamically
+            assign sale_tag = 'sale'
+            for tag in collection.all_tags
+              assign tag_down = tag | downcase
+              if tag_down == 'sale' or tag_down == 'on-sale'
+                assign sale_tag = tag
+                break
+              endif
+            endfor
+
+            assign new_tag = 'new-arrivals'
+            for tag in collection.all_tags
+              assign tag_down = tag | downcase
+              if tag_down == 'new-arrivals' or tag_down == 'new-in' or tag_down == 'new'
+                assign new_tag = tag
+                break
+              endif
+            endfor
+
+            # Check if active
+            assign is_sale_active = false
+            if current_tags contains sale_tag
+              assign is_sale_active = true
+            endif
+
+            assign is_new_active = false
+            if current_tags contains new_tag
+              assign is_new_active = true
+            endif
+
+            # Generate URLs
+            if is_sale_active
+              assign sale_url = collection.url
+            else
+              assign sale_url = collection.url | append: '/' | append: sale_tag
+            endif
+
+            if is_new_active
+              assign new_url = collection.url
+            else
+              assign new_url = collection.url | append: '/' | append: new_tag
+            endif
+          -%}
+
+          {%- unless collection.handle == 'on-sale' or collection.handle contains 'sale' -%}
+            <a href="{{ sale_url }}" class="filter-pill filter-pill-general{% if is_sale_active %} active{% endif %}">Sale</a>
+          {%- endunless -%}
+          {%- unless collection.handle == 'new-in' or collection.handle == 'new-arrivals' -%}
+            <a href="{{ new_url }}" class="filter-pill filter-pill-general{% if is_new_active %} active{% endif %}">New In</a>
+          {%- endunless -%}
+
         </div>
       {%- endif -%}
     </div>
@@ -1439,9 +1543,11 @@
                 {%- for pair in drawer_col_pairs -%}
                   {%- assign parts = pair | split: '::' -%}
                   {%- assign ctitle = parts[0] -%}
+                  {%- assign ctitle_down = ctitle | downcase -%}
                   {%- assign chandle = parts[1] -%}
-                  {%- if ctitle != blank and chandle != blank -%}
-                    {%- if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' -%}
+                  {%- if ctitle == blank or chandle == blank -%}{%- continue -%}{%- endif -%}
+                  {%- if ctitle_down == 'all' or ctitle_down == 'الكل' or ctitle_down contains 'view all' -%}{%- continue -%}{%- endif -%}
+                  {%- if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' -%}
                       {%- liquid
                         assign types_list_str = ctitle
                       -%}
@@ -1465,7 +1571,6 @@
                         <span class="filter-value-text">{{ ctitle }}</span>
                       </label>
                     {%- endif -%}
-                  {%- endif -%}
                 {%- endfor -%}
               </div>
             </div>
@@ -1477,7 +1582,11 @@
 
           {%- liquid
             assign filter_label_down = filter.label | downcase
-            if is_brand_menu and filter_label_down contains 'brand' or filter_label_down contains 'vendor' or filter_label_down contains 'البراند' or filter_label_down contains 'ماركة'
+            assign is_brand_vendor_filter = false
+            if filter_label_down contains 'brand' or filter_label_down contains 'vendor' or filter_label_down contains 'البراند' or filter_label_down contains 'ماركة'
+              assign is_brand_vendor_filter = true
+            endif
+            if is_brand_menu and is_brand_vendor_filter
               continue
             endif
           -%}
@@ -2023,7 +2132,7 @@
           matchesType = true;
         }
       }
-      const isBrandMenu = {% if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'restock' or collection.handle == 'on-sale' %}true{% else %}false{% endif %};
+      const isBrandMenu = {% if is_brand_menu or collection.handle == 'new-in' or collection.handle == 'new-arrivals' or collection.handle == 'trending' or collection.handle == 'restock' or collection.handle == 'on-sale' %}true{% else %}false{% endif %};
       if (!isBrandMenu && !matchesType && activeTypes.length > 0) {
         const activePillHandles = [];
         document.querySelectorAll('.filter-pill-type.active:not([data-is-all="true"])').forEach(pill => {

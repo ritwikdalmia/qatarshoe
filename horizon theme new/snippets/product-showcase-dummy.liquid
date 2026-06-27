@@ -1,0 +1,102 @@
+{%- if request.locale.iso_code == 'ar' -%}
+  {%- assign dummy_products = "حقيبة توت ديانا الصغيرة من جي سي سي,حقيبة جاكي 1961 الصغيرة حمراء من جي سي سي,حقيبة ليدي مايكرو سوداء من دي آر,حقيبة ليدي مايكرو بيج من دي آر,حقيبة ميني أنديامو بني من بي في جي" | split: "," -%}
+  {%- assign dummy_brands   = "جي سي سي,جي سي سي,دي آر,دي آر,بي في جي" | split: "," -%}
+{%- else -%}
+  {%- assign dummy_products = "GCC Diana small tote bag,GCC Jackie 1961 Small Bag Red,DR Lady Micro Bag Black Cannage Lambskin,DR Lady Micro Bag Beige Cannage Lambskin,BVG Mini Andiamo Brown" | split: "," -%}
+  {%- assign dummy_brands   = "GCC,GCC,DR,DR,BVG" | split: "," -%}
+{%- endif -%}
+{%- assign dummy_images = "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop,https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600&auto=format&fit=crop" | split: "," -%}
+
+{%- assign dummy_images_0 = "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop,https://images.unsplash.com/photo-1566150905458-1bf1fc15aae9?q=80&w=800&auto=format&fit=crop,https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=800&auto=format&fit=crop" -%}
+{%- assign dummy_images_1 = "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1591348278863-a8fb3887e2ac?q=80&w=600&auto=format&fit=crop" -%}
+{%- assign dummy_images_2 = "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1598532187856-327247a26b01?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1566150905458-1bf1fc15aae9?q=80&w=600&auto=format&fit=crop" -%}
+{%- assign dummy_images_3 = "https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=600&auto=format&fit=crop" -%}
+{%- assign dummy_images_4 = "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1605733727293-e475586618ce?q=80&w=600&auto=format&fit=crop,https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=600&auto=format&fit=crop" -%}
+
+{%- assign dummy_has_sale = "true,false,true,false,true" | split: "," -%}
+
+{%- assign dummy_prices_qar   = "2000,1800,1900,1900,2300" | split: "," -%}
+{%- assign dummy_compare_qar  = "2500,,2400,,2800" | split: "," -%}
+
+{%- assign dummy_prices_usd   = "549,495,522,522,632" | split: "," -%}
+{%- assign dummy_compare_usd  = "687,,659,,769" | split: "," -%}
+{%- assign dummy_prices_eur   = "506,456,481,481,582" | split: "," -%}
+{%- assign dummy_compare_eur  = "633,,608,,709" | split: "," -%}
+{%- assign dummy_prices_aed   = "2006,1805,1906,1906,2307" | split: "," -%}
+{%- assign dummy_compare_aed  = "2508,,2407,,2808" | split: "," -%}
+
+{%- for i in (0..4) -%}
+  {%- assign has_sale = dummy_has_sale[i] -%}
+  {%- case i -%}
+    {%- when 0 -%}
+      {%- assign card_images = dummy_images_0 -%}
+    {%- when 1 -%}
+      {%- assign card_images = dummy_images_1 -%}
+    {%- when 2 -%}
+      {%- assign card_images = dummy_images_2 -%}
+    {%- when 3 -%}
+      {%- assign card_images = dummy_images_3 -%}
+    {%- when 4 -%}
+      {%- assign card_images = dummy_images_4 -%}
+  {%- endcase -%}
+  <a href="{{ routes.all_products_collection_url }}" class="product-card" aria-label="{{ dummy_products[i] }}">
+    <div class="product-card-img" data-images="{{ card_images }}">
+      <img src="{{ dummy_images[i] }}" alt="{{ dummy_products[i] }}" width="600" height="900" loading="lazy">
+
+      <button type="button" class="product-wishlist-btn" aria-label="Add to wishlist"
+              data-id="dummy-{{ i }}"
+              data-title="{{ dummy_products[i] | escape }}"
+              data-image="{{ dummy_images[i] }}"
+              data-price="{{ dummy_prices_qar[i] | times: 100 }}"
+              data-url="/collections/all"
+              data-vendor="{{ dummy_brands[i] | escape }}"
+              data-variant-id="dummy-{{ i }}"
+              onclick="toggleWishlist(event, 'dummy-{{ i }}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+        </svg>
+      </button>
+      <button type="button" class="product-quick-add-btn" aria-label="Add to cart"
+              data-variant-id="dummy-{{ i }}"
+              onclick="window.quickAddCardToCart(event, 'dummy-{{ i }}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+      </button>
+
+      {%- if has_sale == "true" -%}
+        <div class="product-badge-sale-new color-custom-badge-sale product-badge--{{ settings.badge_position }}"><span class="badge-text">SALE</span></div>
+      {%- else -%}
+        <div class="product-badge-new color-custom-badge-new product-badge--{{ settings.badge_position }}"><span class="badge-text">NEW</span></div>
+      {%- endif -%}
+    </div>
+
+    <div class="product-card-body">
+      <div class="text-wrapper">
+        <div class="product-brand">{{ dummy_brands[i] }}</div>
+        <div class="product-model">{{ dummy_products[i] }}</div>
+      </div>
+
+      <div class="product-price-row"
+        data-price-qar="QAR {{ dummy_prices_qar[i] }}"
+        data-price-usd="$ {{ dummy_prices_usd[i] }}"
+        data-price-eur="€ {{ dummy_prices_eur[i] }}"
+        data-price-aed="AED {{ dummy_prices_aed[i] }}"
+        {%- if has_sale == "true" %}
+        data-compare-qar="QAR {{ dummy_compare_qar[i] }}"
+        data-compare-usd="$ {{ dummy_compare_usd[i] }}"
+        data-compare-eur="€ {{ dummy_compare_eur[i] }}"
+        data-compare-aed="AED {{ dummy_compare_aed[i] }}"
+        {%- endif %}>
+        {%- if has_sale == "true" -%}
+          <span class="product-price-compare">QAR {{ dummy_compare_qar[i] }}</span>
+          <span class="product-price sale-price">QAR {{ dummy_prices_qar[i] }}</span>
+        {%- else -%}
+          <span class="product-price">QAR {{ dummy_prices_qar[i] }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  </a>
+{%- endfor -%}

@@ -1,0 +1,885 @@
+{%- liquid
+  assign autoplay = section.settings.autoplay
+  assign autoplay_speed = section.settings.autoplay_speed | default: 5
+-%}
+
+<div
+  class="slideshow-banners-wrapper"
+  id="slideshow-wrapper-{{ section.id }}"
+  data-autoplay="{{ autoplay }}"
+  data-autoplay-speed="{{ autoplay_speed | times: 1000 }}"
+  data-active-dept="women"
+>
+  <div class="slideshow-banners__container">
+    
+    <!-- Slides Track -->
+    <div class="slideshow-banners__track" id="track-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          # Set visibility based on block type
+          if block.type == 'women_slide'
+            assign visibility = 'women'
+          elsif block.type == 'men_slide'
+            assign visibility = 'men'
+          else
+            assign visibility = 'both'
+          endif
+          
+          # Resolve images
+          if block.type == 'women_slide' or block.type == 'dual_slide'
+            if block.settings.image_desktop_women != blank
+              assign img_w_desc = block.settings.image_desktop_women | image_url: width: 2000
+            else
+              assign img_w_desc = 'women.png' | asset_url
+            endif
+            if block.settings.image_mobile_women != blank
+              assign img_w_mob = block.settings.image_mobile_women | image_url: width: 800
+            else
+              assign img_w_mob = 'women.png' | asset_url
+            endif
+          endif
+
+          if block.type == 'men_slide' or block.type == 'dual_slide'
+            if block.settings.image_desktop_men != blank
+              assign img_m_desc = block.settings.image_desktop_men | image_url: width: 2000
+            else
+              assign img_m_desc = 'men.png' | asset_url
+            endif
+            if block.settings.image_mobile_men != blank
+              assign img_m_mob = block.settings.image_mobile_men | image_url: width: 800
+            else
+              assign img_m_mob = 'men.png' | asset_url
+            endif
+          endif
+        -%}
+        
+        <div
+          class="slideshow-banners__slide"
+          data-visibility="{{ visibility }}"
+          data-block-id="{{ block.id }}"
+          {{ block.shopify_attributes }}
+        >
+          <!-- Images -->
+          <div class="slideshow-banners__media-container">
+            <div class="slideshow-banners__overlay" style="--overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+            
+            {%- if block.type == 'women_slide' or block.type == 'dual_slide' -%}
+              <!-- Women Images -->
+              <picture data-dept-image="women" class="slideshow-banners__picture">
+                <source media="(max-width: 768px)" srcset="{{ img_w_mob }}">
+                <img src="{{ img_w_desc }}" alt="{{ block.settings.heading_women | escape }}" class="slideshow-banners__image" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+              </picture>
+            {%- endif -%}
+
+            {%- if block.type == 'men_slide' or block.type == 'dual_slide' -%}
+              <!-- Men Images -->
+              <picture data-dept-image="men" class="slideshow-banners__picture">
+                <source media="(max-width: 768px)" srcset="{{ img_m_mob }}">
+                <img src="{{ img_m_desc }}" alt="{{ block.settings.heading_men | escape }}" class="slideshow-banners__image" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+              </picture>
+            {%- endif -%}
+          </div>
+
+          <!-- Content overlay -->
+          <div class="slideshow-banners__content-box content-align-{{ block.settings.content_alignment | default: 'center' }}">
+            <div class="slideshow-banners__content-inner">
+              
+              {%- if block.type == 'women_slide' or block.type == 'dual_slide' -%}
+                <!-- Women Content -->
+                <div data-dept-content="women" class="slideshow-banners__dept-content">
+                  {%- if block.settings.subheading_women != blank -%}
+                    <span class="slideshow-banners__subheading">{{ block.settings.subheading_women }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.heading_women != blank -%}
+                    <h2 class="slideshow-banners__heading">{{ block.settings.heading_women }}</h2>
+                  {%- endif -%}
+                  {%- if block.settings.button_text_women != blank and block.settings.button_link_women != blank -%}
+                    <a href="{{ block.settings.button_link_women }}" class="slideshow-banners__button button-style-{{ block.settings.button_style | default: 'black_solid' }}">
+                      {{ block.settings.button_text_women }}
+                    </a>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              {%- if block.type == 'men_slide' or block.type == 'dual_slide' -%}
+                <!-- Men Content -->
+                <div data-dept-content="men" class="slideshow-banners__dept-content">
+                  {%- if block.settings.subheading_men != blank -%}
+                    <span class="slideshow-banners__subheading">{{ block.settings.subheading_men }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.heading_men != blank -%}
+                    <h2 class="slideshow-banners__heading">{{ block.settings.heading_men }}</h2>
+                  {%- endif -%}
+                  {%- if block.settings.button_text_men != blank and block.settings.button_link_men != blank -%}
+                    <a href="{{ block.settings.button_link_men }}" class="slideshow-banners__button button-style-{{ block.settings.button_style | default: 'black_solid' }}">
+                      {{ block.settings.button_text_men }}
+                    </a>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- Navigation Arrows -->
+    {%- if section.settings.show_arrows and section.blocks.size > 1 -%}
+      <button class="slideshow-banners__arrow arrow--prev" aria-label="Previous Slide">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+      <button class="slideshow-banners__arrow arrow--next" aria-label="Next Slide">
+        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+    {%- endif -%}
+
+    <!-- Navigation Dots -->
+    {%- if section.settings.show_dots and section.blocks.size > 1 -%}
+      <div class="slideshow-banners__dots"></div>
+    {%- endif -%}
+    
+  </div>
+</div>
+
+<style>
+  .slideshow-banners-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #000;
+  }
+  
+  .slideshow-banners__container {
+    position: relative;
+    width: 100%;
+    height: {{ section.settings.slider_height_desktop | default: '700' }}px;
+  }
+
+  @media (max-width: 1023px) {
+    .slideshow-banners__container {
+      height: {{ section.settings.slider_height_mobile | default: '500' }}px;
+      margin-top: 60px;
+    }
+  }
+
+  .slideshow-banners__track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    scroll-behavior: smooth;
+  }
+
+  .slideshow-banners__track::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .slideshow-banners__slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    scroll-snap-align: start;
+    overflow: hidden;
+  }
+
+  .slideshow-banners__media-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .slideshow-banners__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: var(--overlay-opacity, 0.15);
+    z-index: 2;
+  }
+
+  .slideshow-banners__picture, 
+  .slideshow-banners__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Content Overlay Box */
+  .slideshow-banners__content-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    padding: 40px 8%;
+    box-sizing: border-box;
+  }
+
+  .content-align-left {
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+  }
+  .content-align-center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .content-align-right {
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+  }
+
+  .slideshow-banners__content-inner {
+    max-width: 650px;
+    color: #ffffff;
+  }
+
+  .slideshow-banners__subheading {
+    display: block;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 15px;
+    opacity: 0.9;
+    font-family: inherit;
+    animation: fadeInUp 0.8s ease forwards;
+  }
+
+  .slideshow-banners__heading {
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1.2;
+    margin: 0 0 25px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'CanelaText-Regular', 'Cinzel', serif;
+    animation: fadeInUp 1s ease forwards;
+  }
+
+  @media (max-width: 768px) {
+    .slideshow-banners__heading {
+      font-size: 32px;
+    }
+    .slideshow-banners__subheading {
+      font-size: 12px;
+    }
+  }
+
+  .slideshow-banners__button {
+    display: inline-block;
+    padding: 15px 40px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px; /* Fully rounded capsule button style */
+    transition: all 0.3s ease;
+    animation: fadeInUp 1.2s ease forwards;
+  }
+
+  .button-style-white_solid {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #ffffff;
+  }
+  .button-style-white_solid:hover {
+    background-color: #000000;
+    color: #ffffff;
+    border-color: #000000;
+  }
+  .button-style-black_solid {
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #000000;
+  }
+  .button-style-black_solid:hover {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+  }
+  .button-style-outline {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+  }
+  .button-style-outline:hover {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  /* Arrows */
+  .slideshow-banners__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+  .slideshow-banners__arrow:hover {
+    background: #ffffff;
+    color: #000000;
+  }
+  .slideshow-banners__arrow svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+  .arrow--prev {
+    left: 20px;
+  }
+  .arrow--next {
+    right: 20px;
+  }
+
+  /* Dots */
+  .slideshow-banners__dots {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: flex;
+    gap: 10px;
+  }
+
+  .slideshow-banners__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .slideshow-banners__dot.active {
+    background-color: #ffffff;
+    transform: scale(1.3);
+  }
+
+  /* Department Switch Rules */
+  .slideshow-banners-wrapper[data-active-dept="women"] [data-dept-image="men"] {
+    display: none !important;
+  }
+  .slideshow-banners-wrapper[data-active-dept="women"] [data-dept-content="men"] {
+    display: none !important;
+  }
+
+  .slideshow-banners-wrapper[data-active-dept="men"] [data-dept-image="women"] {
+    display: none !important;
+  }
+  .slideshow-banners-wrapper[data-active-dept="men"] [data-dept-content="women"] {
+    display: none !important;
+  }
+
+  /* Hidden slides matching visibility settings */
+  .slideshow-banners-wrapper[data-active-dept="women"] .slideshow-banners__slide[data-visibility="men"] {
+    display: none !important;
+  }
+  .slideshow-banners-wrapper[data-active-dept="men"] .slideshow-banners__slide[data-visibility="women"] {
+    display: none !important;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    document.addEventListener('DOMContentLoaded', function() {
+      const wrapper = document.getElementById('slideshow-wrapper-{{ section.id }}');
+      if (!wrapper) return;
+
+      const track = wrapper.querySelector('.slideshow-banners__track');
+      const arrowPrev = wrapper.querySelector('.arrow--prev');
+      const arrowNext = wrapper.querySelector('.arrow--next');
+      const dotsContainer = wrapper.querySelector('.slideshow-banners__dots');
+      
+      let currentIndex = 0;
+      let visibleSlides = [];
+      let autoplayTimer = null;
+
+      function updateActiveDepartment() {
+        const dept = localStorage.getItem('amirivibes_department') || 'women';
+        wrapper.setAttribute('data-active-dept', dept);
+        
+        // Re-gather visible slides based on new active department visibility filters
+        visibleSlides = Array.from(track.querySelectorAll('.slideshow-banners__slide')).filter(slide => {
+          const vis = slide.getAttribute('data-visibility');
+          if (vis === 'both') return true;
+          return vis === dept;
+        });
+
+        // Re-build dots
+        if (dotsContainer) {
+          dotsContainer.innerHTML = '';
+          visibleSlides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.className = 'slideshow-banners__dot' + (idx === 0 ? ' active' : '');
+            dot.addEventListener('click', () => {
+              goToSlide(idx);
+            });
+            dotsContainer.appendChild(dot);
+          });
+        }
+
+        // Reset index
+        goToSlide(0, false);
+        restartAutoplay();
+      }
+
+      function goToSlide(index, smooth = true) {
+        if (visibleSlides.length === 0) return;
+        
+        // Wrap-around
+        if (index >= visibleSlides.length) {
+          currentIndex = 0;
+        } else if (index < 0) {
+          currentIndex = visibleSlides.length - 1;
+        } else {
+          currentIndex = index;
+        }
+
+        const targetSlide = visibleSlides[currentIndex];
+        if (targetSlide) {
+          track.scrollTo({
+            left: targetSlide.offsetLeft,
+            behavior: smooth ? 'smooth' : 'auto'
+          });
+        }
+
+        // Update dots classes
+        if (dotsContainer) {
+          const dots = dotsContainer.querySelectorAll('.slideshow-banners__dot');
+          dots.forEach((dot, idx) => {
+            if (idx === currentIndex) {
+              dot.classList.add('active');
+            } else {
+              dot.classList.remove('active');
+            }
+          });
+        }
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      function startAutoplay() {
+        const isAutoplay = wrapper.getAttribute('data-autoplay') === 'true';
+        const speed = parseInt(wrapper.getAttribute('data-autoplay-speed')) || 5000;
+        
+        if (isAutoplay && visibleSlides.length > 1) {
+          autoplayTimer = setInterval(nextSlide, speed);
+        }
+      }
+
+      function stopAutoplay() {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+
+      function restartAutoplay() {
+        stopAutoplay();
+        startAutoplay();
+      }
+
+      // Arrow Listeners
+      if (arrowPrev) {
+        arrowPrev.addEventListener('click', () => {
+          prevSlide();
+          restartAutoplay();
+        });
+      }
+
+      if (arrowNext) {
+        arrowNext.addEventListener('click', () => {
+          nextSlide();
+          restartAutoplay();
+        });
+      }
+
+      // Department Switcher Listeners
+      window.addEventListener('departmentChanged', function(e) {
+        updateActiveDepartment();
+      });
+
+      // Swipe support (simple)
+      let startX = 0;
+      track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        stopAutoplay();
+      }, { passive: true });
+
+      track.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+        restartAutoplay();
+      }, { passive: true });
+
+      // Theme editor hooks: auto-scroll to the selected block slide
+      document.addEventListener('shopify:block:select', function(event) {
+        const blockId = event.detail.blockId;
+        const selectedSlide = visibleSlides.find(slide => slide.getAttribute('data-block-id') === blockId);
+        if (selectedSlide) {
+          stopAutoplay();
+          const index = visibleSlides.indexOf(selectedSlide);
+          goToSlide(index, true);
+        }
+      });
+
+      document.addEventListener('shopify:block:deselect', function() {
+        restartAutoplay();
+      });
+
+      // Init
+      updateActiveDepartment();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Slideshow Banners",
+  "tag": "section",
+  "class": "slideshow-banners-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "slider_height_desktop",
+      "label": "Desktop Height (px)",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "slider_height_mobile",
+      "label": "Mobile Height (px)",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 15
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay Slideshow",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay Speed (seconds)",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show Next/Prev Arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show Navigation Dots",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "women_slide",
+      "name": "Women Slide",
+      "settings": [
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Content Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "black_solid", "label": "Black Solid" },
+            { "value": "white_solid", "label": "White Solid" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "black_solid"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop_women",
+          "label": "Women Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile_women",
+          "label": "Women Mobile Image"
+        },
+        {
+          "type": "text",
+          "id": "subheading_women",
+          "label": "Women Subheading",
+          "default": "New Arrivals"
+        },
+        {
+          "type": "text",
+          "id": "heading_women",
+          "label": "Women Heading",
+          "default": "Women's Collection"
+        },
+        {
+          "type": "text",
+          "id": "button_text_women",
+          "label": "Women Button Text",
+          "default": "Shop Women"
+        },
+        {
+          "type": "url",
+          "id": "button_link_women",
+          "label": "Women Button Link"
+        }
+      ]
+    },
+    {
+      "type": "men_slide",
+      "name": "Men Slide",
+      "settings": [
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Content Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "black_solid", "label": "Black Solid" },
+            { "value": "white_solid", "label": "White Solid" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "black_solid"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop_men",
+          "label": "Men Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile_men",
+          "label": "Men Mobile Image"
+        },
+        {
+          "type": "text",
+          "id": "subheading_men",
+          "label": "Men Subheading",
+          "default": "New Arrivals"
+        },
+        {
+          "type": "text",
+          "id": "heading_men",
+          "label": "Men Heading",
+          "default": "Men's Collection"
+        },
+        {
+          "type": "text",
+          "id": "button_text_men",
+          "label": "Men Button Text",
+          "default": "Shop Men"
+        },
+        {
+          "type": "url",
+          "id": "button_link_men",
+          "label": "Men Button Link"
+        }
+      ]
+    },
+    {
+      "type": "dual_slide",
+      "name": "Dual Slide (Both)",
+      "settings": [
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Content Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "black_solid", "label": "Black Solid" },
+            { "value": "white_solid", "label": "White Solid" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "black_solid"
+        },
+        {
+          "type": "header",
+          "content": "Women's Slide Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop_women",
+          "label": "Women Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile_women",
+          "label": "Women Mobile Image"
+        },
+        {
+          "type": "text",
+          "id": "subheading_women",
+          "label": "Women Subheading",
+          "default": "New Arrivals"
+        },
+        {
+          "type": "text",
+          "id": "heading_women",
+          "label": "Women Heading",
+          "default": "Women's Collection"
+        },
+        {
+          "type": "text",
+          "id": "button_text_women",
+          "label": "Women Button Text",
+          "default": "Shop Women"
+        },
+        {
+          "type": "url",
+          "id": "button_link_women",
+          "label": "Women Button Link"
+        },
+        {
+          "type": "header",
+          "content": "Men's Slide Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop_men",
+          "label": "Men Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile_men",
+          "label": "Men Mobile Image"
+        },
+        {
+          "type": "text",
+          "id": "subheading_men",
+          "label": "Men Subheading",
+          "default": "New Arrivals"
+        },
+        {
+          "type": "text",
+          "id": "heading_men",
+          "label": "Men Heading",
+          "default": "Men's Collection"
+        },
+        {
+          "type": "text",
+          "id": "button_text_men",
+          "label": "Men Button Text",
+          "default": "Shop Men"
+        },
+        {
+          "type": "url",
+          "id": "button_link_men",
+          "label": "Men Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow Banners",
+      "blocks": [
+        {
+          "type": "dual_slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -41,7 +41,7 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
-    color: #000000;
+    color: var(--color-text);
     margin: 0;
   }
 
@@ -53,7 +53,7 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
-    color: #000000;
+    color: var(--color-text);
   }
 
   .pp-block-bullets li {
@@ -105,7 +105,7 @@
       font-family: var(--font-body);
       font-size: 16px;
       font-weight: 400;
-      color: #000000;
+      color: var(--color-text);
       margin: 0;
       line-height: 1.5;
   }
@@ -126,7 +126,7 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: #e5e5e5;
+      background: var(--color-card-image-bg, #f9f9f9);
   }
 
   .contact-form-inner {
@@ -156,7 +156,7 @@
   .contact-form-intro p {
       font-family: var(--font-body);
       font-size: 16px;
-      color: #000000;
+      color: var(--color-text);
       margin: 0;
   }
 
@@ -171,7 +171,7 @@
       font-family: var(--font-body);
       font-size: 14px;
       line-height: 1.6;
-      color: #000000;
+      color: var(--color-text);
       margin-bottom: 24px;
   }
 
@@ -213,7 +213,7 @@
   }
 
   .contact-field-group label .required {
-      color: #FF0000;
+      color: var(--color-primary);
       margin-left: 2px;
   }
 
@@ -223,9 +223,9 @@
   .contact-form-wrapper textarea {
       width: 100%;
       background: var(--color-bg);
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--color-border);
       border-radius: var(--style-border-radius-inputs);
-      color: #000000;
+      color: var(--color-text);
       font-family: var(--font-body);
       font-size: 14px;
       box-sizing: border-box;
@@ -274,20 +274,20 @@
       padding: 14px 18px;
       font-size: 14px;
       border-radius: 4px;
-      color: #000000;
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
   }
 
   .wpcf7-response-output.sent {
-      border-color: #28a745;
-      color: #1e7a35;
-      background-color: rgba(40, 167, 69, 0.05);
+      border-color: var(--color-success, #28a745);
+      color: var(--color-success-text, #1e7a35);
+      background-color: rgb(var(--color-success-rgb, 40 167 69) / 0.05);
   }
 
   .wpcf7-response-output.invalid {
-      border-color: #d93b3d;
-      color: #b1282a;
-      background-color: rgba(217, 59, 61, 0.05);
+      border-color: var(--color-error, #d93b3d);
+      color: var(--color-error-text, #b1282a);
+      background-color: rgb(var(--color-error-rgb, 217 59 61) / 0.05);
   }
 
   @media (max-width: 1023px) {

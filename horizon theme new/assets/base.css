@@ -1012,6 +1012,56 @@ body:has(.header[transparent]) #header-group > *:not(.header-section) {
   border: var(--product-card-border-width) solid rgb(var(--color-border-rgb) / var(--product-card-border-opacity));
 }
 
+@media screen and (max-width: 1023px) {
+  .product-grid {
+    gap: 0 !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--style-border-radius-cards, var(--card-corner-radius, var(--product-corner-radius, 12px))) !important;
+    overflow: hidden !important;
+    background-color: var(--color-background) !important;
+  }
+  .product-grid__item {
+    border: none !important;
+    border-right: 1px solid var(--color-border) !important;
+    border-bottom: 1px solid var(--color-border) !important;
+    border-radius: 0 !important;
+    background-color: var(--color-background) !important;
+  }
+  /* Remove right border on the 2nd column for 2-column layouts */
+  .product-grid:not(.product-grid-mobile--large):not([product-grid-view='mobile-single']) .product-grid__item:nth-child(2n) {
+    border-right: none !important;
+  }
+  /* Remove bottom border on the bottom row for 2-column layouts */
+  .product-grid:not(.product-grid-mobile--large):not([product-grid-view='mobile-single']) .product-grid__item:last-child,
+  .product-grid:not(.product-grid-mobile--large):not([product-grid-view='mobile-single']) .product-grid__item:nth-last-child(2):nth-child(2n+1) {
+    border-bottom: none !important;
+  }
+  /* Handle 1-column layouts on mobile */
+  .product-grid:is(.product-grid-mobile--large, [product-grid-view='mobile-single']) .product-grid__item {
+    border-right: none !important;
+  }
+  .product-grid:is(.product-grid-mobile--large, [product-grid-view='mobile-single']) .product-grid__item:last-child {
+    border-bottom: none !important;
+  }
+  .product-grid .product-card,
+  .product-grid__card {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  /* Standalone single product card layout resets */
+  .product-grid:has(> *:only-child) {
+    border: none !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+  .product-grid:has(> *:only-child) > * {
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--style-border-radius-cards, var(--card-corner-radius, var(--product-corner-radius, 12px))) !important;
+    overflow: hidden !important;
+  }
+}
+
 .product-grid--organic[product-grid-view='default'] .product-grid__item {
   height: fit-content;
 }
