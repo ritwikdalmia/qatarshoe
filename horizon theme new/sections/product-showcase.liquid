@@ -15,18 +15,26 @@
   comment
     Resolve collections from Customizer settings directly. No fallback logic.
   endcomment
-  assign col_women = section.settings.collection_handle_women
-  if col_women == blank
-    assign col_women = section.settings.collection_handle
+  assign col_women_handle = section.settings.collection_handle_women.handle | default: section.settings.collection_handle.handle | default: section.settings.collection_handle_women | default: section.settings.collection_handle | default: ''
+  assign col_men_handle = section.settings.collection_handle_men.handle | default: section.settings.collection_handle.handle | default: section.settings.collection_handle_men | default: section.settings.collection_handle | default: ''
+
+  assign col_women = blank
+  if col_women_handle != blank
+    assign col_women = collections[col_women_handle]
   endif
 
-  assign col_men = section.settings.collection_handle_men
-  if col_men == blank
-    assign col_men = section.settings.collection_handle
+  assign col_men = blank
+  if col_men_handle != blank
+    assign col_men = collections[col_men_handle]
   endif
 -%}
 
 {%- if col_women != blank or col_men != blank -%}
+<!-- DEBUG:
+  section.id: {{ section.id }}
+  col_women handle: {{ col_women.handle }} products count: {{ col_women.products.size }}
+  col_men handle: {{ col_men.handle }} products count: {{ col_men.products.size }}
+-->
 <div class="qtr-section product-showcase-section" id="section-{{ section.id }}" data-active-dept="women">
   <div class="section-heading-row">
     <h2 class="section-heading">{{ heading }}</h2>
