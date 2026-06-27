@@ -1125,6 +1125,9 @@
           <div class="drawer-expandable">
             <button class="drawer-expand-btn" type="button"><span>{{ link.title }}</span><span class="drawer-expand-icon">+</span></button>
             <div class="drawer-submenu">
+              <a href="{{ link.url }}" style="font-weight: 600; color: var(--color-primary);">
+                {%- if request.locale.iso_code == 'ar' -%}كل {{ link.title }}{%- else -%}All {{ link.title }}{%- endif -%}
+              </a>
               {%- for child_link in link.links -%}
                 <a href="{{ child_link.url }}">{{ child_link.title }}</a>
               {%- endfor -%}
@@ -1284,6 +1287,9 @@
           <div class="drawer-expandable">
             <button class="drawer-expand-btn" type="button"><span>{{ link.title }}</span><span class="drawer-expand-icon">+</span></button>
             <div class="drawer-submenu">
+              <a href="{{ link.url }}" style="font-weight: 600; color: var(--color-primary);">
+                {%- if request.locale.iso_code == 'ar' -%}كل {{ link.title }}{%- else -%}All {{ link.title }}{%- endif -%}
+              </a>
               {%- for child_link in link.links -%}
                 <a href="{{ child_link.url }}">{{ child_link.title }}</a>
               {%- endfor -%}
@@ -3039,6 +3045,7 @@
       height: 60px !important;
       display: flex !important;
       align-items: center !important;
+      box-sizing: border-box !important;
     }
     .header-container {
       width: 100% !important;
@@ -3046,6 +3053,7 @@
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
+      box-sizing: border-box !important;
     }
 
     

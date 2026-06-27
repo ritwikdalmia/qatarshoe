@@ -1883,6 +1883,44 @@
     ]
   },
   {
+    "name": "Pagination & Infinite Scroll",
+    "settings": [
+      {
+        "type": "select",
+        "id": "pagination_type",
+        "label": "Pagination Type",
+        "options": [
+          {
+            "value": "pagination",
+            "label": "Standard Pagination"
+          },
+          {
+            "value": "load_more",
+            "label": "Load More Button"
+          },
+          {
+            "value": "infinite_scroll",
+            "label": "Infinite Scroll"
+          },
+          {
+            "value": "show_all",
+            "label": "Show All (Infinite Scroll / No Pagination)"
+          }
+        ],
+        "default": "pagination"
+      },
+      {
+        "type": "range",
+        "id": "products_per_page",
+        "label": "Products per page",
+        "min": 8,
+        "max": 48,
+        "step": 4,
+        "default": 16
+      }
+    ]
+  },
+  {
     "name": "t:names.icons",
     "settings": [
       {

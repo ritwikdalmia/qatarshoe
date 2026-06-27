@@ -77,7 +77,7 @@
     endif
   endif
 
-  assign products_per_page = section.settings.products_per_page | default: 16
+  assign products_per_page = settings.products_per_page | default: 16
   if is_brand_menu or collection.handle == 'all' or collection.handle == 'on-sale' or collection.handle == 'new-in' or collection.handle == 'restock'
     assign products_per_page = 50
   endif
@@ -1044,10 +1044,10 @@
           -%}
 
           {%- unless collection.handle == 'on-sale' or collection.handle contains 'sale' -%}
-            <a href="{{ sale_url }}" class="filter-pill filter-pill-general{% if is_sale_active %} active{% endif %}">Sale</a>
+            <a href="#" class="filter-pill filter-pill-general filter-pill-sale{% if is_sale_active %} active{% endif %}" onclick="toggleGeneralFilter('sale', event)">Sale</a>
           {%- endunless -%}
           {%- unless collection.handle == 'new-in' or collection.handle == 'new-arrivals' -%}
-            <a href="{{ new_url }}" class="filter-pill filter-pill-general{% if is_new_active %} active{% endif %}">New In</a>
+            <a href="#" class="filter-pill filter-pill-general filter-pill-new{% if is_new_active %} active{% endif %}" onclick="toggleGeneralFilter('new-in', event)">New In</a>
           {%- endunless -%}
 
         </div>
@@ -1227,6 +1227,8 @@
              data-collections="{%- for col in product.collections -%}{{ col.handle }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}"
              data-available="{{ product.available }}"
              data-price-cents="{{ product.price }}"
+             data-on-sale="{%- if product.compare_at_price > product.price -%}true{%- else -%}false{%- endif -%}"
+             data-new-in="{%- assign tag_string = product.tags | join: ',' | downcase -%}{%- if tag_string contains 'new-arrivals' or tag_string contains 'new-in' or tag_string contains 'new' -%}true{%- else -%}false{%- endif -%}"
              {%- for option in product.options_with_values -%}
                data-opt-{{ option.name | handle }}="{%- for val in option.values -%}{{ val | downcase | escape }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}"
              {%- endfor -%}>
@@ -1257,7 +1259,8 @@
                   <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
                 </svg>
               </button>
-              <button type="button" class="product-quick-add-btn" aria-label="Add to cart"
+              {%- if settings.quick_add and product.available -%}
+              <button type="button" class="product-quick-add-btn{% unless settings.mobile_quick_add %} mobile-hide-quick-add{% endunless %}" aria-label="Add to cart"
                       data-variant-id="{{ product.selected_or_first_available_variant.id }}"
                       onclick="window.quickAddCardToCart(event, '{{ product.selected_or_first_available_variant.id }}')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1266,6 +1269,7 @@
                   <path d="M16 10a4 4 0 0 1-8 0"></path>
                 </svg>
               </button>
+              {%- endif -%}
               
               
               {%- if product.compare_at_price > product.price -%}
@@ -1472,22 +1476,24 @@
               assign drawer_col_all_label = 'All'
             endif
             assign drawer_col_links_str = category_links
-          elsif parent_link != blank and parent_link.links.size > 0
-            assign drawer_col_all_url = parent_link.url
-            assign drawer_col_all_label = 'All ' | append: parent_link.title
-            for cl in parent_link.links
-              assign clt = cl.title | downcase
-              if clt contains 'view all'
-                continue
-              endif
-              if cl.url contains '/collections/'
-                assign clh = cl.url | split: '/' | last
-                assign centry = '::' | append: clh | append: '||'
-                unless drawer_col_links_str contains centry
-                  assign drawer_col_links_str = drawer_col_links_str | append: cl.title | append: '::' | append: clh | append: '||'
-                endunless
-              endif
-            endfor
+          elsif parent_link != blank
+            if parent_link.links.size > 0
+              assign drawer_col_all_url = parent_link.url
+              assign drawer_col_all_label = 'All ' | append: parent_link.title
+              for cl in parent_link.links
+                assign clt = cl.title | downcase
+                if clt contains 'view all'
+                  continue
+                endif
+                if cl.url contains '/collections/'
+                  assign clh = cl.url | split: '/' | last
+                  assign centry = '::' | append: clh | append: '||'
+                  unless drawer_col_links_str contains centry
+                    assign drawer_col_links_str = drawer_col_links_str | append: cl.title | append: '::' | append: clh | append: '||'
+                  endunless
+                endif
+              endfor
+            endif
           else
             assign drawer_col_all_url = '/collections/all'
             assign drawer_col_all_label = 'All'
@@ -1696,6 +1702,29 @@
             </div>
           </div>
         {%- endif -%}
+
+        <div class="filter-drawer-section active" data-filter-type="status">
+          <div class="filter-section-header" onclick="toggleFilterSection(this)">
+            <h3>{% if request.locale.iso_code == 'ar' %}الحالة{% else %}Status{% endif %}</h3>
+            <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
+          </div>
+          <div class="filter-section-content">
+            <div class="filter-checkbox-list">
+              <label class="filter-checkbox-label" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; font-weight: 400; text-transform: none; line-height: 1;">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" name="filter.status.sale" value="sale" class="filter-drawer-checkbox custom-status-cb status-cb-sale">
+                  <span class="filter-value-text">{% if request.locale.iso_code == 'ar' %}تخفيضات{% else %}Sale{% endif %}</span>
+                </span>
+              </label>
+              <label class="filter-checkbox-label" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font-size: 13.5px; color: var(--color-primary); cursor: pointer; font-weight: 400; text-transform: none; line-height: 1;">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" name="filter.status.new" value="new" class="filter-drawer-checkbox custom-status-cb status-cb-new">
+                  <span class="filter-value-text">{% if request.locale.iso_code == 'ar' %}وصلنا حديثاً{% else %}New In{% endif %}</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
 
       
@@ -1715,7 +1744,7 @@
     currentPage: {{ paginate.current_page | default: 1 }},
     totalPages: {{ paginate.pages | default: 1 }},
     baseUrl: "{{ collection.url }}",
-    paginationType: "{{ section.settings.pagination_type | default: 'pagination' }}",
+    paginationType: "{{ settings.pagination_type | default: 'pagination' }}",
     productsPerPage: {{ products_per_page | default: 16 }}
   };
 </script>
@@ -1810,6 +1839,18 @@
       const val = params.get(input.name);
       input.value = val !== null ? val : '';
     });
+    
+    // 7. Sync general pills (Sale / New In)
+    const saleCb = document.querySelector('.status-cb-sale');
+    if (saleCb) {
+      const salePill = document.querySelector('.filter-pill-sale');
+      if (salePill) salePill.classList.toggle('active', saleCb.checked);
+    }
+    const newCb = document.querySelector('.status-cb-new');
+    if (newCb) {
+      const newPill = document.querySelector('.filter-pill-new');
+      if (newPill) newPill.classList.toggle('active', newCb.checked);
+    }
   }
 
   function getActiveProductTypes() {
@@ -2116,6 +2157,9 @@
       });
     }
     
+    const saleChecked = document.querySelector('.status-cb-sale')?.checked || false;
+    const newChecked = document.querySelector('.status-cb-new')?.checked || false;
+    
     let minPrice = parseFloat(document.getElementById('Filter-price-Min')?.value || document.querySelector('[id$="-Min"]')?.value || '');
     let maxPrice = parseFloat(document.getElementById('Filter-price-Max')?.value || document.querySelector('[id$="-Max"]')?.value || '');
     if (isNaN(minPrice)) minPrice = null;
@@ -2190,7 +2234,12 @@
         }
       }
       
-      if (matchesCol && matchesType && matchesVendor && matchesAvailability && matchesPrice && matchesOptions) {
+      const isOnSale = card.getAttribute('data-on-sale') === 'true';
+      const isNewIn = card.getAttribute('data-new-in') === 'true';
+      const matchesSale = !saleChecked || isOnSale;
+      const matchesNew = !newChecked || isNewIn;
+      
+      if (matchesCol && matchesType && matchesVendor && matchesAvailability && matchesPrice && matchesOptions && matchesSale && matchesNew) {
         card.classList.remove('filtered-out');
         visibleCount++;
       } else {
@@ -2237,6 +2286,9 @@
         activeAvailability.push(cb.value);
       });
     }
+    
+    const saleChecked = document.querySelector('.status-cb-sale')?.checked || false;
+    const newChecked = document.querySelector('.status-cb-new')?.checked || false;
     
     let minPrice = parseFloat(document.getElementById('Filter-price-Min')?.value || document.querySelector('[id$="-Min"]')?.value || '');
     let maxPrice = parseFloat(document.getElementById('Filter-price-Max')?.value || document.querySelector('[id$="-Max"]')?.value || '');
@@ -2312,7 +2364,12 @@
         }
       }
       
-      if (matchesCol && matchesType && matchesVendor && matchesAvailability && matchesPrice && matchesOptions) {
+      const isOnSale = card.getAttribute('data-on-sale') === 'true';
+      const isNewIn = card.getAttribute('data-new-in') === 'true';
+      const matchesSale = !saleChecked || isOnSale;
+      const matchesNew = !newChecked || isNewIn;
+      
+      if (matchesCol && matchesType && matchesVendor && matchesAvailability && matchesPrice && matchesOptions && matchesSale && matchesNew) {
         count++;
       }
     });
@@ -2749,6 +2806,21 @@
     applyFilters();
   }
 
+  function toggleGeneralFilter(type, event) {
+    if (event) event.preventDefault();
+    let cb = null;
+    if (type === 'sale') {
+      cb = document.querySelector('.status-cb-sale');
+    } else if (type === 'new-in') {
+      cb = document.querySelector('.status-cb-new');
+    }
+    if (cb) {
+      cb.checked = !cb.checked;
+      cb.dispatchEvent(new Event('change', { bubbles: true }));
+      applyFilters();
+    }
+  }
+
   function initCollectionFilters() {
     const params = new URLSearchParams(window.location.search);
     const activeCols = params.getAll('filter.p.collection').map(c => c.trim().toLowerCase());
@@ -2880,39 +2952,6 @@
 {
   "name": "Main Collection",
   "settings": [
-    {
-      "type": "select",
-      "id": "pagination_type",
-      "label": "Pagination Type",
-      "options": [
-        {
-          "value": "pagination",
-          "label": "Standard Pagination"
-        },
-        {
-          "value": "load_more",
-          "label": "Load More Button"
-        },
-        {
-          "value": "infinite_scroll",
-          "label": "Infinite Scroll"
-        },
-        {
-          "value": "show_all",
-          "label": "Show All (Infinite Scroll / No Pagination)"
-        }
-      ],
-      "default": "pagination"
-    },
-    {
-      "type": "range",
-      "id": "products_per_page",
-      "label": "Products per page",
-      "min": 8,
-      "max": 48,
-      "step": 4,
-      "default": 16
-    },
     {
       "type": "checkbox",
       "id": "show_breadcrumbs",

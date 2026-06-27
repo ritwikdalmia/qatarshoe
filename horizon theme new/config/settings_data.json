@@ -80,6 +80,8 @@
     "drawer_background_color": "#ffffff",
     "drawer_text_color": "#000000",
     "drawer_border_color": "#000000",
+    "pagination_type": "pagination",
+    "products_per_page": 16,
     "icon_stroke": "default",
     "palette_input_background": "#ffffff",
     "palette_input_text": "#000000",

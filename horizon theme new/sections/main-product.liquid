@@ -1312,6 +1312,7 @@
 
     if (mainImageContainer) {
       mainImageContainer.addEventListener('mouseenter', function() {
+        if (!window.matchMedia('(hover: hover)').matches) return;
         isGalleryPaused = true;
         stopGalleryAutoSlide();
       });
@@ -1332,6 +1333,7 @@
       });
       
       mainImageContainer.addEventListener('mouseleave', function() {
+        if (!window.matchMedia('(hover: hover)').matches) return;
         const activeImageView = document.getElementById('main-image-view');
         if (activeImageView) {
           activeImageView.style.transformOrigin = 'center center';

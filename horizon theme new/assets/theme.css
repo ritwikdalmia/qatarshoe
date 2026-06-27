@@ -1472,6 +1472,10 @@ body {
   }
 
   .site-header { height: 60px; padding: 0 14px; }
+  .header-left { flex: 1 !important; gap: 10px !important; }
+  .header-right { flex: 0 0 auto !important; gap: 8px !important; }
+  .dept-toggle { padding: 3px 4px !important; gap: 4px !important; }
+  .dept-toggle .dept-link { padding: 4px 8px !important; font-size: 11px !important; }
 
   .header-dept-toggle { display: none !important; }
   .mobile-header-logo { display: flex !important; }
@@ -3315,6 +3319,12 @@ body.template-index .page-content {
     aspect-ratio: 1/1 !important;
     max-width: none !important;
     flex: unset !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-hide-quick-add {
+    display: none !important;
   }
 }
 

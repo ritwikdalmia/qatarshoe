@@ -40,6 +40,8 @@
     }
     .brands-on-amirivibes .brand-item {
       width: calc((100% - (24px * ({{ section.settings.brands_per_row | default: 5 }} - 1))) / {{ section.settings.brands_per_row | default: 5 }});
+      max-width: 140px;
+      max-height: 140px;
       aspect-ratio: 1/1;
       height: auto;
       background: var(--color-card-bg, #ffffff);

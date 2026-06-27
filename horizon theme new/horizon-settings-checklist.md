@@ -207,6 +207,13 @@
 
 ---
 
+## 📄 Pagination & Infinite Scroll
+
+- [x] Pagination Type (`pagination_type`) — **Standard Pagination (pagination)**
+- [x] Products per page (`products_per_page`) — **16**
+
+---
+
 ## 🔣 Icons
 
 - [x] Icon Stroke (`icon_stroke`) — **Default**

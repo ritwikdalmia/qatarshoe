@@ -478,8 +478,8 @@
          data-src-mobile-go_women="{% if section.settings.image_mobile_go_women != blank %}{{ section.settings.image_mobile_go_women | image_url }}{% elsif section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}{{ 'Qtr-w-h.png' | asset_url }}{% endif %}"
          data-src-ship_women="{% if section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}{{ 'women-hand-dubai.png' | asset_url }}{% endif %}"
          data-src-mobile-ship_women="{% if section.settings.image_mobile_ship_women != blank %}{{ section.settings.image_mobile_ship_women | image_url }}{% elsif section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}{{ 'Dub-w-h.png' | asset_url }}{% endif %}"
-         data-src-ship_men="{% if section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}{{ 'men-hand-dubai.png' | asset_url }}{% endif %}"
-         data-src-mobile-ship_men="{% if section.settings.image_mobile_ship_men != blank %}{{ section.settings.image_mobile_ship_men | image_url }}{% elsif section.settings.image_ship_men != blank %}{{ section.settings.image_ship_men | image_url }}{% else %}{{ 'Dub-m-h.png' | asset_url }}{% endif %}">
+         data-src-ship_men="{{ 'men-hand-dubai.png' | asset_url }}"
+         data-src-mobile-ship_men="{{ 'Dub-m-h.png' | asset_url }}">
     {%- # theme-check-enable RemoteAsset -%}
     <div class="above-footer-content">
         <div class="above-footer-heading">{{ section.settings.heading_text }}</div>
@@ -626,16 +626,6 @@
       "type": "image_picker",
       "id": "image_mobile_go_men",
       "label": "Ready to Go (Qatar) - Men Mobile"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_ship_men",
-      "label": "Ready to Ship (Dubai) - Men"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_mobile_ship_men",
-      "label": "Ready to Ship (Dubai) - Men Mobile"
     }
   ],
   "presets": [

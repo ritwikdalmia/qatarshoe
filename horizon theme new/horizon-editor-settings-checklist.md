@@ -124,7 +124,11 @@ This checklist is designed for store administrators and editors to configure, ve
   - [x] Background Color (`popover_background_color`) — `#f9f2d5` · Text: `#1a0a00`
   - [x] Border Color (`popover_border_color`) — `#8c1638` · Width: **1px** · Radius: **14px**
 
-### 💰 10. Prices, Cards & Swatches
+### 📄 10. Pagination & Infinite Scroll
+- [x] Pagination Type (`pagination_type`) — **Standard Pagination (pagination)**
+- [x] Products per page (`products_per_page`) — **16**
+
+### 💰 11. Prices, Cards & Swatches
 - **Prices (Show Currency Code)**
   - [x] Product Pages (`currency_code_enabled_product_pages`) — **false**
   - [x] Product Cards (`currency_code_enabled_product_cards`) — **false**
@@ -140,7 +144,7 @@ This checklist is designed for store administrators and editors to configure, ve
   - [x] Selected Variantpicker Background (`palette_selected_variant_background`) — `#8c1638` · Text: `#ffffff` · Border: `#8c1638`
   - [x] Variant Button Border Width (`variant_button_border_width`) — **1px** · Radius: **14px** · Width: **Fill (equal-width)**
 
-### 🏢 11. Brand & Social
+### 🏢 12. Brand & Social
 - [x] Brand Headline (`brand_headline`) — _(empty)_
 - [x] Brand Description (`brand_description`) — _(empty)_
 - [ ] Brand Image / Footer Logo (`brand_image`) — _not set_
@@ -180,7 +184,6 @@ This checklist is designed for store administrators and editors to configure, ve
 ### 🛍5. Collections (`main-collection.liquid`)
 - [ ] **Layout Grid**: Set products/collections per row.
 - [ ] **Filters**: Turn on sidebar filtering options (by tag, color, size, price, etc.).
-- [ ] **Pagination**: Select pagination style (Page numbers, scroll loader).
 
 ### 👣 6. Footer (`footer.liquid`)
 - [ ] **Link Lists**: Set menus for policies, customer care, and general pages.

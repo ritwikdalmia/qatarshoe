@@ -1,6 +1,6 @@
 {%- liquid
   assign autoplay = section.settings.autoplay
-  assign autoplay_speed = section.settings.autoplay_speed | default: 5
+  assign autoplay_speed = settings.slideshow_interval | default: section.settings.autoplay_speed | default: 5
 -%}
 
 <div
