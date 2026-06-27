@@ -1,6 +1,6 @@
 
 
-<section class="brands-on-amirivibes homepage-section" id="section-{{ section.id }}" data-section="featured-brands" data-has-women="true" data-has-men="true">
+<section class="brands-on-amirivibes homepage-section" id="section-{{ section.id }}" data-section="featured-brands" data-has-women="true" data-has-men="true" data-active-dept="women">
   <style>
     .brands-on-amirivibes {
       padding: 128px 40px;
@@ -34,15 +34,14 @@
       align-self: stretch;
       padding: 1px;
       display: flex;
-      align-items: flex-start;
-      gap: 24px;
       flex-wrap: wrap;
       justify-content: center;
+      gap: 24px;
     }
     .brands-on-amirivibes .brand-item {
-      width: 130px;
-      height: 130px;
-      flex: 0 0 auto;
+      width: calc((100% - (24px * ({{ section.settings.brands_per_row | default: 5 }} - 1))) / {{ section.settings.brands_per_row | default: 5 }});
+      aspect-ratio: 1/1;
+      height: auto;
       background: var(--color-card-bg, #ffffff);
       overflow: hidden;
       border-radius: var(--radius-card, 12px);
@@ -164,13 +163,14 @@
         font-size: 22px;
       }
       .brands-on-amirivibes .brands-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px !important;
       }
       .brands-on-amirivibes .brand-item {
-        flex: unset;
-        width: auto;
+        flex: 0 0 auto;
+        width: calc((100% - (16px * 3)) / 4) !important;
         height: auto;
         aspect-ratio: 1/1;
         border-radius: calc(var(--radius-card, 12px) * 0.6);
@@ -185,19 +185,14 @@
       .brand-font-gyd { font-size: 18px; }
     }
     
-    @media (min-width: 768px) and (max-width: 1023px) {
-      .brands-on-amirivibes {
-        padding: 80px 24px;
-      }
+    @media (max-width: 767px) {
       .brands-on-amirivibes .brands-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
+        gap: 8px !important;
       }
       .brands-on-amirivibes .brand-item {
-        flex: unset;
-        height: auto;
-        aspect-ratio: 1/1;
+        width: calc((100% - (8px * 1)) / 2) !important;
+      }
+    }
         max-width: none;
       }
     }
@@ -219,9 +214,11 @@
   
   <!-- Women Brands Grid -->
   <div class="brands-grid" data-dept-grid="women">
+    {%- assign max_brands = section.settings.max_brands | default: 10 -%}
     {%- assign w_collections = section.settings.women_brands_list -%}
+    
     {%- if w_collections != blank -%}
-      {%- for col in w_collections -%}
+      {%- for col in w_collections limit: max_brands -%}
         {%- assign brand_class = col.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
         <a href="{{ col.url }}" class="brand-item">
           <div class="brand-image-container">
@@ -238,9 +235,11 @@
 
   <!-- Men Brands Grid -->
   <div class="brands-grid" data-dept-grid="men">
+    {%- assign max_brands = section.settings.max_brands | default: 10 -%}
     {%- assign m_collections = section.settings.men_brands_list -%}
+    
     {%- if m_collections != blank -%}
-      {%- for col in m_collections -%}
+      {%- for col in m_collections limit: max_brands -%}
         {%- assign brand_class = col.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
         <a href="{{ col.url }}" class="brand-item">
           <div class="brand-image-container">
@@ -265,8 +264,18 @@
       sectionEl.setAttribute('data-active-dept', dept);
     }
     
+    // Run inline immediately for dynamic editor re-renders
+    updateBrandsDept();
+    
     document.addEventListener('DOMContentLoaded', updateBrandsDept);
     window.addEventListener('departmentChanged', updateBrandsDept);
+    
+    // Listen to theme customizer reload events
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.target.contains(document.getElementById('section-{{ section.id }}')) || e.target.id === 'shopify-section-{{ section.id }}') {
+        updateBrandsDept();
+      }
+    });
   })();
 </script>
 
@@ -289,6 +298,24 @@
       "type": "collection_list",
       "id": "men_brands_list",
       "label": "Men Brands Collection List"
+    },
+    {
+      "type": "range",
+      "id": "max_brands",
+      "label": "Max Brands to Show",
+      "min": 4,
+      "max": 25,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "brands_per_row",
+      "label": "Brands per Row (Desktop)",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 5
     }
   ],
   "presets": [
