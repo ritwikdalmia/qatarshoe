@@ -1,6 +1,6 @@
 
 
-<section class="brands-on-amirivibes homepage-section" data-section="featured-brands" data-has-women="true" data-has-men="true">
+<section class="brands-on-amirivibes homepage-section" id="section-{{ section.id }}" data-section="featured-brands" data-has-women="true" data-has-men="true">
   <style>
     .brands-on-amirivibes {
       padding: 128px 40px;
@@ -201,6 +201,14 @@
         max-width: none;
       }
     }
+
+    /* Department Switching Logic for House of Brands */
+    #section-{{ section.id }}[data-active-dept="women"] [data-dept-grid="men"] {
+      display: none !important;
+    }
+    #section-{{ section.id }}[data-active-dept="men"] [data-dept-grid="women"] {
+      display: none !important;
+    }
   </style>
 
   {%- if section.settings.override_button_style -%}
@@ -219,29 +227,66 @@
     <h2>{{ section.settings.title | default: "House Of Brands" }}</h2>
   </div>
   
-  <div class="brands-grid">
-    {%- if section.blocks.size > 0 -%}
-      {%- for block in section.blocks -%}
-        {%- liquid
-          assign col = collections[block.settings.collection_handle]
-          assign brand_name = block.settings.custom_name | default: col.title
-          assign brand_url = block.settings.custom_url | default: col.url | default: "#"
-          assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-'
-        -%}
-        <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
+  <!-- Women Brands Grid -->
+  <div class="brands-grid" data-dept-grid="women">
+    {%- assign w_brands = linklists['women-brands'] | default: linklists['brands'] -%}
+    {%- if w_brands.links.size > 0 -%}
+      {%- for link in w_brands.links -%}
+        {%- assign col_handle = link.url | split: '/' | last -%}
+        {%- assign col = collections[col_handle] -%}
+        {%- assign brand_class = link.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
+        <a href="{{ link.url }}" class="brand-item">
           <div class="brand-image-container">
             {%- if col.image != blank -%}
-              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy">
+              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ link.title | escape }}" width="300" height="300" loading="lazy">
             {%- else -%}
-              <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
+              <span class="brand-name-text {{ brand_class }}">{{ link.title }}</span>
             {%- endif -%}
           </div>
         </a>
       {%- endfor -%}
     {%- else -%}
-      
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign col = collections[block.settings.collection_handle] -%}
+          {%- assign brand_name = block.settings.custom_name | default: col.title -%}
+          {%- assign brand_url = block.settings.custom_url | default: col.url | default: "#" -%}
+          {%- assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
+          <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
+            <div class="brand-image-container">
+              {%- if col.image != blank -%}
+                <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy">
+              {%- else -%}
+                <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  <!-- Men Brands Grid -->
+  <div class="brands-grid" data-dept-grid="men">
+    {%- assign m_brands = linklists['men-brands'] | default: linklists['brands-men'] -%}
+    {%- if m_brands.links.size > 0 -%}
+      {%- for link in m_brands.links -%}
+        {%- assign col_handle = link.url | split: '/' | last -%}
+        {%- assign col = collections[col_handle] -%}
+        {%- assign brand_class = link.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
+        <a href="{{ link.url }}" class="brand-item">
+          <div class="brand-image-container">
+            {%- if col.image != blank -%}
+              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ link.title | escape }}" width="300" height="300" loading="lazy">
+            {%- else -%}
+              <span class="brand-name-text {{ brand_class }}">{{ link.title }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- else -%}
       {%- assign fallback_names = "HMS,coco,GYD,L P,DR,LVN,Crt,MSK" | split: "," -%}
-      {%- assign fallback_handles = "hms,coco,gyd,lp,dr,lvn,crt,msk" | split: "," -%}
+      {%- assign fallback_handles = "hms-men,coco-men,gyd-men,lp-men,dr-men,lvn-men,crt-men,msk-men" | split: "," -%}
       {%- assign fallback_font_classes = "brand-font-hms,brand-font-coco,brand-font-gyd,brand-font-lp,brand-font-dr,brand-font-lvn,brand-font-crt,brand-font-msk" | split: "," -%}
       
       {%- for i in (0..7) -%}
@@ -269,6 +314,20 @@
     </a>
   {%- endif -%}
 </section>
+
+<script>
+  (function() {
+    function updateBrandsDept() {
+      const sectionEl = document.getElementById('section-{{ section.id }}');
+      if (!sectionEl) return;
+      const dept = localStorage.getItem('amirivibes_department') || 'women';
+      sectionEl.setAttribute('data-active-dept', dept);
+    }
+    
+    document.addEventListener('DOMContentLoaded', updateBrandsDept);
+    window.addEventListener('departmentChanged', updateBrandsDept);
+  })();
+</script>
 
 {% schema %}
 {
