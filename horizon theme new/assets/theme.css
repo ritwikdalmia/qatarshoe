@@ -1539,11 +1539,14 @@ body {
     border: none !important;
     background: transparent !important;
     overflow: visible !important;
+    padding: 6px !important;
   }
   .product-grid:has(> *:only-child) > * {
     border: 1px solid var(--color-border) !important;
     border-radius: var(--style-border-radius-cards, var(--card-corner-radius, var(--product-corner-radius, 12px))) !important;
     overflow: hidden !important;
+    margin: 6px !important;
+    box-sizing: border-box !important;
   }
 
   .product-card-img img,
