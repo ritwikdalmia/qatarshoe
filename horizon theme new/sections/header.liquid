@@ -2632,11 +2632,21 @@
       });
       var activeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#e74c3c';
       var primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#8c1638';
+      var quickAddBg = getComputedStyle(document.documentElement).getPropertyValue('--quick-add-background').trim() || '#000000';
+      var quickAddFg = getComputedStyle(document.documentElement).getPropertyValue('--quick-add-foreground').trim() || '#ffffff';
+      
       document.querySelectorAll('.product-quick-add-btn').forEach(function(btn) {
         var varId = btn.getAttribute('data-variant-id');
         if (!varId) {
           var match = (btn.getAttribute('onclick') || '').match(/'([^']+)'/);
           varId = match ? match[1] : null;
+        }
+        // Fallback for product details gallery quick add button
+        if (!varId && btn.closest('.product-main-image')) {
+          var varInput = document.getElementById('selected-variant-id');
+          if (varInput) {
+            varId = varInput.value;
+          }
         }
         if (varId) {
           var inCart = inCartVariantIds.indexOf(String(varId)) > -1;
@@ -2645,15 +2655,15 @@
           if (svg) {
             var paths = svg.querySelectorAll('path');
             if (paths.length > 0) {
-              paths[0].setAttribute('fill', 'none');
-              paths[0].setAttribute('stroke', inCart ? '#ffffff' : primaryColor);
+              paths[0].setAttribute('fill', inCart ? quickAddFg : 'none');
+              paths[0].setAttribute('stroke', inCart ? quickAddFg : primaryColor);
             }
             if (paths.length > 1) {
-              paths[1].setAttribute('stroke', inCart ? '#ffffff' : primaryColor);
+              paths[1].setAttribute('stroke', inCart ? quickAddFg : primaryColor);
             }
             var lines = svg.querySelectorAll('line');
             lines.forEach(function(l) {
-              l.setAttribute('stroke', inCart ? '#ffffff' : primaryColor);
+              l.setAttribute('stroke', inCart ? quickAddFg : primaryColor);
             });
           }
         }

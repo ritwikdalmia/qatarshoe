@@ -62,6 +62,12 @@
     <span class="current-crumb">{{ p_title }}</span>
   </div>
 
+  {%- if is_mock -%}
+    {%- assign initial_available = true -%}
+  {%- else -%}
+    {%- assign initial_available = product.selected_or_first_available_variant.available -%}
+  {%- endif -%}
+
   <div class="product-container">
     
     <div class="product-gallery-container">
@@ -220,11 +226,7 @@
       </div>
 
       
-      {%- if is_mock -%}
-        {%- assign initial_available = true -%}
-      {%- else -%}
-        {%- assign initial_available = product.selected_or_first_available_variant.available -%}
-      {%- endif -%}
+      {%- comment -%}initial_available is now assigned before the gallery{%- endcomment -%}
 
       <div class="stock-banner {% if initial_available %}in-stock{% else %}out-of-stock{% endif %}" id="qtr-stock-banner">
         <span class="status-dot"></span>
@@ -998,6 +1000,12 @@
 
     if (quickAddBtn) {
       quickAddBtn.style.display = isAvailable ? '' : 'none';
+      if (window.syncCartButtons) {
+        fetch('/cart.js')
+          .then(r => r.json())
+          .then(cart => window.syncCartButtons(cart))
+          .catch(e => {});
+      }
     }
 
     if (buyBtn) {
