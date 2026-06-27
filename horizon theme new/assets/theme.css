@@ -1503,6 +1503,7 @@ body {
     border-radius: var(--style-border-radius-cards, var(--card-corner-radius, var(--product-corner-radius, 12px))) !important;
     overflow: hidden !important;
     background-color: var(--color-background) !important;
+    padding: 1px !important;
   }
   .product-grid .product-card {
     border: none !important;
@@ -1535,18 +1536,19 @@ body {
     border-bottom: none !important;
   }
   /* Standalone single product card layout resets */
-  .product-grid:has(> *:only-child) {
+  .product-grid--single {
     border: none !important;
     background: transparent !important;
     overflow: visible !important;
-    padding: 6px !important;
+    padding: 2px 6px 10px 6px !important;
   }
-  .product-grid:has(> *:only-child) > * {
-    border: 1px solid var(--color-border) !important;
+  .product-grid--single.product-grid .product-card {
+    border: none !important;
     border-radius: var(--style-border-radius-cards, var(--card-corner-radius, var(--product-corner-radius, 12px))) !important;
     overflow: hidden !important;
-    margin: 6px !important;
+    margin: 0 !important;
     box-sizing: border-box !important;
+    box-shadow: 0 0 0 1px var(--color-border) !important;
   }
 
   .product-card-img img,

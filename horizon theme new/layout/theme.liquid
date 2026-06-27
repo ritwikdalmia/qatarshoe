@@ -245,7 +245,19 @@
             });
           }, observerOptions);
 
+          function checkSingleProductGrids() {
+            document.querySelectorAll('.product-grid').forEach(function(grid) {
+              var cards = grid.querySelectorAll('.product-card');
+              if (cards.length === 1) {
+                grid.classList.add('product-grid--single');
+              } else {
+                grid.classList.remove('product-grid--single');
+              }
+            });
+          }
+
           function initScrollReveal() {
+            checkSingleProductGrids();
             var revealElements = document.querySelectorAll('.scroll-reveal, .product-card, #MainContent .shopify-section');
             revealElements.forEach(function(el) {
               scrollRevealObserver.observe(el);
@@ -262,6 +274,7 @@
           var mainContent = document.getElementById('MainContent');
           if (mainContent) {
             var mutationObserver = new MutationObserver(function(mutations) {
+              checkSingleProductGrids();
               mutations.forEach(function(mutation) {
                 mutation.addedNodes.forEach(function(node) {
                   if (node.nodeType === Node.ELEMENT_NODE) {
@@ -280,6 +293,7 @@
           }
           
           document.addEventListener('shopify:section:load', function(event) {
+            checkSingleProductGrids();
             var section = event.target;
             if (section.closest('#MainContent')) {
               scrollRevealObserver.observe(section);

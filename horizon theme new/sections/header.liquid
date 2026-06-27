@@ -1510,8 +1510,14 @@
       if (wrapper && wrapper.scrollTop > scrollY) {
         scrollY = wrapper.scrollTop;
       }
-      var heroEl  = document.querySelector('.qtr-hero');
-      var threshold = heroEl ? heroEl.offsetHeight * 0.85 : window.innerHeight * 0.85;
+      // Dynamically calculate threshold = bottom of the first slideshow / hero section
+      var slideshowEl = document.querySelector('.slideshow-banners-wrapper') ||
+                        document.querySelector('.qtr-hero') ||
+                        document.querySelector('.hero') ||
+                        document.querySelector('.slideshow-section');
+      var threshold = slideshowEl
+        ? slideshowEl.getBoundingClientRect().bottom + scrollY
+        : window.innerHeight * 0.85;
 
       if (scrollY > threshold) {
         if (transparentHeader) transparentHeader.classList.add('hidden');

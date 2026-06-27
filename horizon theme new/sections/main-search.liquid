@@ -494,7 +494,7 @@
               {%- if request.locale.iso_code == 'ar' -%}المنتجات{%- else -%}Products{%- endif -%}
             </h2>
           </div>
-          <div class="product-grid" style="margin-bottom: 50px;">
+          <div class="product-grid{% if product_count == 1 %} product-grid--single{% endif %}" style="margin-bottom: 50px;">
             {%- for product in search.results -%}
               {%- if product.object_type == 'product' -%}
                 <a href="{{ product.url }}" class="product-card" aria-label="{{ product.title }}"
@@ -629,7 +629,7 @@
               {%- if request.locale.iso_code == 'ar' -%}المجموعات{%- else -%}Collections{%- endif -%}
             </h2>
           </div>
-          <div class="product-grid" style="margin-bottom: 50px;">
+          <div class="product-grid{% if matching_collections_count == 1 %} product-grid--single{% endif %}" style="margin-bottom: 50px;">
             {{ collections_markup }}
           </div>
         {%- endif -%}

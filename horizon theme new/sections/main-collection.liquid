@@ -1215,7 +1215,7 @@
         {%- endif -%}
       </div>
     {%- elsif collection.products.size > 0 -%}
-      <div class="product-grid">
+      <div class="product-grid{% if collection.products.size == 1 %} product-grid--single{% endif %}">
         {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
         {%- assign currency_data_parts = currency_data | split: '|||' -%}
         {%- assign currencies = currency_data_parts[0] | split: ',' -%}

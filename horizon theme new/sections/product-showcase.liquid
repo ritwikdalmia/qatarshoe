@@ -62,7 +62,7 @@
   {%- assign custom_symbols = currency_data_parts[1] | split: ',' -%}
 
   <!-- Women Product Grid -->
-  <div class="product-grid" data-dept-grid="women">
+  <div class="product-grid{% if col_women.products.size == 1 %} product-grid--single{% endif %}" data-dept-grid="women">
     {%- if col_women != blank and col_women.products.size > 0 -%}
       {%- for product in col_women.products limit: max_products -%}
         {%- render 'product-showcase-card', product: product, currencies: currencies, custom_symbols: custom_symbols -%}
@@ -71,7 +71,7 @@
   </div>
 
   <!-- Men Product Grid -->
-  <div class="product-grid" data-dept-grid="men">
+  <div class="product-grid{% if col_men.products.size == 1 %} product-grid--single{% endif %}" data-dept-grid="men">
     {%- if col_men != blank and col_men.products.size > 0 -%}
       {%- for product in col_men.products limit: max_products -%}
         {%- render 'product-showcase-card', product: product, currencies: currencies, custom_symbols: custom_symbols -%}
