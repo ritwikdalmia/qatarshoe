@@ -497,9 +497,15 @@
 
       
       {%- if is_mock -%}
-        <input type="hidden" id="selected-variant-id" name="id" value="dummy-variant-36">
+        <input type="hidden" id="selected-variant-id" name="id" value="dummy-variant-36"
+               data-inventory-management=""
+               data-inventory-policy="deny"
+               data-inventory-qty="999">
       {%- else -%}
-        <input type="hidden" id="selected-variant-id" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <input type="hidden" id="selected-variant-id" name="id" value="{{ product.selected_or_first_available_variant.id }}"
+               data-inventory-management="{{ product.selected_or_first_available_variant.inventory_management }}"
+               data-inventory-policy="{{ product.selected_or_first_available_variant.inventory_policy }}"
+               data-inventory-qty="{{ product.selected_or_first_available_variant.inventory_quantity | default: 999 }}">
       {%- endif -%}
 
       
@@ -872,12 +878,13 @@
     currentVal += amount;
     if (currentVal < 1) currentVal = 1;
     
-    // Check max stock based on selected variant
-    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
-    if (selectedVariantEl) {
-      const management = selectedVariantEl.getAttribute('data-inventory-management');
-      if (management && management !== '') {
-        const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
+    // Check max stock based on selected variant input attributes
+    const selectedVariantInput = document.getElementById('selected-variant-id');
+    if (selectedVariantInput) {
+      const management = selectedVariantInput.getAttribute('data-inventory-management');
+      const policy = selectedVariantInput.getAttribute('data-inventory-policy');
+      if (management && management !== '' && policy !== 'continue') {
+        const maxQty = parseInt(selectedVariantInput.getAttribute('data-inventory-qty')) || 0;
         if (currentVal > maxQty) {
           window.showErrorAlert(_tStockLimit(maxQty));
           return;
@@ -909,7 +916,13 @@
 
     
     const variantId = btn.getAttribute('data-variant-id');
-    document.getElementById('selected-variant-id').value = variantId;
+    const variantInput = document.getElementById('selected-variant-id');
+    if (variantInput) {
+      variantInput.value = variantId;
+      variantInput.setAttribute('data-inventory-management', btn.getAttribute('data-inventory-management') || '');
+      variantInput.setAttribute('data-inventory-policy', btn.getAttribute('data-inventory-policy') || 'deny');
+      variantInput.setAttribute('data-inventory-qty', btn.getAttribute('data-inventory-qty') || '999');
+    }
 
     
     updateProductPrice(btn.getAttribute('data-price'), btn.getAttribute('data-compare-price'));
@@ -926,7 +939,13 @@
 
     
     const variantId = swatch.getAttribute('data-variant-id');
-    document.getElementById('selected-variant-id').value = variantId;
+    const variantInput = document.getElementById('selected-variant-id');
+    if (variantInput) {
+      variantInput.value = variantId;
+      variantInput.setAttribute('data-inventory-management', swatch.getAttribute('data-inventory-management') || '');
+      variantInput.setAttribute('data-inventory-policy', swatch.getAttribute('data-inventory-policy') || 'deny');
+      variantInput.setAttribute('data-inventory-qty', swatch.getAttribute('data-inventory-qty') || '999');
+    }
 
     
     updateProductPrice(swatch.getAttribute('data-price'), swatch.getAttribute('data-compare-price'));
@@ -999,11 +1018,12 @@
     }
 
     // Check max stock
-    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
-    if (selectedVariantEl) {
-      const management = selectedVariantEl.getAttribute('data-inventory-management');
-      if (management && management !== '') {
-        const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
+    const selectedVariantInput = document.getElementById('selected-variant-id');
+    if (selectedVariantInput) {
+      const management = selectedVariantInput.getAttribute('data-inventory-management');
+      const policy = selectedVariantInput.getAttribute('data-inventory-policy');
+      if (management && management !== '' && policy !== 'continue') {
+        const maxQty = parseInt(selectedVariantInput.getAttribute('data-inventory-qty')) || 0;
         
         atcBtn.disabled = true;
         atcBtn.textContent = _t.checking_stock;
@@ -1034,13 +1054,13 @@
 
   function performAddToCart(variantId, qty, atcBtn) {
     // Add to local window inventory cache for drawer validation
-    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
-    if (selectedVariantEl) {
+    const selectedVariantInput = document.getElementById('selected-variant-id');
+    if (selectedVariantInput) {
       if (!window.cartItemInventory) window.cartItemInventory = {};
       window.cartItemInventory[variantId] = {
-        qty: parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 999,
-        management: selectedVariantEl.getAttribute('data-inventory-management') || '',
-        policy: selectedVariantEl.getAttribute('data-inventory-policy') || 'deny'
+        qty: parseInt(selectedVariantInput.getAttribute('data-inventory-qty')) || 999,
+        management: selectedVariantInput.getAttribute('data-inventory-management') || '',
+        policy: selectedVariantInput.getAttribute('data-inventory-policy') || 'deny'
       };
     }
 
@@ -1094,11 +1114,12 @@
     }
 
     // Check max stock
-    const selectedVariantEl = document.querySelector('.size-option.selected, .color-swatch.active');
-    if (selectedVariantEl) {
-      const management = selectedVariantEl.getAttribute('data-inventory-management');
-      if (management && management !== '') {
-        const maxQty = parseInt(selectedVariantEl.getAttribute('data-inventory-qty')) || 0;
+    const selectedVariantInput = document.getElementById('selected-variant-id');
+    if (selectedVariantInput) {
+      const management = selectedVariantInput.getAttribute('data-inventory-management');
+      const policy = selectedVariantInput.getAttribute('data-inventory-policy');
+      if (management && management !== '' && policy !== 'continue') {
+        const maxQty = parseInt(selectedVariantInput.getAttribute('data-inventory-qty')) || 0;
         
         buyBtn.disabled = true;
         buyBtn.textContent = _t.checking_stock;

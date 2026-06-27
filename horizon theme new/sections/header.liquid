@@ -2721,6 +2721,15 @@
       }
     })();
 
+    // Check if open-cart URL parameter is set to automatically open cart drawer
+    if (window.location.search.indexOf('open-cart=true') !== -1) {
+      setTimeout(function() {
+        if (typeof window.toggleSideDrawer === 'function') {
+          window.toggleSideDrawer('cart');
+        }
+      }, 300);
+    }
+
   }
 
   if (document.readyState === 'loading') {
