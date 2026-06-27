@@ -119,7 +119,7 @@
           </button>
 
           {%- if initial_available -%}
-          <button type="button" class="product-quick-add-btn{% unless settings.mobile_quick_add %} mobile-hide-quick-add{% endunless %}" aria-label="Add to cart" onclick="addToCartClick()">
+          <button type="button" class="product-quick-add-btn{% unless settings.mobile_quick_add %} mobile-hide-quick-add{% endunless %}" aria-label="Add to cart" onclick="addToCartClick(event)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -534,7 +534,7 @@
       <div class="cta-wrapper">
         <button type="button" id="add-to-cart" class="checkout-btn atc-btn" 
                 {% unless initial_available %}disabled{% endunless %}
-                onclick="addToCartClick()">
+                onclick="addToCartClick(event)">
           {%- if initial_available -%}
             {%- if request.locale.iso_code == 'ar' -%}أضف إلى السلة{%- else -%}Add to Cart{%- endif -%}
           {%- else -%}
@@ -1028,7 +1028,7 @@
   }
 
   
-  function addToCartClick() {
+  function addToCartClick(event) {
     const variantId = document.getElementById('selected-variant-id').value;
     const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
     const atcBtn = document.getElementById('add-to-cart');
@@ -1036,6 +1036,39 @@
     if (!variantId) {
       window.showErrorAlert(_t.size_required);
       return;
+    }
+
+    const clickedEl = event ? event.currentTarget || event.target : null;
+    const isQuickAddClick = clickedEl && (clickedEl.classList.contains('product-quick-add-btn') || clickedEl.closest('.product-quick-add-btn'));
+
+    if (isQuickAddClick) {
+      const quickAddBtn = clickedEl.classList.contains('product-quick-add-btn') ? clickedEl : clickedEl.closest('.product-quick-add-btn');
+      if (quickAddBtn && quickAddBtn.classList.contains('active')) {
+        quickAddBtn.disabled = true;
+        fetch('/cart/change.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            id: String(variantId),
+            quantity: 0
+          })
+        })
+        .then(r => r.json())
+        .then(cart => {
+          quickAddBtn.disabled = false;
+          if (window.syncCartButtons) window.syncCartButtons(cart);
+          if (window.updateCartBadge) window.updateCartBadge(cart.item_count);
+          if (typeof window.openSideDrawer === 'function') {
+            window.openSideDrawer('cart');
+          }
+        })
+        .catch(err => {
+          quickAddBtn.disabled = false;
+          console.error(err);
+          window.showErrorAlert(err.message || 'Could not remove item from cart.');
+        });
+        return;
+      }
     }
 
     // Check max stock
