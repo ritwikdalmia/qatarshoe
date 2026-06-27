@@ -2655,15 +2655,15 @@
           if (svg) {
             var paths = svg.querySelectorAll('path');
             if (paths.length > 0) {
-              paths[0].setAttribute('fill', inCart ? quickAddFg : 'none');
-              paths[0].setAttribute('stroke', inCart ? quickAddFg : primaryColor);
+              paths[0].setAttribute('fill', inCart ? quickAddBg : 'none');
+              paths[0].setAttribute('stroke', inCart ? quickAddBg : primaryColor);
             }
             if (paths.length > 1) {
-              paths[1].setAttribute('stroke', inCart ? quickAddFg : primaryColor);
+              paths[1].setAttribute('stroke', inCart ? quickAddBg : primaryColor);
             }
             var lines = svg.querySelectorAll('line');
             lines.forEach(function(l) {
-              l.setAttribute('stroke', inCart ? quickAddFg : primaryColor);
+              l.setAttribute('stroke', inCart ? quickAddBg : primaryColor);
             });
           }
         }

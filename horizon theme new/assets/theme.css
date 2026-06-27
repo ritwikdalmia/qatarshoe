@@ -1183,9 +1183,7 @@ body {
   border-color: var(--color-accent, #e74c3c) !important;
 }
 .product-quick-add-btn.active {
-  background: var(--quick-add-background, var(--color-accent, #e74c3c)) !important;
-  color: var(--quick-add-foreground, #ffffff) !important;
-  border-color: var(--quick-add-background, var(--color-accent, #e74c3c)) !important;
+  color: var(--quick-add-background, var(--color-accent, #e74c3c)) !important;
 }
 .product-quick-add-btn svg {
   width: 16px;
