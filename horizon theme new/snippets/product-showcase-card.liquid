@@ -56,24 +56,14 @@
     {%- assign price_cent = product.price | modulo: 100 -%}
     {%- assign price_main = product.price | divided_by: 100 -%}
     {%- if price_cent < 10 -%}{%- assign price_cent = '0' | append: price_cent -%}{%- endif -%}
-    {%- if settings.currency_code_enabled_product_cards -%}
-      {%- assign price_qar_formatted = 'QAR ' | append: price_main | append: '.' | append: price_cent -%}
-    {%- else -%}
-      {%- assign qtr_symbol = settings.currency_qar_symbol | default: 'QR' -%}
-      {%- assign price_qar_formatted = qtr_symbol | append: ' ' | append: price_main | append: '.' | append: price_cent -%}
-    {%- endif -%}
+    {%- assign price_qar_formatted = 'QAR ' | append: price_main | append: '.' | append: price_cent -%}
     
     {%- assign compare_qar_formatted = blank -%}
     {%- if product.compare_at_price > product.price -%}
       {%- assign compare_cent = product.compare_at_price | modulo: 100 -%}
       {%- assign compare_main = product.compare_at_price | divided_by: 100 -%}
       {%- if compare_cent < 10 -%}{%- assign compare_cent = '0' | append: compare_cent -%}{%- endif -%}
-      {%- if settings.currency_code_enabled_product_cards -%}
-        {%- assign compare_qar_formatted = 'QAR ' | append: compare_main | append: '.' | append: compare_cent -%}
-      {%- else -%}
-        {%- assign qtr_symbol = settings.currency_qar_symbol | default: 'QR' -%}
-        {%- assign compare_qar_formatted = qtr_symbol | append: ' ' | append: compare_main | append: '.' | append: compare_cent -%}
-      {%- endif -%}
+      {%- assign compare_qar_formatted = 'QAR ' | append: compare_main | append: '.' | append: compare_cent -%}
     {%- endif -%}
 
     <div class="product-price-row"
@@ -109,19 +99,10 @@
              {%- endif -%}
          {%- endfor -%}>
       {%- if product.compare_at_price > product.price -%}
-        {%- if settings.currency_code_enabled_product_cards -%}
-          <span class="product-price-compare">{{ product.compare_at_price | money_with_currency }}</span>
-          <span class="product-price sale-price">{{ product.price | money_with_currency }}</span>
-        {%- else -%}
-          <span class="product-price-compare">{{ product.compare_at_price | money | remove: ' QAR' | remove: 'QAR ' }}</span>
-          <span class="product-price sale-price">{{ product.price | money | remove: ' QAR' | remove: 'QAR ' }}</span>
-        {%- endif -%}
+        <span class="product-price-compare">{{ product.compare_at_price | money }}</span>
+        <span class="product-price sale-price">{{ product.price | money }}</span>
       {%- else -%}
-        {%- if settings.currency_code_enabled_product_cards -%}
-          <span class="product-price">{{ product.price | money_with_currency }}</span>
-        {%- else -%}
-          <span class="product-price">{{ product.price | money | remove: ' QAR' | remove: 'QAR ' }}</span>
-        {%- endif -%}
+        <span class="product-price">{{ product.price | money }}</span>
       {%- endif -%}
     </div>
   </div>

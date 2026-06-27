@@ -25,13 +25,8 @@
      assign p_title = product.title
     assign p_vendor = product.vendor
     assign p_description = product.description
-    if settings.currency_code_enabled_product_pages
-      assign p_price_money = product.price | money_with_currency
-      assign p_compare_price_money = product.compare_at_price | money_with_currency
-    else
-      assign p_price_money = product.price | money | remove: ' QAR' | remove: 'QAR '
-      assign p_compare_price_money = product.compare_at_price | money | remove: ' QAR' | remove: 'QAR '
-    endif
+    assign p_price_money = product.price | money
+    assign p_compare_price_money = product.compare_at_price | money
     assign p_compare_at_price_val = product.compare_at_price
     assign p_price_val = product.price
     assign p_id = product.id
@@ -165,24 +160,14 @@
       {%- assign price_cent = p_price_val | modulo: 100 -%}
       {%- assign price_main = p_price_val | divided_by: 100 -%}
       {%- if price_cent < 10 -%}{%- assign price_cent = '0' | append: price_cent -%}{%- endif -%}
-      {%- if settings.currency_code_enabled_product_pages -%}
-        {%- assign price_qar_formatted = 'QAR ' | append: price_main | append: '.' | append: price_cent -%}
-      {%- else -%}
-        {%- assign qtr_symbol = settings.currency_qar_symbol | default: 'QR' -%}
-        {%- assign price_qar_formatted = qtr_symbol | append: ' ' | append: price_main | append: '.' | append: price_cent -%}
-      {%- endif -%}
+      {%- assign price_qar_formatted = 'QAR ' | append: price_main | append: '.' | append: price_cent -%}
       
       {%- assign compare_qar_formatted = blank -%}
       {%- if p_compare_at_price_val > p_price_val -%}
         {%- assign compare_cent = p_compare_at_price_val | modulo: 100 -%}
         {%- assign compare_main = p_compare_at_price_val | divided_by: 100 -%}
         {%- if compare_cent < 10 -%}{%- assign compare_cent = '0' | append: compare_cent -%}{%- endif -%}
-        {%- if settings.currency_code_enabled_product_pages -%}
-          {%- assign compare_qar_formatted = 'QAR ' | append: compare_main | append: '.' | append: compare_cent -%}
-        {%- else -%}
-          {%- assign qtr_symbol = settings.currency_qar_symbol | default: 'QR' -%}
-          {%- assign compare_qar_formatted = qtr_symbol | append: ' ' | append: compare_main | append: '.' | append: compare_cent -%}
-        {%- endif -%}
+        {%- assign compare_qar_formatted = 'QAR ' | append: compare_main | append: '.' | append: compare_cent -%}
       {%- endif -%}
 
       <div class="price-container"

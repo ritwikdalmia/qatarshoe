@@ -81,30 +81,22 @@
         <div class="product-model">{{ dummy_products[i] }}</div>
       </div>
 
-      {%- if settings.currency_code_enabled_product_cards -%}
-        {%- assign d_qar_p = "QAR " | append: dummy_prices_qar[i] -%}
-        {%- assign d_qar_c = "QAR " | append: dummy_compare_qar[i] -%}
-      {%- else -%}
-        {%- assign qtr_symbol = settings.currency_qar_symbol | default: 'QR' -%}
-        {%- assign d_qar_p = qtr_symbol | append: " " | append: dummy_prices_qar[i] -%}
-        {%- assign d_qar_c = qtr_symbol | append: " " | append: dummy_compare_qar[i] -%}
-      {%- endif -%}
       <div class="product-price-row"
-        data-price-qar="{{ d_qar_p }}"
+        data-price-qar="QAR {{ dummy_prices_qar[i] }}"
         data-price-usd="$ {{ dummy_prices_usd[i] }}"
         data-price-eur="€ {{ dummy_prices_eur[i] }}"
         data-price-aed="AED {{ dummy_prices_aed[i] }}"
         {%- if has_sale == "true" %}
-        data-compare-qar="{{ d_qar_c }}"
+        data-compare-qar="QAR {{ dummy_compare_qar[i] }}"
         data-compare-usd="$ {{ dummy_compare_usd[i] }}"
         data-compare-eur="€ {{ dummy_compare_eur[i] }}"
         data-compare-aed="AED {{ dummy_compare_aed[i] }}"
         {%- endif %}>
         {%- if has_sale == "true" -%}
-          <span class="product-price-compare">{{ d_qar_c }}</span>
-          <span class="product-price sale-price">{{ d_qar_p }}</span>
+          <span class="product-price-compare">QAR {{ dummy_compare_qar[i] }}</span>
+          <span class="product-price sale-price">QAR {{ dummy_prices_qar[i] }}</span>
         {%- else -%}
-          <span class="product-price">{{ d_qar_p }}</span>
+          <span class="product-price">QAR {{ dummy_prices_qar[i] }}</span>
         {%- endif -%}
       </div>
     </div>
