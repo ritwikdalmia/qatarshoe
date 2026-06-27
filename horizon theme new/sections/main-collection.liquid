@@ -1413,7 +1413,9 @@
       
       
       <div class="filters-drawer-header">
-        <h2 class="filters-drawer-title">Filters</h2>
+        <h2 class="filters-drawer-title">
+          {%- if request.locale.iso_code == 'ar' -%}الفلاتر{%- else -%}Filters{%- endif -%}
+        </h2>
         <button class="filters-drawer-close" onclick="closeFiltersDrawer()" aria-label="Close filters">&times;</button>
       </div>
 
@@ -1422,7 +1424,7 @@
         <!-- Mobile Sort Section -->
         <div class="filter-drawer-section mobile-only-sort" style="display: none;">
           <div class="filter-section-header" onclick="toggleFilterSection(this)">
-            <h3>Sort By</h3>
+            <h3>{%- if request.locale.iso_code == 'ar' -%}ترتيب حسب{%- else -%}Sort By{%- endif -%}</h3>
             <svg class="section-chevron" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 13l-5-5-5 5"/></svg>
           </div>
           <div class="filter-section-content">
@@ -1430,27 +1432,27 @@
               {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
               <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
                 <input type="radio" name="sort_by_mobile" value="manual" {% if sort_by == 'manual' or sort_by == 'default' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
-                <span>Featured</span>
+                <span>{%- if request.locale.iso_code == 'ar' -%}مميز{%- else -%}Featured{%- endif -%}</span>
               </label>
               <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
                 <input type="radio" name="sort_by_mobile" value="best-selling" {% if sort_by == 'best-selling' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
-                <span>Best selling</span>
+                <span>{%- if request.locale.iso_code == 'ar' -%}الأكثر مبيعاً{%- else -%}Best selling{%- endif -%}</span>
               </label>
               <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
                 <input type="radio" name="sort_by_mobile" value="price-ascending" {% if sort_by == 'price-ascending' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
-                <span>Price, low to high</span>
+                <span>{%- if request.locale.iso_code == 'ar' -%}السعر، من الأقل إلى الأكثر{%- else -%}Price, low to high{%- endif -%}</span>
               </label>
               <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
                 <input type="radio" name="sort_by_mobile" value="price-descending" {% if sort_by == 'price-descending' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
-                <span>Price, high to low</span>
+                <span>{%- if request.locale.iso_code == 'ar' -%}السعر، من الأكثر إلى الأقل{%- else -%}Price, high to low{%- endif -%}</span>
               </label>
               <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
                 <input type="radio" name="sort_by_mobile" value="title-ascending" {% if sort_by == 'title-ascending' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
-                <span>Alphabetically, A-Z</span>
+                <span>{%- if request.locale.iso_code == 'ar' -%}أبجدياً، أ-ي{%- else -%}Alphabetically, A-Z{%- endif -%}</span>
               </label>
               <label class="filter-checkbox-label" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--color-primary); font-weight: 400; text-transform: none; line-height: 1;">
                 <input type="radio" name="sort_by_mobile" value="title-descending" {% if sort_by == 'title-descending' %}checked{% endif %} class="filter-drawer-radio" style="cursor: pointer; width: 18px; height: 18px; accent-color: var(--color-primary);">
-                <span>Alphabetically, Z-A</span>
+                <span>{%- if request.locale.iso_code == 'ar' -%}أبجدياً، ي-أ{%- else -%}Alphabetically, Z-A{%- endif -%}</span>
               </label>
             </div>
           </div>
@@ -1600,7 +1602,9 @@
               {%- if filter.type == 'price_range' -%}
                 <div class="filter-price-range" style="display: flex; align-items: center; gap: 10px; padding: 10px 0;">
                   <div class="price-range-field" style="flex: 1; display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 13px; color: var(--color-muted);">Min</span>
+                    <span style="font-size: 13px; color: var(--color-muted);">
+                      {%- if request.locale.iso_code == 'ar' -%}الحد الأدنى{%- else -%}Min{%- endif -%}
+                    </span>
                     <input type="number" 
                            name="{{ filter.min_value.param_name }}"
                            id="Filter-{{ filter.label | handle }}-Min"
@@ -1614,7 +1618,9 @@
                            style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit; font-size: 13px; box-sizing: border-box;">
                   </div>
                   <div class="price-range-field" style="flex: 1; display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 13px; color: var(--color-muted);">Max</span>
+                    <span style="font-size: 13px; color: var(--color-muted);">
+                      {%- if request.locale.iso_code == 'ar' -%}الحد الأقصى{%- else -%}Max{%- endif -%}
+                    </span>
                     <input type="number" 
                            name="{{ filter.max_value.param_name }}"
                            id="Filter-{{ filter.label | handle }}-Max"
@@ -1629,9 +1635,9 @@
                   </div>
                 </div>
               {%- else -%}
-                {%- if filter.label == 'Brand' or filter.label == 'Brand' or filter.label == 'Brands' or filter.label == 'Type' or filter.label == 'Types' -%}
+                {%- if filter.label == 'Brand' or filter.label == 'Brands' or filter.label == 'Type' or filter.label == 'Types' -%}
                   <div class="filter-search-wrap" style="margin-bottom: 12px; position: relative;">
-                    <input type="text" class="filter-search-input" placeholder="Search {{ filter.label | downcase }}..." onkeyup="filterCheckboxList(this)" style="width: 100%; padding: 10px 14px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit; font-size: 13px; outline: none; box-sizing: border-box;">
+                    <input type="text" class="filter-search-input" placeholder="{% if request.locale.iso_code == 'ar' %}ابحث عن {{ filter.label | downcase }}...{% else %}Search {{ filter.label | downcase }}...{% endif %}" onkeyup="filterCheckboxList(this)" style="width: 100%; padding: 10px 14px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit; font-size: 13px; outline: none; box-sizing: border-box;">
                   </div>
                 {%- endif -%}
 
@@ -1694,8 +1700,12 @@
 
       
       <div class="filters-drawer-footer">
-        <button class="filters-clear-btn" onclick="clearAllFilters()">Clear All</button>
-        <button class="filters-apply-btn" onclick="applyFilters()">View Results ({{ collection.products_count }})</button>
+        <button class="filters-clear-btn" onclick="clearAllFilters()">
+          {%- if request.locale.iso_code == 'ar' -%}مسح الكل{%- else -%}Clear All{%- endif -%}
+        </button>
+        <button class="filters-apply-btn" onclick="applyFilters()">
+          {%- if request.locale.iso_code == 'ar' -%}عرض النتائج{%- else -%}View Results{%- endif -%} ({{ collection.products_count }})
+        </button>
       </div>
 
     </div>
@@ -1725,12 +1735,19 @@
   }
 
   function openFiltersDrawer() {
+    const overlay = document.getElementById('filters-drawer-overlay');
+    if (overlay && overlay.parentElement !== document.body) {
+      document.body.appendChild(overlay);
+    }
     document.getElementById('filters-drawer-overlay').classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
   function closeFiltersDrawer() {
-    document.getElementById('filters-drawer-overlay').classList.remove('active');
+    const overlay = document.getElementById('filters-drawer-overlay');
+    if (overlay) {
+      overlay.classList.remove('active');
+    }
     document.body.style.overflow = '';
   }
 
@@ -2183,7 +2200,8 @@
     
     const resultsCountEl = document.querySelector('.results-count');
     if (resultsCountEl) {
-      resultsCountEl.textContent = `${visibleCount} result${visibleCount === 1 ? '' : 's'}`;
+      const isAr = "{{ request.locale.iso_code }}" === "ar";
+      resultsCountEl.textContent = isAr ? `${visibleCount} نتائج` : `${visibleCount} result${visibleCount === 1 ? '' : 's'}`;
     }
     
     paginateVisibleProducts(resetPage);
@@ -2301,7 +2319,8 @@
     
     const applyBtn = document.querySelector('.filters-apply-btn');
     if (applyBtn) {
-      applyBtn.textContent = `View Results (${count})`;
+      const isAr = "{{ request.locale.iso_code }}" === "ar";
+      applyBtn.textContent = isAr ? `عرض النتائج (${count})` : `View Results (${count})`;
     }
   }
 
@@ -2831,6 +2850,12 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+    // Escape transformed contain blocks on load by moving filters drawer overlay directly under body
+    const overlay = document.getElementById('filters-drawer-overlay');
+    if (overlay && overlay.parentElement !== document.body) {
+      document.body.appendChild(overlay);
+    }
+
     syncFiltersFromURL();
     
     {%- if settings.slideshow_enabled_collections -%}

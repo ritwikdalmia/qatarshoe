@@ -86,7 +86,7 @@
     "new-in": {
       "type": "product-showcase",
       "settings": {
-        "heading": "New In",
+        "heading": "New Arrivals",
         "collection_handle_women": "new-arrivals-women",
         "collection_handle_men": "new-arrivals-men",
         "view_all_url_women": "/collections/new-arrivals-women",
@@ -109,7 +109,10 @@
       "type": "brands-grid",
       "settings": {
         "title": "House Of Brands",
-        "show_all_url": "/collections/brands"
+        "show_all_url": "/collections/brands",
+        "women_brands_menu": "brands-women",
+        "men_brands_menu": "brands-men",
+        "max_brands": 8
       }
     },
     "above-footer": {

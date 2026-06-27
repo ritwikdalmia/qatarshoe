@@ -2,38 +2,50 @@
   assign heading = section.settings.heading | default: 'Featured'
   assign max_products = section.settings.max_products | default: 6
 
-  assign view_all_url_women = section.settings.view_all_url_women | default: section.settings.view_all_url | default: '/collections/all'
-  assign view_all_url_men = section.settings.view_all_url_men | default: section.settings.view_all_url | default: '/collections/all'
-
-  assign col_women_handle = section.settings.collection_handle_women | default: section.settings.collection_handle | default: ''
-  assign col_men_handle = section.settings.collection_handle_men | default: section.settings.collection_handle | default: ''
-
-  assign col_women = blank
-  if col_women_handle != blank
-    assign col_women = collections[col_women_handle]
+  assign view_all_url_women = section.settings.view_all_url_women
+  if view_all_url_women == blank
+    assign view_all_url_women = section.settings.view_all_url | default: '/collections/all'
   endif
 
-  assign col_men = blank
-  if col_men_handle != blank
-    assign col_men = collections[col_men_handle]
+  assign view_all_url_men = section.settings.view_all_url_men
+  if view_all_url_men == blank
+    assign view_all_url_men = section.settings.view_all_url | default: '/collections/all'
+  endif
+
+  comment
+    Resolve collections from Customizer settings directly. No fallback logic.
+  endcomment
+  assign col_women = section.settings.collection_handle_women
+  if col_women == blank
+    assign col_women = section.settings.collection_handle
+  endif
+
+  assign col_men = section.settings.collection_handle_men
+  if col_men == blank
+    assign col_men = section.settings.collection_handle
   endif
 -%}
 
+{%- if col_women != blank or col_men != blank -%}
 <div class="qtr-section product-showcase-section" id="section-{{ section.id }}" data-active-dept="women">
   <div class="section-heading-row">
     <h2 class="section-heading">{{ heading }}</h2>
     
     <!-- View All Link (Women) -->
-    <a href="{{ view_all_url_women }}" class="view-more-link" data-dept-link="women">
-      {%- if request.locale.iso_code == 'ar' -%}عرض المزيد{%- else -%}View more{%- endif -%}
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
-    </a>
+    {%- if col_women != blank and col_women.products.size > 0 -%}
+      <a href="{{ view_all_url_women }}" class="view-more-link" data-dept-link="women">
+        {%- if request.locale.iso_code == 'ar' -%}عرض المزيد{%- else -%}View more{%- endif -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    {%- endif -%}
 
     <!-- View All Link (Men) -->
-    <a href="{{ view_all_url_men }}" class="view-more-link" data-dept-link="men">
-      {%- if request.locale.iso_code == 'ar' -%}عرض المزيد{%- else -%}View more{%- endif -%}
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
-    </a>
+    {%- if col_men != blank and col_men.products.size > 0 -%}
+      <a href="{{ view_all_url_men }}" class="view-more-link" data-dept-link="men">
+        {%- if request.locale.iso_code == 'ar' -%}عرض المزيد{%- else -%}View more{%- endif -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    {%- endif -%}
   </div>
 
   {%- capture currency_data -%}{%- render 'currency-helper' -%}{%- endcapture -%}
@@ -47,8 +59,6 @@
       {%- for product in col_women.products limit: max_products -%}
         {%- render 'product-showcase-card', product: product, currencies: currencies, custom_symbols: custom_symbols -%}
       {%- endfor -%}
-    {%- else -%}
-      {%- render 'product-showcase-dummy', currencies: currencies, custom_symbols: custom_symbols -%}
     {%- endif -%}
   </div>
 
@@ -58,11 +68,10 @@
       {%- for product in col_men.products limit: max_products -%}
         {%- render 'product-showcase-card', product: product, currencies: currencies, custom_symbols: custom_symbols -%}
       {%- endfor -%}
-    {%- else -%}
-      {%- render 'product-showcase-dummy', currencies: currencies, custom_symbols: custom_symbols -%}
     {%- endif -%}
   </div>
 </div>
+{%- endif -%}
 
 <style>
   /* Dynamic Display Logic based on active department */
