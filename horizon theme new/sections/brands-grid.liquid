@@ -203,10 +203,12 @@
     }
 
     /* Department Switching Logic for House of Brands */
-    #section-{{ section.id }}[data-active-dept="women"] [data-dept-grid="men"] {
+    #section-{{ section.id }}[data-active-dept="women"] [data-dept-grid="men"],
+    #section-{{ section.id }}[data-active-dept="women"] [data-dept-link="men"] {
       display: none !important;
     }
-    #section-{{ section.id }}[data-active-dept="men"] [data-dept-grid="women"] {
+    #section-{{ section.id }}[data-active-dept="men"] [data-dept-grid="women"],
+    #section-{{ section.id }}[data-active-dept="men"] [data-dept-link="women"] {
       display: none !important;
     }
   </style>
@@ -230,127 +232,176 @@
   <!-- Women Brands Grid -->
   <div class="brands-grid" data-dept-grid="women">
     {%- assign max_brands = section.settings.max_brands | default: 8 -%}
-    {%- assign w_brands_links = blank -%}
+    {%- assign w_collections = section.settings.women_brands_list -%}
     
-    {%- assign w_menu_handle = section.settings.women_brands_menu -%}
-    {%- if w_menu_handle != blank -%}
-      {%- assign w_brands_links = linklists[w_menu_handle].links -%}
-    {%- endif -%}
-    
-    {%- if w_brands_links == blank or w_brands_links.size == 0 -%}
-      {%- for link in linklists['women'].links -%}
-        {%- assign title_down = link.title | downcase -%}
-        {%- if title_down contains 'brand' or title_down contains 'ماركات' -%}
-          {%- if link.links.size > 0 -%}
-            {%- assign w_brands_links = link.links -%}
-            {%- break -%}
+    {%- if w_collections != blank and w_collections.count > 0 -%}
+      {%- for col in w_collections limit: max_brands -%}
+        {%- assign brand_class = col.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
+        <a href="{{ col.url }}" class="brand-item">
+          <div class="brand-image-container">
+            {%- if col.image != blank -%}
+              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ col.title | escape }}" width="300" height="300" loading="lazy">
+            {%- else -%}
+              <span class="brand-name-text {{ brand_class }}">{{ col.title }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign w_brands_links = blank -%}
+      {%- assign w_menu_handle = section.settings.women_brands_menu -%}
+      {%- if w_menu_handle != blank -%}
+        {%- assign w_brands_links = linklists[w_menu_handle].links -%}
+      {%- endif -%}
+      
+      {%- if w_brands_links == blank or w_brands_links.size == 0 -%}
+        {%- for link in linklists['women'].links -%}
+          {%- assign title_down = link.title | downcase -%}
+          {%- if title_down contains 'brand' or title_down contains 'ماركات' -%}
+            {%- if link.links.size > 0 -%}
+              {%- assign w_brands_links = link.links -%}
+              {%- break -%}
+            {%- endif -%}
           {%- endif -%}
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
 
-    {%- if w_brands_links.size > 0 -%}
-      {%- for link in w_brands_links limit: max_brands -%}
-        {%- assign col_handle = link.url | split: '/' | last -%}
-        {%- assign col = collections[col_handle] -%}
-        {%- assign brand_class = link.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
-        <a href="{{ link.url }}" class="brand-item">
-          <div class="brand-image-container">
-            {%- if col.image != blank -%}
-              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ link.title | escape }}" width="300" height="300" loading="lazy">
-            {%- else -%}
-              <span class="brand-name-text {{ brand_class }}">{{ link.title }}</span>
-            {%- endif -%}
-          </div>
-        </a>
-      {%- endfor -%}
-    {%- elsif section.blocks.size > 0 -%}
-      {%- for block in section.blocks limit: max_brands -%}
-        {%- assign col = collections[block.settings.collection_handle] -%}
-        {%- assign brand_name = block.settings.custom_name | default: col.title -%}
-        {%- assign brand_url = block.settings.custom_url | default: col.url | default: "#" -%}
-        {%- assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
-        <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
-          <div class="brand-image-container">
-            {%- if col.image != blank -%}
-              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy">
-            {%- else -%}
-              <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
-            {%- endif -%}
-          </div>
-        </a>
-      {%- endfor -%}
+      {%- if w_brands_links.size > 0 -%}
+        {%- for link in w_brands_links limit: max_brands -%}
+          {%- assign col_handle = link.url | split: '/' | last -%}
+          {%- assign col = collections[col_handle] -%}
+          {%- assign brand_class = link.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
+          <a href="{{ link.url }}" class="brand-item">
+            <div class="brand-image-container">
+              {%- if col.image != blank -%}
+                <img src="{{ col.image | image_url: width: 300 }}" alt="{{ link.title | escape }}" width="300" height="300" loading="lazy">
+              {%- else -%}
+                <span class="brand-name-text {{ brand_class }}">{{ link.title }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- elsif section.blocks.size > 0 -%}
+        {%- for block in section.blocks limit: max_brands -%}
+          {%- assign col = collections[block.settings.collection_handle] -%}
+          {%- assign brand_name = block.settings.custom_name | default: col.title -%}
+          {%- assign brand_url = block.settings.custom_url | default: col.url | default: "#" -%}
+          {%- assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
+          <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
+            <div class="brand-image-container">
+              {%- if col.image != blank -%}
+                <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy">
+              {%- else -%}
+                <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
     {%- endif -%}
   </div>
 
   <!-- Men Brands Grid -->
   <div class="brands-grid" data-dept-grid="men">
     {%- assign max_brands = section.settings.max_brands | default: 8 -%}
-    {%- assign m_brands_links = blank -%}
+    {%- assign m_collections = section.settings.men_brands_list -%}
     
-    {%- assign m_menu_handle = section.settings.men_brands_menu -%}
-    {%- if m_menu_handle != blank -%}
-      {%- assign m_brands_links = linklists[m_menu_handle].links -%}
-    {%- endif -%}
-    
-    {%- if m_brands_links == blank or m_brands_links.size == 0 -%}
-      {%- for link in linklists['men'].links -%}
-        {%- assign title_down = link.title | downcase -%}
-        {%- if title_down contains 'brand' or title_down contains 'ماركات' -%}
-          {%- if link.links.size > 0 -%}
-            {%- assign m_brands_links = link.links -%}
-            {%- break -%}
+    {%- if m_collections != blank and m_collections.count > 0 -%}
+      {%- for col in m_collections limit: max_brands -%}
+        {%- assign brand_class = col.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
+        <a href="{{ col.url }}" class="brand-item">
+          <div class="brand-image-container">
+            {%- if col.image != blank -%}
+              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ col.title | escape }}" width="300" height="300" loading="lazy">
+            {%- else -%}
+              <span class="brand-name-text {{ brand_class }}">{{ col.title }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign m_brands_links = blank -%}
+      {%- assign m_menu_handle = section.settings.men_brands_menu -%}
+      {%- if m_menu_handle != blank -%}
+        {%- assign m_brands_links = linklists[m_menu_handle].links -%}
+      {%- endif -%}
+      
+      {%- if m_brands_links == blank or m_brands_links.size == 0 -%}
+        {%- for link in linklists['men'].links -%}
+          {%- assign title_down = link.title | downcase -%}
+          {%- if title_down contains 'brand' or title_down contains 'ماركات' -%}
+            {%- if link.links.size > 0 -%}
+              {%- assign m_brands_links = link.links -%}
+              {%- break -%}
+            {%- endif -%}
           {%- endif -%}
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
 
-    {%- if m_brands_links.size > 0 -%}
-      {%- for link in m_brands_links limit: max_brands -%}
-        {%- assign col_handle = link.url | split: '/' | last -%}
-        {%- assign col = collections[col_handle] -%}
-        {%- assign brand_class = link.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
-        <a href="{{ link.url }}" class="brand-item">
-          <div class="brand-image-container">
-            {%- if col.image != blank -%}
-              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ link.title | escape }}" width="300" height="300" loading="lazy">
-            {%- else -%}
-              <span class="brand-name-text {{ brand_class }}">{{ link.title }}</span>
-            {%- endif -%}
-          </div>
-        </a>
-      {%- endfor -%}
-    {%- elsif section.blocks.size > 0 -%}
-      {%- for block in section.blocks limit: max_brands -%}
-        {%- assign col = collections[block.settings.collection_handle] -%}
-        {%- assign brand_name = block.settings.custom_name | default: col.title -%}
-        {%- assign brand_url = block.settings.custom_url | default: col.url | default: "#" -%}
-        {%- assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
-        <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
-          <div class="brand-image-container">
-            {%- if col.image != blank -%}
-              <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy">
-            {%- else -%}
-              <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
-            {%- endif -%}
-          </div>
-        </a>
-      {%- endfor -%}
+      {%- if m_brands_links.size > 0 -%}
+        {%- for link in m_brands_links limit: max_brands -%}
+          {%- assign col_handle = link.url | split: '/' | last -%}
+          {%- assign col = collections[col_handle] -%}
+          {%- assign brand_class = link.title | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
+          <a href="{{ link.url }}" class="brand-item">
+            <div class="brand-image-container">
+              {%- if col.image != blank -%}
+                <img src="{{ col.image | image_url: width: 300 }}" alt="{{ link.title | escape }}" width="300" height="300" loading="lazy">
+              {%- else -%}
+                <span class="brand-name-text {{ brand_class }}">{{ link.title }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- elsif section.blocks.size > 0 -%}
+        {%- for block in section.blocks limit: max_brands -%}
+          {%- assign col = collections[block.settings.collection_handle] -%}
+          {%- assign brand_name = block.settings.custom_name | default: col.title -%}
+          {%- assign brand_url = block.settings.custom_url | default: col.url | default: "#" -%}
+          {%- assign brand_class = brand_name | downcase | replace: ' ', '' | prepend: 'brand-font-' -%}
+          <a href="{{ brand_url }}" class="brand-item" {{ block.shopify_attributes }}>
+            <div class="brand-image-container">
+              {%- if col.image != blank -%}
+                <img src="{{ col.image | image_url: width: 300 }}" alt="{{ brand_name | escape }}" width="300" height="300" loading="lazy">
+              {%- else -%}
+                <span class="brand-name-text {{ brand_class }}">{{ brand_name }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
     {%- endif -%}
   </div>
 
-  {%- assign show_all_link = section.settings.show_all_url | default: "/collections/brands" -%}
-  {%- if show_all_link != blank -%}
+  <!-- Women Show All Button -->
+  {%- assign show_all_link_women = section.settings.show_all_url_women | default: section.settings.show_all_url | default: "/collections/brands" -%}
+  {%- if show_all_link_women != blank -%}
     {%- liquid
       if request.locale.iso_code == 'ar'
         assign default_text = "عرض جميع الماركات"
       else
         assign default_text = "Show All Brands"
       endif
-      assign btn_text = section.settings.show_all_text | default: default_text
+      assign btn_text_women = section.settings.show_all_text_women | default: section.settings.show_all_text | default: default_text
     -%}
-    <a href="{{ show_all_link }}" class="show-all-brands-btn">
-      {{ btn_text }}
+    <a href="{{ show_all_link_women }}" class="show-all-brands-btn" data-dept-link="women">
+      {{ btn_text_women }}
+    </a>
+  {%- endif -%}
+
+  <!-- Men Show All Button -->
+  {%- assign show_all_link_men = section.settings.show_all_url_men | default: section.settings.show_all_url | default: "/collections/brands" -%}
+  {%- if show_all_link_men != blank -%}
+    {%- liquid
+      if request.locale.iso_code == 'ar'
+        assign default_text = "عرض جميع الماركات"
+      else
+        assign default_text = "Show All Brands"
+      endif
+      assign btn_text_men = section.settings.show_all_text_men | default: section.settings.show_all_text | default: default_text
+    -%}
+    <a href="{{ show_all_link_men }}" class="show-all-brands-btn" data-dept-link="men">
+      {{ btn_text_men }}
     </a>
   {%- endif -%}
 </section>
@@ -382,27 +433,59 @@
     {
       "type": "text",
       "id": "show_all_text",
-      "label": "Show All Button Text",
+      "label": "Show All Button Text (Global Fallback)",
       "default": "Show All Brands"
     },
     {
       "type": "url",
       "id": "show_all_url",
-      "label": "Show All Button URL"
+      "label": "Show All Button URL (Global Fallback)"
+    },
+    {
+      "type": "text",
+      "id": "show_all_text_women",
+      "label": "Show All Button Text (Women)",
+      "default": "Show All Brands"
+    },
+    {
+      "type": "url",
+      "id": "show_all_url_women",
+      "label": "Show All Button URL (Women)"
+    },
+    {
+      "type": "text",
+      "id": "show_all_text_men",
+      "label": "Show All Button Text (Men)",
+      "default": "Show All Brands"
+    },
+    {
+      "type": "url",
+      "id": "show_all_url_men",
+      "label": "Show All Button URL (Men)"
     },
     {
       "type": "header",
       "content": "Department Brand Lists"
     },
     {
+      "type": "collection_list",
+      "id": "women_brands_list",
+      "label": "Women Brands Collection List"
+    },
+    {
+      "type": "collection_list",
+      "id": "men_brands_list",
+      "label": "Men Brands Collection List"
+    },
+    {
       "type": "link_list",
       "id": "women_brands_menu",
-      "label": "Women Brands Menu"
+      "label": "Women Brands Menu (Fallback)"
     },
     {
       "type": "link_list",
       "id": "men_brands_menu",
-      "label": "Men Brands Menu"
+      "label": "Men Brands Menu (Fallback)"
     },
     {
       "type": "range",

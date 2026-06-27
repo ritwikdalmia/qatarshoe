@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "hero": {
       "type": "slideshow-banners",
@@ -14,26 +15,34 @@
         "slide_1": {
           "type": "dual_slide",
           "settings": {
-            "heading_women": "Women's Collection",
-            "heading_men": "Men's Collection",
+            "content_alignment": "center",
+            "button_style": "black_solid",
+            "image_desktop_women": "shopify://shop_images/Group-2.png",
             "subheading_women": "New Arrivals",
-            "subheading_men": "New Arrivals",
+            "heading_women": "Women's Collection",
             "button_text_women": "Shop Women",
-            "button_text_men": "Shop Men",
             "button_link_women": "shopify://collections/all",
+            "image_desktop_men": "shopify://shop_images/Qtr-men.jpg",
+            "subheading_men": "New Arrivals",
+            "heading_men": "Men's Collection",
+            "button_text_men": "Shop Men",
             "button_link_men": "shopify://collections/all"
           }
         },
         "slide_2": {
           "type": "dual_slide",
           "settings": {
-            "heading_women": "Summer Sale",
-            "heading_men": "Summer Sale",
+            "content_alignment": "center",
+            "button_style": "black_solid",
+            "image_desktop_women": "shopify://shop_images/women.png",
             "subheading_women": "Up to 50% Off",
-            "subheading_men": "Up to 50% Off",
+            "heading_women": "Summer Sale",
             "button_text_women": "Shop Sale",
-            "button_text_men": "Shop Sale",
             "button_link_women": "shopify://collections/all",
+            "image_desktop_men": "shopify://shop_images/men.png",
+            "subheading_men": "Up to 50% Off",
+            "heading_men": "Summer Sale",
+            "button_text_men": "Shop Sale",
             "button_link_men": "shopify://collections/all"
           }
         }
@@ -49,17 +58,27 @@
         "autoplay": true,
         "autoplay_speed": 5,
         "show_arrows": true,
-        "show_dots": true
+        "show_dots": true,
+        "override_button_style": false,
+        "btn_thickness": 1,
+        "btn_opacity": 100,
+        "btn_radius": 14,
+        "btn_shadow_opacity": 0,
+        "btn_shadow_h": 0,
+        "btn_shadow_v": 4,
+        "btn_shadow_blur": 5
       }
     },
     "featured": {
       "type": "product-showcase",
       "settings": {
         "heading": "Featured",
+        "collection_handle": "",
+        "view_all_url": "",
         "collection_handle_women": "featured-women",
+        "view_all_url_women": "shopify://collections/featured-women",
         "collection_handle_men": "featured-men",
-        "view_all_url_women": "/collections/featured-women",
-        "view_all_url_men": "/collections/featured-men",
+        "view_all_url_men": "shopify://collections/featured-men",
         "max_products": 5
       }
     },
@@ -76,10 +95,12 @@
       "type": "product-showcase",
       "settings": {
         "heading": "Trending Now",
+        "collection_handle": "",
+        "view_all_url": "",
         "collection_handle_women": "trending-women",
+        "view_all_url_women": "shopify://collections/trending-women",
         "collection_handle_men": "trending-men",
-        "view_all_url_women": "/collections/trending-women",
-        "view_all_url_men": "/collections/trending-men",
+        "view_all_url_men": "shopify://collections/trending-men",
         "max_products": 5
       }
     },
@@ -87,10 +108,12 @@
       "type": "product-showcase",
       "settings": {
         "heading": "New Arrivals",
+        "collection_handle": "",
+        "view_all_url": "",
         "collection_handle_women": "new-arrivals-women",
+        "view_all_url_women": "shopify://collections/new-arrivals-women",
         "collection_handle_men": "new-arrivals-men",
-        "view_all_url_women": "/collections/new-arrivals-women",
-        "view_all_url_men": "/collections/new-arrivals-men",
+        "view_all_url_men": "shopify://collections/new-arrivals-men",
         "max_products": 5
       }
     },
@@ -98,10 +121,12 @@
       "type": "product-showcase",
       "settings": {
         "heading": "Best Sellers",
+        "collection_handle": "",
+        "view_all_url": "",
         "collection_handle_women": "best-sellers-womens",
-        "collection_handle_men": "best-sellers-men",
-        "view_all_url_women": "/collections/best-sellers-womens",
-        "view_all_url_men": "/collections/best-sellers-men",
+        "view_all_url_women": "shopify://collections/best-sellers-womens",
+        "collection_handle_men": "best-sellers-mens",
+        "view_all_url_men": "shopify://collections/best-sellers-mens",
         "max_products": 5
       }
     },
@@ -109,10 +134,19 @@
       "type": "brands-grid",
       "settings": {
         "title": "House Of Brands",
-        "show_all_url": "/collections/brands",
-        "women_brands_menu": "brands-women",
-        "men_brands_menu": "brands-men",
-        "max_brands": 8
+        "show_all_text": "Show All Brands",
+        "show_all_url": "shopify://collections/brands-women",
+        "women_brands_menu": "women",
+        "men_brands_menu": "men",
+        "max_brands": 8,
+        "override_button_style": false,
+        "btn_thickness": 1,
+        "btn_opacity": 100,
+        "btn_radius": 4,
+        "btn_shadow_opacity": 0,
+        "btn_shadow_h": 0,
+        "btn_shadow_v": 4,
+        "btn_shadow_blur": 5
       }
     },
     "above-footer": {
