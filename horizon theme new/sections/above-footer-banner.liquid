@@ -475,11 +475,7 @@
          data-src-go_men="{% if section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}{{ 'FooterHand.png' | asset_url }}{% endif %}"
          data-src-mobile-go_men="{% if section.settings.image_mobile_go_men != blank %}{{ section.settings.image_mobile_go_men | image_url }}{% elsif section.settings.image_go_men != blank %}{{ section.settings.image_go_men | image_url }}{% else %}{{ 'Qtr-m-h.png' | asset_url }}{% endif %}"
          data-src-go_women="{% if section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}{{ 'Qtr-w-h.png' | asset_url }}{% endif %}"
-         data-src-mobile-go_women="{% if section.settings.image_mobile_go_women != blank %}{{ section.settings.image_mobile_go_women | image_url }}{% elsif section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}{{ 'Qtr-w-h.png' | asset_url }}{% endif %}"
-         data-src-ship_women="{% if section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}{{ 'women-hand-dubai.png' | asset_url }}{% endif %}"
-         data-src-mobile-ship_women="{% if section.settings.image_mobile_ship_women != blank %}{{ section.settings.image_mobile_ship_women | image_url }}{% elsif section.settings.image_ship_women != blank %}{{ section.settings.image_ship_women | image_url }}{% else %}{{ 'Dub-w-h.png' | asset_url }}{% endif %}"
-         data-src-ship_men="{{ 'men-hand-dubai.png' | asset_url }}"
-         data-src-mobile-ship_men="{{ 'Dub-m-h.png' | asset_url }}">
+         data-src-mobile-go_women="{% if section.settings.image_mobile_go_women != blank %}{{ section.settings.image_mobile_go_women | image_url }}{% elsif section.settings.image_go_women != blank %}{{ section.settings.image_go_women | image_url }}{% else %}{{ 'Qtr-w-h.png' | asset_url }}{% endif %}">
     {%- # theme-check-enable RemoteAsset -%}
     <div class="above-footer-content">
         <div class="above-footer-heading">{{ section.settings.heading_text }}</div>
@@ -510,7 +506,7 @@
         return dm.replace('ready-to-', '');
     }
 
-    ['go', 'ship'].forEach(function(m) {
+    ['go'].forEach(function(m) {
         ['men', 'women'].forEach(function(g) {
             var key = m + '_' + g;
             var desktopSrc = img.getAttribute('data-src-' + key);
@@ -603,16 +599,7 @@
       "id": "image_mobile_go_women",
       "label": "Ready to Go (Qatar) - Women Mobile"
     },
-    {
-      "type": "image_picker",
-      "id": "image_ship_women",
-      "label": "Ready to Ship (Dubai) - Women"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_mobile_ship_women",
-      "label": "Ready to Ship (Dubai) - Women Mobile"
-    },
+
     {
       "type": "header",
       "content": "Images (Men)"
